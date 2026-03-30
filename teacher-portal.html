@@ -18,7 +18,6 @@
             color: #1a2c3e;
         }
 
-        /* Navigation */
         .navbar {
             background: white;
             padding: 1rem 2rem;
@@ -51,14 +50,12 @@
             color: #6366f1;
         }
 
-        /* Main Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Welcome Section */
         .welcome-card {
             background: linear-gradient(135deg, #6366f1, #4f46e5);
             border-radius: 1rem;
@@ -72,17 +69,43 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Tabs */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
         .tabs {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.5rem;
         }
 
         .tab-btn {
-            padding: 0.75rem 1.5rem;
-            background: white;
+            padding: 0.6rem 1.2rem;
+            background: none;
             border: none;
             border-radius: 2rem;
             cursor: pointer;
@@ -95,7 +118,6 @@
             color: white;
         }
 
-        /* Cards */
         .card {
             background: white;
             border-radius: 1rem;
@@ -118,7 +140,6 @@
             font-weight: 600;
         }
 
-        /* Forms */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -171,8 +192,17 @@
             font-size: 0.8rem;
         }
 
-        /* Lists */
-        .assignment-item, .note-item, .student-card, .submission-item {
+        .btn-small {
+            background: #10b981;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -184,120 +214,28 @@
             gap: 1rem;
         }
 
-        .assignment-info, .note-info, .student-info, .submission-info {
-            flex: 1;
-        }
-
-        .assignment-title, .note-title, .student-name {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .assignment-meta, .note-meta {
-            font-size: 0.7rem;
-            color: #6b7280;
-        }
-
-        .student-details {
-            font-size: 0.7rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
-
-        .student-stats {
-            text-align: right;
-        }
-
-        .badge {
-            background: #10b981;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-        }
-
-        .view-btn {
-            background: #6366f1;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.7rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 1rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: #6b7280;
-        }
-
-        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 2rem;
             color: #6b7280;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        .code-display {
+            background: #eef2ff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-weight: 700;
+            color: #6366f1;
         }
 
-        .modal-content {
-            background: white;
-            border-radius: 1rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        .attendance-stats {
+            display: inline-block;
+            background: #10b981;
             color: white;
-            padding: 1rem;
-            border-radius: 1rem 1rem 0 0;
-        }
-
-        .modal-body {
-            padding: 1rem;
-        }
-
-        .close-modal {
-            float: right;
-            cursor: pointer;
-            font-size: 1.2rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
         }
 
         @media (max-width: 768px) {
@@ -327,13 +265,11 @@
     </nav>
 
     <div class="container">
-        <!-- Welcome Card -->
         <div class="welcome-card">
             <h1>Welcome, <span id="teacherName">Teacher</span>! 👋</h1>
-            <p>Manage assignments, share notes, and track student progress</p>
+            <p>Manage assignments, share notes, track attendance, and view student progress</p>
         </div>
 
-        <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number" id="totalStudents">0</div>
@@ -351,12 +287,16 @@
                 <div class="stat-number" id="totalSubmissions">0</div>
                 <div class="stat-label">Submissions</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalAttendance">0</div>
+                <div class="stat-label">Attendance Records</div>
+            </div>
         </div>
 
-        <!-- Tabs -->
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab('assignments')">📝 Assignments</button>
-            <button class="tab-btn" onclick="showTab('notes')">📚 Notes & Resources</button>
+            <button class="tab-btn" onclick="showTab('notes')">📚 Notes</button>
+            <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
             <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
             <button class="tab-btn" onclick="showTab('submissions')">📋 Submissions</button>
         </div>
@@ -430,7 +370,7 @@
                         <textarea id="noteContent" rows="5" placeholder="Write your notes here..." required></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Resource Link (Optional - Google Drive, PDF, etc.)</label>
+                        <label>Resource Link (Optional)</label>
                         <input type="text" id="noteLink" placeholder="https://drive.google.com/...">
                     </div>
                     <button type="submit" class="btn-primary">📤 Share with Students →</button>
@@ -442,6 +382,57 @@
                     <h3 class="card-title">📚 Shared Notes & Resources</h3>
                 </div>
                 <div id="notesList"></div>
+            </div>
+        </div>
+
+        <!-- Attendance Tab -->
+        <div id="attendanceTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔑 Generate Attendance Keycode</h3>
+                </div>
+                <form id="attendanceForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="attendanceSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                            <option value="Social Studies">Social Studies</option>
+                            <option value="ICT">ICT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Session Title</label>
+                        <input type="text" id="attendanceTitle" placeholder="e.g., Algebra Class - Week 2" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Keycode (Any word students will enter)</label>
+                        <input type="text" id="attendanceCode" placeholder="e.g., ALGEBRA2025 or BECEMATH" required>
+                        <small style="color: #6b7280;">Students will need to enter this exact word to mark attendance</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Expiry Date (Optional)</label>
+                        <input type="date" id="attendanceExpiry">
+                        <small style="color: #6b7280;">Leave blank for no expiry</small>
+                    </div>
+                    <button type="submit" class="btn-primary">🎫 Generate Keycode →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Active Attendance Sessions</h3>
+                </div>
+                <div id="activeAttendanceList"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Attendance History</h3>
+                </div>
+                <div id="attendanceHistory"></div>
             </div>
         </div>
 
@@ -466,14 +457,13 @@
         </div>
     </div>
 
-    <!-- Student Detail Modal -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close-modal" onclick="closeModal()">&times;</span>
+    <div id="studentModal" class="modal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:1rem; max-width:500px; width:90%; max-height:80vh; overflow-y:auto;">
+            <div style="background:linear-gradient(135deg, #6366f1, #4f46e5); color:white; padding:1rem; border-radius:1rem 1rem 0 0;">
+                <span style="float:right; cursor:pointer;" onclick="closeModal()">&times;</span>
                 <h3>Student Details</h3>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+            <div style="padding:1rem;" id="modalBody"></div>
         </div>
     </div>
 
@@ -490,22 +480,33 @@
         // Data storage
         let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
         let notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
+        let activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
+        let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords') || '[]');
 
-        function saveAssignments() {
-            localStorage.setItem('teacherAssignments', JSON.stringify(assignments));
+        function saveAssignments() { localStorage.setItem('teacherAssignments', JSON.stringify(assignments)); }
+        function saveNotes() { localStorage.setItem('teacherNotes', JSON.stringify(notes)); }
+        function saveAttendanceData() {
+            localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances));
+            localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
         }
 
-        function saveNotes() {
-            localStorage.setItem('teacherNotes', JSON.stringify(notes));
+        function updateStats() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalAssignments').textContent = assignments.length;
+            document.getElementById('totalNotes').textContent = notes.length;
+            const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+            document.getElementById('totalSubmissions').textContent = allSubmissions.length;
+            document.getElementById('totalAttendance').textContent = attendanceRecords.length;
         }
 
-        // Show tab
         function showTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
             document.getElementById('assignmentsTab').style.display = 'none';
             document.getElementById('notesTab').style.display = 'none';
+            document.getElementById('attendanceTab').style.display = 'none';
             document.getElementById('studentsTab').style.display = 'none';
             document.getElementById('submissionsTab').style.display = 'none';
             
@@ -515,6 +516,9 @@
             } else if (tab === 'notes') {
                 document.getElementById('notesTab').style.display = 'block';
                 loadNotes();
+            } else if (tab === 'attendance') {
+                document.getElementById('attendanceTab').style.display = 'block';
+                loadAttendance();
             } else if (tab === 'students') {
                 document.getElementById('studentsTab').style.display = 'block';
                 loadStudents();
@@ -524,10 +528,9 @@
             }
         }
 
-        // Create Assignment
+        // ========== ASSIGNMENTS ==========
         document.getElementById('assignmentForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            
             const assignment = {
                 id: Date.now(),
                 subject: document.getElementById('assignSubject').value,
@@ -536,10 +539,8 @@
                 dueDate: document.getElementById('assignDue').value,
                 createdAt: new Date().toISOString()
             };
-            
             assignments.unshift(assignment);
             saveAssignments();
-            
             alert(`✅ Assignment "${assignment.title}" sent to all students!`);
             e.target.reset();
             loadAssignments();
@@ -549,16 +550,15 @@
         function loadAssignments() {
             const container = document.getElementById('assignmentsList');
             if (assignments.length === 0) {
-                container.innerHTML = '<div class="empty-state">📭 No assignments created yet. Create your first assignment above!</div>';
+                container.innerHTML = '<div class="empty-state">📭 No assignments created yet.</div>';
                 return;
             }
-            
             container.innerHTML = assignments.map(a => `
                 <div class="assignment-item">
-                    <div class="assignment-info">
-                        <div class="assignment-title">${a.subject}: ${a.title}</div>
-                        <div class="assignment-meta">📅 Due: ${a.dueDate}</div>
-                        <div style="font-size: 0.8rem; margin-top: 0.25rem;">${a.description.substring(0, 100)}${a.description.length > 100 ? '...' : ''}</div>
+                    <div>
+                        <strong>${a.subject}: ${a.title}</strong>
+                        <div style="font-size:0.8rem;">📅 Due: ${a.dueDate}</div>
+                        <div style="font-size:0.75rem;">${a.description.substring(0, 100)}...</div>
                     </div>
                     <button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button>
                 </div>
@@ -566,7 +566,7 @@
         }
 
         function deleteAssignment(id) {
-            if (confirm('Are you sure you want to delete this assignment?')) {
+            if (confirm('Delete this assignment?')) {
                 assignments = assignments.filter(a => a.id !== id);
                 saveAssignments();
                 loadAssignments();
@@ -574,10 +574,9 @@
             }
         }
 
-        // Create Note
+        // ========== NOTES ==========
         document.getElementById('noteForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            
             const note = {
                 id: Date.now(),
                 subject: document.getElementById('noteSubject').value,
@@ -586,11 +585,9 @@
                 link: document.getElementById('noteLink').value,
                 createdAt: new Date().toISOString()
             };
-            
             notes.unshift(note);
             saveNotes();
-            
-            alert(`✅ Notes "${note.title}" shared with all students!`);
+            alert(`✅ Notes "${note.title}" shared with students!`);
             e.target.reset();
             loadNotes();
             updateStats();
@@ -599,17 +596,15 @@
         function loadNotes() {
             const container = document.getElementById('notesList');
             if (notes.length === 0) {
-                container.innerHTML = '<div class="empty-state">📚 No notes shared yet. Share your first note above!</div>';
+                container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>';
                 return;
             }
-            
             container.innerHTML = notes.map(n => `
                 <div class="note-item">
-                    <div class="note-info">
-                        <div class="note-title">${n.subject}: ${n.title}</div>
-                        <div style="font-size: 0.8rem; margin-top: 0.25rem;">${n.content.substring(0, 150)}${n.content.length > 150 ? '...' : ''}</div>
-                        ${n.link ? `<div style="font-size: 0.7rem; color: #6366f1; margin-top: 0.25rem;">🔗 ${n.link}</div>` : ''}
-                        <div class="note-meta">📅 Shared: ${new Date(n.createdAt).toLocaleDateString()}</div>
+                    <div>
+                        <strong>${n.subject}: ${n.title}</strong>
+                        <div style="font-size:0.75rem;">${n.content.substring(0, 100)}...</div>
+                        ${n.link ? `<div style="font-size:0.7rem; color:#6366f1;">🔗 ${n.link}</div>` : ''}
                     </div>
                     <button class="btn-danger" onclick="deleteNote(${n.id})">Delete</button>
                 </div>
@@ -617,7 +612,7 @@
         }
 
         function deleteNote(id) {
-            if (confirm('Are you sure you want to delete this note?')) {
+            if (confirm('Delete this note?')) {
                 notes = notes.filter(n => n.id !== id);
                 saveNotes();
                 loadNotes();
@@ -625,32 +620,107 @@
             }
         }
 
-        // Load Students
+        // ========== ATTENDANCE ==========
+        document.getElementById('attendanceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const attendance = {
+                id: Date.now(),
+                subject: document.getElementById('attendanceSubject').value,
+                title: document.getElementById('attendanceTitle').value,
+                code: document.getElementById('attendanceCode').value.toUpperCase(),
+                expiry: document.getElementById('attendanceExpiry').value || null,
+                createdAt: new Date().toISOString(),
+                active: true
+            };
+            activeAttendances.push(attendance);
+            saveAttendanceData();
+            alert(`✅ Attendance session created!\n\nKeycode: ${attendance.code}\n\nShare this keycode with students.`);
+            e.target.reset();
+            loadAttendance();
+            updateStats();
+        });
+
+        function loadAttendance() {
+            const activeContainer = document.getElementById('activeAttendanceList');
+            const historyContainer = document.getElementById('attendanceHistory');
+            
+            const active = activeAttendances.filter(a => a.active);
+            if (active.length === 0) {
+                activeContainer.innerHTML = '<div class="empty-state">📭 No active attendance sessions.</div>';
+            } else {
+                activeContainer.innerHTML = active.map(a => `
+                    <div class="attendance-item">
+                        <div>
+                            <strong>${a.subject}: ${a.title}</strong>
+                            <div style="font-size:0.8rem; color:#6366f1;">🔑 Keycode: <strong class="code-display">${a.code}</strong></div>
+                            ${a.expiry ? `<div style="font-size:0.7rem;">Expires: ${a.expiry}</div>` : '<div style="font-size:0.7rem;">No expiry</div>'}
+                        </div>
+                        <button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button>
+                    </div>
+                `).join('');
+            }
+            
+            const history = [...attendanceRecords].sort((a,b) => new Date(b.date) - new Date(a.date));
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<div class="empty-state">📊 No attendance records yet.</div>';
+            } else {
+                historyContainer.innerHTML = history.map(record => `
+                    <div class="attendance-item">
+                        <div>
+                            <strong>${record.subject}: ${record.title}</strong>
+                            <div style="font-size:0.7rem;">📅 ${record.date}</div>
+                            <div style="font-size:0.7rem;">👥 ${record.students.length} students attended</div>
+                            <details style="margin-top:0.3rem;">
+                                <summary style="cursor:pointer; font-size:0.7rem;">View students</summary>
+                                <div style="margin-top:0.3rem;">
+                                    ${record.students.map(s => `<div style="font-size:0.7rem;">• ${s.name} (${s.email}) at ${s.time}</div>`).join('')}
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function deactivateAttendance(id) {
+            if (confirm('Deactivate this attendance session?')) {
+                const index = activeAttendances.findIndex(a => a.id === id);
+                if (index !== -1) {
+                    activeAttendances[index].active = false;
+                    saveAttendanceData();
+                    loadAttendance();
+                }
+            }
+        }
+
+        // ========== STUDENTS ==========
         function loadStudents() {
             const students = JSON.parse(localStorage.getItem('students') || '[]');
             const container = document.getElementById('studentsList');
             
             if (students.length === 0) {
-                container.innerHTML = '<div class="empty-state">👥 No students registered yet. Students will appear here after they register.</div>';
+                container.innerHTML = '<div class="empty-state">👥 No students registered yet.</div>';
                 return;
             }
             
             container.innerHTML = students.map(s => {
                 const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
                 const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                const attendance = JSON.parse(localStorage.getItem('studentAttendance_' + s.id) || '[]');
                 return `
                     <div class="student-card">
-                        <div class="student-info">
-                            <div class="student-name">${s.fullName}</div>
-                            <div class="student-details">📧 ${s.email} | 📱 ${s.phone}</div>
-                            <div class="student-details">🏫 ${s.school} | 📚 ${s.class}</div>
-                            <div class="student-details">👨‍👩 ${s.parentName} | 📞 ${s.parentPhone}</div>
+                        <div>
+                            <strong>${s.fullName}</strong>
+                            <div style="font-size:0.7rem;">📧 ${s.email} | 📱 ${s.phone}</div>
+                            <div style="font-size:0.7rem;">🏫 ${s.school} | 📚 ${s.class}</div>
+                            <div style="font-size:0.7rem;">👨‍👩 ${s.parentName} | 📞 ${s.parentPhone}</div>
                         </div>
-                        <div class="student-stats">
-                            <span class="badge">${accuracy}% Accuracy</span>
-                            <div style="font-size: 0.7rem; margin-top: 0.25rem;">📝 ${stats.total} Questions</div>
-                            <div style="font-size: 0.7rem;">⭐ ${stats.points || 0} Points</div>
-                            <button class="view-btn" onclick="viewStudentDetails(${s.id})">View Details</button>
+                        <div style="text-align:right;">
+                            <span class="attendance-stats">${accuracy}% Accuracy</span>
+                            <div style="font-size:0.7rem;">📝 ${stats.total} Qs</div>
+                            <div style="font-size:0.7rem;">⭐ ${stats.points || 0} pts</div>
+                            <div style="font-size:0.7rem;">✅ ${attendance.length} attendance</div>
+                            <button class="btn-small" onclick="viewStudentDetails(${s.id})">View Details</button>
                         </div>
                     </div>
                 `;
@@ -660,95 +730,88 @@
         function viewStudentDetails(studentId) {
             const students = JSON.parse(localStorage.getItem('students') || '[]');
             const student = students.find(s => s.id === studentId);
-            
             if (student) {
                 const stats = student.practiceStats || { total: 0, correct: 0, points: 0 };
                 const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-                
-                // Get student submissions
+                const attendance = JSON.parse(localStorage.getItem('studentAttendance_' + student.id) || '[]');
                 const submissions = JSON.parse(localStorage.getItem('submissions_' + student.id) || '{}');
-                const submissionList = Object.values(submissions);
                 
                 document.getElementById('modalBody').innerHTML = `
                     <h3>${student.fullName}</h3>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; margin:1rem 0;">
                         <p><strong>📧 Email:</strong> ${student.email}</p>
                         <p><strong>📱 Phone:</strong> ${student.phone}</p>
                         <p><strong>🏫 School:</strong> ${student.school}</p>
                         <p><strong>📚 Class:</strong> ${student.class}</p>
                         <p><strong>👨‍👩 Parent:</strong> ${student.parentName}</p>
                         <p><strong>📞 Parent Phone:</strong> ${student.parentPhone}</p>
-                        <p><strong>🎂 Date of Birth:</strong> ${student.dateOfBirth}</p>
-                        <p><strong>📅 Registered:</strong> ${new Date(student.registeredDate).toLocaleDateString()}</p>
+                        <p><strong>🎂 DOB:</strong> ${student.dateOfBirth}</p>
                     </div>
                     <h4>📊 Academic Performance</h4>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin: 0.5rem 0;">
-                        <p><strong>Questions Answered:</strong> ${stats.total}</p>
-                        <p><strong>Correct Answers:</strong> ${stats.correct}</p>
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; margin:0.5rem 0;">
+                        <p><strong>Questions:</strong> ${stats.total}</p>
+                        <p><strong>Correct:</strong> ${stats.correct}</p>
                         <p><strong>Accuracy:</strong> ${accuracy}%</p>
-                        <p><strong>Total Points:</strong> ${stats.points || 0}</p>
+                        <p><strong>Points:</strong> ${stats.points || 0}</p>
                     </div>
-                    <h4>📝 Assignment Submissions (${submissionList.length})</h4>
-                    ${submissionList.length === 0 ? '<p>No submissions yet.</p>' : submissionList.map(sub => `
-                        <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0;">
-                            <strong>${sub.title}</strong>
-                            <div style="font-size: 0.7rem; color: #6366f1;">Submitted: ${sub.date}</div>
-                            <div style="font-size: 0.85rem; margin-top: 0.25rem;">"${sub.answer.substring(0, 100)}${sub.answer.length > 100 ? '...' : ''}"</div>
-                        </div>
-                    `).join('')}
+                    <h4>✅ Attendance (${attendance.length})</h4>
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; margin:0.5rem 0;">
+                        ${attendance.length === 0 ? '<p>No attendance records.</p>' : attendance.slice(0,5).map(a => `
+                            <div style="font-size:0.8rem; padding:0.3rem 0; border-bottom:1px solid #e2e8f0;">
+                                <strong>${a.subject}</strong>: ${a.title}<br>
+                                <small>${a.date}</small>
+                            </div>
+                        `).join('')}
+                        ${attendance.length > 5 ? `<p style="font-size:0.7rem;">+${attendance.length-5} more...</p>` : ''}
+                    </div>
+                    <h4>📝 Submissions (${Object.keys(submissions).length})</h4>
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
+                        ${Object.keys(submissions).length === 0 ? '<p>No submissions yet.</p>' : Object.values(submissions).slice(0,3).map(s => `
+                            <div style="font-size:0.8rem; padding:0.3rem 0; border-bottom:1px solid #e2e8f0;">
+                                <strong>${s.title}</strong><br>
+                                <small>${s.date}</small>
+                                <div>"${s.answer.substring(0, 80)}..."</div>
+                            </div>
+                        `).join('')}
+                    </div>
                 `;
                 document.getElementById('studentModal').style.display = 'flex';
             }
         }
 
-        // Load Submissions
+        // ========== SUBMISSIONS ==========
         function loadSubmissions() {
             const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
             const container = document.getElementById('submissionsList');
             
             if (allSubmissions.length === 0) {
-                container.innerHTML = '<div class="empty-state">📋 No submissions yet. Students will appear here after submitting assignments.</div>';
+                container.innerHTML = '<div class="empty-state">📋 No submissions yet.</div>';
                 return;
             }
             
             container.innerHTML = allSubmissions.reverse().map(sub => `
                 <div class="submission-item">
-                    <div class="submission-info">
-                        <div class="student-name">${sub.studentName || sub.studentId}</div>
-                        <div class="assignment-title">${sub.title}</div>
-                        <div style="font-size: 0.8rem; margin-top: 0.25rem;">"${sub.answer.substring(0, 100)}${sub.answer.length > 100 ? '...' : ''}"</div>
-                        <div class="assignment-meta">📅 Submitted: ${sub.date}</div>
+                    <div>
+                        <strong>${sub.studentName || sub.studentId}</strong>
+                        <div style="font-weight:500;">${sub.title}</div>
+                        <div style="font-size:0.75rem;">"${sub.answer.substring(0, 100)}${sub.answer.length > 100 ? '...' : ''}"</div>
+                        <div style="font-size:0.7rem; color:#6b7280;">📅 ${sub.date}</div>
                     </div>
                 </div>
             `).join('');
-        }
-
-        // Update Stats
-        function updateStats() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            document.getElementById('totalStudents').textContent = students.length;
-            document.getElementById('totalAssignments').textContent = assignments.length;
-            document.getElementById('totalNotes').textContent = notes.length;
-            
-            const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
-            document.getElementById('totalSubmissions').textContent = allSubmissions.length;
         }
 
         function closeModal() {
             document.getElementById('studentModal').style.display = 'none';
         }
 
-        // Close modal on outside click
         window.onclick = function(event) {
             const modal = document.getElementById('studentModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
+            if (event.target === modal) modal.style.display = 'none';
         };
 
         // Initial load
         loadAssignments();
-        loadNotes();
         updateStats();
     </script>
 </body>
