@@ -41,16 +41,17 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            text-decoration: none;
         }
 
         .logo-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
         }
 
         .logo-text {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #2ecc71 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -70,25 +71,36 @@
         }
 
         .nav-links a:hover {
-            color: #3b82f6;
+            color: #2ecc71;
         }
 
         .btn-login {
-            background: #3b82f6;
+            background: #2ecc71;
             color: white !important;
             padding: 0.5rem 1.25rem;
             border-radius: 0.5rem;
-            transition: transform 0.3s !important;
+            transition: transform 0.3s;
         }
 
         .btn-login:hover {
             transform: translateY(-2px);
-            background: #2563eb;
+            background: #27ae60;
+            color: white !important;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2ecc71;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
             color: white;
             padding: 4rem 2rem;
             text-align: center;
@@ -107,7 +119,7 @@
         }
 
         .hero-title span {
-            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -128,18 +140,18 @@
 
         .btn-primary {
             display: inline-block;
-            background: #3b82f6;
+            background: #2ecc71;
             color: white;
             padding: 0.875rem 2rem;
             text-decoration: none;
             border-radius: 0.5rem;
             font-weight: 600;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            background: #2563eb;
+            background: #27ae60;
         }
 
         .btn-secondary {
@@ -180,7 +192,7 @@
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
-            color: #60a5fa;
+            color: #2ecc71;
         }
 
         .stat-label {
@@ -201,7 +213,7 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 3rem;
-            color: #0f172a;
+            color: #1e3a5f;
         }
 
         .features-grid {
@@ -223,6 +235,7 @@
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #2ecc71;
         }
 
         .feature-icon {
@@ -233,7 +246,7 @@
         .feature-card h3 {
             font-size: 1.25rem;
             margin-bottom: 0.5rem;
-            color: #0f172a;
+            color: #1e3a5f;
         }
 
         .feature-card p {
@@ -242,7 +255,7 @@
 
         /* Testimonials */
         .testimonials {
-            background: #f1f5f9;
+            background: #e8f5e9;
             padding: 4rem 2rem;
         }
 
@@ -269,12 +282,12 @@
 
         .testimonial-author {
             font-weight: 600;
-            color: #0f172a;
+            color: #1e3a5f;
         }
 
         .testimonial-role {
             font-size: 0.875rem;
-            color: #64748b;
+            color: #2ecc71;
         }
 
         /* Footer */
@@ -305,7 +318,7 @@
         }
 
         .footer-links a:hover {
-            color: white;
+            color: #2ecc71;
         }
 
         .copyright {
@@ -313,15 +326,92 @@
             font-size: 0.875rem;
         }
 
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        /* Teacher Portal Button */
+        .teacher-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e3a5f, #2ecc71);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: transform 0.3s;
         }
 
+        .teacher-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 400px;
+            text-align: center;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: #1e3a5f;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .close:hover {
+            color: #ef4444;
+        }
+
+        .demo-text {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -359,10 +449,15 @@
             .stat-number {
                 font-size: 1.5rem;
             }
+            
+            .features {
+                padding: 2rem 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
@@ -375,11 +470,13 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="courses.html">Courses</a>
                 <a href="live-class.html">Live Classes</a>
+                <a href="practice.html">Practice</a>
                 <a href="#" class="btn-login" id="loginBtn">Login</a>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">
@@ -400,7 +497,7 @@
                 <div class="stat-label">Live Classes</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2,000+</div>
+                <div class="stat-number">100+</div>
                 <div class="stat-label">Practice Questions</div>
             </div>
             <div class="stat-card">
@@ -410,6 +507,7 @@
         </div>
     </section>
 
+    <!-- Features Section -->
     <section id="features" class="features">
         <h2 class="section-title">Why Choose The Junior Scholar Portal?</h2>
         <div class="features-grid">
@@ -421,7 +519,7 @@
             <div class="feature-card" onclick="window.location.href='practice.html'">
                 <div class="feature-icon">📝</div>
                 <h3>Practice & Mock Exams</h3>
-                <p>Past questions with instant feedback and detailed explanations.</p>
+                <p>100+ BECE past questions with instant feedback and detailed explanations.</p>
             </div>
             <div class="feature-card" onclick="window.location.href='dashboard.html'">
                 <div class="feature-icon">📊</div>
@@ -436,6 +534,7 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
     <section class="testimonials">
         <h2 class="section-title">What Our Junior Scholars Say</h2>
         <div class="testimonials-grid">
@@ -457,6 +556,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
@@ -468,35 +568,89 @@
                 <a href="dashboard.html">Dashboard</a>
                 <a href="courses.html">Courses</a>
                 <a href="live-class.html">Live Classes</a>
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
+                <a href="practice.html">Practice</a>
+                <a href="teacher-portal.html">Teacher Portal</a>
             </div>
             <div class="copyright">
-                © 2025 The Junior Scholar Portal. Empowering BECE candidates across Ghana.
+                © 2025 The Junior Scholar Portal | Empowering BECE candidates across Ghana
             </div>
         </div>
     </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Welcome Back!</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email Address" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+            </form>
+            <p class="demo-text">Demo Mode: Enter any email to continue</p>
+        </div>
+    </div>
+
+    <!-- Teacher Portal Button -->
+    <a href="teacher-portal.html" class="teacher-btn">
+        👨‍🏫 Teacher Portal
+    </a>
 
     <script>
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
         
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        // Login modal (simple demo)
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Login Modal functionality
         const loginBtn = document.getElementById('loginBtn');
-        loginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Welcome to The Junior Scholar Portal!\n\nDemo Mode: Use any email to preview.\nFull authentication coming soon!');
-            window.location.href = 'dashboard.html';
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+
+        if (loginBtn) {
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'block';
+            });
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
         });
-    </script> 
-    <!-- Teacher Portal Button -->
-<a href="teacher-portal.html" style="position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #1e3a5f, #2ecc71); color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; transition: transform 0.3s;">
-    👨‍🏫 Teacher Portal
-</a>
+
+        // Handle login form submission
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                if (email) {
+                    // Save name from email
+                    const name = email.split('@')[0];
+                    localStorage.setItem('scholarName', name);
+                    localStorage.setItem('scholarEmail', email);
+                    alert(`Welcome ${name}!`);
+                    loginModal.style.display = 'none';
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Please enter your email address');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
