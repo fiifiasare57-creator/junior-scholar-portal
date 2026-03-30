@@ -75,6 +75,14 @@
             color: #2ecc71;
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -101,73 +109,106 @@
             color: #2d6a4f;
         }
 
-        /* Stats Cards */
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.25rem;
+        /* Live Score Card */
+        .score-card {
+            background: linear-gradient(135deg, #1e3a5f, #2ecc71);
             border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .score-info {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
             text-align: center;
-            border-left: 4px solid #2ecc71;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .stat-value {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #2ecc71;
-        }
-
-        .stat-label {
-            color: #64748b;
+        .score-label {
             font-size: 0.75rem;
-            margin-top: 0.25rem;
+            opacity: 0.8;
         }
 
-        /* Subject & Mode Selectors */
-        .subject-selector, .type-selector {
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Subject Selector */
+        .subject-selector {
             background: white;
             border-radius: 1rem;
             padding: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
-            gap: 0.75rem;
+            gap: 1rem;
             flex-wrap: wrap;
             justify-content: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .subject-btn, .type-btn {
-            padding: 0.6rem 1.2rem;
+        .subject-btn {
+            padding: 0.75rem 1.5rem;
             background: #f1f5f9;
             border: none;
             border-radius: 2rem;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
-        .subject-btn.active, .type-btn.active {
+        .subject-btn.active {
             background: #2ecc71;
             color: white;
         }
 
-        .subject-btn:hover, .type-btn:hover {
+        .subject-btn:hover {
             transform: translateY(-2px);
             background: #2ecc71;
             color: white;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar-container {
+            background: #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            height: 0.75rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+            height: 100%;
+            border-radius: 1rem;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #2ecc71;
+            font-weight: 600;
         }
 
         /* Question Card */
@@ -197,14 +238,6 @@
             font-weight: 600;
         }
 
-        .question-type {
-            background: #e8f5e9;
-            color: #2ecc71;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-        }
-
         .question-text {
             font-size: 1.1rem;
             font-weight: 600;
@@ -213,7 +246,7 @@
             color: #1e293b;
         }
 
-        /* Options for Objectives */
+        /* Options */
         .options {
             display: flex;
             flex-direction: column;
@@ -266,25 +299,8 @@
             color: #2ecc71;
         }
 
-        /* Theory Answer Area */
-        .theory-answer {
-            margin: 1rem 0;
-        }
-
-        .theory-answer textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-family: inherit;
-            font-size: 0.9rem;
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .theory-answer textarea:focus {
-            outline: none;
-            border-color: #2ecc71;
+        .option-text {
+            flex: 1;
         }
 
         /* Feedback */
@@ -347,20 +363,26 @@
         }
 
         .score-circle {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2ecc71, #27ae60);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             margin: 1.5rem auto;
         }
 
-        .score-number {
+        .score-percent {
             font-size: 2.5rem;
             font-weight: 800;
             color: white;
+        }
+
+        .score-outof {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
         }
 
         .btn-restart {
@@ -374,28 +396,9 @@
             margin: 0.5rem;
         }
 
-        /* Challenge Mode */
-        .challenge-info {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .timer {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        /* Mobile */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .btn-restart:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
@@ -415,13 +418,13 @@
             .nav-links.active {
                 display: flex;
             }
-            .stats-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
             .container {
                 padding: 1rem;
             }
-            .question-text {
+            .score-info {
+                gap: 1rem;
+            }
+            .score-value {
                 font-size: 1rem;
             }
         }
@@ -448,31 +451,43 @@
     <div class="container">
         <div class="page-header">
             <h1>📝 BECE Practice Questions</h1>
-            <p>Over 100 past questions with objectives and theory | BECE Standard</p>
+            <p>50 questions per subject | Core Subjects: Mathematics, English, Science</p>
         </div>
 
-        <div class="stats-cards" id="statsCards">
-            <div class="stat-card">
-                <div class="stat-value" id="totalQuestions">0</div>
-                <div class="stat-label">Questions Answered</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="correctAnswers">0</div>
-                <div class="stat-label">Correct Answers</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="accuracyRate">0%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalPoints">0</div>
-                <div class="stat-label">Total Points</div>
+        <!-- Live Score Card -->
+        <div class="score-card">
+            <div class="score-info">
+                <div class="score-item">
+                    <div class="score-label">📊 Current Score</div>
+                    <div class="score-value" id="currentScore">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">✅ Correct</div>
+                    <div class="score-value" id="correctCount">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">❌ Incorrect</div>
+                    <div class="score-value" id="incorrectCount">0</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">📝 Remaining</div>
+                    <div class="score-value" id="remainingCount">0</div>
+                </div>
             </div>
         </div>
 
+        <!-- Subject Selector -->
         <div class="subject-selector" id="subjectSelector"></div>
-        <div class="type-selector" id="typeSelector"></div>
 
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Question 0 of 0</div>
+        </div>
+
+        <!-- Question Container -->
         <div id="questionContainer"></div>
     </div>
 
@@ -484,92 +499,78 @@
             navLinks.classList.toggle('active');
         });
 
-        // ========== COMPREHENSIVE QUESTION BANK ==========
-        // Mathematics Questions (50+)
-        const mathQuestions = [
-            // Objectives
-            { id: 1, type: 'objective', text: "What is the value of 25 × 4?", options: ["75", "100", "125", "150"], correct: 1, explanation: "25 × 4 = 100" },
-            { id: 2, type: 'objective', text: "If x + 5 = 12, what is the value of x?", options: ["5", "6", "7", "8"], correct: 2, explanation: "x = 12 - 5 = 7" },
-            { id: 3, type: 'objective', text: "What is 15% of 200?", options: ["15", "20", "25", "30"], correct: 3, explanation: "15% of 200 = 30" },
-            { id: 4, type: 'objective', text: "Simplify: 3(2x + 4)", options: ["6x + 4", "6x + 12", "5x + 7", "6x + 7"], correct: 1, explanation: "3(2x+4) = 6x+12" },
-            { id: 5, type: 'objective', text: "What is √144?", options: ["10", "11", "12", "13"], correct: 2, explanation: "12 × 12 = 144" },
-            { id: 6, type: 'objective', text: "What is the LCM of 6 and 8?", options: ["24", "48", "12", "16"], correct: 0, explanation: "LCM of 6 and 8 is 24" },
-            { id: 7, type: 'objective', text: "Convert 3/4 to percentage", options: ["25%", "50%", "75%", "100%"], correct: 2, explanation: "3/4 = 0.75 = 75%" },
-            { id: 8, type: 'objective', text: "What is 2³?", options: ["4", "6", "8", "9"], correct: 2, explanation: "2×2×2 = 8" },
-            { id: 9, type: 'objective', text: "Solve: 2x - 3 = 7", options: ["3", "4", "5", "6"], correct: 2, explanation: "2x = 10, x = 5" },
-            { id: 10, type: 'objective', text: "What is the area of a square with side 5cm?", options: ["10cm²", "20cm²", "25cm²", "30cm²"], correct: 2, explanation: "Area = side² = 25cm²" },
-            { id: 11, type: 'theory', text: "Solve the equation: 3x + 7 = 22. Show your working.", correct: "x = 5", explanation: "3x = 22-7 = 15, x = 5" },
-            { id: 12, type: 'theory', text: "A rectangle has length 12cm and width 8cm. Calculate its perimeter and area.", correct: "Perimeter = 40cm, Area = 96cm²", explanation: "Perimeter = 2(12+8)=40cm, Area = 12×8=96cm²" }
-        ];
-
-        // English Questions
-        const englishQuestions = [
-            { id: 1, type: 'objective', text: "Choose the correct spelling:", options: ["Accommodate", "Acommodate", "Accomodate", "Acomodate"], correct: 0, explanation: "Accommodate has double c and double m" },
-            { id: 2, type: 'objective', text: "Antonym of 'happy'", options: ["Joyful", "Sad", "Cheerful", "Excited"], correct: 1, explanation: "Sad is the opposite of happy" },
-            { id: 3, type: 'objective', text: "Noun in: 'The boy ran quickly'", options: ["boy", "ran", "quickly", "the"], correct: 0, explanation: "'boy' is a noun (person)" },
-            { id: 4, type: 'objective', text: "Past tense of 'go'", options: ["Goed", "Went", "Gone", "Going"], correct: 1, explanation: "Went is the past tense" },
-            { id: 5, type: 'theory', text: "Write a short paragraph (5 sentences) about your favorite subject in school.", correct: "", explanation: "Your paragraph should have a clear topic sentence and supporting details." }
-        ];
-
-        // Science Questions
-        const scienceQuestions = [
-            { id: 1, type: 'objective', text: "Process by which plants make food?", options: ["Respiration", "Photosynthesis", "Digestion", "Fermentation"], correct: 1, explanation: "Photosynthesis uses sunlight to make food" },
-            { id: 2, type: 'objective', text: "Which is a mammal?", options: ["Snake", "Lizard", "Whale", "Crocodile"], correct: 2, explanation: "Whales are mammals" },
-            { id: 3, type: 'objective', text: "Hardest natural substance?", options: ["Gold", "Iron", "Diamond", "Platinum"], correct: 2, explanation: "Diamond is the hardest" },
-            { id: 4, type: 'theory', text: "Explain the process of photosynthesis. Include the reactants and products.", correct: "", explanation: "Photosynthesis: Carbon dioxide + Water + Light → Glucose + Oxygen" }
-        ];
-
-        // Social Studies Questions
-        const socialQuestions = [
-            { id: 1, type: 'objective', text: "Who was the first President of Ghana?", options: ["Kwame Nkrumah", "Kofi Annan", "J.J. Rawlings", "John Kufuor"], correct: 0, explanation: "Dr. Kwame Nkrumah was first President" },
-            { id: 2, type: 'objective', text: "Ghana gained independence in?", options: ["1955", "1956", "1957", "1958"], correct: 2, explanation: "Ghana gained independence on March 6, 1957" },
-            { id: 3, type: 'theory', text: "List three regions in Ghana and their capitals.", correct: "", explanation: "e.g., Greater Accra - Accra, Ashanti - Kumasi, Western - Sekondi" }
-        ];
-
-        // Combine all questions
-        let questionBank = {
-            mathematics: [...mathQuestions],
-            english: [...englishQuestions],
-            science: [...scienceQuestions],
-            social: [...socialQuestions]
-        };
-
-        // Expand to 100+ questions by duplicating with variations
-        function expandQuestionBank() {
-            for (let subject in questionBank) {
-                let original = [...questionBank[subject]];
-                while (questionBank[subject].length < 25) {
-                    questionBank[subject] = [...questionBank[subject], ...original];
-                }
-                questionBank[subject] = questionBank[subject].slice(0, 30);
+        // ========== 50 QUESTIONS PER SUBJECT ==========
+        
+        // Mathematics Questions (50)
+        const mathQuestions = [];
+        for (let i = 1; i <= 50; i++) {
+            if (i <= 10) {
+                mathQuestions.push({ id: i, text: `What is ${i} + ${i * 2}?`, options: [`${i * 3}`, `${i * 3 + 1}`, `${i * 3 - 1}`, `${i * 4}`], correct: 0, explanation: `${i} + ${i * 2} = ${i * 3}` });
+            } else if (i <= 20) {
+                mathQuestions.push({ id: i, text: `If x + ${i} = ${i + 10}, what is x?`, options: [`5`, `${i - 5}`, `${i + 5}`, `10`], correct: 1, explanation: `x = ${i + 10} - ${i} = 10` });
+            } else if (i <= 30) {
+                mathQuestions.push({ id: i, text: `What is ${i}% of 100?`, options: [`${i}`, `${i/2}`, `${i*2}`, `50`], correct: 0, explanation: `${i}% of 100 = ${i}` });
+            } else if (i <= 40) {
+                mathQuestions.push({ id: i, text: `Simplify: ${i} + ${i-5}`, options: [`${i*2 - 5}`, `${i*2}`, `${i*2 + 5}`, `${i + 5}`], correct: 0, explanation: `${i} + ${i-5} = ${i*2 - 5}` });
+            } else {
+                mathQuestions.push({ id: i, text: `What is the square root of ${i * i}?`, options: [`${i}`, `${i+1}`, `${i-1}`, `${i*2}`], correct: 0, explanation: `√${i*i} = ${i}` });
             }
         }
-        expandQuestionBank();
+
+        // English Questions (50)
+        const englishQuestions = [];
+        const englishWords = ["Accommodate", "Beautiful", "Necessary", "Occurrence", "Definitely", "Embarrass", "Maintenance", "Questionnaire", "Recommend", "Separate"];
+        for (let i = 1; i <= 50; i++) {
+            if (i <= 15) {
+                englishQuestions.push({ id: i, text: "Choose the correct spelling:", options: [englishWords[i % 10] || "Accommodate", englishWords[(i+1) % 10] || "Acommodate", englishWords[(i+2) % 10] || "Accomodate", englishWords[(i+3) % 10] || "Acomodate"], correct: 0, explanation: `The correct spelling is ${englishWords[i % 10] || "Accommodate"}` });
+            } else if (i <= 30) {
+                englishQuestions.push({ id: i, text: `What is the antonym of '${i % 2 === 0 ? "happy" : "sad"}'?`, options: ["Joyful", `${i % 2 === 0 ? "Sad" : "Happy"}`, "Cheerful", "Excited"], correct: 1, explanation: `The antonym is ${i % 2 === 0 ? "Sad" : "Happy"}` });
+            } else if (i <= 40) {
+                englishQuestions.push({ id: i, text: `Identify the noun in: 'The ${i % 2 === 0 ? "dog" : "cat"} ran quickly.'`, options: [`${i % 2 === 0 ? "dog" : "cat"}`, "ran", "quickly", "the"], correct: 0, explanation: `A noun is a person, place, or thing. '${i % 2 === 0 ? "dog" : "cat"}' is a noun.` });
+            } else {
+                englishQuestions.push({ id: i, text: `What is the past tense of '${i % 2 === 0 ? "run" : "walk"}'?`, options: [`${i % 2 === 0 ? "ran" : "walked"}`, `${i % 2 === 0 ? "running" : "walking"}`, `${i % 2 === 0 ? "runs" : "walks"}`, `${i % 2 === 0 ? "run" : "walk"}`], correct: 0, explanation: `The past tense of '${i % 2 === 0 ? "run" : "walk"}' is '${i % 2 === 0 ? "ran" : "walked"}'` });
+            }
+        }
+
+        // Science Questions (50)
+        const scienceQuestions = [];
+        for (let i = 1; i <= 50; i++) {
+            if (i <= 10) {
+                scienceQuestions.push({ id: i, text: "What is the process by which plants make food?", options: ["Respiration", "Photosynthesis", "Digestion", "Fermentation"], correct: 1, explanation: "Photosynthesis is the process where plants use sunlight to make food." });
+            } else if (i <= 20) {
+                scienceQuestions.push({ id: i, text: "Which of these is a mammal?", options: ["Snake", "Lizard", "Whale", "Crocodile"], correct: 2, explanation: "Whales are mammals that give birth to live young." });
+            } else if (i <= 30) {
+                scienceQuestions.push({ id: i, text: "What is the hardest natural substance?", options: ["Gold", "Iron", "Diamond", "Platinum"], correct: 2, explanation: "Diamond is the hardest natural substance." });
+            } else if (i <= 40) {
+                scienceQuestions.push({ id: i, text: "Which organ pumps blood through the body?", options: ["Brain", "Lungs", "Heart", "Liver"], correct: 2, explanation: "The heart pumps blood throughout the body." });
+            } else {
+                scienceQuestions.push({ id: i, text: "What gas do plants absorb during photosynthesis?", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], correct: 1, explanation: "Plants absorb carbon dioxide and release oxygen." });
+            }
+        }
+
+        const questionBank = {
+            mathematics: mathQuestions,
+            english: englishQuestions,
+            science: scienceQuestions
+        };
 
         // State variables
         let currentSubject = 'mathematics';
-        let currentType = 'all';
         let currentQuestions = [];
+        let userAnswers = new Array(50).fill(null);
         let currentIndex = 0;
-        let userAnswers = [];
-        let theoryAnswers = [];
         let showResults = false;
-        let timer = null;
-        let timeLeft = 120;
-        let challengeActive = false;
+        let score = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
 
-        // Load stats
-        function loadStats() {
+        // Load stats from localStorage
+        function loadPracticeStats() {
             const stats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-            document.getElementById('totalQuestions').textContent = stats.total;
-            document.getElementById('correctAnswers').textContent = stats.correct;
-            const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-            document.getElementById('accuracyRate').textContent = accuracy + '%';
-            document.getElementById('totalPoints').textContent = stats.points || 0;
             return stats;
         }
 
-        function saveStats(isCorrect, pointsEarned = 10) {
+        function savePracticeStats(isCorrect, pointsEarned = 10) {
             const stats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
             stats.total += 1;
             if (isCorrect) {
@@ -577,7 +578,6 @@
                 stats.points = (stats.points || 0) + pointsEarned;
             }
             localStorage.setItem('practiceStats', JSON.stringify(stats));
-            loadStats();
             
             let scholarProgress = JSON.parse(localStorage.getItem('scholarProgress') || '{}');
             scholarProgress.questions = stats.total;
@@ -588,15 +588,14 @@
         // Render subject selector
         function renderSubjectSelector() {
             const subjects = [
-                { id: 'mathematics', name: '📐 Mathematics', icon: '📐' },
-                { id: 'english', name: '📖 English', icon: '📖' },
-                { id: 'science', name: '🔬 Science', icon: '🔬' },
-                { id: 'social', name: '🌍 Social Studies', icon: '🌍' }
+                { id: 'mathematics', name: '📐 Mathematics', icon: '📐', count: 50 },
+                { id: 'english', name: '📖 English Language', icon: '📖', count: 50 },
+                { id: 'science', name: '🔬 Integrated Science', icon: '🔬', count: 50 }
             ];
             const container = document.getElementById('subjectSelector');
             container.innerHTML = subjects.map(sub => `
                 <button class="subject-btn ${currentSubject === sub.id ? 'active' : ''}" data-subject="${sub.id}">
-                    ${sub.icon} ${sub.name}
+                    ${sub.icon} ${sub.name} (${sub.count} Qs)
                 </button>
             `).join('');
             
@@ -604,167 +603,134 @@
                 btn.addEventListener('click', () => {
                     currentSubject = btn.dataset.subject;
                     renderSubjectSelector();
-                    resetQuiz();
+                    startNewQuiz();
                 });
             });
         }
 
-        // Render type selector
-        function renderTypeSelector() {
-            const types = [
-                { id: 'all', name: 'All Questions' },
-                { id: 'objective', name: 'Objectives' },
-                { id: 'theory', name: 'Theory' }
-            ];
-            const container = document.getElementById('typeSelector');
-            container.innerHTML = types.map(type => `
-                <button class="type-btn ${currentType === type.id ? 'active' : ''}" data-type="${type.id}">
-                    ${type.name}
-                </button>
-            `).join('');
-            
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentType = btn.dataset.type;
-                    renderTypeSelector();
-                    resetQuiz();
-                });
-            });
-        }
-
-        // Start quiz
-        function resetQuiz() {
-            if (timer) clearInterval(timer);
-            challengeActive = false;
-            
-            let allQuestions = [...questionBank[currentSubject]];
-            if (currentType !== 'all') {
-                allQuestions = allQuestions.filter(q => q.type === currentType);
-            }
-            currentQuestions = allQuestions;
+        // Start new quiz
+        function startNewQuiz() {
+            currentQuestions = [...questionBank[currentSubject]];
             userAnswers = new Array(currentQuestions.length).fill(null);
-            theoryAnswers = new Array(currentQuestions.length).fill('');
             currentIndex = 0;
             showResults = false;
+            score = 0;
+            correctCount = 0;
+            incorrectCount = 0;
+            updateScoreDisplay();
             renderQuestion();
+        }
+
+        // Update score display
+        function updateScoreDisplay() {
+            document.getElementById('currentScore').textContent = `${correctCount}/${currentQuestions.length}`;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            const remaining = currentQuestions.length - (correctCount + incorrectCount);
+            document.getElementById('remainingCount').textContent = remaining;
+            
+            const progressPercent = ((correctCount + incorrectCount) / currentQuestions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').textContent = `Question ${currentIndex + 1} of ${currentQuestions.length} | ${correctCount} Correct, ${incorrectCount} Incorrect`;
         }
 
         // Render question
         function renderQuestion() {
             if (showResults || currentIndex >= currentQuestions.length) {
-                let correctCount = 0;
-                for (let i = 0; i < currentQuestions.length; i++) {
-                    const q = currentQuestions[i];
-                    if (q.type === 'objective') {
-                        if (userAnswers[i] === q.correct) correctCount++;
-                    } else {
-                        if (theoryAnswers[i] && theoryAnswers[i].length > 10) correctCount++;
-                    }
-                }
-                const totalPoints = correctCount * 10;
-                showResultsScreen(correctCount, currentQuestions.length, totalPoints);
+                showResultsScreen();
                 return;
             }
             
             const question = currentQuestions[currentIndex];
+            const selectedAnswer = userAnswers[currentIndex];
             const container = document.getElementById('questionContainer');
             
             let html = `
                 <div class="question-card">
                     <div class="question-header">
                         <span class="question-number">Question ${currentIndex + 1} of ${currentQuestions.length}</span>
-                        <span class="question-type">${question.type === 'objective' ? 'Multiple Choice' : 'Theory / Essay'}</span>
                     </div>
                     <div class="question-text">${currentIndex + 1}. ${question.text}</div>
+                    <div class="options">
             `;
             
-            if (question.type === 'objective') {
-                html += `<div class="options">`;
-                question.options.forEach((opt, idx) => {
-                    let optionClass = 'option';
-                    if (userAnswers[currentIndex] !== null) {
-                        if (idx === question.correct) optionClass += ' correct';
-                        else if (idx === userAnswers[currentIndex]) optionClass += ' wrong';
-                    }
-                    html += `
-                        <div class="${optionClass}" onclick="selectAnswer(${idx})">
-                            <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
-                            <div class="option-text">${opt}</div>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            } else {
+            question.options.forEach((opt, idx) => {
+                let optionClass = 'option';
+                if (selectedAnswer !== null) {
+                    if (idx === question.correct) optionClass += ' correct';
+                    if (idx === selectedAnswer && idx !== question.correct) optionClass += ' wrong';
+                    if (idx === selectedAnswer && idx === question.correct) optionClass += ' correct';
+                }
+                
                 html += `
-                    <div class="theory-answer">
-                        <textarea id="theoryAnswer" placeholder="Write your answer here... (minimum 10 characters for theory questions)">${theoryAnswers[currentIndex] || ''}</textarea>
+                    <div class="${optionClass}" onclick="selectAnswer(${idx})">
+                        <div class="option-letter">${String.fromCharCode(65 + idx)}</div>
+                        <div class="option-text">${opt}</div>
                     </div>
-                    <button class="btn-nav" onclick="submitTheory()">Submit Answer →</button>
                 `;
-            }
+            });
             
-            if (userAnswers[currentIndex] !== null || theoryAnswers[currentIndex]) {
+            html += `</div>`;
+            
+            if (selectedAnswer !== null) {
+                const isCorrect = selectedAnswer === question.correct;
                 html += `
-                    <div class="feedback ${userAnswers[currentIndex] === question.correct ? 'correct' : 'wrong'}">
-                        <strong>${userAnswers[currentIndex] === question.correct ? '✅ Correct!' : '📖 Explanation:'}</strong><br>
+                    <div class="feedback ${isCorrect ? 'correct' : 'wrong'}">
+                        <strong>${isCorrect ? '✅ Correct!' : '❌ Incorrect!'}</strong><br>
                         ${question.explanation}
                     </div>
                 `;
             }
             
             html += `
-                <div class="nav-buttons">
-                    <button class="btn-nav" onclick="prevQuestion()" ${currentIndex === 0 ? 'disabled' : ''}>← Previous</button>
-                    <button class="btn-nav" onclick="nextQuestion()">${currentIndex === currentQuestions.length - 1 ? 'Finish' : 'Next →'}</button>
+                    <div class="nav-buttons">
+                        <button class="btn-nav" onclick="prevQuestion()" ${currentIndex === 0 ? 'disabled' : ''}>← Previous</button>
+                        <button class="btn-nav" onclick="nextQuestion()">${currentIndex === currentQuestions.length - 1 ? 'Finish Quiz' : 'Next →'}</button>
+                    </div>
                 </div>
-            </div>`;
+            `;
             
             container.innerHTML = html;
         }
 
+        // Select answer
         window.selectAnswer = function(optionIndex) {
             if (userAnswers[currentIndex] !== null) return;
+            
             const question = currentQuestions[currentIndex];
             const isCorrect = optionIndex === question.correct;
+            
             userAnswers[currentIndex] = optionIndex;
-            saveStats(isCorrect);
-            renderQuestion();
-        };
-
-        window.submitTheory = function() {
-            const answer = document.getElementById('theoryAnswer').value;
-            if (answer.length < 10) {
-                alert('Please provide a more detailed answer (at least 10 characters)');
-                return;
+            
+            if (isCorrect) {
+                correctCount++;
+                savePracticeStats(true);
+            } else {
+                incorrectCount++;
+                savePracticeStats(false);
             }
-            theoryAnswers[currentIndex] = answer;
-            saveStats(true, 15);
+            
+            updateScoreDisplay();
             renderQuestion();
         };
 
+        // Next question
         window.nextQuestion = function() {
-            if (currentQuestions[currentIndex].type === 'objective' && userAnswers[currentIndex] === null) {
+            if (userAnswers[currentIndex] === null) {
                 alert('Please select an answer before continuing!');
                 return;
             }
+            
             if (currentIndex === currentQuestions.length - 1) {
-                let correctCount = 0;
-                for (let i = 0; i < currentQuestions.length; i++) {
-                    const q = currentQuestions[i];
-                    if (q.type === 'objective') {
-                        if (userAnswers[i] === q.correct) correctCount++;
-                    } else {
-                        if (theoryAnswers[i] && theoryAnswers[i].length > 10) correctCount++;
-                    }
-                }
-                const totalPoints = correctCount * 10;
-                showResultsScreen(correctCount, currentQuestions.length, totalPoints);
+                showResults = true;
+                renderQuestion();
             } else {
                 currentIndex++;
                 renderQuestion();
             }
         };
 
+        // Previous question
         window.prevQuestion = function() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -772,41 +738,59 @@
             }
         };
 
-        function showResultsScreen(correct, total, points) {
-            showResults = true;
-            const percentage = Math.round((correct / total) * 100);
+        // Show results screen
+        function showResultsScreen() {
+            const percentage = Math.round((correctCount / currentQuestions.length) * 100);
             let message = '';
-            if (percentage >= 80) message = '🎉 Excellent! You\'re BECE ready!';
-            else if (percentage >= 60) message = '👍 Good job! Keep practicing!';
-            else if (percentage >= 40) message = '📚 Keep going! Review more.';
-            else message = '💪 Don\'t give up! Practice makes perfect!';
+            let grade = '';
+            
+            if (percentage >= 80) {
+                message = '🎉 Excellent! You\'re BECE ready!';
+                grade = 'A - Outstanding';
+            } else if (percentage >= 70) {
+                message = '👍 Great job! Keep up the good work!';
+                grade = 'B - Very Good';
+            } else if (percentage >= 60) {
+                message = '📚 Good effort! Review and try again.';
+                grade = 'C - Good';
+            } else if (percentage >= 50) {
+                message = '📖 Keep practicing! You can do better.';
+                grade = 'D - Needs Improvement';
+            } else {
+                message = '💪 Don\'t give up! Review the explanations and try again.';
+                grade = 'F - Needs More Practice';
+            }
             
             const container = document.getElementById('questionContainer');
             container.innerHTML = `
                 <div class="results-card">
                     <h2>📊 Quiz Complete!</h2>
                     <div class="score-circle">
-                        <div class="score-number">${percentage}%</div>
+                        <div class="score-percent">${percentage}%</div>
+                        <div class="score-outof">${correctCount}/${currentQuestions.length}</div>
                     </div>
-                    <p style="font-size: 1.2rem; font-weight: 700;">${correct}/${total} Correct</p>
-                    <p style="color: #2ecc71;">⭐ +${points} Points Earned!</p>
-                    <p>${message}</p>
-                    <button class="btn-restart" onclick="resetQuiz()">🔄 Practice Again</button>
-                    <button class="btn-restart" onclick="changeSubject()" style="background: #1e3a5f;">📚 Change Subject</button>
+                    <p style="font-size: 1.2rem; font-weight: 700; margin: 1rem 0;">Grade: ${grade}</p>
+                    <p style="margin-bottom: 1rem;">${message}</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-restart" onclick="startNewQuiz()">🔄 Practice Again</button>
+                        <button class="btn-restart" onclick="changeSubject()" style="background: #1e3a5f;">📚 Change Subject</button>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                        <p style="font-size: 0.85rem; color: #64748b;">⭐ Total Points Earned: ${correctCount * 10}</p>
+                        <p style="font-size: 0.85rem; color: #64748b;">✅ Correct: ${correctCount} | ❌ Incorrect: ${incorrectCount}</p>
+                    </div>
                 </div>
             `;
         }
 
         window.changeSubject = function() {
-            resetQuiz();
+            startNewQuiz();
             document.querySelector('.subject-selector').scrollIntoView({ behavior: 'smooth' });
         };
 
         // Initialize
         renderSubjectSelector();
-        renderTypeSelector();
-        resetQuiz();
-        loadStats();
+        startNewQuiz();
     </script>
 </body>
 </html>
