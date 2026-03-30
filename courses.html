@@ -14,27 +14,9 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7ff 0%, #e8edff 50%, #f0f4ff 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #1a2c3e;
-            position: relative;
-        }
-
-        /* Abstract Background Elements */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(118, 75, 162, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 30% 60%, rgba(46, 204, 113, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(52, 152, 219, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            color: #1e293b;
         }
 
         /* Navigation */
@@ -47,11 +29,10 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
         }
 
         .logo {
@@ -74,7 +55,7 @@
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover, .nav-links a.active {
@@ -86,57 +67,45 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            position: relative;
-            z-index: 1;
         }
 
         /* Header Section */
         .header-section {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .header-section h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #667eea);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
+            color: white;
+            margin-bottom: 0.5rem;
         }
 
         .header-section p {
-            color: #6b7280;
-            font-size: 1rem;
-            max-width: 600px;
-            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Stats Cards */
+        /* Stats Cards - White Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1.2rem;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 1rem;
             padding: 1.2rem;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: all 0.3s;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(102, 126, 234, 0.4);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
         }
 
         .stat-value {
@@ -148,14 +117,12 @@
         .stat-label {
             font-size: 0.7rem;
             color: #6b7280;
-            margin-top: 0.3rem;
         }
 
         /* Search Section */
         .search-section {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 1rem;
             padding: 1rem;
             margin-bottom: 2rem;
             display: flex;
@@ -163,23 +130,21 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(102, 126, 234, 0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .search-input {
             flex: 1;
             padding: 0.8rem 1rem;
-            border: none;
+            border: 1px solid #e2e8f0;
             border-radius: 2rem;
-            background: white;
             font-size: 0.9rem;
             font-family: inherit;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .search-input:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
         }
 
         .filter-buttons {
@@ -190,8 +155,8 @@
 
         .filter-btn {
             padding: 0.5rem 1rem;
-            background: white;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            background: #f1f5f9;
+            border: none;
             border-radius: 2rem;
             cursor: pointer;
             color: #4a5568;
@@ -200,8 +165,7 @@
         }
 
         .filter-btn.active, .filter-btn:hover {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: transparent;
+            background: #667eea;
             color: white;
         }
 
@@ -210,50 +174,31 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        /* Course Cards - Abstract Light Design */
+        /* White Cards with Purple Accents */
         .course-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 1rem;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(102, 126, 234, 0.15);
+            transition: all 0.3s;
             cursor: pointer;
-            position: relative;
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2, #2ecc71);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .course-card:hover::before {
-            transform: scaleX(1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .course-card:hover {
-            transform: translateY(-8px);
-            background: white;
-            border-color: rgba(102, 126, 234, 0.3);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
         }
 
         .course-header {
             padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border-bottom: 1px solid #eef2f6;
         }
 
         .course-icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
         }
 
@@ -287,8 +232,8 @@
             justify-content: space-between;
             margin-bottom: 1rem;
             padding: 0.5rem 0;
-            border-top: 1px solid rgba(102, 126, 234, 0.1);
-            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            border-top: 1px solid #eef2f6;
+            border-bottom: 1px solid #eef2f6;
         }
 
         .stats-item {
@@ -312,14 +257,14 @@
         }
 
         .progress-bar {
-            background: rgba(102, 126, 234, 0.2);
+            background: #e2e8f0;
             border-radius: 1rem;
             height: 0.5rem;
             overflow: hidden;
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #667eea, #2ecc71);
+            background: linear-gradient(90deg, #667eea, #764ba2);
             height: 100%;
             border-radius: 1rem;
             transition: width 0.3s;
@@ -327,11 +272,11 @@
 
         .course-footer {
             padding: 1rem 1.5rem;
-            background: rgba(102, 126, 234, 0.03);
+            background: #f8fafc;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(102, 126, 234, 0.1);
+            border-top: 1px solid #eef2f6;
         }
 
         .status-badge {
@@ -342,17 +287,17 @@
         }
 
         .status-not-started {
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
+            background: #f1f5f9;
+            color: #64748b;
         }
 
         .status-in-progress {
-            background: rgba(46, 204, 113, 0.1);
-            color: #2ecc71;
+            background: #eef2ff;
+            color: #667eea;
         }
 
         .status-completed {
-            background: rgba(16, 185, 129, 0.1);
+            background: #d1fae5;
             color: #10b981;
         }
 
@@ -370,7 +315,7 @@
 
         .btn-continue:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         /* Modal */
@@ -382,7 +327,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -390,7 +335,7 @@
 
         .modal-content {
             background: white;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             max-width: 550px;
             width: 90%;
             max-height: 80vh;
@@ -413,9 +358,7 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 1.5rem;
-            border-radius: 1.5rem 1.5rem 0 0;
-            position: sticky;
-            top: 0;
+            border-radius: 1rem 1rem 0 0;
         }
 
         .modal-body {
@@ -434,12 +377,6 @@
             background: #f8fafc;
             border-radius: 0.75rem;
             margin-bottom: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .lesson-item:hover {
-            background: #eef2ff;
-            transform: translateX(5px);
         }
 
         .lesson-check {
@@ -451,28 +388,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
             background: white;
         }
 
         .lesson-check.completed {
-            background: #2ecc71;
-            border-color: #2ecc71;
+            background: #667eea;
+            border-color: #667eea;
             color: white;
-        }
-
-        .lesson-info {
-            flex: 1;
-        }
-
-        .lesson-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .lesson-desc {
-            font-size: 0.7rem;
-            color: #6b7280;
         }
 
         .close-btn {
@@ -482,7 +404,6 @@
             padding: 0.6rem 1rem;
             border-radius: 2rem;
             cursor: pointer;
-            font-weight: 600;
             margin-top: 1rem;
             width: 100%;
         }
@@ -490,19 +411,16 @@
         .empty-state {
             text-align: center;
             padding: 3rem;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 1rem;
             color: #6b7280;
         }
 
-        /* Credits */
         .credits {
             text-align: center;
             padding: 1.5rem;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
-            margin-top: 2rem;
         }
 
         @media (max-width: 768px) {
@@ -518,9 +436,6 @@
             }
             .courses-grid {
                 grid-template-columns: 1fr;
-            }
-            .header-section h1 {
-                font-size: 1.8rem;
             }
         }
     </style>
@@ -540,7 +455,7 @@
     <div class="container">
         <div class="header-section">
             <h1>📚 BECE Courses</h1>
-            <p>Master all subjects with our comprehensive curriculum and learning resources</p>
+            <p>Master all subjects with our comprehensive curriculum</p>
         </div>
 
         <div class="stats-grid">
@@ -568,8 +483,6 @@
                 <button class="filter-btn active" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="core">Core Subjects</button>
                 <button class="filter-btn" data-filter="elective">Electives</button>
-                <button class="filter-btn" data-filter="in-progress">In Progress</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
             </div>
         </div>
 
@@ -597,79 +510,50 @@
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
         const storageKey = 'courseProgress_' + (studentData?.id || 'guest');
 
-        // Course Data
         const courses = [
-            { id: 1, title: "Mathematics", description: "Master numbers, algebra, geometry, statistics, and mensuration for BECE success.", icon: "📐", category: "core", lessons: 6, completedLessons: 0 },
-            { id: 2, title: "English Language", description: "Improve grammar, comprehension, essay writing, and literature analysis.", icon: "📖", category: "core", lessons: 5, completedLessons: 0 },
-            { id: 3, title: "Integrated Science", description: "Explore biology, chemistry, physics, and health science concepts.", icon: "🔬", category: "core", lessons: 5, completedLessons: 0 },
+            { id: 1, title: "Mathematics", description: "Master numbers, algebra, geometry, statistics, and mensuration.", icon: "📐", category: "core", lessons: 6, completedLessons: 0 },
+            { id: 2, title: "English Language", description: "Improve grammar, comprehension, essay writing, and literature.", icon: "📖", category: "core", lessons: 5, completedLessons: 0 },
+            { id: 3, title: "Integrated Science", description: "Explore biology, chemistry, physics, and health science.", icon: "🔬", category: "core", lessons: 5, completedLessons: 0 },
             { id: 4, title: "Social Studies", description: "Learn about government, history, geography, and civic education.", icon: "🌍", category: "core", lessons: 4, completedLessons: 0 },
             { id: 5, title: "ICT / Computing", description: "Learn computer fundamentals, software, and internet basics.", icon: "💻", category: "elective", lessons: 4, completedLessons: 0 },
             { id: 6, title: "French", description: "Learn basic French vocabulary, grammar, and conversation.", icon: "🇫🇷", category: "elective", lessons: 4, completedLessons: 0 },
-            { id: 7, title: "Religious & Moral Education", description: "Religious studies, moral values, and ethics.", icon: "🕊️", category: "core", lessons: 4, completedLessons: 0 },
+            { id: 7, title: "RME", description: "Religious studies, moral values, and ethics.", icon: "🕊️", category: "core", lessons: 4, completedLessons: 0 },
             { id: 8, title: "Ghanaian Language", description: "Reading, writing, and speaking in local language.", icon: "🗣️", category: "elective", lessons: 4, completedLessons: 0 }
         ];
 
-        // Load saved progress
         let courseProgress = JSON.parse(localStorage.getItem(storageKey) || '{}');
 
         function updateProgress() {
-            let completedLessons = 0;
-            let totalLessons = 0;
-            
-            courses.forEach(course => {
-                const saved = courseProgress[course.id] || { completed: [] };
-                totalLessons += course.lessons;
+            let completedLessons = 0, totalLessons = 0;
+            courses.forEach(c => {
+                const saved = courseProgress[c.id] || { completed: [] };
+                totalLessons += c.lessons;
                 completedLessons += saved.completed?.length || 0;
-                course.completedLessons = saved.completed?.length || 0;
+                c.completedLessons = saved.completed?.length || 0;
             });
-            
-            const completedCourses = courses.filter(c => c.completedLessons === c.lessons).length;
-            const inProgress = courses.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons).length;
-            
-            document.getElementById('completedCourses').textContent = completedCourses;
-            document.getElementById('inProgressCourses').textContent = inProgress;
+            document.getElementById('completedCourses').textContent = courses.filter(c => c.completedLessons === c.lessons).length;
+            document.getElementById('inProgressCourses').textContent = courses.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons).length;
             document.getElementById('totalLessons').textContent = completedLessons;
-            document.getElementById('totalCourses').textContent = courses.length;
         }
 
         function renderCourses(filter = 'all', search = '') {
             const grid = document.getElementById('coursesGrid');
             let filtered = [...courses];
-            
-            if (filter !== 'all') {
-                if (filter === 'core') filtered = filtered.filter(c => c.category === 'core');
-                else if (filter === 'elective') filtered = filtered.filter(c => c.category === 'elective');
-                else if (filter === 'in-progress') filtered = filtered.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons);
-                else if (filter === 'completed') filtered = filtered.filter(c => c.completedLessons === c.lessons);
-            }
-            
-            if (search) {
-                filtered = filtered.filter(c => c.title.toLowerCase().includes(search.toLowerCase()));
-            }
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="empty-state">📚 No courses found. Try a different filter!</div>';
-                return;
-            }
+            if (filter !== 'all') filtered = filtered.filter(c => c.category === filter);
+            if (search) filtered = filtered.filter(c => c.title.toLowerCase().includes(search.toLowerCase()));
+            if (filtered.length === 0) { grid.innerHTML = '<div class="empty-state">📚 No courses found.</div>'; return; }
             
             grid.innerHTML = filtered.map(course => {
                 const progress = Math.round((course.completedLessons / course.lessons) * 100);
-                let status = 'not-started';
-                let statusText = 'Not Started';
-                if (progress === 100) {
-                    status = 'completed';
-                    statusText = 'Completed ✓';
-                } else if (progress > 0) {
-                    status = 'in-progress';
-                    statusText = `${progress}% Complete`;
-                }
+                let status = progress === 100 ? 'completed' : progress > 0 ? 'in-progress' : 'not-started';
+                let statusText = progress === 100 ? 'Completed ✓' : progress > 0 ? `${progress}% Complete` : 'Not Started';
                 
                 return `
                     <div class="course-card" onclick="openCourse(${course.id})">
                         <div class="course-header">
                             <div class="course-icon">${course.icon}</div>
                             <div class="course-title">${course.title}</div>
-                            <div class="course-category">${course.category === 'core' ? 'Core Subject' : 'Elective'}</div>
+                            <div class="course-category">${course.category === 'core' ? 'CORE SUBJECT' : 'ELECTIVE'}</div>
                         </div>
                         <div class="course-body">
                             <div class="course-description">${course.description}</div>
@@ -678,18 +562,13 @@
                                 <div class="stats-item">✅ ${course.completedLessons}/${course.lessons} Completed</div>
                             </div>
                             <div class="progress-section">
-                                <div class="progress-label">
-                                    <span>Progress</span>
-                                    <span>${progress}%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${progress}%"></div>
-                                </div>
+                                <div class="progress-label"><span>Progress</span><span>${progress}%</span></div>
+                                <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
                             </div>
                         </div>
                         <div class="course-footer">
                             <span class="status-badge status-${status}">${statusText}</span>
-                            <button class="btn-continue" onclick="event.stopPropagation(); openCourse(${course.id})">${progress > 0 ? 'Continue →' : 'Start Course →'}</button>
+                            <button class="btn-continue" onclick="event.stopPropagation(); openCourse(${course.id})">${progress > 0 ? 'Continue →' : 'Start →'}</button>
                         </div>
                     </div>
                 `;
@@ -698,59 +577,24 @@
 
         function openCourse(courseId) {
             const course = courses.find(c => c.id === courseId);
-            if (!course) return;
-            
             const saved = courseProgress[course.id] || { completed: [] };
-            const completedLessons = saved.completed || [];
+            const completed = saved.completed || [];
             
-            let lessonsHtml = `
-                <p style="margin-bottom: 1rem; color: #4b5563;">${course.description}</p>
-                <div class="lesson-list">
-            `;
-            
+            let lessonsHtml = `<p style="margin-bottom:1rem;">${course.description}</p><div class="lesson-list">`;
             for (let i = 1; i <= course.lessons; i++) {
-                const isCompleted = completedLessons.includes(i);
-                const lessonTitles = {
-                    1: "Introduction & Basics",
-                    2: "Core Concepts",
-                    3: "Practice & Application",
-                    4: "Advanced Topics",
-                    5: "Review & Assessment",
-                    6: "Final Mastery"
-                };
-                const lessonTitle = lessonTitles[i] || `Lesson ${i}`;
-                
+                const titles = {1:"Introduction",2:"Core Concepts",3:"Practice",4:"Advanced",5:"Review",6:"Mastery"};
                 lessonsHtml += `
                     <div class="lesson-item">
-                        <div class="lesson-check ${isCompleted ? 'completed' : ''}" onclick="toggleLesson(${course.id}, ${i})">
-                            ${isCompleted ? '✓' : ''}
-                        </div>
-                        <div class="lesson-info">
-                            <div class="lesson-title">${lessonTitle}</div>
-                            <div class="lesson-desc">Complete this lesson to master ${course.title}</div>
-                        </div>
+                        <div class="lesson-check ${completed.includes(i) ? 'completed' : ''}" onclick="toggleLesson(${course.id}, ${i})">${completed.includes(i) ? '✓' : ''}</div>
+                        <div class="lesson-info"><div class="lesson-title">${titles[i] || `Lesson ${i}`}</div><div class="lesson-desc">Complete this lesson</div></div>
                     </div>
                 `;
             }
-            
-            lessonsHtml += `</div>`;
-            
-            const progress = Math.round((completedLessons.length / course.lessons) * 100);
-            lessonsHtml += `
-                <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 0.75rem;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span>Overall Progress</span>
-                        <span style="color: #2ecc71; font-weight: 700;">${progress}%</span>
-                    </div>
-                    <div class="progress-bar" style="background: #e2e8f0;">
-                        <div class="progress-fill" style="width: ${progress}%; background: linear-gradient(90deg, #667eea, #2ecc71);"></div>
-                    </div>
-                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">
-                        ✅ ${completedLessons.length}/${course.lessons} lessons completed
-                    </div>
-                </div>
+            lessonsHtml += `</div><div style="margin-top:1rem; padding:1rem; background:#f8fafc; border-radius:0.75rem;">
+                <div>Progress: ${Math.round((completed.length/course.lessons)*100)}%</div>
+                <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width: ${(completed.length/course.lessons)*100}%"></div></div>
                 <button class="close-btn" onclick="closeModal()">Close</button>
-            `;
+            </div>`;
             
             document.getElementById('modalTitle').innerHTML = `${course.icon} ${course.title}`;
             document.getElementById('modalBody').innerHTML = lessonsHtml;
@@ -759,55 +603,29 @@
 
         function toggleLesson(courseId, lessonIndex) {
             if (!courseProgress[courseId]) courseProgress[courseId] = { completed: [] };
-            
             const completed = courseProgress[courseId].completed || [];
-            const index = completed.indexOf(lessonIndex);
-            
-            if (index === -1) completed.push(lessonIndex);
-            else completed.splice(index, 1);
-            
+            const idx = completed.indexOf(lessonIndex);
+            idx === -1 ? completed.push(lessonIndex) : completed.splice(idx, 1);
             courseProgress[courseId].completed = completed;
             localStorage.setItem(storageKey, JSON.stringify(courseProgress));
-            
-            if (studentData && index === -1) {
-                let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
-                const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
-                if (studentIndex !== -1) {
-                    studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
-                    studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 10;
-                    localStorage.setItem('students', JSON.stringify(studentsList));
-                }
-            }
-            
             updateProgress();
             renderCourses(document.querySelector('.filter-btn.active')?.dataset.filter || 'all', document.getElementById('searchInput').value);
             openCourse(courseId);
         }
 
-        function closeModal() {
-            document.getElementById('courseModal').style.display = 'none';
-        }
+        function closeModal() { document.getElementById('courseModal').style.display = 'none'; }
 
-        // Filter and Search
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderCourses(btn.dataset.filter, document.getElementById('searchInput').value);
-            });
-        });
-
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderCourses(btn.dataset.filter, document.getElementById('searchInput').value);
+        }));
         document.getElementById('searchInput').addEventListener('input', () => {
             const active = document.querySelector('.filter-btn.active').dataset.filter;
             renderCourses(active, document.getElementById('searchInput').value);
         });
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('courseModal');
-            if (event.target === modal) closeModal();
-        };
-
+        window.onclick = e => { if (e.target === document.getElementById('courseModal')) closeModal(); };
+        
         updateProgress();
         renderCourses('all', '');
     </script>
