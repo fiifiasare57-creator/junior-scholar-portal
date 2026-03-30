@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Courses - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,24 +13,25 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            line-height: 1.5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            color: #1a1f36;
+            overflow-x: hidden;
         }
 
         /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 2px solid #10b981;
+            box-shadow: 0 2px 10px rgba(16,185,129,0.1);
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 1rem 2rem;
             display: flex;
@@ -51,7 +53,7 @@
         .logo-text {
             font-size: 1.25rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #1e293b, #10b981);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -65,35 +67,48 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #334155;
+            color: #4a5568;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover, .nav-links a.active {
-            color: #3b82f6;
+            color: #10b981;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         /* Main Container */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
         /* Page Header */
         .page-header {
+            text-align: center;
             margin-bottom: 2rem;
         }
 
         .page-header h1 {
             font-size: 2rem;
-            color: #0f172a;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 0.5rem;
         }
 
         .page-header p {
-            color: #64748b;
+            color: #6b7280;
         }
 
         /* Search and Filter */
@@ -102,7 +117,8 @@
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #eef2f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .search-box {
@@ -115,9 +131,15 @@
         .search-input {
             flex: 1;
             padding: 0.75rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #10b981;
         }
 
         .filter-buttons {
@@ -127,45 +149,54 @@
         }
 
         .filter-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             background: #f1f5f9;
             border: none;
             border-radius: 2rem;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .filter-btn.active {
-            background: #3b82f6;
+            background: #10b981;
             color: white;
         }
 
-        /* Course Cards */
+        .filter-btn:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Courses Grid */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .course-card {
             background: white;
-            border-radius: 1rem;
+            border-radius: 1.2rem;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eef2f6;
+            transition: all 0.3s;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .course-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 24px rgba(16,185,129,0.15);
+            border-color: #10b981;
         }
 
         .course-header {
             padding: 1.5rem;
-            position: relative;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .course-icon {
@@ -177,74 +208,165 @@
             font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: #1e293b;
         }
 
         .course-description {
-            color: #64748b;
-            font-size: 0.875rem;
+            color: #6b7280;
+            font-size: 0.85rem;
             margin-bottom: 1rem;
-        }
-
-        .progress-bar-container {
-            background: #e2e8f0;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            height: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .progress-bar {
-            background: linear-gradient(90deg, #3b82f6, #a855f7);
-            height: 100%;
-            border-radius: 0.5rem;
-            transition: width 0.5s;
+            line-height: 1.5;
         }
 
         .course-stats {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: #64748b;
+            gap: 1rem;
+            font-size: 0.7rem;
+            color: #10b981;
             margin-bottom: 1rem;
         }
 
         .course-footer {
             padding: 1rem 1.5rem;
             background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #eef2f6;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .btn-continue {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.75rem;
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.3s;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
         .btn-continue:hover {
-            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16,185,129,0.3);
         }
 
-        .btn-locked {
-            background: #e2e8f0;
-            color: #94a3b8;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            cursor: not-allowed;
+        /* Resources Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Featured Course */
+        .modal-content {
+            background: white;
+            border-radius: 1.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .resources-list-modal {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .resource-item-modal {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s;
+            border: 1px solid #eef2f6;
+        }
+
+        .resource-item-modal:hover {
+            background: #f0fdf4;
+            transform: translateX(5px);
+            border-color: #10b981;
+        }
+
+        .resource-icon-modal {
+            font-size: 1.5rem;
+        }
+
+        .resource-info-modal {
+            flex: 1;
+        }
+
+        .resource-title-modal {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-desc-modal {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .resource-link {
+            color: #10b981;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        /* Featured Section */
         .featured-section {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-radius: 1rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 1.5rem;
             padding: 2rem;
             margin-bottom: 2rem;
             color: white;
@@ -263,44 +385,26 @@
             margin-bottom: 0.5rem;
         }
 
-        .featured-info p {
-            opacity: 0.9;
-            margin-bottom: 1rem;
-        }
-
         .btn-featured {
-            background: #3b82f6;
-            color: white;
+            background: white;
+            color: #10b981;
             padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s;
         }
 
-        /* Subject Colors */
-        .math { border-top: 4px solid #3b82f6; }
-        .english { border-top: 4px solid #10b981; }
-        .science { border-top: 4px solid #f59e0b; }
-        .social { border-top: 4px solid #ef4444; }
-        .french { border-top: 4px solid #a855f7; }
-        .ict { border-top: 4px solid #06b6d4; }
-        .rme { border-top: 4px solid #ec489a; }
-        .ghanaian { border-top: 4px solid #84cc16; }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .btn-featured:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
+        /* Mobile */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
             }
-            
             .nav-links {
                 display: none;
                 position: absolute;
@@ -310,21 +414,17 @@
                 background: white;
                 flex-direction: column;
                 padding: 1rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             }
-            
             .nav-links.active {
                 display: flex;
             }
-            
             .container {
                 padding: 1rem;
             }
-            
             .courses-grid {
                 grid-template-columns: 1fr;
             }
-            
             .featured-content {
                 flex-direction: column;
                 text-align: center;
@@ -353,18 +453,17 @@
     <div class="container">
         <div class="page-header">
             <h1>📚 BECE Courses</h1>
-            <p>Master all subjects with our comprehensive curriculum</p>
+            <p>Master all subjects with our comprehensive curriculum and learning resources</p>
         </div>
 
-        <!-- Featured Course -->
+        <!-- Featured Section -->
         <div class="featured-section">
             <div class="featured-content">
                 <div class="featured-info">
-                    <h2>⭐ Featured: Mathematics Crash Course</h2>
-                    <p>Complete coverage of all BECE Mathematics topics with practice questions and video lessons</p>
-                    <a href="#" class="btn-featured" onclick="startCourse('Mathematics Crash Course')">Enroll Now →</a>
+                    <h2>⭐ Featured: BECE Intensive Program</h2>
+                    <p>Complete coverage of all core subjects with video lessons, notes, and practice materials</p>
                 </div>
-                <div style="font-size: 4rem;">📐</div>
+                <div style="font-size: 3rem;">📖</div>
             </div>
         </div>
 
@@ -377,14 +476,26 @@
                 <button class="filter-btn active" data-filter="all">All Subjects</button>
                 <button class="filter-btn" data-filter="core">Core Subjects</button>
                 <button class="filter-btn" data-filter="elective">Electives</button>
-                <button class="filter-btn" data-filter="in-progress">In Progress</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
+                <button class="filter-btn" data-filter="science">Science</button>
+                <button class="filter-btn" data-filter="arts">Arts</button>
             </div>
         </div>
 
         <!-- Courses Grid -->
-        <div class="courses-grid" id="coursesGrid">
-            <!-- Course cards will be populated by JavaScript -->
+        <div class="courses-grid" id="coursesGrid"></div>
+    </div>
+
+    <!-- Resources Modal -->
+    <div id="resourceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Course Resources</h2>
+                <p id="modalSubtitle">Learning materials for your success</p>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
         </div>
     </div>
 
@@ -392,199 +503,146 @@
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navLinks = document.getElementById('navLinks');
-        
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
 
-        // Course Data
+        // Course Data with Resources
         const courses = [
             {
                 id: 1,
                 title: "Mathematics",
                 description: "Numbers, Algebra, Geometry, Statistics, and Mensuration for BECE",
                 icon: "📐",
-                color: "math",
                 category: "core",
-                totalLessons: 24,
-                completedLessons: 18,
-                progress: 75,
-                isLocked: false
+                resources: [
+                    { title: "Algebra Complete Notes", desc: "Comprehensive algebra notes with examples", type: "PDF", link: "#" },
+                    { title: "Geometry Formulas Sheet", desc: "All geometry formulas for BECE", type: "PDF", link: "#" },
+                    { title: "Past Questions (2015-2024)", desc: "Mathematics past questions with answers", type: "PDF", link: "#" },
+                    { title: "Video: Algebra Basics", desc: "Step-by-step video tutorial", type: "Video", link: "#" },
+                    { title: "Practice Worksheet", desc: "50 practice questions with solutions", type: "Worksheet", link: "#" }
+                ]
             },
             {
                 id: 2,
                 title: "English Language",
                 description: "Grammar, Comprehension, Essay Writing, and Literature",
                 icon: "📖",
-                color: "english",
                 category: "core",
-                totalLessons: 20,
-                completedLessons: 15,
-                progress: 75,
-                isLocked: false
+                resources: [
+                    { title: "Grammar Rules Handbook", desc: "Complete grammar guide for BECE", type: "PDF", link: "#" },
+                    { title: "Essay Writing Guide", desc: "How to write excellent essays", type: "PDF", link: "#" },
+                    { title: "Comprehension Passages", desc: "Practice passages with answers", type: "PDF", link: "#" },
+                    { title: "Vocabulary Builder", desc: "500 essential words for BECE", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 3,
                 title: "Integrated Science",
                 description: "Biology, Chemistry, Physics, and Health Science",
                 icon: "🔬",
-                color: "science",
-                category: "core",
-                totalLessons: 22,
-                completedLessons: 12,
-                progress: 55,
-                isLocked: false
+                category: "science",
+                resources: [
+                    { title: "Biology Notes", desc: "Human body, plants, and ecosystems", type: "PDF", link: "#" },
+                    { title: "Chemistry Basics", desc: "Elements, compounds, and reactions", type: "PDF", link: "#" },
+                    { title: "Physics Formulas", desc: "Important formulas and laws", type: "PDF", link: "#" },
+                    { title: "Practical Experiments", desc: "Step-by-step lab guides", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 4,
                 title: "Social Studies",
                 description: "Government, History, Geography, and Civic Education",
                 icon: "🌍",
-                color: "social",
                 category: "core",
-                totalLessons: 18,
-                completedLessons: 8,
-                progress: 44,
-                isLocked: false
+                resources: [
+                    { title: "Ghana History Timeline", desc: "Important dates and events", type: "PDF", link: "#" },
+                    { title: "Government Structure", desc: "How Ghana's government works", type: "PDF", link: "#" },
+                    { title: "Map Reading Skills", desc: "Geography practical guide", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 5,
                 title: "French",
                 description: "Basic French vocabulary, grammar, and conversation",
                 icon: "🇫🇷",
-                color: "french",
                 category: "elective",
-                totalLessons: 15,
-                completedLessons: 0,
-                progress: 0,
-                isLocked: false
+                resources: [
+                    { title: "French Vocabulary List", desc: "Essential words and phrases", type: "PDF", link: "#" },
+                    { title: "Grammar Guide", desc: "Verb conjugations and tenses", type: "PDF", link: "#" },
+                    { title: "Common Conversations", desc: "Practice dialogues", type: "Audio", link: "#" }
+                ]
             },
             {
                 id: 6,
                 title: "ICT / Computing",
                 description: "Computer fundamentals, software, and internet basics",
                 icon: "💻",
-                color: "ict",
                 category: "elective",
-                totalLessons: 16,
-                completedLessons: 0,
-                progress: 0,
-                isLocked: false
+                resources: [
+                    { title: "Computer Basics", desc: "Hardware and software fundamentals", type: "PDF", link: "#" },
+                    { title: "Programming Introduction", desc: "Basic coding concepts", type: "PDF", link: "#" },
+                    { title: "Internet Safety Guide", desc: "Staying safe online", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 7,
                 title: "Religious & Moral Education",
                 description: "Religious studies, moral values, and ethics",
                 icon: "🕊️",
-                color: "rme",
                 category: "core",
-                totalLessons: 14,
-                completedLessons: 5,
-                progress: 36,
-                isLocked: false
+                resources: [
+                    { title: "Major Religions in Ghana", desc: "Christianity, Islam, Traditional", type: "PDF", link: "#" },
+                    { title: "Moral Values Handbook", desc: "Ethics and character education", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 8,
                 title: "Ghanaian Language (Twi)",
                 description: "Reading, writing, and speaking in Twi",
                 icon: "🗣️",
-                color: "ghanaian",
                 category: "elective",
-                totalLessons: 12,
-                completedLessons: 0,
-                progress: 0,
-                isLocked: false
+                resources: [
+                    { title: "Twi Alphabet & Sounds", desc: "Pronunciation guide", type: "PDF", link: "#" },
+                    { title: "Common Phrases", desc: "Everyday conversations", type: "PDF", link: "#" },
+                    { title: "Reading Comprehension", desc: "Twi passages with questions", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 9,
                 title: "BECE Past Questions",
                 description: "Practice with actual past questions from 2015-2024",
                 icon: "📝",
-                color: "math",
                 category: "core",
-                totalLessons: 10,
-                completedLessons: 3,
-                progress: 30,
-                isLocked: false
+                resources: [
+                    { title: "2015-2019 Past Questions", desc: "All subjects with answers", type: "PDF", link: "#" },
+                    { title: "2020-2024 Past Questions", desc: "Latest papers with marking schemes", type: "PDF", link: "#" },
+                    { title: "Mock Exam Papers", desc: "Simulated BECE exams", type: "PDF", link: "#" }
+                ]
             },
             {
                 id: 10,
                 title: "Study Skills & Exam Tips",
                 description: "Learn how to prepare effectively for exams",
                 icon: "🎯",
-                color: "english",
                 category: "elective",
-                totalLessons: 8,
-                completedLessons: 2,
-                progress: 25,
-                isLocked: false
+                resources: [
+                    { title: "Study Techniques Guide", desc: "Effective learning methods", type: "PDF", link: "#" },
+                    { title: "Time Management", desc: "How to plan your study time", type: "PDF", link: "#" },
+                    { title: "Exam Day Preparation", desc: "What to do before and during exams", type: "PDF", link: "#" }
+                ]
             }
         ];
-
-        // Load saved progress from localStorage
-        function loadProgress() {
-            const savedProgress = localStorage.getItem('courseProgress');
-            if (savedProgress) {
-                const progressData = JSON.parse(savedProgress);
-                courses.forEach(course => {
-                    if (progressData[course.id]) {
-                        course.completedLessons = progressData[course.id].completed;
-                        course.progress = Math.round((course.completedLessons / course.totalLessons) * 100);
-                    }
-                });
-            }
-        }
-
-        // Save progress to localStorage
-        function saveProgress(courseId, completed) {
-            let progressData = JSON.parse(localStorage.getItem('courseProgress') || '{}');
-            progressData[courseId] = { completed: completed };
-            localStorage.setItem('courseProgress', JSON.stringify(progressData));
-            
-            // Update overall scholar progress
-            updateOverallProgress();
-        }
-
-        // Update overall progress for dashboard
-        function updateOverallProgress() {
-            let totalCompleted = 0;
-            let totalLessons = 0;
-            courses.forEach(course => {
-                totalCompleted += course.completedLessons;
-                totalLessons += course.totalLessons;
-            });
-            const overallPercent = Math.round((totalCompleted / totalLessons) * 100);
-            const avgAccuracy = 85; // Placeholder
-            
-            const scholarProgress = {
-                syllabus: `${overallPercent}%`,
-                courses: courses.filter(c => c.progress === 100).length,
-                questions: Math.floor(totalCompleted * 12.5), // Approximate questions answered
-                accuracy: `${avgAccuracy}%`,
-                overall: `${overallPercent}%`,
-                streak: localStorage.getItem('streak') || '7'
-            };
-            
-            localStorage.setItem('scholarProgress', JSON.stringify(scholarProgress));
-        }
 
         // Render courses
         function renderCourses(filter = 'all', search = '') {
             const grid = document.getElementById('coursesGrid');
             let filteredCourses = [...courses];
             
-            // Apply category filter
             if (filter !== 'all') {
-                if (filter === 'in-progress') {
-                    filteredCourses = filteredCourses.filter(c => c.progress > 0 && c.progress < 100);
-                } else if (filter === 'completed') {
-                    filteredCourses = filteredCourses.filter(c => c.progress === 100);
-                } else {
-                    filteredCourses = filteredCourses.filter(c => c.category === filter);
-                }
+                filteredCourses = filteredCourses.filter(c => c.category === filter);
             }
             
-            // Apply search filter
             if (search) {
                 filteredCourses = filteredCourses.filter(c => 
                     c.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -593,80 +651,76 @@
             }
             
             if (filteredCourses.length === 0) {
-                grid.innerHTML = '<div style="text-align: center; padding: 3rem; color: #64748b;">No courses found. Try a different filter!</div>';
+                grid.innerHTML = '<div style="text-align: center; padding: 3rem; color: #6b7280;">No courses found. Try a different filter!</div>';
                 return;
             }
             
             grid.innerHTML = filteredCourses.map(course => `
-                <div class="course-card ${course.color}" onclick="viewCourse(${course.id})">
+                <div class="course-card" onclick="viewCourseResources(${course.id})">
                     <div class="course-header">
                         <div class="course-icon">${course.icon}</div>
                         <h3 class="course-title">${course.title}</h3>
                         <p class="course-description">${course.description}</p>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: ${course.progress}%"></div>
-                        </div>
                         <div class="course-stats">
-                            <span>📚 ${course.completedLessons}/${course.totalLessons} lessons</span>
-                            <span>⭐ ${course.progress}% complete</span>
+                            <span>📚 ${course.resources.length} Resources</span>
+                            <span>⭐ Interactive</span>
                         </div>
                     </div>
                     <div class="course-footer">
-                        ${course.progress === 100 ? 
-                            '<span style="color: #10b981;">✅ Completed!</span>' : 
-                            '<span style="color: #64748b;">📖 In progress</span>'
-                        }
-                        <a href="#" class="${course.progress === 100 ? 'btn-locked' : 'btn-continue'}" 
-                           onclick="event.stopPropagation(); continueCourse(${course.id})">
-                            ${course.progress === 100 ? 'Review Course' : 'Continue →'}
-                        </a>
+                        <span style="color: #10b981;">📖 Click to view resources</span>
+                        <button class="btn-continue" onclick="event.stopPropagation(); viewCourseResources(${course.id})">
+                            View Resources →
+                        </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // View course details
-        window.viewCourse = function(courseId) {
+        // View course resources
+        window.viewCourseResources = function(courseId) {
             const course = courses.find(c => c.id === courseId);
-            alert(`📚 ${course.title}\n\n${course.description}\n\nProgress: ${course.progress}%\nLessons completed: ${course.completedLessons}/${course.totalLessons}\n\nClick "Continue" to start learning!`);
-        };
-
-        // Continue course
-        window.continueCourse = function(courseId) {
-            const course = courses.find(c => c.id === courseId);
-            
-            if (course.progress === 100) {
-                alert(`🎉 Congratulations on completing ${course.title}!\n\nReview the material to stay sharp for your BECE.`);
-                return;
-            }
-            
-            // Simulate completing a lesson
-            if (course.completedLessons < course.totalLessons) {
-                const newCompleted = course.completedLessons + 1;
-                course.completedLessons = newCompleted;
-                course.progress = Math.round((newCompleted / course.totalLessons) * 100);
+            if (course) {
+                document.getElementById('modalTitle').textContent = `${course.icon} ${course.title}`;
+                document.getElementById('modalSubtitle').textContent = `Learning Resources • ${course.resources.length} materials available`;
                 
-                saveProgress(course.id, newCompleted);
-                renderCourses(document.querySelector('.filter-btn.active').dataset.filter, 
-                            document.getElementById('searchInput').value);
+                const modalBody = document.getElementById('modalBody');
+                modalBody.innerHTML = `
+                    <div class="resources-list-modal">
+                        ${course.resources.map(resource => `
+                            <div class="resource-item-modal">
+                                <div class="resource-icon-modal">
+                                    ${resource.type === 'PDF' ? '📄' : resource.type === 'Video' ? '🎬' : resource.type === 'Audio' ? '🎧' : '📝'}
+                                </div>
+                                <div class="resource-info-modal">
+                                    <div class="resource-title-modal">${resource.title}</div>
+                                    <div class="resource-desc-modal">${resource.desc}</div>
+                                    <div class="resource-desc-modal" style="margin-top: 0.25rem;">
+                                        <span style="background: #e8f5e9; padding: 0.2rem 0.5rem; border-radius: 0.25rem;">${resource.type}</span>
+                                    </div>
+                                </div>
+                                <a href="${resource.link}" class="resource-link" onclick="event.stopPropagation()">Download →</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eef2f6; text-align: center;">
+                        <button onclick="closeModal()" style="background: #10b981; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 0.5rem; cursor: pointer;">Close</button>
+                    </div>
+                `;
                 
-                if (course.progress === 100) {
-                    alert(`🎉 Amazing! You've completed ${course.title}!\n\n+50 points added to your profile!`);
-                    
-                    // Add points
-                    let scholarProgress = JSON.parse(localStorage.getItem('scholarProgress') || '{}');
-                    let currentQuestions = parseInt(scholarProgress.questions || '247');
-                    scholarProgress.questions = currentQuestions + 50;
-                    localStorage.setItem('scholarProgress', JSON.stringify(scholarProgress));
-                } else {
-                    alert(`✅ Great job! You completed a lesson in ${course.title}!\n\nKeep going! ${course.progress}% complete.`);
-                }
+                document.getElementById('resourceModal').style.display = 'flex';
             }
         };
 
-        // Start featured course
-        window.startCourse = function(courseName) {
-            alert(`🎓 You've enrolled in ${courseName}!\n\nCheck your dashboard to continue learning.`);
+        function closeModal() {
+            document.getElementById('resourceModal').style.display = 'none';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('resourceModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
         };
 
         // Filter buttons
@@ -688,12 +742,8 @@
             renderCourses(activeFilter, searchInput.value);
         });
 
-        // Load saved progress and render
-        loadProgress();
+        // Initialize
         renderCourses('all', '');
-        
-        // Update overall progress on load
-        updateOverallProgress();
     </script>
 </body>
-</html>
+</html>m
