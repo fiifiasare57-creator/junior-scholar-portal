@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,8 +13,8 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -27,7 +28,19 @@
             background: white;
             border-radius: 1.5rem;
             padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .logo {
@@ -42,7 +55,7 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e3a5f, #2ecc71);
+            background: linear-gradient(135deg, #1e293b, #6366f1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -51,13 +64,13 @@
         h1 {
             font-size: 1.5rem;
             text-align: center;
-            color: #1e3a5f;
+            color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
         .subtitle {
             text-align: center;
-            color: #64748b;
+            color: #6b7280;
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
         }
@@ -80,11 +93,12 @@
             border: 2px solid #e2e8f0;
             border-radius: 0.5rem;
             font-size: 0.9rem;
+            transition: all 0.3s;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #2ecc71;
+            border-color: #6366f1;
         }
 
         .form-row {
@@ -96,29 +110,33 @@
         .btn-register {
             width: 100%;
             padding: 0.875rem;
-            background: #2ecc71;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
             border: none;
             border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 1rem;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
         }
 
         .btn-register:hover {
-            background: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
         }
 
         .login-link {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.85rem;
+            color: #6b7280;
         }
 
         .login-link a {
-            color: #2ecc71;
+            color: #6366f1;
             text-decoration: none;
+            font-weight: 600;
         }
 
         .success-message {
@@ -127,10 +145,15 @@
             padding: 0.75rem;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
             display: none;
         }
 
         @media (max-width: 768px) {
+            .register-container {
+                padding: 1.5rem;
+            }
             .form-row {
                 grid-template-columns: 1fr;
             }
@@ -236,7 +259,14 @@
                 return;
             }
             
-            // Create student object
+            // Check if email already exists
+            let students = JSON.parse(localStorage.getItem('students') || '[]');
+            if (students.some(s => s.email === email)) {
+                alert('❌ This email is already registered. Please login instead.');
+                return;
+            }
+            
+            // Create student object with all data structures
             const studentData = {
                 id: Date.now(),
                 fullName: fullName,
@@ -257,18 +287,13 @@
                 courseProgress: {}
             };
             
-            // Get existing students
-            let students = JSON.parse(localStorage.getItem('students') || '[]');
-            
-            // Check if email already exists
-            if (students.some(s => s.email === email)) {
-                alert('❌ This email is already registered. Please login instead.');
-                return;
-            }
-            
-            // Add new student
+            // Add to students list
             students.push(studentData);
             localStorage.setItem('students', JSON.stringify(students));
+            
+            // Initialize empty data for this student
+            localStorage.setItem('studentAttendance_' + studentData.id, JSON.stringify([]));
+            localStorage.setItem('submissions_' + studentData.id, JSON.stringify({}));
             
             // Save current session
             localStorage.setItem('currentStudent', JSON.stringify({
@@ -280,6 +305,10 @@
             // Save scholar name for dashboard
             localStorage.setItem('scholarName', studentData.fullName);
             localStorage.setItem('scholarEmail', studentData.email);
+            
+            // Initialize practice stats
+            localStorage.setItem('practiceStats', JSON.stringify(studentData.practiceStats));
+            localStorage.setItem('courseProgress', JSON.stringify(studentData.courseProgress));
             
             // Show success message
             const successMsg = document.getElementById('successMsg');
@@ -293,4 +322,4 @@
         });
     </script>
 </body>
-</html>m
+</html>
