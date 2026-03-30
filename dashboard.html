@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>The Junior Scholar Portal</title>
+    <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -40,7 +40,6 @@
             font-weight: 800;
             color: white;
             text-decoration: none;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .nav-links {
@@ -62,33 +61,215 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Main Container */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Glass Header */
-        .glass-header {
-            background: rgba(255, 255, 255, 0.2);
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+            overflow-y: auto;
         }
 
-        .glass-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .school-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #ffd700;
+            text-transform: uppercase;
             margin-bottom: 0.5rem;
         }
 
-        .glass-header p {
-            color: rgba(255, 255, 255, 0.9);
+        .portal-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .vacation-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 2rem;
+            margin-top: 0.75rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.75rem 1.5rem;
+            margin: 0.3rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.75rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 28px;
+        }
+
+        .user-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ffd700, #f59e0b);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e293b;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .user-email {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .logout-btn {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logout-btn:hover {
+            color: #ef4444;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin-left 0.3s;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .toggle-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-section::before {
+            content: '🎓';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
 
         /* Stats Grid */
@@ -105,19 +286,19 @@
             border-radius: 1rem;
             padding: 1rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.25);
         }
 
         .stat-value {
             font-size: 1.8rem;
             font-weight: 800;
-            color: white;
+            color: #ffd700;
         }
 
         .stat-label {
@@ -125,74 +306,73 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Speech Card - Full Message */
-        .speech-card {
-            background: rgba(255, 255, 255, 0.2);
+        /* Access Banner */
+        .access-banner {
+            background: rgba(255, 215, 0, 0.2);
             backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 2.5rem;
+            border-radius: 1rem;
+            padding: 1rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .access-banner.paid {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .access-banner.expired {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-pay {
+            background: #ffd700;
+            color: #1e293b;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
             transition: all 0.3s;
         }
 
-        .speech-card:hover {
-            background: rgba(255, 255, 255, 0.25);
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
         }
 
-        .speech-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .speech-icon {
-            font-size: 2rem;
+        /* Speech Card */
+        .speech-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .speech-title {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .speech-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: white;
-        }
-
-        .typing-container {
-            min-height: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .typed-text {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: white;
-            font-style: italic;
-            font-weight: 500;
-            position: relative;
-            white-space: pre-wrap;
-        }
-
-        .typed-text::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: white;
-            font-weight: bold;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
 
         .speech-author {
-            margin-top: 2rem;
-            font-size: 0.9rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.7);
-            text-align: right;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 1rem;
         }
 
         /* Quick Actions */
@@ -212,7 +392,7 @@
             text-decoration: none;
             color: white;
             transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .action-card:hover {
@@ -230,88 +410,117 @@
             font-size: 0.85rem;
         }
 
-        .action-count {
-            font-size: 0.7rem;
+        /* Credits */
+        .credits-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .credits-text {
+            font-size: 0.8rem;
+            color: #ffd700;
+            font-weight: 500;
+        }
+
+        .credits-names {
+            font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.7);
             margin-top: 0.25rem;
         }
 
-        /* Credits */
-        .credits {
-            text-align: center;
-            padding: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-        }
-
-        /* Teacher Button */
-        .teacher-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 3rem;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s;
-            z-index: 100;
-        }
-
-        .teacher-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-            .nav-links {
-                justify-content: center;
-            }
-            .container {
-                padding: 1rem;
-            }
-            .glass-header h1 {
-                font-size: 1.3rem;
-            }
+        /* Responsive */
+        @media (max-width: 1024px) {
             .stats-grid, .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .speech-card {
-                padding: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
             }
-            .typed-text {
-                font-size: 0.9rem;
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .toggle-sidebar {
+                left: auto;
+                right: 20px;
+            }
+            .hero-title {
+                font-size: 1.3rem;
+            }
+            .stats-grid, .quick-actions {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">📚 The Junior Scholar Portal</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="courses.html">Courses</a>
-            <a href="live-class.html">Live Classes</a>
-            <a href="practice.html">Practice</a>
-            <a href="login.html">Login</a>
-        </div>
-    </nav>
+    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="glass-header">
-            <h1>Your Journey to BECE Excellence Begins Here</h1>
-            <p>Join hundreds of junior scholars preparing for success</p>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="school-badge">PRESEC-LEGON</div>
+            <div class="portal-title">The Junior Scholar<br>Portal</div>
+            <div class="vacation-badge">📚 BECE PREP 2025</div>
         </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="courses.html" class="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>My Courses</span>
+            </a>
+            <a href="practice.html" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Practice</span>
+            </a>
+            <a href="live-class.html" class="nav-item">
+                <span class="nav-icon">🎥</span>
+                <span>Live Classes</span>
+            </a>
+            <a href="student-resources.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>My Resources</span>
+            </a>
+            <a href="payment.html" class="nav-item">
+                <span class="nav-icon">💰</span>
+                <span>Pay Fees</span>
+            </a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div>
+                    <div class="user-name" id="userName">Scholar</div>
+                    <div class="user-email" id="userEmail">student@example.com</div>
+                </div>
+            </div>
+            <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
+            <p class="hero-subtitle" id="greetingMessage">Your journey to BECE excellence continues. Let's make today productive!</p>
+        </div>
+
+        <!-- Access Status Banner -->
+        <div id="accessBanner" class="access-banner"></div>
 
         <!-- Stats Grid -->
         <div class="stats-grid">
@@ -333,14 +542,16 @@
             </div>
         </div>
 
-        <!-- Full Inspirational Letter with Typing Animation -->
+        <!-- Inspirational Message -->
         <div class="speech-card">
-            <div class="speech-header">
-                <span class="speech-icon">🎓</span>
-                <span class="speech-title">A Special Message for You</span>
-            </div>
-            <div class="typing-container">
-                <div id="typedMessage" class="typed-text"></div>
+            <div class="speech-title">🎓 A Message for BECE Candidates</div>
+            <div class="speech-text">
+                "Dear Junior Scholar,<br><br>
+                The BECE is your first giant leap towards your dreams. Every question you answer, 
+                every lesson you learn brings you one step closer to success. Remember, greatness is not achieved by luck, 
+                but by consistent effort, determination, and belief in yourself.<br><br>
+                You are capable of more than you know. Stay focused, work hard, and trust the process.<br><br>
+                <strong>Your future self will thank you for the work you do today.</strong>"
             </div>
             <div class="speech-author">— The Junior Scholar Portal Team</div>
         </div>
@@ -350,156 +561,140 @@
             <a href="practice.html" class="action-card">
                 <div class="action-icon">📝</div>
                 <div class="action-title">Practice Questions</div>
-                <div class="action-count">Test your knowledge</div>
             </a>
             <a href="courses.html" class="action-card">
                 <div class="action-icon">📚</div>
                 <div class="action-title">My Courses</div>
-                <div class="action-count">Continue learning</div>
             </a>
             <a href="live-class.html" class="action-card">
                 <div class="action-icon">🎥</div>
                 <div class="action-title">Live Classes</div>
-                <div class="action-count" id="liveCount">Join sessions</div>
             </a>
-            <a href="student-resources.html" class="action-card">
-                <div class="action-icon">📋</div>
-                <div class="action-title">My Resources</div>
-                <div class="action-count">View assignments</div>
+            <a href="payment.html" class="action-card">
+                <div class="action-icon">💰</div>
+                <div class="action-title">Pay Fees</div>
             </a>
         </div>
 
         <!-- Credits -->
-        <div class="credits">
-            ✨ Made with Excellence by SKILABS ✨<br>
-            Caleb Fiifi Asare & Arnold Kadi
+        <div class="credits-section">
+            <div class="credits-text">✨ MADE WITH EXCELLENCE BY SKILABS ✨</div>
+            <div class="credits-names">Caleb Fiifi Asare & Arnold Kadi</div>
         </div>
-    </div>
-
-    <!-- Teacher Portal Button -->
-    <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
+    </main>
 
     <script>
-        // Full Inspirational Letter
-        const fullLetter = `Dear Junior Scholar, 🌟
+        // Sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('expanded');
+        });
 
-The BECE is not just an exam - it is your first giant leap towards the future you dream of. Every question you answer, every lesson you learn, and every challenge you overcome brings you one step closer to greatness.
-
-Remember that success is not achieved by luck, but by consistent effort, determination, and belief in yourself. The hours you spend studying, the questions you practice, and the knowledge you gain are all building blocks for your future.
-
-You are capable of more than you know. There will be days when things seem difficult, but those are the days that make you stronger. Embrace every challenge as an opportunity to grow.
-
-Stay focused on your goals. Work hard, but also work smart. Take breaks when needed, ask questions when unsure, and never stop believing in your ability to succeed.
-
-The BECE is your moment to shine. All the preparation, all the late-night studies, all the practice questions - they all lead to this. Trust in your preparation and trust in yourself.
-
-Your future self will thank you for the work you do today. Every effort you put in now is an investment in the person you are becoming.
-
-Believe in yourself. You've got this! 💪
-
-With pride and encouragement,
-The Junior Scholar Portal Team`;
-
-        let charIndex = 0;
-        let isTyping = true;
-        let pauseTimer = null;
-        const typingSpeed = 30;
-        const pauseBeforeDelete = 3000;
-        const deleteSpeed = 20;
-        let displayedText = "";
-
-        function typeLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            
-            if (isTyping && charIndex <= fullLetter.length) {
-                displayedText = fullLetter.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex++;
-                setTimeout(typeLetter, typingSpeed);
-            } 
-            else if (isTyping && charIndex > fullLetter.length) {
-                // Finished typing, pause then delete
-                isTyping = false;
-                pauseTimer = setTimeout(() => {
-                    deleteLetter();
-                }, pauseBeforeDelete);
-            }
-        }
-
-        function deleteLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            
-            if (!isTyping && charIndex >= 0) {
-                displayedText = fullLetter.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex--;
-                setTimeout(deleteLetter, deleteSpeed);
-            } 
-            else if (!isTyping && charIndex < 0) {
-                // Finished deleting, restart typing
-                isTyping = true;
-                charIndex = 0;
-                setTimeout(typeLetter, 500);
-            }
-        }
-
-        // Start the typing animation
-        setTimeout(typeLetter, 500);
-
-        // Get current student data
+        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
 
-        // Load stats
-        if (studentData) {
-            const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
-            document.getElementById('questionsDone').textContent = practiceStats.total;
-            
-            const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
-            document.getElementById('attendanceCount').textContent = attendanceRecords.length;
-        } else {
-            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-            document.getElementById('questionsDone').textContent = practiceStats.total;
-            document.getElementById('attendanceCount').textContent = '0';
+        if (!studentData) {
+            window.location.href = 'login.html';
         }
+
+        // Set student info
+        const firstName = studentData.fullName.split(' ')[0];
+        document.getElementById('welcomeName').textContent = firstName;
+        document.getElementById('userName').textContent = studentData.fullName;
+        document.getElementById('userEmail').textContent = studentData.email;
+        const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
+        document.getElementById('userAvatar').textContent = initials;
+
+        // Check Access Status
+        function checkAccessStatus() {
+            const accessData = JSON.parse(localStorage.getItem('accessStatus'));
+            const banner = document.getElementById('accessBanner');
+            
+            if (accessData && accessData.active) {
+                const expiryDate = new Date(accessData.expiryDate);
+                const today = new Date();
+                
+                if (expiryDate > today) {
+                    const daysLeft = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+                    banner.className = 'access-banner paid';
+                    banner.innerHTML = `
+                        <div>
+                            ✅ <strong>ACCESS ACTIVE</strong> | Valid until ${expiryDate.toLocaleDateString()} | ${daysLeft} days remaining
+                        </div>
+                        <div>
+                            📞 Support: 055 967 4720
+                        </div>
+                    `;
+                    return true;
+                } else {
+                    // Access expired
+                    localStorage.removeItem('accessStatus');
+                    banner.className = 'access-banner expired';
+                    banner.innerHTML = `
+                        <div>
+                            ⚠️ <strong>ACCESS EXPIRED</strong> | Your access has expired. Please renew to continue.
+                        </div>
+                        <a href="payment.html" class="btn-pay">Renew Access →</a>
+                    `;
+                    return false;
+                }
+            } else {
+                // No access
+                banner.className = 'access-banner';
+                banner.innerHTML = `
+                    <div>
+                        🔒 <strong>ACCESS REQUIRED</strong> | Pay school fees to unlock all learning materials
+                    </div>
+                    <a href="payment.html" class="btn-pay">Pay Fees Now →</a>
+                `;
+                return false;
+            }
+        }
+
+        // Load practice stats
+        const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
+        document.getElementById('questionsDone').textContent = practiceStats.total;
+
+        // Load attendance count
+        const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
+        document.getElementById('attendanceCount').textContent = attendanceRecords.length;
 
         // Load assignments count
         const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+        const submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
         let pendingCount = 0;
-        
-        if (studentData) {
-            const submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
-            assignments.forEach(a => {
-                if (!submissions[a.id]) pendingCount++;
-            });
-        } else {
-            pendingCount = assignments.length;
-        }
+        assignments.forEach(a => { if (!submissions[a.id]) pendingCount++; });
         document.getElementById('pendingAssignments').textContent = pendingCount;
-
-        // Load classes count
-        const scheduledClasses = JSON.parse(localStorage.getItem('classSchedule') || '[]');
-        const now = new Date();
-        const todayDate = now.toISOString().split('T')[0];
-        let upcomingCount = 0;
-        let liveClass = null;
-        
-        scheduledClasses.forEach(cls => {
-            const classDateTime = new Date(`${cls.date}T${cls.time}`);
-            const isLive = classDateTime <= now && new Date(classDateTime.getTime() + (cls.duration * 60 * 60 * 1000)) > now;
-            
-            if (isLive) {
-                liveClass = cls;
-            } else if (new Date(cls.date) >= new Date(todayDate)) {
-                upcomingCount++;
-            }
-        });
-        
-        document.getElementById('liveCount').textContent = liveClass ? '🔴 LIVE NOW' : `${upcomingCount} upcoming`;
 
         // Set total courses
         document.getElementById('totalCourses').textContent = '7';
+
+        // Check access status on load
+        checkAccessStatus();
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentStudent');
+            window.location.href = 'login.html';
+        });
+
+        // Time-based greeting
+        const hour = new Date().getHours();
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (hour < 12) {
+            heroSubtitle.textContent = 'Good morning! Start your day with practice and make today count! ☀️';
+        } else if (hour < 17) {
+            heroSubtitle.textContent = 'Good afternoon! Keep up the momentum! Every question brings you closer to success! 📚';
+        } else {
+            heroSubtitle.textContent = 'Good evening! Great time to review what you learned today! 🌙';
+        }
     </script>
 </body>
 </html>
