@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses - The Junior Scholar Portal</title>
+    <title>My Courses - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -18,6 +18,7 @@
             color: #1a2c3e;
         }
 
+        /* Navigation */
         .navbar {
             background: white;
             padding: 1rem 2rem;
@@ -25,6 +26,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #6366f1;
+            flex-wrap: wrap;
+            gap: 1rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -45,79 +48,286 @@
             color: #4b5563;
             margin-left: 1.5rem;
             font-weight: 500;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover, .nav-links a.active {
             color: #6366f1;
         }
 
+        /* Main Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        .page-header {
-            text-align: center;
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '📚';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+
+        .header-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-section p {
+            opacity: 0.9;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
-        .page-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #1e293b, #6366f1);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99,102,241,0.15);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Courses Grid */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .course-card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
+            overflow: hidden;
             transition: all 0.3s;
-            cursor: pointer;
-            border: 1px solid #eef2f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .course-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 24px rgba(99,102,241,0.15);
-            border-color: #6366f1;
+        }
+
+        .course-header {
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-left: 4px solid #6366f1;
         }
 
         .course-icon {
             font-size: 2rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .course-title {
-            font-size: 1.1rem;
-            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
-        .course-desc {
-            font-size: 0.8rem;
-            color: #6b7280;
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: #1e293b;
+        }
+
+        .course-category {
+            font-size: 0.7rem;
+            color: #6366f1;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .course-body {
+            padding: 1.2rem;
+        }
+
+        .course-description {
+            color: #475569;
+            font-size: 0.85rem;
+            line-height: 1.5;
             margin-bottom: 1rem;
         }
 
-        .resources-badge {
-            display: inline-block;
-            background: #eef2ff;
-            color: #6366f1;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-top: 1px solid #eef2f6;
+            border-bottom: 1px solid #eef2f6;
         }
 
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .progress-section {
+            margin: 1rem 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-bottom: 0.3rem;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 1rem;
+            height: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+            height: 100%;
+            border-radius: 1rem;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .course-footer {
+            padding: 1rem 1.2rem;
+            background: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eef2f6;
+        }
+
+        .btn-continue {
+            background: #6366f1;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-continue:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-not-started {
+            background: #eef2ff;
+            color: #6366f1;
+        }
+
+        .status-in-progress {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #10b981;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -134,7 +344,7 @@
         .modal-content {
             background: white;
             border-radius: 1rem;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
@@ -143,31 +353,101 @@
         .modal-header {
             background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
-            padding: 1rem;
-            border-radius: 1rem 1rem 0 0;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
         }
 
         .modal-body {
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
-        .resource-item {
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eef2f6;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .close-modal {
+            float: right;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .lesson-list {
+            margin-top: 1rem;
+        }
+
+        .lesson-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             padding: 0.75rem;
             background: #f8fafc;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             margin-bottom: 0.5rem;
+        }
+
+        .lesson-check {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lesson-check.completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 500;
+        }
+
+        .lesson-desc {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 1rem;
+            color: #6b7280;
         }
 
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
-                gap: 1rem;
+                text-align: center;
+            }
+            .nav-links a {
+                margin: 0 0.5rem;
             }
             .container {
                 padding: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-section {
+                flex-direction: column;
             }
         }
     </style>
@@ -180,69 +460,395 @@
             <a href="courses.html" class="active">Courses</a>
             <a href="practice.html">Practice</a>
             <a href="live-class.html">Live Classes</a>
-            <a href="assignments.html">Assignments</a>
+            <a href="student-resources.html">Resources</a>
         </div>
     </nav>
 
     <div class="container">
-        <div class="page-header">
-            <h1>📚 BECE Courses</h1>
+        <div class="header-section">
+            <h1>📚 My Courses</h1>
+            <p>Master all BECE subjects with our comprehensive curriculum</p>
         </div>
 
-        <div class="courses-grid" id="coursesGrid"></div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCourses">8</div>
+                <div class="stat-label">Total Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completedCourses">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="inProgressCourses">0</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalLessons">0</div>
+                <div class="stat-label">Lessons Completed</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search courses...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="core">Core Subjects</button>
+                <button class="filter-btn" data-filter="elective">Electives</button>
+                <button class="filter-btn" data-filter="in-progress">In Progress</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+        </div>
+
+        <div id="coursesGrid" class="courses-grid"></div>
     </div>
 
-    <div id="resourceModal" class="modal">
+    <div id="courseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">Course Resources</h3>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h3 id="modalTitle">Course Details</h3>
             </div>
             <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" style="padding: 0.5rem 1rem; background: #e2e8f0; border: none; border-radius: 0.5rem; cursor: pointer;">Close</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const courses = [
-            { id: 1, title: "Mathematics", desc: "Numbers, Algebra, Geometry", icon: "📐", resources: ["Algebra Notes", "Geometry Formulas", "Past Questions"] },
-            { id: 2, title: "English Language", desc: "Grammar, Comprehension, Essay", icon: "📖", resources: ["Grammar Guide", "Essay Tips", "Vocabulary List"] },
-            { id: 3, title: "Integrated Science", desc: "Biology, Chemistry, Physics", icon: "🔬", resources: ["Biology Notes", "Chemistry Basics", "Physics Formulas"] },
-            { id: 4, title: "Social Studies", desc: "Government, History, Geography", icon: "🌍", resources: ["History Timeline", "Government Structure", "Map Reading"] },
-            { id: 5, title: "ICT", desc: "Computer fundamentals", icon: "💻", resources: ["Computer Basics", "Internet Safety", "Programming Intro"] }
-        ];
+        // Get current student
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
 
-        function renderCourses() {
-            const grid = document.getElementById('coursesGrid');
-            grid.innerHTML = courses.map(course => `
-                <div class="course-card" onclick="viewResources(${course.id})">
-                    <div class="course-icon">${course.icon}</div>
-                    <div class="course-title">${course.title}</div>
-                    <div class="course-desc">${course.desc}</div>
-                    <span class="resources-badge">📚 ${course.resources.length} Resources</span>
-                </div>
-            `).join('');
+        if (!studentData && !currentStudent) {
+            // Not logged in, but allow demo
         }
 
-        function viewResources(id) {
-            const course = courses.find(c => c.id === id);
-            document.getElementById('modalTitle').textContent = `${course.icon} ${course.title} Resources`;
-            document.getElementById('modalBody').innerHTML = `
-                ${course.resources.map(r => `
-                    <div class="resource-item">
-                        <span>📄</span>
-                        <span>${r}</span>
-                        <span style="margin-left: auto; color: #6366f1;">Download →</span>
+        // Course Data
+        const courses = [
+            {
+                id: 1,
+                title: "Mathematics",
+                description: "Master numbers, algebra, geometry, statistics, and mensuration for BECE success.",
+                icon: "📐",
+                category: "core",
+                lessons: [
+                    { title: "Numbers and Numeration", desc: "Whole numbers, fractions, decimals, percentages", completed: false },
+                    { title: "Algebraic Expressions", desc: "Simplifying, expanding, factorizing", completed: false },
+                    { title: "Linear Equations", desc: "Solving equations with one variable", completed: false },
+                    { title: "Geometry", desc: "Angles, triangles, quadrilaterals, circles", completed: false },
+                    { title: "Mensuration", desc: "Area, perimeter, volume of shapes", completed: false },
+                    { title: "Statistics", desc: "Mean, median, mode, graphs", completed: false }
+                ],
+                totalLessons: 6
+            },
+            {
+                id: 2,
+                title: "English Language",
+                description: "Improve grammar, comprehension, essay writing, and literature analysis.",
+                icon: "📖",
+                category: "core",
+                lessons: [
+                    { title: "Grammar Basics", desc: "Parts of speech, tenses, sentence structure", completed: false },
+                    { title: "Comprehension", desc: "Reading and answering questions", completed: false },
+                    { title: "Essay Writing", desc: "Narrative, descriptive, argumentative essays", completed: false },
+                    { title: "Literature", desc: "Analyzing poems and stories", completed: false },
+                    { title: "Vocabulary Building", desc: "Word meanings and usage", completed: false }
+                ],
+                totalLessons: 5
+            },
+            {
+                id: 3,
+                title: "Integrated Science",
+                description: "Explore biology, chemistry, physics, and health science concepts.",
+                icon: "🔬",
+                category: "core",
+                lessons: [
+                    { title: "Living Things", desc: "Cells, classification, life processes", completed: false },
+                    { title: "Plants", desc: "Photosynthesis, reproduction, nutrition", completed: false },
+                    { title: "Matter", desc: "States of matter, mixtures, solutions", completed: false },
+                    { title: "Energy", desc: "Forms of energy, heat, electricity", completed: false },
+                    { title: "Human Body", desc: "Organs, systems, health", completed: false }
+                ],
+                totalLessons: 5
+            },
+            {
+                id: 4,
+                title: "Social Studies",
+                description: "Learn about government, history, geography, and civic education.",
+                icon: "🌍",
+                category: "core",
+                lessons: [
+                    { title: "Ghana History", desc: "Pre-colonial, colonial, independence", completed: false },
+                    { title: "Government", desc: "Structure of government, constitution", completed: false },
+                    { title: "Geography", desc: "Map reading, physical features", completed: false },
+                    { title: "Civic Education", desc: "Rights, duties, citizenship", completed: false }
+                ],
+                totalLessons: 4
+            },
+            {
+                id: 5,
+                title: "ICT / Computing",
+                description: "Learn computer fundamentals, software, and internet basics.",
+                icon: "💻",
+                category: "elective",
+                lessons: [
+                    { title: "Computer Hardware", desc: "Components, input/output devices", completed: false },
+                    { title: "Software", desc: "Operating systems, applications", completed: false },
+                    { title: "Internet", desc: "Browsers, email, safety", completed: false },
+                    { title: "Microsoft Word", desc: "Document creation, formatting", completed: false }
+                ],
+                totalLessons: 4
+            },
+            {
+                id: 6,
+                title: "French",
+                description: "Learn basic French vocabulary, grammar, and conversation.",
+                icon: "🇫🇷",
+                category: "elective",
+                lessons: [
+                    { title: "Greetings", desc: "Bonjour, merci, au revoir", completed: false },
+                    { title: "Numbers", desc: "Counting 1-100", completed: false },
+                    { title: "Basic Verbs", desc: "Être, avoir, aller", completed: false },
+                    { title: "Vocabulary", desc: "Family, food, colors", completed: false }
+                ],
+                totalLessons: 4
+            }
+        ];
+
+        // Load saved progress
+        let courseProgress = JSON.parse(localStorage.getItem('courseProgress_' + (studentData?.id || 'guest')) || '{}');
+
+        function updateProgress() {
+            let completedLessons = 0;
+            let totalLessons = 0;
+            
+            courses.forEach(course => {
+                const savedProgress = courseProgress[course.id] || { completed: [] };
+                totalLessons += course.totalLessons;
+                completedLessons += savedProgress.completed?.length || 0;
+            });
+            
+            const completedCourses = courses.filter(c => {
+                const saved = courseProgress[c.id] || { completed: [] };
+                return saved.completed?.length === c.totalLessons;
+            }).length;
+            
+            const inProgress = courses.filter(c => {
+                const saved = courseProgress[c.id] || { completed: [] };
+                return saved.completed?.length > 0 && saved.completed?.length < c.totalLessons;
+            }).length;
+            
+            document.getElementById('completedCourses').textContent = completedCourses;
+            document.getElementById('inProgressCourses').textContent = inProgress;
+            document.getElementById('totalLessons').textContent = completedLessons;
+            document.getElementById('totalCourses').textContent = courses.length;
+        }
+
+        function renderCourses(filter = 'all', search = '') {
+            const grid = document.getElementById('coursesGrid');
+            let filteredCourses = [...courses];
+            
+            if (filter !== 'all') {
+                if (filter === 'core') {
+                    filteredCourses = filteredCourses.filter(c => c.category === 'core');
+                } else if (filter === 'elective') {
+                    filteredCourses = filteredCourses.filter(c => c.category === 'elective');
+                } else if (filter === 'in-progress') {
+                    filteredCourses = filteredCourses.filter(c => {
+                        const saved = courseProgress[c.id] || { completed: [] };
+                        return saved.completed?.length > 0 && saved.completed?.length < c.totalLessons;
+                    });
+                } else if (filter === 'completed') {
+                    filteredCourses = filteredCourses.filter(c => {
+                        const saved = courseProgress[c.id] || { completed: [] };
+                        return saved.completed?.length === c.totalLessons;
+                    });
+                }
+            }
+            
+            if (search) {
+                filteredCourses = filteredCourses.filter(c => 
+                    c.title.toLowerCase().includes(search.toLowerCase()) ||
+                    c.description.toLowerCase().includes(search.toLowerCase())
+                );
+            }
+            
+            if (filteredCourses.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><h3>No courses found</h3><p>Try a different filter or search term</p></div>';
+                return;
+            }
+            
+            grid.innerHTML = filteredCourses.map(course => {
+                const saved = courseProgress[course.id] || { completed: [] };
+                const completedCount = saved.completed?.length || 0;
+                const progress = Math.round((completedCount / course.totalLessons) * 100);
+                
+                let status = 'not-started';
+                let statusText = 'Not Started';
+                if (progress === 100) {
+                    status = 'completed';
+                    statusText = 'Completed ✓';
+                } else if (progress > 0) {
+                    status = 'in-progress';
+                    statusText = `${progress}% Complete`;
+                }
+                
+                return `
+                    <div class="course-card" onclick="openCourse(${course.id})">
+                        <div class="course-header">
+                            <div class="course-icon">${course.icon}</div>
+                            <div class="course-title">${course.title}</div>
+                            <div class="course-category">${course.category === 'core' ? 'Core Subject' : 'Elective'}</div>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-description">${course.description}</div>
+                            <div class="course-stats">
+                                <div class="stat-item">📚 ${course.totalLessons} Lessons</div>
+                                <div class="stat-item">✅ ${completedCount}/${course.totalLessons} Completed</div>
+                            </div>
+                            <div class="progress-section">
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>${progress}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-footer">
+                            <span class="status-badge status-${status}">${statusText}</span>
+                            <button class="btn-continue" onclick="event.stopPropagation(); openCourse(${course.id})">${progress > 0 ? 'Continue →' : 'Start Course →'}</button>
+                        </div>
                     </div>
-                `).join('')}
-                <button onclick="closeModal()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #6366f1; color: white; border: none; border-radius: 0.5rem; width: 100%; cursor: pointer;">Close</button>
+                `;
+            }).join('');
+        }
+
+        function openCourse(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
+            
+            const saved = courseProgress[course.id] || { completed: [] };
+            
+            document.getElementById('modalTitle').innerHTML = `${course.icon} ${course.title}`;
+            
+            let lessonsHtml = `
+                <p style="margin-bottom: 1rem;">${course.description}</p>
+                <div class="lesson-list">
             `;
-            document.getElementById('resourceModal').style.display = 'flex';
+            
+            course.lessons.forEach((lesson, index) => {
+                const isCompleted = saved.completed?.includes(index);
+                lessonsHtml += `
+                    <div class="lesson-item">
+                        <div class="lesson-check ${isCompleted ? 'completed' : ''}" onclick="toggleLesson(${course.id}, ${index})">
+                            ${isCompleted ? '✓' : ''}
+                        </div>
+                        <div class="lesson-info">
+                            <div class="lesson-title">${lesson.title}</div>
+                            <div class="lesson-desc">${lesson.desc}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            lessonsHtml += `</div>`;
+            
+            const completedCount = saved.completed?.length || 0;
+            const progress = Math.round((completedCount / course.totalLessons) * 100);
+            lessonsHtml += `
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 0.75rem;">
+                    <div class="progress-label">
+                        <span>Overall Progress</span>
+                        <span>${progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #6366f1;">
+                        ✅ ${completedCount}/${course.totalLessons} lessons completed
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalBody').innerHTML = lessonsHtml;
+            document.getElementById('courseModal').style.display = 'flex';
+        }
+
+        function toggleLesson(courseId, lessonIndex) {
+            if (!courseProgress[courseId]) {
+                courseProgress[courseId] = { completed: [] };
+            }
+            
+            const completed = courseProgress[courseId].completed || [];
+            const index = completed.indexOf(lessonIndex);
+            
+            if (index === -1) {
+                completed.push(lessonIndex);
+            } else {
+                completed.splice(index, 1);
+            }
+            
+            courseProgress[courseId].completed = completed;
+            
+            const storageKey = 'courseProgress_' + (studentData?.id || 'guest');
+            localStorage.setItem(storageKey, JSON.stringify(courseProgress));
+            
+            // Add points for completing lessons
+            if (studentData && index === -1) {
+                let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
+                const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+                if (studentIndex !== -1) {
+                    studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
+                    studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 10;
+                    localStorage.setItem('students', JSON.stringify(studentsList));
+                }
+            }
+            
+            updateProgress();
+            renderCourses(document.querySelector('.filter-btn.active')?.dataset.filter || 'all', document.getElementById('searchInput').value);
+            openCourse(courseId);
         }
 
         function closeModal() {
-            document.getElementById('resourceModal').style.display = 'none';
+            document.getElementById('courseModal').style.display = 'none';
         }
 
-        renderCourses();
+        // Filter buttons
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                const search = document.getElementById('searchInput').value;
+                renderCourses(filter, search);
+            });
+        });
+
+        // Search input
+        document.getElementById('searchInput').addEventListener('input', () => {
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            renderCourses(activeFilter, document.getElementById('searchInput').value);
+        });
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('courseModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Initialize
+        updateProgress();
+        renderCourses('all', '');
     </script>
 </body>
 </html>
