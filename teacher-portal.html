@@ -71,7 +71,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -84,13 +84,13 @@
         }
 
         .stat-number {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #6366f1;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #6b7280;
         }
 
@@ -166,6 +166,12 @@
             border-color: #6366f1;
         }
 
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
         .btn-primary {
             background: #6366f1;
             color: white;
@@ -202,7 +208,7 @@
             font-size: 0.7rem;
         }
 
-        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item {
+        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item, .schedule-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -238,6 +244,18 @@
             font-size: 0.7rem;
         }
 
+        .meet-link {
+            color: #6366f1;
+            font-size: 0.7rem;
+            word-break: break-all;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -251,6 +269,9 @@
             }
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -267,7 +288,7 @@
     <div class="container">
         <div class="welcome-card">
             <h1>Welcome, <span id="teacherName">Teacher</span>! 👋</h1>
-            <p>Manage assignments, share notes, track attendance, and view student progress</p>
+            <p>Manage assignments, share notes, schedule classes, track attendance, and view student progress</p>
         </div>
 
         <div class="stats-grid">
@@ -284,6 +305,10 @@
                 <div class="stat-label">Notes Shared</div>
             </div>
             <div class="stat-card">
+                <div class="stat-number" id="totalClasses">0</div>
+                <div class="stat-label">Scheduled Classes</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-number" id="totalSubmissions">0</div>
                 <div class="stat-label">Submissions</div>
             </div>
@@ -296,6 +321,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab('assignments')">📝 Assignments</button>
             <button class="tab-btn" onclick="showTab('notes')">📚 Notes</button>
+            <button class="tab-btn" onclick="showTab('schedule')">📅 Schedule Classes</button>
             <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
             <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
             <button class="tab-btn" onclick="showTab('submissions')">📋 Submissions</button>
@@ -382,6 +408,72 @@
                     <h3 class="card-title">📚 Shared Notes & Resources</h3>
                 </div>
                 <div id="notesList"></div>
+            </div>
+        </div>
+
+        <!-- Schedule Classes Tab -->
+        <div id="scheduleTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📅 Schedule New Class</h3>
+                </div>
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="scheduleSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                            <option value="Social Studies">Social Studies</option>
+                            <option value="ICT">ICT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Class Title</label>
+                        <input type="text" id="scheduleTitle" placeholder="e.g., Algebra Masterclass" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description / Topics to be covered</label>
+                        <textarea id="scheduleDesc" rows="3" placeholder="Describe what will be taught in this class..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Teacher Name</label>
+                        <input type="text" id="scheduleTeacher" placeholder="e.g., Mr. Kofi Mensah" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="scheduleDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="time" id="scheduleTime" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (hours)</label>
+                        <input type="number" id="scheduleDuration" value="1.5" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label>🔗 Google Meet Link *</label>
+                        <input type="text" id="scheduleMeetLink" placeholder="https://meet.google.com/abc-defg-hij" required>
+                        <small style="color: #6b7280; display: block; margin-top: 0.25rem;">
+                            💡 How to get a Google Meet link:<br>
+                            1. Go to <a href="https://meet.google.com" target="_blank">meet.google.com</a><br>
+                            2. Click "New meeting" → "Create a meeting for later"<br>
+                            3. Copy the link and paste it here
+                        </small>
+                    </div>
+                    <button type="submit" class="btn-primary">📅 Schedule Class →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📅 Scheduled Classes</h3>
+                </div>
+                <div id="scheduleList"></div>
             </div>
         </div>
 
@@ -480,11 +572,13 @@
         // Data storage
         let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
         let notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
+        let schedules = JSON.parse(localStorage.getItem('classSchedule') || '[]');
         let activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
         let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords') || '[]');
 
         function saveAssignments() { localStorage.setItem('teacherAssignments', JSON.stringify(assignments)); }
         function saveNotes() { localStorage.setItem('teacherNotes', JSON.stringify(notes)); }
+        function saveSchedules() { localStorage.setItem('classSchedule', JSON.stringify(schedules)); }
         function saveAttendanceData() {
             localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances));
             localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
@@ -495,6 +589,7 @@
             document.getElementById('totalStudents').textContent = students.length;
             document.getElementById('totalAssignments').textContent = assignments.length;
             document.getElementById('totalNotes').textContent = notes.length;
+            document.getElementById('totalClasses').textContent = schedules.length;
             const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
             document.getElementById('totalSubmissions').textContent = allSubmissions.length;
             document.getElementById('totalAttendance').textContent = attendanceRecords.length;
@@ -506,6 +601,7 @@
             
             document.getElementById('assignmentsTab').style.display = 'none';
             document.getElementById('notesTab').style.display = 'none';
+            document.getElementById('scheduleTab').style.display = 'none';
             document.getElementById('attendanceTab').style.display = 'none';
             document.getElementById('studentsTab').style.display = 'none';
             document.getElementById('submissionsTab').style.display = 'none';
@@ -516,6 +612,9 @@
             } else if (tab === 'notes') {
                 document.getElementById('notesTab').style.display = 'block';
                 loadNotes();
+            } else if (tab === 'schedule') {
+                document.getElementById('scheduleTab').style.display = 'block';
+                loadSchedule();
             } else if (tab === 'attendance') {
                 document.getElementById('attendanceTab').style.display = 'block';
                 loadAttendance();
@@ -616,6 +715,71 @@
                 notes = notes.filter(n => n.id !== id);
                 saveNotes();
                 loadNotes();
+                updateStats();
+            }
+        }
+
+        // ========== SCHEDULE CLASSES ==========
+        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const schedule = {
+                id: Date.now(),
+                subject: document.getElementById('scheduleSubject').value,
+                title: document.getElementById('scheduleTitle').value,
+                description: document.getElementById('scheduleDesc').value,
+                teacher: document.getElementById('scheduleTeacher').value,
+                date: document.getElementById('scheduleDate').value,
+                time: document.getElementById('scheduleTime').value,
+                duration: document.getElementById('scheduleDuration').value,
+                meetLink: document.getElementById('scheduleMeetLink').value,
+                createdAt: new Date().toISOString()
+            };
+            schedules.push(schedule);
+            saveSchedules();
+            alert(`✅ Class "${schedule.title}" scheduled!\n\nGoogle Meet Link: ${schedule.meetLink}`);
+            e.target.reset();
+            loadSchedule();
+            updateStats();
+        });
+
+        function loadSchedule() {
+            const container = document.getElementById('scheduleList');
+            const sorted = [...schedules].sort((a,b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
+            
+            if (sorted.length === 0) {
+                container.innerHTML = '<div class="empty-state">📅 No classes scheduled yet.</div>';
+                return;
+            }
+            
+            container.innerHTML = sorted.map(s => {
+                const classDateTime = new Date(`${s.date}T${s.time}`);
+                const isPast = classDateTime < new Date();
+                
+                return `
+                    <div class="schedule-item">
+                        <div>
+                            <strong>${s.subject}: ${s.title}</strong>
+                            <div style="font-size: 0.8rem;">👨‍🏫 ${s.teacher}</div>
+                            <div style="font-size: 0.75rem;">📅 ${s.date} at ${s.time} (${s.duration} hours)</div>
+                            <div class="meet-link">🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div>
+                            ${s.description ? `<div style="font-size: 0.7rem; margin-top: 0.25rem;">📖 ${s.description.substring(0, 100)}...</div>` : ''}
+                        </div>
+                        <div>
+                            <span style="font-size: 0.7rem; background: ${isPast ? '#e2e8f0' : '#10b981'}; color: white; padding: 0.2rem 0.5rem; border-radius: 2rem;">
+                                ${isPast ? 'Completed' : 'Upcoming'}
+                            </span>
+                            <button class="btn-danger" onclick="deleteSchedule(${s.id})" style="margin-top: 0.5rem; display: block;">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteSchedule(id) {
+            if (confirm('Delete this scheduled class?')) {
+                schedules = schedules.filter(s => s.id !== id);
+                saveSchedules();
+                loadSchedule();
                 updateStats();
             }
         }
