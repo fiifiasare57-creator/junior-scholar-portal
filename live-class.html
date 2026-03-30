@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Classes - The Junior Scholar Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,17 +13,52 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
             min-height: 100vh;
-            color: #1e293b;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Futuristic Tech Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(100, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 100, 0.1) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, rgba(0, 255, 255, 0.02) 0px, rgba(0, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Grid Lines */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(10, 10, 26, 0.8);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -38,9 +73,12 @@
         .logo {
             font-size: 1.3rem;
             font-weight: 800;
-            color: white;
+            background: linear-gradient(135deg, #00ffff, #00ff99);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         .nav-links {
@@ -51,7 +89,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 500;
             transition: all 0.3s;
             padding: 0.3rem 0.8rem;
@@ -59,7 +97,9 @@
         }
 
         .nav-links a:hover, .nav-links a.active {
-            background: rgba(255, 255, 255, 0.3);
+            color: #00ffff;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+            background: rgba(0, 255, 255, 0.1);
         }
 
         /* Main Container */
@@ -67,81 +107,103 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Green Glass Header */
-        .glass-header {
-            background: rgba(16, 185, 129, 0.25);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
+        /* Header Section */
+        .header-section {
             text-align: center;
-            border: 1px solid rgba(16, 185, 129, 0.5);
+            margin-bottom: 3rem;
         }
 
-        .glass-header h1 {
-            font-size: 2rem;
+        .header-section h1 {
+            font-size: 2.5rem;
             font-weight: 800;
-            color: white;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #00ffff, #00ff99, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
         }
 
-        .glass-header p {
-            color: rgba(255, 255, 255, 0.9);
+        .header-section p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
         }
 
-        /* Stats Cards - Green Glass */
+        /* Stats Cards - Neon Glass */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            gap: 1.2rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(10, 20, 40, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
-            padding: 1rem;
+            padding: 1.2rem;
             text-align: center;
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            border: 1px solid rgba(0, 255, 255, 0.3);
             transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(16, 185, 129, 0.3);
-            border-color: rgba(16, 185, 129, 0.7);
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
-            color: #6ee7b7;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.3rem;
         }
 
-        /* Live Now Section */
+        /* Live Now Section - Neon Pulse */
         .live-now-section {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.2));
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.2), rgba(0, 255, 255, 0.1));
             backdrop-filter: blur(10px);
             border-radius: 1.5rem;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            animation: pulse-border 2s infinite;
+            border: 1px solid rgba(255, 0, 100, 0.5);
+            animation: borderPulse 2s infinite;
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes pulse-border {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(255, 0, 100, 0.5); box-shadow: 0 0 20px rgba(255, 0, 100, 0.2); }
+            50% { border-color: rgba(0, 255, 255, 0.8); box-shadow: 0 0 40px rgba(0, 255, 255, 0.4); }
+        }
+
+        .live-now-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
         .live-header {
@@ -149,25 +211,30 @@
             align-items: center;
             gap: 0.5rem;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .pulse-dot {
             width: 12px;
             height: 12px;
-            background: #ef4444;
+            background: #ff3366;
             border-radius: 50%;
             animation: pulse 1.5s infinite;
+            box-shadow: 0 0 10px #ff3366;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 5px #ff3366; }
+            50% { opacity: 0.5; transform: scale(1.2); box-shadow: 0 0 20px #ff3366; }
         }
 
         .live-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: white;
+            color: #ff3366;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         /* Classes Grid */
@@ -178,34 +245,50 @@
             margin-bottom: 2rem;
         }
 
-        /* Green Glassmorphism Class Card */
+        /* Futuristic Glass Card */
         .class-card {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(10, 20, 40, 0.6);
             backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             overflow: hidden;
-            transition: all 0.3s;
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            transition: all 0.4s;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .class-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .class-card:hover::before {
+            transform: scaleX(1);
         }
 
         .class-card:hover {
             transform: translateY(-5px);
-            background: rgba(16, 185, 129, 0.25);
-            border-color: rgba(16, 185, 129, 0.8);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
         }
 
         .class-header {
             padding: 1.2rem;
-            background: rgba(16, 185, 129, 0.2);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(0, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
         }
 
         .class-subject {
             font-size: 0.7rem;
-            color: #6ee7b7;
+            color: #00ffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .class-title {
@@ -221,7 +304,7 @@
             gap: 0.5rem;
             margin-top: 0.5rem;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .class-body {
@@ -229,7 +312,7 @@
         }
 
         .class-description {
-            color: rgba(255, 255, 255, 0.95);
+            color: rgba(255, 255, 255, 0.8);
             font-size: 0.85rem;
             line-height: 1.5;
             margin-bottom: 1rem;
@@ -240,8 +323,8 @@
             justify-content: space-between;
             margin-bottom: 1rem;
             padding: 0.5rem 0;
-            border-top: 1px solid rgba(16, 185, 129, 0.3);
-            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
         }
 
         .class-date, .class-time {
@@ -249,16 +332,16 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .class-footer {
             padding: 1rem 1.2rem;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(16, 185, 129, 0.3);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
         }
 
         .status-badge {
@@ -269,24 +352,29 @@
         }
 
         .status-upcoming {
-            background: rgba(16, 185, 129, 0.3);
-            color: #6ee7b7;
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
         }
 
         .status-live {
-            background: rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-            animation: pulse-text 2s infinite;
+            background: rgba(255, 51, 102, 0.2);
+            color: #ff3366;
+            animation: textPulse 1.5s infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .status-ended {
-            background: rgba(100, 116, 139, 0.3);
-            color: #94a3b8;
+            background: rgba(100, 100, 100, 0.3);
+            color: #aaa;
         }
 
         .btn-join {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
+            background: linear-gradient(135deg, #00ffff, #00ff99);
+            color: #0a0a1a;
             border: none;
             padding: 0.5rem 1.2rem;
             border-radius: 2rem;
@@ -300,11 +388,11 @@
 
         .btn-join:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
 
         .btn-join.disabled, .btn-join:disabled {
-            background: rgba(100, 116, 139, 0.5);
+            background: rgba(100, 100, 100, 0.5);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -313,18 +401,21 @@
         .empty-state {
             text-align: center;
             padding: 3rem;
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(10, 20, 40, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 1.5rem;
-            color: white;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.2);
         }
 
         /* Credits */
         .credits {
             text-align: center;
             padding: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.8rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+            margin-top: 2rem;
         }
 
         @media (max-width: 768px) {
@@ -340,6 +431,9 @@
             }
             .classes-grid {
                 grid-template-columns: 1fr;
+            }
+            .header-section h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -357,7 +451,7 @@
     </nav>
 
     <div class="container">
-        <div class="glass-header">
+        <div class="header-section">
             <h1>🎥 Live Classes</h1>
             <p>Join interactive sessions with your teachers via Google Meet</p>
         </div>
@@ -377,11 +471,8 @@
             </div>
         </div>
 
-        <!-- Live Now Section -->
         <div id="liveNowSection" style="display: none;" class="live-now-section"></div>
-
-        <!-- Classes Grid -->
-        <div id="classesContainer"></div>
+        <div id="classesContainer" class="classes-grid"></div>
 
         <div class="credits">
             ✨ Made with Excellence by SKILABS ✨<br>
@@ -390,15 +481,12 @@
     </div>
 
     <script>
-        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
 
-        // Get scheduled classes from Teacher Portal
         let scheduledClasses = JSON.parse(localStorage.getItem('classSchedule') || '[]');
 
-        // Add default demo classes if none exist
         if (scheduledClasses.length === 0) {
             const today = new Date();
             const tomorrow = new Date(today);
@@ -444,50 +532,34 @@
             localStorage.setItem('classSchedule', JSON.stringify(scheduledClasses));
         }
 
-        // Get current date and time
         const now = new Date();
-        const todayDate = now.toISOString().split('T')[0];
-        const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-        // Process classes to determine status
         function getClassStatus(cls) {
             const classDateTime = new Date(`${cls.date}T${cls.time}`);
             const classEndTime = new Date(classDateTime.getTime() + (cls.duration * 60 * 60 * 1000));
             
-            if (classDateTime <= now && classEndTime > now) {
-                return 'live';
-            } else if (classDateTime > now) {
-                return 'upcoming';
-            } else {
-                return 'ended';
-            }
+            if (classDateTime <= now && classEndTime > now) return 'live';
+            else if (classDateTime > now) return 'upcoming';
+            else return 'ended';
         }
 
-        // Filter classes
         let liveClasses = [];
         let upcomingClasses = [];
         let endedClasses = [];
 
         scheduledClasses.forEach(cls => {
             const status = getClassStatus(cls);
-            if (status === 'live') {
-                liveClasses.push(cls);
-            } else if (status === 'upcoming') {
-                upcomingClasses.push(cls);
-            } else {
-                endedClasses.push(cls);
-            }
+            if (status === 'live') liveClasses.push(cls);
+            else if (status === 'upcoming') upcomingClasses.push(cls);
+            else endedClasses.push(cls);
         });
 
-        // Sort upcoming by date
         upcomingClasses.sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
 
-        // Update stats
         document.getElementById('totalClasses').textContent = scheduledClasses.length;
         document.getElementById('upcomingCount').textContent = upcomingClasses.length;
         document.getElementById('liveNowCount').textContent = liveClasses.length;
 
-        // Render Live Now Section
         function renderLiveNow() {
             const liveSection = document.getElementById('liveNowSection');
             if (liveClasses.length === 0) {
@@ -497,14 +569,14 @@
             
             liveSection.style.display = 'block';
             liveSection.innerHTML = liveClasses.map(cls => `
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1;">
                     <div>
                         <div class="live-header">
                             <span class="pulse-dot"></span>
                             <span class="live-title">LIVE NOW</span>
                         </div>
                         <h2 style="color: white; font-size: 1.3rem; margin-bottom: 0.5rem;">${cls.subject}: ${cls.title}</h2>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; color: rgba(255,255,255,0.9); font-size: 0.85rem;">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; color: rgba(255,255,255,0.8); font-size: 0.85rem;">
                             <span>👨‍🏫 ${cls.teacher}</span>
                             <span>⏰ Started at ${cls.time}</span>
                             <span>⏱️ ${cls.duration} hours</span>
@@ -517,7 +589,6 @@
             `).join('');
         }
 
-        // Render all classes
         function renderClasses() {
             const container = document.getElementById('classesContainer');
             const allClasses = [...liveClasses, ...upcomingClasses, ...endedClasses];
@@ -572,15 +643,10 @@
         }
 
         function trackJoin(subject) {
-            // Track that student joined the class
             let joinedClasses = JSON.parse(localStorage.getItem('joinedClasses') || '[]');
-            joinedClasses.push({
-                subject: subject,
-                date: new Date().toISOString()
-            });
+            joinedClasses.push({ subject: subject, date: new Date().toISOString() });
             localStorage.setItem('joinedClasses', JSON.stringify(joinedClasses));
             
-            // Add points for attending
             if (studentData) {
                 let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
                 const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
@@ -590,23 +656,13 @@
                     localStorage.setItem('students', JSON.stringify(studentsList));
                 }
             }
-            
             alert(`🔴 Joining ${subject} class!\n\n+15 points for attendance!`);
         }
 
-        // Auto-refresh every minute to update class statuses
-        function refreshPage() {
-            location.reload();
-        }
-        
-        // Refresh every 60 seconds to update "Live Now" status
-        setInterval(() => {
-            refreshPage();
-        }, 60000);
+        setInterval(() => location.reload(), 60000);
 
-        // Initial render
         renderLiveNow();
         renderClasses();
     </script>
 </body>
-</html>
+</html> 
