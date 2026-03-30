@@ -4,196 +4,406 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Live Classes - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #3b82f6;
-            --danger: #ef4444;
-            --success: #10b981;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            line-height: 1.6;
-        }
-        .dark-mode { background: #0f172a; color: #e2e8f0; }
-        .dark-mode .card { background: #1e2937; border-color: #334155; }
 
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f4f9;
+            color: #1a1f36;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
         .navbar {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
+
         .nav-container {
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
             text-decoration: none;
-            font-weight: 800;
-            font-size: 1.35rem;
         }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         .nav-links {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
+
         .nav-links a {
             text-decoration: none;
-            color: #334155;
+            color: #4a5568;
             font-weight: 500;
+            transition: color 0.3s;
         }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        .container { max-width: 1280px; margin: 0 auto; padding: 2rem; }
+        .nav-links a:hover, .nav-links a.active {
+            color: #10b981;
+        }
 
-        .page-header h1 { font-size: 2.25rem; margin-bottom: 0.5rem; }
-        .page-header p { color: #64748b; font-size: 1.1rem; }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
 
-        /* Current Live */
-        .live-card {
-            background: linear-gradient(135deg, #ef4444, #b91c1c);
-            color: white;
-            border-radius: 1.25rem;
-            padding: 2.5rem;
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Page Header */
+        .page-header {
             margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #6b7280;
+        }
+
+        /* Current Live Class */
+        .current-live {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
             position: relative;
             overflow: hidden;
+            animation: glow 2s infinite;
         }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(16,185,129,0); }
+        }
+
         .live-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255,255,255,0.25);
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            margin-bottom: 1rem;
         }
+
         .pulse-dot {
-            width: 12px; height: 12px;
+            width: 10px;
+            height: 10px;
             background: white;
             border-radius: 50%;
-            animation: pulse 1.8s infinite;
-        }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-        .participants {
-            margin: 1.5rem 0;
-            font-size: 1.1rem;
+            animation: pulse 1.5s infinite;
         }
 
-        .btn-join {
-            background: white;
-            color: #ef4444;
-            padding: 1.1rem 2.5rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-decoration: none;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .current-live h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .class-details {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .btn-join-meet {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            background: white;
+            color: #10b981;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
             transition: all 0.3s;
-        }
-        .btn-join:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 30px -10px rgba(239,68,68,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .card {
+        .btn-join-meet:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Google Meet Info */
+        .meet-info {
             background: white;
             border-radius: 1rem;
-            padding: 1.75rem;
+            padding: 1.5rem;
             margin-bottom: 2rem;
-            border: 1px solid #e2e8f0;
-        }
-        .dark-mode .card { background: #1e2937; border-color: #334155; }
-
-        .section-title {
-            font-size: 1.35rem;
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            border: 1px solid #eef2f6;
         }
 
-        /* Attendance */
-        .progress-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 9999px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--success);
-            width: 0%;
-            transition: width 1s linear;
-        }
-
-        /* Schedule */
-        .schedule-item {
+        .meet-link-box {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem;
-            background: #f8fafc;
-            border-radius: 0.875rem;
-            margin-bottom: 1rem;
-        }
-        .dark-mode .schedule-item { background: #334155; }
-
-        /* Resources */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.25rem;
-        }
-        .resource-item {
-            display: flex;
+            flex-wrap: wrap;
             gap: 1rem;
-            padding: 1.25rem;
-            background: #f8fafc;
-            border-radius: 0.875rem;
-            text-decoration: none;
-            color: inherit;
+            margin-top: 0.5rem;
+        }
+
+        .meet-link {
+            font-family: monospace;
+            color: #10b981;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
             transition: all 0.3s;
         }
-        .resource-item:hover { transform: translateX(8px); background: #f1f5f9; }
 
-        /* Toast */
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e2937;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-            display: none;
-            z-index: 1000;
+        .btn-copy:hover {
+            background: #059669;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #eef2f6;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f4f9;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Session List */
+        .session-list {
+            display: flex;
+            flex-direction: column;
             gap: 0.75rem;
         }
 
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .session-item:hover {
+            background: #f0fdf4;
+            transform: translateX(5px);
+        }
+
+        .session-date {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .session-subject {
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0.25rem 0;
+        }
+
+        .session-time {
+            font-size: 0.7rem;
+            color: #10b981;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-live {
+            background: #fee2e2;
+            color: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        /* Attendance Tracker */
+        .attendance-card {
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #10b981;
+            margin: 1rem 0;
+        }
+
+        .btn-checkin {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-checkin:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* Resources */
+        .resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s;
+        }
+
+        .resource-item:hover {
+            background: #f0fdf4;
+            transform: translateX(5px);
+        }
+
+        /* Mobile */
         @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .live-card { padding: 1.75rem; }
-            .schedule-item { flex-direction: column; gap: 1rem; text-align: center; }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            .current-live h2 {
+                font-size: 1.2rem;
+            }
+            .timer {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -201,10 +411,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <span style="font-size:2rem">📚</span>
-                <span>The Junior Scholar Portal</span>
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">The Junior Scholar Portal</span>
             </a>
-            <div class="nav-links">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <div class="nav-links" id="navLinks">
                 <a href="index.html">Home</a>
                 <a href="dashboard.html">Dashboard</a>
                 <a href="courses.html">Courses</a>
@@ -221,240 +432,320 @@
         </div>
 
         <!-- Current Live Class -->
-        <div class="live-card" id="liveCard">
+        <div class="current-live" id="currentLiveClass">
             <div class="live-badge">
                 <span class="pulse-dot"></span>
-                LIVE NOW
+                <span>LIVE NOW</span>
             </div>
-            <h2 id="classTitle" style="font-size:2rem; margin:1.25rem 0 0.75rem;">Mathematics - Algebra Masterclass</h2>
-            <div style="display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:1.5rem; font-size:1.05rem;">
-                <span>👨‍🏫 Mr. Kofi Mensah</span>
-                <span>⏰ 4:00 PM - 5:30 PM GMT</span>
-                <span id="participantCount">👥 27 Students Attending</span>
+            <h2 id="currentSubject">Mathematics - Algebra Masterclass</h2>
+            <div class="class-details">
+                <span id="currentTeacher">👨‍🏫 Mr. Kofi Mensah</span>
+                <span id="currentTime">⏰ 4:00 PM - 5:30 PM</span>
+                <span id="currentAttendees">👥 24 Students Attending</span>
             </div>
-            <a href="#" id="joinMeetBtn" class="btn-join">
-                🎥 Join Google Meet Now →
+            <a href="#" id="joinMeetBtn" class="btn-join-meet">
+                🎥 Join on Google Meet →
             </a>
         </div>
 
-        <!-- Meet Link -->
-        <div class="card">
-            <div class="section-title">🔗 Google Meet Link</div>
-            <div style="background:#f1f5f9; padding:1rem; border-radius:0.75rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-                <code id="meetLink" style="font-family:monospace; color:#1e40af; word-break:break-all; font-size:1.05rem;">
-                    meet.google.com/junior-scholar-math-2026
-                </code>
-                <button id="copyLinkBtn" style="background:var(--primary); color:white; border:none; padding:0.75rem 1.5rem; border-radius:0.5rem; cursor:pointer;">
-                    📋 Copy Link
-                </button>
+        <!-- Google Meet Info -->
+        <div class="meet-info">
+            <div class="card-header">
+                <div class="card-title">🔗 Google Meet Link</div>
             </div>
+            <div class="meet-link-box">
+                <code class="meet-link" id="meetLink">meet.google.com/junior-scholar-math</code>
+                <button class="btn-copy" id="copyLinkBtn">Copy Link</button>
+            </div>
+            <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">
+                💡 Tip: Click "Join on Google Meet" to open the class. Make sure your microphone and camera are ready!
+            </p>
         </div>
 
-        <!-- Attendance -->
-        <div class="card">
-            <div class="section-title">📋 Attendance Tracker</div>
-            <p>Stay in class for at least 10 minutes to earn your attendance badge (+10 points).</p>
-            
-            <div id="attendanceTimer" style="font-size:3rem; font-weight:700; color:var(--primary); text-align:center; margin:1.5rem 0;">00:00</div>
-            
-            <div class="progress-bar">
-                <div id="progressFill" class="progress-fill"></div>
+        <!-- Two Columns -->
+        <div class="two-columns">
+            <!-- Upcoming Classes -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📅 Upcoming Classes</div>
+                    <a href="#" class="view-link" style="color: #10b981; font-size: 0.75rem;">View All</a>
+                </div>
+                <div class="session-list" id="upcomingSessions">
+                    <!-- Dynamic content -->
+                </div>
             </div>
-            
-            <div id="attendanceStatus" style="text-align:center; padding:0.75rem 1.5rem; border-radius:9999px; font-weight:600; background:#e2e8f0; color:#475569;">
-                ⏳ Not checked in yet
-            </div>
-            
-            <button id="checkInBtn" style="margin-top:1.5rem; width:100%; background:var(--primary); color:white; border:none; padding:1rem; border-radius:0.75rem; font-weight:600; font-size:1.1rem; cursor:pointer;">
-                ✅ Check In Now
-            </button>
-        </div>
 
-        <!-- Upcoming Schedule -->
-        <div class="card">
-            <div class="section-title">📅 Upcoming Live Classes</div>
-            <div id="scheduleList">
-                <!-- Populated by JS -->
+            <!-- Attendance Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📋 Attendance Tracker</div>
+                </div>
+                <div class="attendance-card">
+                    <p>Stay in class for at least 10 minutes to get your attendance badge!</p>
+                    <div class="timer" id="attendanceTimer">0:00</div>
+                    <div id="attendanceStatus" style="padding: 0.5rem; border-radius: 2rem; background: #f1f5f9; color: #475569;">
+                        ⏳ Not checked in yet
+                    </div>
+                    <button class="btn-checkin" id="checkInBtn">
+                        ✅ Check In
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Resources -->
         <div class="card">
-            <div class="section-title">📚 Class Resources</div>
-            <div class="resources-grid" id="resourcesGrid">
-                <!-- Populated by JS -->
+            <div class="card-header">
+                <div class="card-title">📚 Class Resources</div>
+            </div>
+            <div class="resources-list" id="resourcesList">
+                <a href="#" class="resource-item" onclick="downloadResource('Algebra Lesson Notes')">
+                    <span>📄</span>
+                    <span>Algebra Lesson Notes.pdf</span>
+                    <span style="margin-left: auto;">↓</span>
+                </a>
+                <a href="#" class="resource-item" onclick="downloadResource('Practice Worksheet')">
+                    <span>📝</span>
+                    <span>Algebra Practice Worksheet.pdf</span>
+                    <span style="margin-left: auto;">↓</span>
+                </a>
+                <a href="#" class="resource-item" onclick="downloadResource('Past Questions')">
+                    <span>📖</span>
+                    <span>BECE Past Questions - Math.pdf</span>
+                    <span style="margin-left: auto;">↓</span>
+                </a>
+                <a href="#" class="resource-item" onclick="downloadResource('Video Recording')">
+                    <span>🎬</span>
+                    <span>Class Recording (Coming Soon)</span>
+                    <span style="margin-left: auto;">⏳</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast">✅ Message</div>
-
     <script>
-        // Toast function
-        function showToast(message, duration = 3000) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.style.display = 'flex';
-            setTimeout(() => toast.style.display = 'none', duration);
-        }
-
-        // Real Google Meet link (CHANGE THIS TO YOUR ACTUAL MEETING)
-        const REAL_MEET_LINK = "https://meet.google.com/abc-defg-hij"; // ← Replace with real link
-        const MEET_CODE = "abc-defg-hij";
-
-        // Join button
-        document.getElementById('joinMeetBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open(REAL_MEET_LINK, '_blank');
-            showToast('🔴 Opening Google Meet... Microphone & camera recommended!');
-            
-            // Simulate joining
-            localStorage.setItem('lastJoined', new Date().toISOString());
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
         });
 
-        // Copy link
-        document.getElementById('copyLinkBtn').addEventListener('click', () => {
-            navigator.clipboard.writeText(REAL_MEET_LINK);
-            showToast('✅ Google Meet link copied to clipboard!');
-        });
+        // Get current student
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
 
-        // Attendance system
-        let isCheckedIn = false;
-        let startTime = null;
-        let timerInterval = null;
+        // Google Meet Links - You can customize these
+        const meetLinks = {
+            math: 'https://meet.google.com/junior-scholar-math',
+            english: 'https://meet.google.com/junior-scholar-english',
+            science: 'https://meet.google.com/junior-scholar-science',
+            social: 'https://meet.google.com/junior-scholar-social',
+            chemistry: 'https://meet.google.com/junior-scholar-chem',
+            physics: 'https://meet.google.com/junior-scholar-physics',
+            biology: 'https://meet.google.com/junior-scholar-bio'
+        };
 
-        const timerEl = document.getElementById('attendanceTimer');
-        const progressEl = document.getElementById('progressFill');
-        const statusEl = document.getElementById('attendanceStatus');
-        const checkInBtn = document.getElementById('checkInBtn');
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = seconds % 60;
-            return `${min}:${sec.toString().padStart(2, '0')}`;
-        }
-
-        function updateAttendance() {
-            if (!isCheckedIn || !startTime) return;
-            
-            const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            timerEl.textContent = formatTime(elapsed);
-            progressEl.style.width = `${Math.min((elapsed / 600) * 100, 100)}%`;
-
-            if (elapsed >= 600 && statusEl.textContent.includes('Timer')) {
-                statusEl.innerHTML = '🎉 Attendance Marked! +10 Points';
-                statusEl.style.background = '#10b981';
-                statusEl.style.color = 'white';
-                
-                // Save to localStorage
-                let attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-                attendance.push({ subject: 'Mathematics', date: new Date().toISOString(), points: 10 });
-                localStorage.setItem('attendance', JSON.stringify(attendance));
-                
-                showToast('🎉 Congratulations! Attendance badge earned (+10 points)');
-                clearInterval(timerInterval);
-            }
-        }
-
-        checkInBtn.addEventListener('click', () => {
-            if (isCheckedIn) {
-                showToast("You're already checked in!");
-                return;
-            }
-            
-            isCheckedIn = true;
-            startTime = Date.now();
-            statusEl.innerHTML = '⏱️ Timer running — Stay for 10 minutes';
-            statusEl.style.background = '#f59e0b';
-            statusEl.style.color = 'white';
-            
-            timerInterval = setInterval(updateAttendance, 1000);
-            showToast('✅ Checked in successfully! Stay in the meeting for 10 minutes.');
-        });
-
-        // Simulated live participants
-        let participants = 27;
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                participants += Math.floor(Math.random() * 3) + 1;
-                document.getElementById('participantCount').textContent = `👥 ${participants} Students Attending`;
-            }
-        }, 8000);
-
-        // Sample upcoming classes
-        const upcomingClasses = [
-            { title: "English Language - Essay Writing", teacher: "Ms. Adwoa Serwaa", time: "Tomorrow, 4:00 PM", duration: "1.5 hrs" },
-            { title: "Integrated Science - Photosynthesis", teacher: "Dr. Mensah", time: "April 2, 3:00 PM", duration: "1.5 hrs" },
-            { title: "Social Studies - Governance in Ghana", teacher: "Mrs. Abena Osei", time: "April 3, 5:00 PM", duration: "2 hrs" }
+        // Get scheduled classes from teacher portal
+        const teacherSchedules = JSON.parse(localStorage.getItem('classSchedule') || '[]');
+        
+        // Default upcoming sessions
+        const defaultSessions = [
+            { date: 'Mar 30, 2026', time: '08:00 AM', subject: 'CHEMISTRY', teacher: 'Dr. Mensah', meetLink: meetLinks.chemistry, status: 'upcoming' },
+            { date: 'Mar 30, 2026', time: '03:00 PM', subject: 'CHEMISTRY PRACTICAL', teacher: 'Dr. Mensah', meetLink: meetLinks.chemistry, status: 'upcoming' },
+            { date: 'Mar 30, 2026', time: '05:30 PM', subject: 'ENGLISH LANGUAGE', teacher: 'Ms. Adwoa', meetLink: meetLinks.english, status: 'upcoming' },
+            { date: 'Mar 31, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', teacher: 'Mr. Kofi', meetLink: meetLinks.math, status: 'upcoming' },
+            { date: 'Apr 01, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', teacher: 'Mr. Kofi', meetLink: meetLinks.math, status: 'upcoming' }
         ];
 
-        function renderSchedule() {
-            const container = document.getElementById('scheduleList');
-            container.innerHTML = upcomingClasses.map(cls => `
-                <div class="schedule-item">
+        // Combine teacher schedules with defaults
+        let allSessions = [...defaultSessions];
+        
+        // Add teacher scheduled classes
+        teacherSchedules.forEach(schedule => {
+            allSessions.push({
+                date: schedule.date,
+                time: schedule.time,
+                subject: schedule.subject,
+                teacher: 'Teacher',
+                meetLink: meetLinks[schedule.subject.toLowerCase().replace(' ', '')] || meetLinks.math,
+                status: 'upcoming'
+            });
+        });
+
+        // Check for live session (current hour is 4 PM or any class scheduled for today at current time)
+        const currentHour = new Date().getHours();
+        const today = new Date().toISOString().split('T')[0];
+        const currentTime = `${currentHour.toString().padStart(2, '0')}:00`;
+        
+        let liveSession = null;
+        
+        // Check if any scheduled class is happening now
+        for (let session of teacherSchedules) {
+            if (session.date === today && session.time === currentTime) {
+                liveSession = session;
+                break;
+            }
+        }
+        
+        // Default live at 4 PM if no scheduled class
+        if (!liveSession && currentHour === 16) {
+            liveSession = { subject: 'MATHEMATICS - ALGEBRA', teacher: 'Mr. Kofi Mensah', meetLink: meetLinks.math };
+        }
+        
+        if (liveSession) {
+            allSessions.unshift({
+                date: today,
+                time: currentTime,
+                subject: liveSession.subject,
+                teacher: liveSession.teacher || 'Teacher',
+                meetLink: liveSession.meetLink || meetLinks.math,
+                status: 'live'
+            });
+            
+            // Update current live class display
+            document.getElementById('currentSubject').textContent = liveSession.subject;
+            document.getElementById('currentTeacher').innerHTML = `👨‍🏫 ${liveSession.teacher || 'Teacher'}`;
+            document.getElementById('currentTime').innerHTML = `⏰ ${currentTime}`;
+            document.getElementById('meetLink').textContent = (liveSession.meetLink || meetLinks.math).replace('https://', '');
+            
+            const joinBtn = document.getElementById('joinMeetBtn');
+            joinBtn.href = liveSession.meetLink || meetLinks.math;
+            joinBtn.onclick = (e) => {
+                e.preventDefault();
+                window.open(liveSession.meetLink || meetLinks.math, '_blank');
+                
+                // Track that user joined
+                let joinedClasses = JSON.parse(localStorage.getItem('joinedClasses') || '[]');
+                joinedClasses.push({
+                    subject: liveSession.subject,
+                    date: new Date().toISOString()
+                });
+                localStorage.setItem('joinedClasses', JSON.stringify(joinedClasses));
+                
+                alert('🔴 Joining Google Meet!\n\nMake sure your microphone and camera are ready.\nStay for at least 10 minutes to get attendance credit!');
+            };
+        }
+
+        // Render upcoming sessions
+        function renderSessions() {
+            const container = document.getElementById('upcomingSessions');
+            const sessionsToShow = allSessions.slice(0, 5);
+            
+            container.innerHTML = sessionsToShow.map(session => `
+                <div class="session-item" onclick="joinSession('${session.meetLink}', '${session.subject}')">
                     <div>
-                        <strong>${cls.title}</strong><br>
-                        <small style="color:#64748b;">${cls.teacher} • ${cls.time}</small>
+                        <div class="session-date">${session.date}</div>
+                        <div class="session-subject">${session.subject}</div>
+                        <div class="session-time">⏰ ${session.time} | 👨‍🏫 ${session.teacher}</div>
                     </div>
-                    <div style="text-align:right;">
-                        <span style="background:#e2e8f0; color:#475569; padding:0.35rem 0.85rem; border-radius:9999px; font-size:0.85rem;">Upcoming</span><br>
-                        <button onclick="setReminder('${cls.title}')" style="margin-top:0.5rem; background:none; border:1px solid var(--primary); color:var(--primary); padding:0.4rem 1rem; border-radius:0.5rem; cursor:pointer;">Set Reminder</button>
+                    <div class="status status-${session.status}">
+                        ${session.status === 'live' ? '🔴 LIVE NOW' : '📅 Upcoming'}
                     </div>
                 </div>
             `).join('');
         }
 
-        window.setReminder = function(subject) {
-            showToast(`🔔 Reminder set for ${subject}! You'll get a notification 15 mins before.`);
-        };
-
-        // Resources
-        const resources = [
-            { name: "Algebra Lesson Notes.pdf", size: "2.4 MB", icon: "📄" },
-            { name: "Practice Worksheet.pdf", size: "1.2 MB", icon: "📝" },
-            { name: "BECE Past Questions - Math.pdf", size: "3.1 MB", icon: "📖" }
-        ];
-
-        function renderResources() {
-            const container = document.getElementById('resourcesGrid');
-            container.innerHTML = resources.map(r => `
-                <a href="#" onclick="downloadResource('${r.name}'); return false;" class="resource-item">
-                    <div style="font-size:2rem;">${r.icon}</div>
-                    <div style="flex:1;">
-                        <div style="font-weight:600;">${r.name}</div>
-                        <div style="font-size:0.85rem; color:#64748b;">${r.size}</div>
-                    </div>
-                    <span style="font-size:1.5rem;">↓</span>
-                </a>
-            `).join('');
-        }
-
-        window.downloadResource = function(name) {
-            showToast(`📥 Downloading ${name}...`);
-            // In real app, trigger actual download here
-        };
-
-        // Initialize everything
-        function init() {
-            document.getElementById('meetLink').textContent = `meet.google.com/${MEET_CODE}`;
-            renderSchedule();
-            renderResources();
-            
-            // Load saved attendance state if any
-            const savedAttendance = localStorage.getItem('attendance');
-            if (savedAttendance) {
-                console.log('Previous attendance records found:', JSON.parse(savedAttendance));
+        window.joinSession = function(meetLink, subject) {
+            if (confirm(`Join ${subject} class?`)) {
+                window.open(meetLink, '_blank');
             }
-            
-            showToast('Welcome to Live Classes! 🎉', 2500);
+        };
+
+        // Copy link functionality
+        const copyBtn = document.getElementById('copyLinkBtn');
+        const meetLink = document.getElementById('meetLink');
+        
+        copyBtn.addEventListener('click', () => {
+            const link = meetLink.textContent;
+            navigator.clipboard.writeText('https://' + link);
+            alert('✅ Google Meet link copied!');
+        });
+
+        // Attendance Timer
+        let timerInterval;
+        let secondsInClass = 0;
+        let isCheckedIn = false;
+        let checkInTime = null;
+        
+        const timerDisplay = document.getElementById('attendanceTimer');
+        const attendanceStatus = document.getElementById('attendanceStatus');
+        const checkInBtn = document.getElementById('checkInBtn');
+        
+        function updateTimer() {
+            if (isCheckedIn && checkInTime) {
+                const now = new Date();
+                const diff = Math.floor((now - checkInTime) / 1000);
+                const minutes = Math.floor(diff / 60);
+                const seconds = diff % 60;
+                timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // After 10 minutes (600 seconds), mark attendance as completed
+                if (diff >= 600 && attendanceStatus.innerHTML.includes('Timer started')) {
+                    attendanceStatus.innerHTML = '✅ Attendance Marked! +10 Points';
+                    attendanceStatus.style.background = '#d1fae5';
+                    attendanceStatus.style.color = '#166534';
+                    
+                    // Save attendance to localStorage
+                    let attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
+                    attendance.push({
+                        date: new Date().toISOString(),
+                        subject: document.getElementById('currentSubject').textContent,
+                        duration: `${minutes} minutes`
+                    });
+                    localStorage.setItem('attendance', JSON.stringify(attendance));
+                    
+                    // Update student's practice stats
+                    if (studentData) {
+                        let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
+                        const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+                        if (studentIndex !== -1) {
+                            studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
+                            studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 10;
+                            localStorage.setItem('students', JSON.stringify(studentsList));
+                        }
+                    }
+                    
+                    alert('🎉 Congratulations! You\'ve earned your attendance badge for today! +10 points added!');
+                }
+            }
         }
+        
+        checkInBtn.addEventListener('click', () => {
+            if (!isCheckedIn) {
+                isCheckedIn = true;
+                checkInTime = new Date();
+                attendanceStatus.innerHTML = '⏱️ Timer started! Stay for 10 minutes...';
+                attendanceStatus.style.background = '#fef3c7';
+                attendanceStatus.style.color = '#d97706';
+                timerInterval = setInterval(updateTimer, 1000);
+                alert('✅ Checked in! Stay in class for 10 minutes to get your attendance badge!');
+            } else {
+                alert('You\'re already checked in! Keep learning!');
+            }
+        });
 
-        init();
+        // Download resource function
+        window.downloadResource = function(resourceName) {
+            alert(`📥 Downloading: ${resourceName}\n\nThis resource will help you prepare for your BECE. Keep practicing!`);
+            // Track downloads
+            let downloads = JSON.parse(localStorage.getItem('downloads') || '[]');
+            downloads.push({
+                resource: resourceName,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('downloads', JSON.stringify(downloads.slice(-20)));
+        };
 
-        // Cleanup
+        // Initialize
+        renderSessions();
+        
+        // Clean up timer on page unload
         window.addEventListener('beforeunload', () => {
-            if (timerInterval) clearInterval(timerInterval);
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
         });
     </script>
 </body>
