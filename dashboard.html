@@ -2,21 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - The Junior Scholar Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #0ea5e9;      /* Bright Sky Blue */
-            --primary-dark: #0284c8;
-            --accent: #14b8a6;       /* Teal Accent */
-            --text: #0f172a;
-            --text-light: #64748b;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -24,530 +12,786 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            overflow-x: hidden;
         }
 
-        /* Navbar */
-        .navbar {
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(12px);
-            position: sticky;
+        /* ========== SIDEBAR - LIGHT GREEN ========== */
+        .sidebar {
+            position: fixed;
+            left: 0;
             top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #1e293b;
+            transition: all 0.3s ease-in-out;
             z-index: 1000;
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
         }
 
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
+        /* Sidebar Header */
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
-        .logo-icon {
-            font-size: 2.1rem;
+        .school-name {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #2d6a4f;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        .logo-text {
-            font-size: 1.45rem;
+        .portal-title {
+            font-size: 1.25rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text), var(--primary));
+            background: linear-gradient(135deg, #1e293b, #2d6a4f);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 0.25rem;
         }
 
-        .nav-links {
+        .vacation-badge {
+            display: inline-block;
+            background: #2d6a4f;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
             display: flex;
             align-items: center;
-            gap: 2.2rem;
-        }
-
-        .nav-links a {
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #2d6a4f;
             text-decoration: none;
-            color: var(--text-light);
+            transition: all 0.3s;
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.3s ease;
+            margin: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--primary);
+        .nav-item:hover {
+            background: white;
+            color: #1e293b;
+            transform: translateX(5px);
         }
 
-        .nav-links a.active {
-            position: relative;
+        .nav-item.active {
+            background: white;
+            color: #2d6a4f;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .nav-links a.active::after {
-            content: '';
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 28px;
+        }
+
+        /* User Section */
+        .user-section {
             position: absolute;
-            bottom: -6px;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px;
+            right: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.5);
         }
 
-        .btn-logout {
-            background: #fee2e2;
-            color: #ef4444;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #2d6a4f, #40916c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: #2d6a4f;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2d6a4f;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(45, 106, 79, 0.1);
+            color: #dc2626;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease-in-out;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Toggle Button */
+        .toggle-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: white;
             border: none;
-            padding: 0.7rem 1.6rem;
-            border-radius: 50px;
-            font-weight: 600;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            color: #2d6a4f;
         }
 
-        .btn-logout:hover {
-            background: #fecaca;
-            transform: translateY(-2px);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 1.8rem;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 2.5rem 2rem;
+        .toggle-sidebar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         /* Welcome Section */
         .welcome-section {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
             color: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
         }
 
-        .welcome-text h1 {
-            font-size: 2rem;
-            font-weight: 700;
+        .welcome-section h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
         }
 
-        .streak-card {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 1.2rem 2rem;
-            border-radius: 16px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
+        .welcome-section p {
+            opacity: 0.9;
+            font-size: 0.9rem;
         }
 
-        .streak-card .emoji {
-            font-size: 2.8rem;
+        /* Profile Summary */
+        .profile-summary {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .streak-card .days {
-            font-size: 2.4rem;
-            font-weight: 800;
+        .summary-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e293b;
         }
 
-        /* Stats Grid */
-        .stats-grid {
+        .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
         }
 
-        .stat-card {
-            background: var(--card-bg);
-            padding: 1.8rem 1.5rem;
-            border-radius: 18px;
-            text-align: center;
-            border: 1px solid var(--border);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-            transition: all 0.4s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .stat-value {
-            font-size: 2.7rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            color: var(--text-light);
-            font-weight: 500;
-            margin-top: 0.4rem;
-        }
-
-        /* Progress Section */
-        .progress-section {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            color: var(--text);
-        }
-
-        .progress-bar-container {
-            background: #e2e8f0;
-            height: 16px;
-            border-radius: 999px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 999px;
-            transition: width 0.8s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        /* Live Alert */
-        .live-alert {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            padding: 1.6rem 2rem;
-            border-radius: 18px;
-            margin-bottom: 2rem;
+        .summary-card {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .summary-value {
+            font-weight: 700;
+            color: #2d6a4f;
+        }
+
+        .status-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f4f8;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .view-link {
+            color: #2d6a4f;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Session List */
+        .session-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .session-item:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .session-date {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .session-subject {
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0.25rem 0;
+        }
+
+        .session-time {
+            font-size: 0.7rem;
+            color: #2d6a4f;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-live {
+            background: #fee2e2;
+            color: #dc2626;
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
-            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
-        .live-content {
+        /* Course List - Simple without progress */
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .course-item {
             display: flex;
             align-items: center;
             gap: 1rem;
-        }
-
-        .pulse-dot {
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            animation: ping 1.5s infinite;
-        }
-
-        @keyframes ping {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(2.2); opacity: 0; }
-        }
-
-        .btn-join {
-            background: white;
-            color: #ef4444;
-            padding: 0.75rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .btn-join:hover {
-            transform: translateY(-3px);
+        .course-item:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
         }
 
-        /* Quick Actions & Recent Activity */
-        .content-grid {
+        .course-icon {
+            font-size: 1.5rem;
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-name {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-category {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
-        }
-
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
         }
 
         .action-card {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            padding: 1.6rem;
-            border: 1px solid var(--border);
-            border-radius: 16px;
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
             text-decoration: none;
-            color: var(--text);
-            transition: all 0.4s ease;
+            color: #1e293b;
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
         .action-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.15);
+            background: #e8f5e9;
+            transform: translateY(-3px);
         }
 
         .action-icon {
-            font-size: 2.5rem;
-            width: 62px;
-            height: 62px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f0f9ff;
-            border-radius: 14px;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .activity-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1.1rem 0;
-            border-bottom: 1px solid var(--border);
+        .action-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
         }
 
-        .activity-item:last-child {
-            border-bottom: none;
+        .action-desc {
+            font-size: 0.7rem;
+            color: #64748b;
         }
 
-        /* Responsive */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
+            .sidebar {
+                transform: translateX(-100%);
             }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 1.5rem;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            
+            .sidebar.visible {
+                transform: translateX(0);
             }
-            .nav-links.active {
-                display: flex;
+            
+            .main-content {
+                margin-left: 0;
             }
-            .content-grid {
+            
+            .two-columns {
                 grid-template-columns: 1fr;
             }
-            .welcome-section {
-                flex-direction: column;
-                text-align: center;
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .toggle-sidebar {
+                left: auto;
+                right: 20px;
+                top: 20px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 1.25rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Toggle Sidebar Button -->
+    <button class="toggle-sidebar" id="toggleSidebarBtn">
+        ☰
+    </button>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">The Junior Scholar Portal</span>
-            </a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="dashboard.html" class="active">Dashboard</a>
-                <a href="courses.html">Courses</a>
-                <a href="live-class.html">Live Classes</a>
-                <button class="btn-logout" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </div>
+    <!-- Sidebar - Light Green -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="school-name">PRESEC-LEGON</div>
+            <div class="portal-title">The Junior Scholar<br>Portal</div>
+            <div class="vacation-badge">📚 VACATION SCHOOL</div>
         </div>
-    </nav>
 
-    <div class="container">
-        <!-- Welcome Section -->
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" id="studentGuideBtn">
+                <span class="nav-icon">📖</span>
+                <span>Student Guide</span>
+            </a>
+            <a href="courses.html" class="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>My Courses</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📁</span>
+                <span>My Course Materials</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">✅</span>
+                <span>My Tasks</span>
+            </a>
+            <a href="practice.html" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Practice Questions</span>
+            </a>
+            <a href="live-class.html" class="nav-item">
+                <span class="nav-icon">🎥</span>
+                <span>My Sessions</span>
+            </a>
+            <a href="live-class.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Mark Attendance</span>
+            </a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div>
+                    <div class="user-name" id="userName">Junior Scholar</div>
+                    <div class="user-role">Student</div>
+                </div>
+            </div>
+            <a href="index.html" class="logout-btn" id="logoutBtn">
+                <span>🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Welcome Section with Student Name -->
         <div class="welcome-section">
-            <div class="welcome-text">
-                <h1>Welcome back, <span id="studentName">Scholar</span>! 👋</h1>
-                <p>Ready to continue your journey to BECE excellence?</p>
-            </div>
-            <div class="streak-card">
-                <div class="emoji">🔥</div>
-                <div class="days" id="streakDays">7</div>
-                <div style="font-size: 0.9rem; opacity: 0.9;">day streak</div>
-            </div>
+            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
+            <p>Ready to continue your journey to BECE excellence? Let's make today productive!</p>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="syllabusProgress">68%</div>
-                <div class="stat-label">Syllabus Completed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="coursesCompleted">8</div>
-                <div class="stat-label">Courses Completed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="questionsAnswered">247</div>
-                <div class="stat-label">Questions Answered</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="accuracyRate">85%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-        </div>
-
-        <!-- Progress Section -->
-        <div class="progress-section">
-            <h3 class="section-title">📊 Your Overall Progress</h3>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="overallProgress" style="width: 72%">72%</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.95rem;">
-                <span>📚 12/16 Subjects Started</span>
-                <span>⭐ 4 Badges Earned</span>
-            </div>
-        </div>
-
-        <!-- Live Session Alert -->
-        <div class="live-alert">
-            <div class="live-content">
-                <span class="pulse-dot"></span>
-                <div>
-                    <strong>🔴 LIVE CLASS IN PROGRESS</strong><br>
-                    <small>Mathematics - Algebra Masterclass with Mr. Kofi Mensah</small>
+        <!-- Profile Summary -->
+        <div class="profile-summary">
+            <h3 class="summary-title">Profile Summary</h3>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <span class="summary-label">Cohort:</span>
+                    <span class="summary-value">BECE VACATION CLASS 2025</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-label">Status:</span>
+                    <span class="status-badge">✅ Enrolled</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-label">Training Location:</span>
+                    <span class="summary-value">🎥 Virtual Class (Online)</span>
                 </div>
             </div>
-            <a href="live-class.html" class="btn-join">
-                <i class="fas fa-play"></i> Join Now
-            </a>
         </div>
 
-        <!-- Main Content Grid -->
-        <div class="content-grid">
-            <!-- Quick Actions -->
+        <!-- Two Columns -->
+        <div class="two-columns">
+            <!-- Upcoming Sessions -->
             <div class="card">
-                <h3 class="section-title">⚡ Quick Actions</h3>
-                <div class="action-grid">
-                    <a href="practice.html" class="action-card">
-                        <div class="action-icon">📝</div>
-                        <div>
-                            <h4>Practice Questions</h4>
-                            <p style="color: var(--text-light);">Test your knowledge with past questions</p>
-                        </div>
-                    </a>
-                    <a href="courses.html" class="action-card">
-                        <div class="action-icon">📚</div>
-                        <div>
-                            <h4>Continue Learning</h4>
-                            <p style="color: var(--text-light);">Resume your courses</p>
-                        </div>
-                    </a>
-                    <a href="live-class.html" class="action-card">
-                        <div class="action-icon">🎥</div>
-                        <div>
-                            <h4>Live Classes</h4>
-                            <p style="color: var(--text-light);">Join interactive sessions</p>
-                        </div>
-                    </a>
-                    <a href="#" class="action-card" id="leaderboardBtn">
-                        <div class="action-icon">🏆</div>
-                        <div>
-                            <h4>Leaderboard</h4>
-                            <p style="color: var(--text-light);">See how you rank</p>
-                        </div>
-                    </a>
+                <div class="card-header">
+                    <h3 class="card-title">📅 Upcoming Sessions</h3>
+                    <a href="live-class.html" class="view-link">View All →</a>
+                </div>
+                <div class="session-list" id="upcomingSessions">
+                    <!-- Dynamic content -->
                 </div>
             </div>
 
-            <!-- Recent Activity -->
+            <!-- Enrolled Courses (No Progress Bars) -->
             <div class="card">
-                <h3 class="section-title">📅 Recent Activity</h3>
-                <div>
-                    <div class="activity-item">
-                        <span style="font-size: 1.8rem;">✅</span>
-                        <div>
-                            <p><strong>Completed:</strong> Algebra Basics Module</p>
-                            <small style="color: var(--text-light);">2 hours ago</small>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <span style="font-size: 1.8rem;">🎥</span>
-                        <div>
-                            <p><strong>Attended:</strong> English Essay Writing Class</p>
-                            <small style="color: var(--text-light);">Yesterday at 4:30 PM</small>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <span style="font-size: 1.8rem;">📝</span>
-                        <div>
-                            <p><strong>Scored 85% on:</strong> Science Practice Test</p>
-                            <small style="color: var(--text-light);">2 days ago</small>
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <h3 class="card-title">📚 Enrolled Courses</h3>
+                    <a href="courses.html" class="view-link">View All →</a>
+                </div>
+                <div class="courses-list" id="enrolledCourses">
+                    <!-- Dynamic content -->
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">⚡ Quick Actions</h3>
+            </div>
+            <div class="quick-actions">
+                <a href="practice.html" class="action-card">
+                    <div class="action-icon">📝</div>
+                    <div class="action-title">Practice Questions</div>
+                    <div class="action-desc">Test your knowledge</div>
+                </a>
+                <a href="live-class.html" class="action-card">
+                    <div class="action-icon">🎥</div>
+                    <div class="action-title">Join Live Class</div>
+                    <div class="action-desc">Today at 4:00 PM</div>
+                </a>
+                <a href="#" class="action-card" id="markAttendanceAction">
+                    <div class="action-icon">📋</div>
+                    <div class="action-title">Mark Attendance</div>
+                    <div class="action-desc">For today's class</div>
+                </a>
+                <a href="courses.html" class="action-card">
+                    <div class="action-icon">📚</div>
+                    <div class="action-title">My Courses</div>
+                    <div class="action-desc">Continue learning</div>
+                </a>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // Mobile Menu
-        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('active');
+        // ========== SIDEBAR TOGGLE ==========
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        let sidebarVisible = true;
+
+        function toggleSidebar() {
+            sidebarVisible = !sidebarVisible;
+            if (window.innerWidth <= 768) {
+                if (sidebarVisible) {
+                    sidebar.classList.add('visible');
+                    sidebar.classList.remove('hidden');
+                } else {
+                    sidebar.classList.remove('visible');
+                    sidebar.classList.add('hidden');
+                }
+            } else {
+                if (sidebarVisible) {
+                    sidebar.classList.remove('hidden');
+                    mainContent.classList.remove('expanded');
+                } else {
+                    sidebar.classList.add('hidden');
+                    mainContent.classList.add('expanded');
+                }
+            }
+        }
+
+        toggleBtn.addEventListener('click', toggleSidebar);
+
+        // Handle responsive
+        function handleResponsive() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('visible');
+                sidebarVisible = false;
+                mainContent.classList.add('expanded');
+            } else {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.remove('visible');
+                sidebarVisible = true;
+                mainContent.classList.remove('expanded');
+            }
+        }
+
+        window.addEventListener('resize', handleResponsive);
+        handleResponsive();
+
+        // ========== USER NAME ==========
+        let studentName = localStorage.getItem('scholarName');
+        if (!studentName) {
+            studentName = prompt('Welcome to The Junior Scholar Portal!\n\nWhat\'s your name?', 'Junior Scholar');
+            if (studentName) localStorage.setItem('scholarName', studentName);
+            else studentName = 'Scholar';
+        }
+
+        // Set name in multiple places
+        document.getElementById('userName').textContent = studentName;
+        document.getElementById('welcomeName').textContent = studentName.split(' ')[0];
+        
+        const initials = studentName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        document.getElementById('userAvatar').textContent = initials;
+
+        // ========== SESSIONS DATA ==========
+        const sessions = [
+            { date: 'Mar 30, 2026', time: '08:00 AM', subject: 'CHEMISTRY', status: 'upcoming' },
+            { date: 'Mar 30, 2026', time: '03:00 PM', subject: 'CHEMISTRY PRACTICAL', status: 'upcoming' },
+            { date: 'Mar 30, 2026', time: '05:30 PM', subject: 'ENGLISH LANGUAGE', status: 'upcoming' },
+            { date: 'Mar 31, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' },
+            { date: 'Apr 01, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' }
+        ];
+
+        // Check for live session (if current hour is 4 PM)
+        const currentHour = new Date().getHours();
+        if (currentHour === 16) {
+            sessions.unshift({
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                time: '04:00 PM',
+                subject: 'MATHEMATICS - ALGEBRA',
+                status: 'live'
+            });
+        }
+
+        function renderSessions() {
+            const container = document.getElementById('upcomingSessions');
+            container.innerHTML = sessions.slice(0, 5).map(session => `
+                <div class="session-item" onclick="window.location.href='live-class.html'">
+                    <div>
+                        <div class="session-date">${session.date}</div>
+                        <div class="session-subject">${session.subject}</div>
+                        <div class="session-time">⏰ ${session.time}</div>
+                    </div>
+                    <div class="status status-${session.status}">
+                        ${session.status === 'live' ? '🔴 LIVE NOW' : '📅 Upcoming'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== COURSES DATA (No Progress Bars) ==========
+        const courses = [
+            { name: 'GENERAL MATHEMATICS', category: 'SHS 2 CLASS', icon: '📐' },
+            { name: 'ENGLISH LANGUAGE', category: 'SHS 2 CLASS', icon: '📖' },
+            { name: 'SOCIAL STUDIES', category: 'SHS 2 CLASS', icon: '🌍' },
+            { name: 'ADDITIONAL MATHEMATICS', category: 'SHS 2 CLASS', icon: '🧮' },
+            { name: 'BIOLOGY', category: 'SHS 2 CLASS', icon: '🔬' },
+            { name: 'CHEMISTRY', category: 'SHS 2 CLASS', icon: '⚗️' },
+            { name: 'PHYSICS', category: 'SHS 2 CLASS', icon: '⚡' }
+        ];
+
+        function renderCourses() {
+            const container = document.getElementById('enrolledCourses');
+            container.innerHTML = courses.map(course => `
+                <div class="course-item" onclick="window.location.href='courses.html'">
+                    <div class="course-icon">${course.icon}</div>
+                    <div class="course-info">
+                        <div class="course-name">${course.name}</div>
+                        <div class="course-category">📁 ${course.category}</div>
+                    </div>
+                    <span style="color: #2d6a4f;">→</span>
+                </div>
+            `).join('');
+        }
+
+        // ========== MARK ATTENDANCE ==========
+        document.getElementById('markAttendanceAction').addEventListener('click', (e) => {
+            e.preventDefault();
+            const today = new Date().toDateString();
+            const attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
+            
+            const alreadyMarked = attendance.some(a => new Date(a.date).toDateString() === today);
+            
+            if (alreadyMarked) {
+                alert('✅ You have already marked attendance for today!');
+            } else {
+                attendance.push({
+                    date: new Date().toISOString(),
+                    subject: 'General Session'
+                });
+                localStorage.setItem('attendance', JSON.stringify(attendance));
+                
+                // Add points
+                let practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
+                practiceStats.points = (practiceStats.points || 0) + 10;
+                localStorage.setItem('practiceStats', JSON.stringify(practiceStats));
+                
+                alert('✅ Attendance marked! +10 points earned!');
+            }
         });
 
-        // Logout
+        // ========== STUDENT GUIDE ==========
+        document.getElementById('studentGuideBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert(`📖 Student Guide\n\nWelcome ${studentName}!\n\n📚 How to use The Junior Scholar Portal:\n\n1. 📚 My Courses - Access all your enrolled subjects\n2. 📝 Practice Questions - Test your knowledge with BECE past questions\n3. 🎥 My Sessions - Join live Google Meet classes\n4. 📋 Mark Attendance - Track your participation\n\n🎯 Goal: Master all subjects and ace your BECE!\n\n💡 Tip: Study at least 30 minutes daily for best results.`);
+        });
+
+        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             if (confirm('Are you sure you want to logout?')) {
@@ -555,39 +799,23 @@
             }
         });
 
-        // Student Name
-        let studentName = localStorage.getItem('scholarName') || 'Scholar';
-        document.getElementById('studentName').textContent = studentName;
-
-        // Load Progress
-        function loadProgress() {
-            const saved = localStorage.getItem('scholarProgress');
-            if (saved) {
-                const p = JSON.parse(saved);
-                document.getElementById('syllabusProgress').textContent = p.syllabus || '68%';
-                document.getElementById('coursesCompleted').textContent = p.courses || '8';
-                document.getElementById('questionsAnswered').textContent = p.questions || '247';
-                document.getElementById('accuracyRate').textContent = p.accuracy || '85%';
-                
-                const bar = document.getElementById('overallProgress');
-                bar.style.width = p.overall || '72%';
-                bar.textContent = p.overall || '72%';
-                
-                document.getElementById('streakDays').textContent = p.streak || '7';
+        // Initialize
+        renderSessions();
+        renderCourses();
+        
+        // Set greeting based on time
+        function setTimeGreeting() {
+            const hour = new Date().getHours();
+            const welcomeSection = document.querySelector('.welcome-section p');
+            if (hour < 12) {
+                welcomeSection.textContent = 'Good morning! Ready to learn? Start your day with a practice session! ☀️';
+            } else if (hour < 17) {
+                welcomeSection.textContent = 'Good afternoon! Keep up the great work! Your dedication will pay off! 📚';
+            } else {
+                welcomeSection.textContent = 'Good evening! Great time to review what you learned today! 🌙';
             }
         }
-        loadProgress();
-
-        // Leaderboard Demo
-        document.getElementById('leaderboardBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('🏆 Leaderboard Coming Soon!\n\nTop Scholars this week:\n1. Adwoa - 2,450 pts\n2. Kwame - 2,120 pts\n3. You - 1,890 pts\n\nKeep practicing!');
-        });
-
-        window.saveProgress = function(progressData) {
-            localStorage.setItem('scholarProgress', JSON.stringify(progressData));
-            loadProgress();
-        };
+        setTimeGreeting();
     </script>
 </body>
 </html>
