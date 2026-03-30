@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dashboard - The Junior Scholar Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,506 +13,266 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
-            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            transition: all 0.3s ease-in-out;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
-            overflow-y: auto;
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.5s ease;
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+        .logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
 
-        .school-name {
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            color: #2d6a4f;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+        .logo-icon {
+            font-size: 2.5rem;
         }
 
-        .portal-title {
-            font-size: 1.25rem;
+        .logo-text {
+            font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #2d6a4f);
+            background: linear-gradient(135deg, #1e293b, #6366f1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .vacation-badge {
-            display: inline-block;
-            background: #2d6a4f;
+        h1 {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1e293b;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: white;
-            font-size: 0.65rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
             margin-top: 0.5rem;
         }
 
-        .nav-menu {
-            padding: 1rem 0;
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
         }
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: #2d6a4f;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-        }
-
-        .nav-item:hover {
-            background: white;
-            color: #1e293b;
-            transform: translateX(5px);
-        }
-
-        .nav-item.active {
-            background: white;
-            color: #2d6a4f;
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            width: 28px;
-        }
-
-        .user-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.5);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #2d6a4f, #40916c);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: white;
-        }
-
-        .user-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #1e293b;
-        }
-
-        .user-email {
-            font-size: 0.7rem;
-            color: #2d6a4f;
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #2d6a4f;
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(45, 106, 79, 0.1);
-            color: #dc2626;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            transition: margin-left 0.3s ease-in-out;
-            min-height: 100vh;
-            padding: 1.5rem;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        .toggle-sidebar {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            background: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2d6a4f;
-        }
-
-        .toggle-sidebar:hover {
-            transform: scale(1.05);
-        }
-
-        /* Welcome Card */
-        .welcome-card {
-            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            color: white;
-        }
-
-        .welcome-card h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-card p {
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        /* Student Details Card */
-        .details-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .details-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1e3a5f;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .detail-item {
-            background: #f8fafc;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .detail-label {
-            color: #64748b;
-            font-size: 0.85rem;
-        }
-
-        .detail-value {
-            font-weight: 600;
-            color: #2d6a4f;
-        }
-
-        /* Quick Links */
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .quick-link-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
+        .register-link {
             text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .register-link a {
+            color: #6366f1;
             text-decoration: none;
-            color: #1e293b;
-            transition: all 0.3s;
-            border: 1px solid #e2e8f0;
-        }
-
-        .quick-link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            border-color: #2ecc71;
-        }
-
-        .quick-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .quick-title {
             font-weight: 600;
-            margin-bottom: 0.25rem;
         }
 
-        .quick-desc {
-            font-size: 0.75rem;
-            color: #64748b;
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+
+        .demo-mode {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eef2f6;
+            text-align: center;
+        }
+
+        .demo-btn {
+            background: #f1f5f9;
+            color: #6366f1;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 0.5rem;
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.visible {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .toggle-sidebar {
-                left: auto;
-                right: 20px;
-            }
-            .welcome-card h1 {
-                font-size: 1.2rem;
+            .login-container {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
-
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="school-name">PRESEC-LEGON</div>
-            <div class="portal-title">The Junior Scholar Portal</div>
-            <div class="vacation-badge">📚 BECE PREP</div>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+            <div class="logo-text">The Junior Scholar Portal</div>
         </div>
+        <h1>Welcome Back!</h1>
+        <p class="subtitle">Login to continue your learning journey</p>
 
-        <nav class="nav-menu">
-            <a href="dashboard.html" class="nav-item active">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="courses.html" class="nav-item">
-                <span class="nav-icon">📚</span>
-                <span>My Courses</span>
-            </a>
-            <a href="practice.html" class="nav-item">
-                <span class="nav-icon">📝</span>
-                <span>Practice Questions</span>
-            </a>
-            <a href="live-class.html" class="nav-item">
-                <span class="nav-icon">🎥</span>
-                <span>Live Classes</span>
-            </a>
-        </nav>
+        <div class="error-message" id="errorMessage"></div>
 
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JS</div>
-                <div>
-                    <div class="user-name" id="userName">Student</div>
-                    <div class="user-email" id="userEmail">student@example.com</div>
-                </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>📧 Email Address</label>
+                <input type="email" id="email" placeholder="student@example.com" required>
             </div>
-            <a href="login.html" class="logout-btn" id="logoutBtn">
-                <span>🚪</span>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <!-- Welcome Card -->
-        <div class="welcome-card">
-            <h1>Welcome, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p>Ready to continue your journey to BECE excellence? Let's make today productive!</p>
-        </div>
-
-        <!-- Student Details Card -->
-        <div class="details-card">
-            <div class="details-title">
-                <span>📋</span>
-                <span>Student Profile</span>
+            <div class="form-group">
+                <label>🔑 Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
             </div>
-            <div class="details-grid" id="studentDetails">
-                <!-- Dynamic content -->
-            </div>
+            <button type="submit" class="btn-login">🔓 Login →</button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
         </div>
 
-        <!-- Quick Links -->
-        <div class="quick-links">
-            <a href="practice.html" class="quick-link-card">
-                <div class="quick-icon">📝</div>
-                <div class="quick-title">Practice Questions</div>
-                <div class="quick-desc">Test your knowledge</div>
-            </a>
-            <a href="courses.html" class="quick-link-card">
-                <div class="quick-icon">📚</div>
-                <div class="quick-title">My Courses</div>
-                <div class="quick-desc">Continue learning</div>
-            </a>
-            <a href="live-class.html" class="quick-link-card">
-                <div class="quick-icon">🎥</div>
-                <div class="quick-title">Live Classes</div>
-                <div class="quick-desc">Join today's session</div>
-            </a>
+        <div class="demo-mode">
+            <small style="color: #6b7280;">Demo Mode</small><br>
+            <a href="#" class="demo-btn" id="demoLoginBtn">Continue as Guest</a>
         </div>
-    </main>
+    </div>
 
     <script>
-        // Sidebar toggle
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('mainContent');
-        const toggleBtn = document.getElementById('toggleSidebarBtn');
-        
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            mainContent.classList.toggle('expanded');
+        // Demo login (guest mode)
+        document.getElementById('demoLoginBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.setItem('currentStudent', JSON.stringify({
+                id: 'guest',
+                name: 'Guest User',
+                email: 'guest@example.com'
+            }));
+            localStorage.setItem('scholarName', 'Guest User');
+            localStorage.setItem('scholarEmail', 'guest@example.com');
+            window.location.href = 'dashboard.html';
         });
 
-        // Check if student is logged in
-        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        
-        let studentData = null;
-        
-        if (currentStudent) {
-            studentData = students.find(s => s.id === currentStudent.id);
-        }
-        
-        if (!studentData) {
-            // Not logged in, redirect to login
-            window.location.href = 'login.html';
-        } else {
-            // Display student info
-            const firstName = studentData.fullName.split(' ')[0];
-            document.getElementById('welcomeName').textContent = firstName;
-            document.getElementById('userName').textContent = studentData.fullName;
-            document.getElementById('userEmail').textContent = studentData.email;
-            
-            const initials = studentData.fullName.split(' ').map(n => n[0]).join('').toUpperCase();
-            document.getElementById('userAvatar').textContent = initials;
-            
-            // Calculate age from date of birth
-            function calculateAge(dob) {
-                const birthDate = new Date(dob);
-                const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                return age;
-            }
-            
-            const age = calculateAge(studentData.dateOfBirth);
-            
-            // Display student details
-            const detailsGrid = document.getElementById('studentDetails');
-            detailsGrid.innerHTML = `
-                <div class="detail-item">
-                    <span class="detail-label">👤 Full Name</span>
-                    <span class="detail-value">${studentData.fullName}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">🎂 Date of Birth</span>
-                    <span class="detail-value">${studentData.dateOfBirth} (${age} years)</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">🏫 School/Ward</span>
-                    <span class="detail-value">${studentData.school}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">📚 Class</span>
-                    <span class="detail-value">${studentData.class}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">📧 Email</span>
-                    <span class="detail-value">${studentData.email}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">📱 Phone</span>
-                    <span class="detail-value">${studentData.phone}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">👨‍👩 Parent/Guardian</span>
-                    <span class="detail-value">${studentData.parentName}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">📞 Parent Phone</span>
-                    <span class="detail-value">${studentData.parentPhone}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">📅 Registered</span>
-                    <span class="detail-value">${new Date(studentData.registeredDate).toLocaleDateString()}</span>
-                </div>
-            `;
-        }
-        
-        // Logout function
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        // Regular login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            localStorage.removeItem('currentStudent');
-            window.location.href = 'login.html';
-        });
-        
-        // Set greeting based on time
-        function setGreeting() {
-            const hour = new Date().getHours();
-            const welcomeCard = document.querySelector('.welcome-card p');
-            if (hour < 12) {
-                welcomeCard.textContent = 'Good morning! Start your day with a practice session! ☀️';
-            } else if (hour < 17) {
-                welcomeCard.textContent = 'Good afternoon! Keep up the great work! 📚';
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Get all registered students
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            
+            // Find student with matching email and password
+            const student = students.find(s => s.email === email && s.password === password);
+            
+            if (student) {
+                // Save current student session
+                localStorage.setItem('currentStudent', JSON.stringify({
+                    id: student.id,
+                    name: student.fullName,
+                    email: student.email
+                }));
+                
+                // Save scholar name for dashboard
+                localStorage.setItem('scholarName', student.fullName);
+                localStorage.setItem('scholarEmail', student.email);
+                
+                // Initialize empty data structures if not exist
+                if (!student.practiceStats) {
+                    student.practiceStats = { total: 0, correct: 0, points: 0 };
+                }
+                if (!student.courseProgress) {
+                    student.courseProgress = {};
+                }
+                
+                // Load practice stats
+                localStorage.setItem('practiceStats', JSON.stringify(student.practiceStats));
+                localStorage.setItem('courseProgress', JSON.stringify(student.courseProgress));
+                
+                // Load attendance records
+                const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + student.id) || '[]');
+                localStorage.setItem('studentAttendance', JSON.stringify(attendanceRecords));
+                
+                alert(`✅ Welcome back, ${student.fullName}!`);
+                window.location.href = 'dashboard.html';
             } else {
-                welcomeCard.textContent = 'Good evening! Great time to review what you learned! 🌙';
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = '❌ Invalid email or password. Please try again or register.';
+                errorDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 3000);
             }
-        }
-        setGreeting();
+        });
     </script>
 </body>
-</html>
+</html>     
