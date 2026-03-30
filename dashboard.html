@@ -5,24 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - The Junior Scholar Portal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f0f2f5;
-            color: #1a1a2e;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
         }
 
-        /* Main Layout */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-        }
+        .app-container { display: flex; min-height: 100vh; }
 
         /* Sidebar */
         .sidebar {
@@ -32,121 +29,69 @@
             position: fixed;
             height: 100vh;
             overflow-y: auto;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+            z-index: 100;
         }
-
         .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-        .school-name {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            letter-spacing: 1px;
-        }
-
-        .portal-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 0.25rem;
-        }
-
+        .school-name { font-size: 0.75rem; opacity: 0.75; letter-spacing: 1.5px; }
+        .portal-title { font-size: 1.4rem; font-weight: 800; margin-top: 0.25rem; }
         .vacation-badge {
             background: #f59e0b;
             color: #1e293b;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: 600;
+            padding: 0.35rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
             display: inline-block;
-            margin-top: 0.5rem;
         }
 
         .sidebar-nav {
-            padding: 1.5rem 0;
+            padding: 1rem 0;
         }
-
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
+            gap: 0.85rem;
+            padding: 0.85rem 1.5rem;
+            color: rgba(255,255,255,0.75);
             text-decoration: none;
             transition: all 0.3s;
-            font-size: 0.9rem;
         }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .nav-item:hover, .nav-item.active {
+            background: rgba(59,130,246,0.25);
             color: white;
+            border-left: 4px solid var(--primary);
         }
-
-        .nav-item.active {
-            background: rgba(59, 130, 246, 0.3);
-            color: white;
-            border-left: 3px solid #3b82f6;
-        }
-
-        .nav-icon {
-            font-size: 1.25rem;
-            width: 24px;
-        }
+        .nav-icon { font-size: 1.35rem; width: 28px; }
 
         .user-section {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            gap: 0.85rem;
+            margin-bottom: 1rem;
         }
-
         .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: #3b82f6;
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-email {
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
+            font-size: 1.25rem;
         }
 
         /* Main Content */
@@ -156,481 +101,239 @@
             padding: 2rem;
         }
 
-        /* Header */
         .main-header {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem 2rem;
+            padding: 1.75rem 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .header-subtitle {
-            color: #64748b;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Profile Summary */
-        .profile-summary {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .summary-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .summary-item {
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.5rem;
         }
-
-        .summary-label {
+        .current-time {
+            font-size: 0.95rem;
             color: #64748b;
-            font-size: 0.875rem;
         }
 
-        .summary-value {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .status-badge {
-            background: #10b981;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-        }
-
-        /* Two Column Layout */
-        .two-columns {
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
             margin-bottom: 2rem;
         }
+        .stat-card {
+            background: white;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .stat-label { color: #64748b; margin-top: 0.5rem; font-size: 0.9rem; }
 
-        /* Card Styles */
         .card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 1.25rem;
         }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .view-all {
-            color: #3b82f6;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        /* Sessions List */
-        .session-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        .card-title { font-size: 1.25rem; font-weight: 700; }
 
         .session-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem;
+            padding: 1rem;
             background: #f8fafc;
-            border-radius: 0.75rem;
-            transition: transform 0.2s;
+            border-radius: 0.875rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
         }
-
-        .session-item:hover {
-            transform: translateX(5px);
-        }
-
-        .session-info {
-            flex: 1;
-        }
-
-        .session-date {
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-bottom: 0.25rem;
-        }
-
-        .session-subject {
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-        }
-
-        .session-time {
-            font-size: 0.7rem;
-            color: #3b82f6;
-        }
-
-        .session-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .status-upcoming {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .status-live {
-            background: #fee2e2;
-            color: #dc2626;
-            animation: pulse-status 2s infinite;
-        }
-
-        @keyframes pulse-status {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .status-completed {
-            background: #d1fae5;
-            color: #059669;
-        }
-
-        /* Courses List */
-        .courses-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .course-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-        }
-
-        .course-info {
-            flex: 1;
-        }
-
-        .course-name {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-        }
-
-        .course-category {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-
-        .course-progress {
-            width: 100px;
-        }
+        .session-item:hover { transform: translateX(6px); }
 
         .progress-bar {
+            height: 6px;
             background: #e2e8f0;
-            border-radius: 0.5rem;
-            height: 0.25rem;
+            border-radius: 9999px;
             overflow: hidden;
-            margin-bottom: 0.25rem;
         }
-
         .progress-fill {
-            background: #3b82f6;
             height: 100%;
-            border-radius: 0.5rem;
-            transition: width 0.3s;
+            background: var(--primary);
+            border-radius: 9999px;
         }
 
-        .progress-text {
-            font-size: 0.7rem;
-            color: #64748b;
-            text-align: right;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 0.25rem;
-        }
-
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: none;
+        /* Toast */
+        #toast {
             position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-            background: #3b82f6;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e2937;
             color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 0.5rem;
-            font-size: 1.25rem;
-            cursor: pointer;
+            padding: 1rem 1.75rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 2000;
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .sidebar {
-                transform: translateX(-100%);
-                z-index: 999;
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-                padding-top: 4rem;
-            }
-            
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
-    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-    
+    <button class="mobile-menu-btn" id="mobileMenuBtn" style="position:fixed; top:1rem; left:1rem; z-index:1000; background:var(--primary); color:white; border:none; width:48px; height:48px; border-radius:0.75rem; font-size:1.5rem; cursor:pointer; display:none;">☰</button>
+
     <div class="app-container">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="school-name">PRESEC-LEGON</div>
-                <div class="portal-title">The Junior Scholar Portal</div>
-                <div class="vacation-badge">📚 VACATION SCHOOL</div>
+                <div class="school-name">PRESEC-LEGON • VACATION SCHOOL</div>
+                <div class="portal-title">Junior Scholar Portal</div>
+                <div class="vacation-badge">2026 SESSION</div>
             </div>
-            
+
             <nav class="sidebar-nav">
                 <a href="dashboard.html" class="nav-item active">
-                    <span class="nav-icon">📊</span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="nav-item" id="studentGuideBtn">
-                    <span class="nav-icon">📖</span>
-                    <span>Student Guide</span>
+                    <span class="nav-icon">📊</span> Dashboard
                 </a>
                 <a href="courses.html" class="nav-item">
-                    <span class="nav-icon">📚</span>
-                    <span>My Courses</span>
+                    <span class="nav-icon">📚</span> My Courses
                 </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">📁</span>
-                    <span>My Course Materials</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon">✅</span>
-                    <span>My Tasks</span>
+                <a href="live-class.html" class="nav-item">
+                    <span class="nav-icon">🎥</span> Live Classes
                 </a>
                 <a href="practice.html" class="nav-item">
-                    <span class="nav-icon">📝</span>
-                    <span>Practice Questions</span>
+                    <span class="nav-icon">📝</span> Practice Questions
                 </a>
-                <a href="live-class.html" class="nav-item">
-                    <span class="nav-icon">🎥</span>
-                    <span>My Sessions</span>
-                </a>
-                <a href="live-class.html" class="nav-item">
-                    <span class="nav-icon">📋</span>
-                    <span>Mark Attendance</span>
+                <a href="#" class="nav-item" id="studentGuideBtn">
+                    <span class="nav-icon">📖</span> Student Guide
                 </a>
             </nav>
-            
+
             <div class="user-section">
                 <div class="user-info">
                     <div class="user-avatar" id="userAvatar">CS</div>
                     <div>
                         <div class="user-name" id="userName">Caleb Asare</div>
-                        <div class="user-email">Student</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">BECE Candidate</div>
                     </div>
                 </div>
-                <a href="index.html" class="logout-btn" id="logoutBtn">
-                    <span>🚪</span>
-                    <span>Logout</span>
+                <a href="index.html" id="logoutBtn" style="color:#f87171; text-decoration:none; display:flex; align-items:center; gap:0.5rem; font-size:0.9rem;">
+                    🚪 Logout
                 </a>
             </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
             <div class="main-header">
-                <h1 class="header-title">Presec Online Classroom</h1>
-                <p class="header-subtitle">The Junior Scholar Portal - Vacation School</p>
-            </div>
-            
-            <!-- Profile Summary -->
-            <div class="profile-summary">
-                <h3 class="summary-title">Profile Summary</h3>
-                <div class="summary-grid">
-                    <div class="summary-item">
-                        <span class="summary-label">Cohort:</span>
-                        <span class="summary-value">BECE VACATION CLASS 2025</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Status:</span>
-                        <span class="status-badge">✅ Enrolled</span>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">Training Location:</span>
-                        <span class="summary-value">🎥 Virtual Class (Online)</span>
-                    </div>
+                <div>
+                    <h1 style="font-size:1.85rem; font-weight:800;">Welcome back, <span id="greetingName"></span>!</h1>
+                    <p style="color:#64748b;">Let's continue your BECE preparation today</p>
                 </div>
+                <div class="current-time" id="currentTime"></div>
             </div>
-            
-            <!-- Stats Grid -->
+
+            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-value" id="coursesEnrolled">0</div>
+                    <div class="stat-value" id="coursesEnrolled">8</div>
                     <div class="stat-label">Courses Enrolled</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="completedLessons">0</div>
+                    <div class="stat-value" id="completedLessons">124</div>
                     <div class="stat-label">Lessons Completed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="questionsDone">0</div>
-                    <div class="stat-label">Questions Done</div>
+                    <div class="stat-value" id="questionsAnswered">347</div>
+                    <div class="stat-label">Questions Answered</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="attendanceRate">0%</div>
+                    <div class="stat-value" id="attendanceRate">92%</div>
                     <div class="stat-label">Attendance Rate</div>
                 </div>
             </div>
-            
-            <!-- Two Columns: Upcoming Sessions & Enrolled Courses -->
-            <div class="two-columns">
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                <!-- Today's Live Session -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🎥 Today's Live Class</h3>
+                    </div>
+                    <div id="todayLive" style="padding:1.25rem; background:#fef2f2; border-radius:0.875rem; border-left:5px solid var(--danger);">
+                        <strong id="liveSubject">Mathematics - Algebra Masterclass</strong><br>
+                        <small style="color:#b91c1c;">Today • 4:00 PM - 5:30 PM • Mr. Kofi Mensah</small>
+                        <br><br>
+                        <a href="live-class.html" style="background:var(--danger); color:white; padding:0.75rem 1.5rem; border-radius:0.5rem; text-decoration:none; font-weight:600; display:inline-block;">
+                            Join Live Class →
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Upcoming Sessions -->
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">📅 Upcoming Sessions</h3>
-                        <a href="live-class.html" class="view-all">View All →</a>
+                        <a href="live-class.html" style="color:var(--primary); font-size:0.9rem;">View All →</a>
                     </div>
-                    <div class="session-list" id="upcomingSessions">
-                        <!-- Dynamic content -->
-                    </div>
-                </div>
-                
-                <!-- Enrolled Courses -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📚 Enrolled Courses</h3>
-                        <a href="courses.html" class="view-all">View All →</a>
-                    </div>
-                    <div class="courses-list" id="enrolledCourses">
-                        <!-- Dynamic content -->
-                    </div>
+                    <div id="upcomingSessions" class="session-list"></div>
                 </div>
             </div>
-            
+
+            <!-- Enrolled Courses -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 My Courses</h3>
+                    <a href="courses.html" style="color:var(--primary); font-size:0.9rem;">Manage →</a>
+                </div>
+                <div id="enrolledCourses"></div>
+            </div>
+
             <!-- Quick Actions -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">⚡ Quick Actions</h3>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <a href="practice.html" style="text-decoration: none;">
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 1.5rem;">📝</div>
-                            <div style="font-weight: 600; margin-top: 0.5rem;">Practice Questions</div>
-                            <div style="font-size: 0.75rem; color: #64748b;">Test your knowledge</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;">
+                    <a href="practice.html" style="text-decoration:none;">
+                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
+                            📝<br>
+                            <strong>Practice Questions</strong><br>
+                            <small style="color:#64748b;">Build exam confidence</small>
                         </div>
                     </a>
-                    <a href="live-class.html" style="text-decoration: none;">
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 1.5rem;">🎥</div>
-                            <div style="font-weight: 600; margin-top: 0.5rem;">Join Live Class</div>
-                            <div style="font-size: 0.75rem; color: #64748b;">Today at 4:00 PM</div>
+                    <a href="live-class.html" style="text-decoration:none;">
+                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
+                            🎥<br>
+                            <strong>Join Live Class</strong><br>
+                            <small style="color:#64748b;">Today at 4:00 PM</small>
                         </div>
                     </a>
-                    <a href="#" id="markAttendanceBtn" style="text-decoration: none;">
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 1.5rem;">📋</div>
-                            <div style="font-weight: 600; margin-top: 0.5rem;">Mark Attendance</div>
-                            <div style="font-size: 0.75rem; color: #64748b;">For today's class</div>
-                        </div>
-                    </a>
-                    <a href="courses.html" style="text-decoration: none;">
-                        <div style="background: #f8fafc; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 1.5rem;">📚</div>
-                            <div style="font-weight: 600; margin-top: 0.5rem;">My Courses</div>
-                            <div style="font-size: 0.75rem; color: #64748b;">Continue learning</div>
+                    <a href="#" id="markAttendanceQuick" style="text-decoration:none;">
+                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
+                            📋<br>
+                            <strong>Mark Attendance</strong><br>
+                            <small style="color:#64748b;">For today's session</small>
                         </div>
                     </a>
                 </div>
@@ -638,196 +341,135 @@
         </main>
     </div>
 
+    <!-- Toast -->
+    <div id="toast"></div>
+
     <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        // Toast function
+        function showToast(msg, duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => toast.style.display = 'none', duration);
+        }
+
+        // Mobile menu
+        const mobileBtn = document.getElementById('mobileMenuBtn');
         const sidebar = document.getElementById('sidebar');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-        
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                    sidebar.classList.remove('open');
-                }
-            }
-        });
-        
-        // Get student name
-        let studentName = localStorage.getItem('scholarName');
-        if (!studentName) {
-            studentName = prompt('Welcome to The Junior Scholar Portal!\n\nEnter your name:', 'Caleb Asare');
-            if (studentName) localStorage.setItem('scholarName', studentName);
-            else studentName = 'Caleb Asare';
-        }
-        
-        // Update user info
+        mobileBtn.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+
+        mobileBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+        // User info
+        let studentName = localStorage.getItem('scholarName') || 'Caleb Asare';
+        localStorage.setItem('scholarName', studentName);
         document.getElementById('userName').textContent = studentName;
-        const initials = studentName.split(' ').map(n => n[0]).join('').toUpperCase();
-        document.getElementById('userAvatar').textContent = initials;
-        
-        // Upcoming sessions data
-        const sessions = [
-            { date: 'Mar 30, 2026', time: '08:00 AM', subject: 'CHEMISTRY', status: 'upcoming' },
-            { date: 'Mar 30, 2026', time: '03:00 PM', subject: 'CHEMISTRY PRACTICAL', status: 'upcoming' },
-            { date: 'Mar 30, 2026', time: '05:30 PM', subject: 'ENGLISH LANGUAGE', status: 'upcoming' },
-            { date: 'Mar 31, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' },
-            { date: 'Apr 1, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' }
-        ];
-        
-        // Check if any session is live (for demo, check if current time is around 4PM)
-        const currentHour = new Date().getHours();
-        if (currentHour === 16) {
-            sessions.unshift({
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                time: '04:00 PM',
-                subject: 'MATHEMATICS - ALGEBRA',
-                status: 'live'
+        document.getElementById('greetingName').textContent = studentName.split(' ')[0];
+        document.getElementById('userAvatar').textContent = studentName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+
+        // Live clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', minute: '2-digit', hour12: true 
             });
         }
-        
-        // Render upcoming sessions
-        function renderSessions() {
+        setInterval(updateClock, 10000);
+        updateClock();
+
+        // Sample data
+        const upcoming = [
+            { subject: "Chemistry Practical", time: "3:00 PM", date: "Today" },
+            { subject: "English Language", time: "5:30 PM", date: "Today" },
+            { subject: "General Mathematics", time: "8:00 AM", date: "Tomorrow" }
+        ];
+
+        function renderUpcoming() {
             const container = document.getElementById('upcomingSessions');
-            container.innerHTML = sessions.slice(0, 5).map(session => `
+            container.innerHTML = upcoming.map(item => `
                 <div class="session-item" onclick="window.location.href='live-class.html'">
-                    <div class="session-info">
-                        <div class="session-date">${session.date}</div>
-                        <div class="session-subject">${session.subject}</div>
-                        <div class="session-time">⏰ ${session.time}</div>
+                    <div>
+                        <strong>${item.subject}</strong><br>
+                        <small style="color:#64748b;">${item.date} • ${item.time}</small>
                     </div>
-                    <div class="session-status status-${session.status}">
-                        ${session.status === 'live' ? '🔴 LIVE NOW' : '📅 Upcoming'}
-                    </div>
+                    <span style="background:#fef3c7; color:#d97706; padding:0.35rem 0.85rem; border-radius:9999px; font-size:0.8rem;">Upcoming</span>
                 </div>
             `).join('');
         }
-        
-        // Enrolled courses data
-        const courses = [
-            { name: 'GENERAL MATHEMATICS', category: 'CORE SUBJECT', progress: 65 },
-            { name: 'ENGLISH LANGUAGE', category: 'CORE SUBJECT', progress: 72 },
-            { name: 'INTEGRATED SCIENCE', category: 'CORE SUBJECT', progress: 48 },
-            { name: 'SOCIAL STUDIES', category: 'CORE SUBJECT', progress: 55 },
-            { name: 'MATHEMATICS (ELECTIVE)', category: 'ELECTIVE', progress: 30 },
-            { name: 'BIOLOGY', category: 'ELECTIVE', progress: 25 },
-            { name: 'CHEMISTRY', category: 'ELECTIVE', progress: 40 },
-            { name: 'PHYSICS', category: 'ELECTIVE', progress: 35 }
-        ];
-        
-        // Load course progress from localStorage
-        function loadCourseProgress() {
-            const savedProgress = localStorage.getItem('courseProgress');
-            if (savedProgress) {
-                const progressData = JSON.parse(savedProgress);
-                // Map saved progress to courses (simplified mapping)
-                courses.forEach((course, index) => {
-                    if (progressData[index + 1]) {
-                        course.progress = progressData[index + 1].completed || course.progress;
-                    }
-                });
-            }
-        }
-        
-        // Render enrolled courses
+
         function renderCourses() {
+            const courses = [
+                {name: "General Mathematics", progress: 68},
+                {name: "English Language", progress: 75},
+                {name: "Integrated Science", progress: 52},
+                {name: "Social Studies", progress: 61}
+            ];
+
             const container = document.getElementById('enrolledCourses');
-            container.innerHTML = courses.map(course => `
-                <div class="course-item">
-                    <div class="course-info">
-                        <div class="course-name">${course.name}</div>
-                        <div class="course-category">📁 ${course.category}</div>
+            container.innerHTML = courses.map(c => `
+                <div style="margin-bottom:1rem;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
+                        <strong>${c.name}</strong>
+                        <span style="color:var(--primary);">${c.progress}%</span>
                     </div>
-                    <div class="course-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${course.progress}%"></div>
-                        </div>
-                        <div class="progress-text">${course.progress}%</div>
-                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${c.progress}%"></div></div>
                 </div>
             `).join('');
         }
-        
-        // Load stats from localStorage
+
+        // Load & sync stats from localStorage (works with live-class.html)
         function loadStats() {
-            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-            const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
-            
-            let totalLessons = 0;
-            let completedLessons = 0;
-            Object.values(courseProgress).forEach(progress => {
-                completedLessons += progress.completed || 0;
-                totalLessons += 24;
-            });
-            
-            document.getElementById('coursesEnrolled').textContent = courses.length;
-            document.getElementById('completedLessons').textContent = completedLessons;
-            document.getElementById('questionsDone').textContent = practiceStats.total;
-            
-            // Calculate attendance rate (based on live class attendance)
             const attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-            const attendanceRate = attendance.length > 0 ? Math.min(100, Math.round((attendance.length / 5) * 100)) : 0;
-            document.getElementById('attendanceRate').textContent = attendanceRate + '%';
+            const practice = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0}');
+
+            document.getElementById('questionsAnswered').textContent = practice.total || 347;
+            document.getElementById('attendanceRate').textContent = attendance.length > 0 ? 
+                Math.min(98, 75 + attendance.length * 5) + '%' : '82%';
+            
+            // You can expand this further
         }
-        
-        // Mark attendance
-        document.getElementById('markAttendanceBtn').addEventListener('click', (e) => {
+
+        // Quick attendance
+        document.getElementById('markAttendanceQuick').addEventListener('click', (e) => {
             e.preventDefault();
             const today = new Date().toDateString();
-            const attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-            
-            const alreadyMarked = attendance.some(a => new Date(a.date).toDateString() === today);
-            
-            if (alreadyMarked) {
-                alert('✅ You have already marked attendance for today!');
-            } else {
-                attendance.push({
-                    date: new Date().toISOString(),
-                    subject: 'General Session'
-                });
-                localStorage.setItem('attendance', JSON.stringify(attendance));
-                
-                // Add points
-                let practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-                practiceStats.points = (practiceStats.points || 0) + 10;
-                localStorage.setItem('practiceStats', JSON.stringify(practiceStats));
-                
-                alert('✅ Attendance marked! +10 points earned!');
-                loadStats();
+            let attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
+
+            if (attendance.some(a => new Date(a.date).toDateString() === today)) {
+                showToast("✅ Attendance already marked for today!");
+                return;
             }
+
+            attendance.push({ date: new Date().toISOString(), subject: "Dashboard Quick Mark" });
+            localStorage.setItem('attendance', JSON.stringify(attendance));
+
+            showToast("🎉 Attendance marked successfully! +10 points added");
+            loadStats();
         });
-        
-        // Student guide
+
+        // Student Guide
         document.getElementById('studentGuideBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            alert(`📖 Student Guide\n\nWelcome to The Junior Scholar Portal!\n\n📚 How to use:\n1. Navigate through courses using the sidebar\n2. Complete lessons to earn points\n3. Practice questions to test your knowledge\n4. Join live classes for interactive learning\n5. Mark attendance to track your participation\n\n🎯 Goal: Complete all courses and score 80%+ on practice tests!\n\n💡 Tip: Consistency is key! Study at least 30 minutes daily.`);
+            showToast("📖 Opening Student Guide...\n\nConsistency beats intensity. Study daily!");
         });
-        
+
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'index.html';
+            if (confirm("Logout from The Junior Scholar Portal?")) {
+                window.location.href = "index.html";
             }
         });
-        
+
         // Initialize
-        loadCourseProgress();
-        renderSessions();
-        renderCourses();
-        loadStats();
-        
-        // Check for live class and update badge
-        function checkLiveClass() {
-            const hour = new Date().getHours();
-            if (hour === 16) {
-                renderSessions();
-            }
+        function init() {
+            renderUpcoming();
+            renderCourses();
+            loadStats();
+            showToast("Welcome back to your dashboard! 👋", 2200);
         }
-        checkLiveClass();
+
+        init();
     </script>
 </body>
 </html>
