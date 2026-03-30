@@ -14,11 +14,12 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             min-height: 100vh;
             color: #1e293b;
         }
 
+        /* Navigation */
         .navbar {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
@@ -39,6 +40,7 @@
             font-weight: 800;
             color: white;
             text-decoration: none;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .nav-links {
@@ -60,20 +62,22 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* Main Container */
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
 
+        /* Red Glass Header */
         .glass-header {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(239, 68, 68, 0.25);
             backdrop-filter: blur(10px);
             border-radius: 2rem;
             padding: 2rem;
             margin-bottom: 2rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.5);
         }
 
         .glass-header h1 {
@@ -81,12 +85,14 @@
             font-weight: 800;
             color: white;
             margin-bottom: 0.5rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .glass-header p {
             color: rgba(255, 255, 255, 0.9);
         }
 
+        /* Stats Cards - Red Glass */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -95,36 +101,39 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(239, 68, 68, 0.2);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
             padding: 1rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.7);
         }
 
-        .stat-number {
+        .stat-value {
             font-size: 1.8rem;
             font-weight: 800;
-            color: white;
+            color: #fecaca;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
         }
 
+        /* Tabs */
         .tabs {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(239, 68, 68, 0.4);
             padding-bottom: 0.5rem;
         }
 
@@ -140,34 +149,43 @@
         }
 
         .tab-btn.active {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(239, 68, 68, 0.4);
         }
 
+        .tab-btn:hover:not(.active) {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Assignment Cards - Red Glass */
         .assignment-card, .note-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(239, 68, 68, 0.15);
             backdrop-filter: blur(10px);
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             margin-bottom: 1.5rem;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             transition: all 0.3s;
         }
 
         .assignment-card:hover, .note-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.7);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .assignment-header, .note-header {
             padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid white;
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #fecaca;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .assignment-subject, .note-subject {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #fecaca;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .assignment-title, .note-title {
@@ -179,8 +197,11 @@
 
         .assignment-due {
             font-size: 0.7rem;
-            color: #fbbf24;
+            color: #fcd34d;
             margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .assignment-body, .note-body {
@@ -188,17 +209,24 @@
         }
 
         .assignment-description, .note-content {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.95);
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         .submission-area {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 0.75rem;
             padding: 1rem;
             margin-top: 1rem;
+        }
+
+        .submission-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #fecaca;
+            margin-bottom: 0.5rem;
         }
 
         .submission-input {
@@ -206,7 +234,7 @@
             padding: 0.75rem;
             border: none;
             border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             font-family: inherit;
             resize: vertical;
         }
@@ -214,11 +242,12 @@
         .submission-input:focus {
             outline: none;
             background: white;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
         }
 
         .btn-submit {
-            background: white;
-            color: #667eea;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 2rem;
@@ -230,21 +259,35 @@
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.5);
         }
 
         .submitted-badge {
             background: rgba(16, 185, 129, 0.3);
-            color: #10b981;
+            color: #6ee7b7;
             padding: 0.5rem;
             border-radius: 0.5rem;
             font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .empty-state {
             text-align: center;
             padding: 3rem;
+            background: rgba(239, 68, 68, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            color: white;
+        }
+
+        /* Credits */
+        .credits {
+            text-align: center;
+            padding: 1.5rem;
             color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
         }
 
         @media (max-width: 768px) {
@@ -284,15 +327,15 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="pendingCount">0</div>
+                <div class="stat-value" id="pendingCount">0</div>
                 <div class="stat-label">Pending Assignments</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="submittedCount">0</div>
+                <div class="stat-value" id="submittedCount">0</div>
                 <div class="stat-label">Submitted</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="notesCount">0</div>
+                <div class="stat-value" id="notesCount">0</div>
                 <div class="stat-label">Notes Available</div>
             </div>
         </div>
@@ -304,9 +347,15 @@
 
         <div id="assignmentsContainer"></div>
         <div id="notesContainer" style="display: none;"></div>
+
+        <div class="credits">
+            ✨ Made with Excellence by SKILABS ✨<br>
+            Caleb Fiifi Asare & Arnold Kadi
+        </div>
     </div>
 
     <script>
+        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
@@ -318,7 +367,8 @@
         let submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
 
         function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
             if (tab === 'assignments') {
@@ -353,17 +403,29 @@
                         <div class="assignment-header">
                             <div class="assignment-subject">${a.subject}</div>
                             <div class="assignment-title">${a.title}</div>
-                            <div class="assignment-due">📅 Due: ${a.dueDate}</div>
+                            <div class="assignment-due">
+                                <span>📅</span>
+                                <span>Due: ${a.dueDate}</span>
+                            </div>
                         </div>
                         <div class="assignment-body">
                             <div class="assignment-description">${a.description.replace(/\n/g, '<br>')}</div>
                             <div class="submission-area">
+                                <div class="submission-label">${submitted ? '✅ Your Submission' : '📝 Submit Your Answer'}</div>
                                 ${submitted ? `
-                                    <div class="submitted-badge">✅ Submitted on ${submitted.date}</div>
-                                    <div style="margin-top: 0.5rem; color: white;">Your answer: "${submitted.answer.substring(0, 100)}..."</div>
+                                    <div class="submitted-badge">
+                                        <span>✅</span>
+                                        <span>Submitted on ${submitted.date}</span>
+                                    </div>
+                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; color: white;">
+                                        <strong>Your answer:</strong><br>
+                                        "${submitted.answer}"
+                                    </div>
                                 ` : `
-                                    <textarea id="answer_${a.id}" class="submission-input" rows="3" placeholder="Write your answer here..."></textarea>
-                                    <button class="btn-submit" onclick="submitAssignment(${a.id}, '${a.title.replace(/'/g, "\\'")}')">📤 Submit Assignment</button>
+                                    <textarea id="answer_${a.id}" class="submission-input" rows="4" placeholder="Write your answer here..."></textarea>
+                                    <button class="btn-submit" onclick="submitAssignment(${a.id}, '${a.title.replace(/'/g, "\\'")}')">
+                                        📤 Submit Assignment
+                                    </button>
                                 `}
                             </div>
                         </div>
@@ -378,7 +440,7 @@
             document.getElementById('notesCount').textContent = notes.length;
             
             if (notes.length === 0) {
-                container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>';
+                container.innerHTML = '<div class="empty-state">📚 No notes shared yet. Check back later!</div>';
                 return;
             }
             
@@ -390,8 +452,10 @@
                     </div>
                     <div class="note-body">
                         <div class="note-content">${n.content.replace(/\n/g, '<br>')}</div>
-                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: white; text-decoration: underline;">🔗 Open Resource →</a>` : ''}
-                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">📅 ${new Date(n.createdAt).toLocaleDateString()}</div>
+                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: #fecaca; text-decoration: underline; display: inline-block; margin-top: 0.5rem;">🔗 Open Resource →</a>` : ''}
+                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(239,68,68,0.3);">
+                            📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -399,28 +463,50 @@
 
         function submitAssignment(id, title) {
             const answer = document.getElementById(`answer_${id}`).value;
-            if (!answer.trim()) { alert('Please write your answer.'); return; }
-            if (answer.length < 10) { alert('Please provide a more detailed answer.'); return; }
+            if (!answer.trim()) {
+                alert('Please write your answer before submitting.');
+                return;
+            }
+            if (answer.length < 10) {
+                alert('Please provide a more detailed answer (at least 10 characters).');
+                return;
+            }
             
-            submissions[id] = { assignmentId: id, title, answer, date: new Date().toLocaleString(), studentId: studentData.id, studentName: studentData.fullName };
+            submissions[id] = {
+                assignmentId: id,
+                title: title,
+                answer: answer,
+                date: new Date().toLocaleString(),
+                studentId: studentData.id,
+                studentName: studentData.fullName
+            };
             localStorage.setItem('submissions_' + studentData.id, JSON.stringify(submissions));
             
             let allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
-            allSubmissions.push({ assignmentId: id, title, answer, date: new Date().toLocaleString(), studentId: studentData.id, studentName: studentData.fullName });
+            allSubmissions.push({
+                assignmentId: id,
+                title: title,
+                answer: answer,
+                date: new Date().toLocaleString(),
+                studentId: studentData.id,
+                studentName: studentData.fullName,
+                studentEmail: studentData.email
+            });
             localStorage.setItem('allSubmissions', JSON.stringify(allSubmissions));
             
             let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
-            const idx = studentsList.findIndex(s => s.id === studentData.id);
-            if (idx !== -1) {
-                studentsList[idx].practiceStats = studentsList[idx].practiceStats || { total: 0, correct: 0, points: 0 };
-                studentsList[idx].practiceStats.points = (studentsList[idx].practiceStats.points || 0) + 20;
+            const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+            if (studentIndex !== -1) {
+                studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
+                studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 20;
                 localStorage.setItem('students', JSON.stringify(studentsList));
             }
             
-            alert(`✅ Assignment submitted! +20 points earned!`);
+            alert(`✅ Assignment "${title}" submitted successfully! +20 points earned!`);
             loadAssignments();
         }
 
+        // Initial load
         loadAssignments();
     </script>
 </body>
