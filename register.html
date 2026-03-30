@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - The Junior Scholar Portal</title>
     <style>
         * {
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             min-height: 100vh;
             display: flex;
@@ -80,7 +80,6 @@
             border: 2px solid #e2e8f0;
             border-radius: 0.5rem;
             font-size: 0.9rem;
-            transition: all 0.3s;
         }
 
         input:focus, select:focus {
@@ -97,42 +96,41 @@
         .btn-register {
             width: 100%;
             padding: 0.875rem;
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: #2ecc71;
             color: white;
             border: none;
             border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s;
             margin-top: 1rem;
         }
 
         .btn-register:hover {
-            transform: translateY(-2px);
+            background: #27ae60;
         }
 
         .login-link {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.85rem;
-            color: #64748b;
         }
 
         .login-link a {
             color: #2ecc71;
             text-decoration: none;
-            font-weight: 600;
         }
 
-        .login-link a:hover {
-            text-decoration: underline;
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
         }
 
         @media (max-width: 768px) {
-            .register-container {
-                padding: 1.5rem;
-            }
             .form-row {
                 grid-template-columns: 1fr;
             }
@@ -148,11 +146,13 @@
         <h1>Student Registration</h1>
         <p class="subtitle">Create your account to start learning</p>
 
+        <div id="successMsg" class="success-message"></div>
+
         <form id="registerForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>👤 Student's Full Name *</label>
-                    <input type="text" id="studentName" placeholder="e.g., Kwame Asare" required>
+                    <label>👤 Full Name *</label>
+                    <input type="text" id="fullName" placeholder="e.g., Kwame Asare" required>
                 </div>
                 <div class="form-group">
                     <label>🎂 Date of Birth *</label>
@@ -162,11 +162,11 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>🏫 School/Ward *</label>
+                    <label>🏫 School *</label>
                     <input type="text" id="school" placeholder="e.g., Presec Legon" required>
                 </div>
                 <div class="form-group">
-                    <label>📚 Class/Form *</label>
+                    <label>📚 Class *</label>
                     <select id="class" required>
                         <option value="">Select Class</option>
                         <option value="JHS 1">JHS 1</option>
@@ -177,28 +177,28 @@
             </div>
 
             <div class="form-group">
-                <label>📧 Email Address *</label>
+                <label>📧 Email *</label>
                 <input type="email" id="email" placeholder="student@example.com" required>
             </div>
 
             <div class="form-group">
-                <label>📱 Phone Number *</label>
+                <label>📱 Phone *</label>
                 <input type="tel" id="phone" placeholder="e.g., 0244123456" required>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>👨‍👩 Parent/Guardian Name *</label>
+                    <label>👨‍👩 Parent/Guardian *</label>
                     <input type="text" id="parentName" placeholder="Parent's full name" required>
                 </div>
                 <div class="form-group">
                     <label>📞 Parent Phone *</label>
-                    <input type="tel" id="parentPhone" placeholder="Parent's phone number" required>
+                    <input type="tel" id="parentPhone" placeholder="Parent's phone" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>🔑 Create Password *</label>
+                <label>🔑 Password *</label>
                 <input type="password" id="password" placeholder="Min. 6 characters" required>
             </div>
 
@@ -214,29 +214,63 @@
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get all form values
+            // Get all values
+            const fullName = document.getElementById('fullName').value;
+            const dob = document.getElementById('dob').value;
+            const school = document.getElementById('school').value;
+            const studentClass = document.getElementById('class').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const parentName = document.getElementById('parentName').value;
+            const parentPhone = document.getElementById('parentPhone').value;
+            const password = document.getElementById('password').value;
+            
+            // Validate
+            if (!fullName || !dob || !school || !studentClass || !email || !phone || !parentName || !parentPhone || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            // Create student object
             const studentData = {
                 id: Date.now(),
-                fullName: document.getElementById('studentName').value,
-                dateOfBirth: document.getElementById('dob').value,
-                school: document.getElementById('school').value,
-                class: document.getElementById('class').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                parentName: document.getElementById('parentName').value,
-                parentPhone: document.getElementById('parentPhone').value,
-                password: document.getElementById('password').value,
+                fullName: fullName,
+                dateOfBirth: dob,
+                school: school,
+                class: studentClass,
+                email: email,
+                phone: phone,
+                parentName: parentName,
+                parentPhone: parentPhone,
+                password: password,
                 registeredDate: new Date().toISOString(),
-                practiceStats: { total: 0, correct: 0, points: 0 },
+                practiceStats: {
+                    total: 0,
+                    correct: 0,
+                    points: 0
+                },
                 courseProgress: {}
             };
             
-            // Save to localStorage
+            // Get existing students
             let students = JSON.parse(localStorage.getItem('students') || '[]');
+            
+            // Check if email already exists
+            if (students.some(s => s.email === email)) {
+                alert('❌ This email is already registered. Please login instead.');
+                return;
+            }
+            
+            // Add new student
             students.push(studentData);
             localStorage.setItem('students', JSON.stringify(students));
             
-            // Save current student session
+            // Save current session
             localStorage.setItem('currentStudent', JSON.stringify({
                 id: studentData.id,
                 name: studentData.fullName,
@@ -247,10 +281,15 @@
             localStorage.setItem('scholarName', studentData.fullName);
             localStorage.setItem('scholarEmail', studentData.email);
             
-            alert(`✅ Welcome ${studentData.fullName}!\n\nYour registration was successful!\n\nYou will now be redirected to your dashboard.`);
+            // Show success message
+            const successMsg = document.getElementById('successMsg');
+            successMsg.textContent = `✅ Registration successful! Welcome ${fullName}! Redirecting to dashboard...`;
+            successMsg.style.display = 'block';
             
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
+            // Redirect after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 2000);
         });
     </script>
 </body>
