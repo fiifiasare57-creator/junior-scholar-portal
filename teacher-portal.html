@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Portal - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,229 +13,43 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
-            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            color: #1a2c3e;
         }
 
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #6366f1;
+            position: sticky;
             top: 0;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
-            color: white;
-            transition: all 0.3s ease-in-out;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            overflow-y: auto;
+            z-index: 100;
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .school-name {
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            opacity: 0.7;
-            margin-bottom: 0.5rem;
-        }
-
-        .portal-title {
-            font-size: 1.25rem;
+        .logo {
+            font-size: 1.2rem;
             font-weight: 800;
-            margin-bottom: 0.25rem;
-        }
-
-        .teacher-badge {
-            display: inline-block;
-            background: #f59e0b;
-            color: #1e3a5f;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            margin-top: 0.5rem;
-        }
-
-        .nav-menu {
-            padding: 1rem 0;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255,255,255,0.8);
+            background: linear-gradient(135deg, #1e293b, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
         }
 
-        .nav-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .nav-item.active {
-            background: rgba(255,255,255,0.15);
-            color: white;
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            width: 28px;
-        }
-
-        .user-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: #f59e0b;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #1e3a5f;
-        }
-
-        .user-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .user-role {
-            font-size: 0.7rem;
-            opacity: 0.7;
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            transition: margin-left 0.3s ease-in-out;
-            min-height: 100vh;
-            padding: 1.5rem;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        .toggle-sidebar {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            background: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1e3a5f;
-        }
-
-        .toggle-sidebar:hover {
-            transform: scale(1.05);
-        }
-
-        /* Welcome Section */
-        .welcome-section {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2c4e6e 100%);
-            border-radius: 1rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
-            margin-bottom: 1.5rem;
-            color: white;
         }
 
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.25rem;
-            border-radius: 1rem;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .stat-value {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #1e3a5f;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
         }
 
@@ -242,24 +57,23 @@
             padding: 0.75rem 1.5rem;
             background: white;
             border: none;
-            border-radius: 0.5rem;
+            border-radius: 2rem;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s;
         }
 
         .tab-btn.active {
-            background: #1e3a5f;
+            background: #6366f1;
             color: white;
         }
 
-        /* Cards */
         .card {
             background: white;
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .card-header {
@@ -267,8 +81,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f0f4f8;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eef2f6;
         }
 
         .card-title {
@@ -276,7 +90,6 @@
             font-weight: 600;
         }
 
-        /* Form Styles */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -291,43 +104,37 @@
         input, select, textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #e2e8f0;
+            border: 2px solid #e2e8f0;
             border-radius: 0.5rem;
             font-size: 0.9rem;
+            font-family: inherit;
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #6366f1;
         }
 
         .btn-primary {
-            background: #1e3a5f;
+            background: #6366f1;
             color: white;
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 0.5rem;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s;
         }
 
-        .btn-primary:hover {
-            background: #2c4e6e;
-            transform: translateY(-2px);
+        .assignment-item, .note-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
         }
 
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        /* Student Card */
         .student-card {
             display: flex;
             justify-content: space-between;
@@ -336,232 +143,50 @@
             background: #f8fafc;
             border-radius: 0.75rem;
             margin-bottom: 0.75rem;
-            transition: all 0.3s;
         }
 
-        .student-card:hover {
-            background: #e8f5e9;
-            transform: translateX(5px);
-        }
-
-        .student-info h4 {
-            margin-bottom: 0.25rem;
-            color: #1e3a5f;
-        }
-
-        .student-info p {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-
-        .student-stats {
-            text-align: right;
-        }
-
-        .student-score {
-            font-weight: 700;
-            color: #2ecc71;
-        }
-
-        .view-btn {
-            background: #2ecc71;
+        .badge {
+            background: #10b981;
             color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2rem;
             font-size: 0.7rem;
-            margin-top: 0.25rem;
-            display: inline-block;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 1rem;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close-modal {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #64748b;
-        }
-
-        /* Lesson/Assignment Items */
-        .lesson-item, .assignment-item, .resource-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .schedule-item {
-            display: grid;
-            grid-template-columns: 100px 1fr 120px;
-            gap: 1rem;
-            align-items: center;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
             }
-            .sidebar.visible {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .toggle-sidebar {
-                left: auto;
-                right: 20px;
-            }
-            .schedule-item {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .container {
+                padding: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
+    <nav class="navbar">
+        <a href="dashboard.html" class="logo">👨‍🏫 Teacher Portal | The Junior Scholar Portal</a>
+    </nav>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="school-name">PRESEC-LEGON</div>
-            <div class="portal-title">Teacher Portal</div>
-            <div class="teacher-badge">👨‍🏫 STAFF DASHBOARD</div>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-item active" data-tab="dashboard">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </div>
-            <div class="nav-item" data-tab="students">
-                <span class="nav-icon">👥</span>
-                <span>Students</span>
-            </div>
-            <div class="nav-item" data-tab="lessons">
-                <span class="nav-icon">📚</span>
-                <span>Manage Lessons</span>
-            </div>
-            <div class="nav-item" data-tab="schedule">
-                <span class="nav-icon">📅</span>
-                <span>Schedule Classes</span>
-            </div>
-            <div class="nav-item" data-tab="assignments">
-                <span class="nav-icon">📝</span>
-                <span>Assignments</span>
-            </div>
-            <div class="nav-item" data-tab="resources">
-                <span class="nav-icon">📁</span>
-                <span>Resources & Notes</span>
-            </div>
-        </nav>
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-avatar" id="teacherAvatar">TK</div>
-                <div>
-                    <div class="user-name" id="teacherName">Teacher</div>
-                    <div class="user-role">Senior Educator</div>
-                </div>
-            </div>
-            <a href="dashboard.html" class="logout-btn" id="switchToStudent">
-                <span>👥</span>
-                <span>Switch to Student View</span>
-            </a>
-        </div>
-    </aside>
-
-    <main class="main-content" id="mainContent">
-        <div class="welcome-section">
-            <h1>Teacher Dashboard</h1>
-            <p>Manage students, lessons, and track progress</p>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('assignments')">📝 Assignments</button>
+            <button class="tab-btn" onclick="showTab('notes')">📚 Notes & Resources</button>
+            <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
+            <button class="tab-btn" onclick="showTab('submissions')">📋 Submissions</button>
         </div>
 
-        <!-- Dashboard Tab -->
-        <div id="dashboardTab">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalStudents">0</div>
-                    <div class="stat-label">Total Students</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalLessons">0</div>
-                    <div class="stat-label">Total Lessons</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalAssignments">0</div>
-                    <div class="stat-label">Assignments</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="avgProgress">0%</div>
-                    <div class="stat-label">Avg Student Progress</div>
-                </div>
-            </div>
-
+        <!-- Assignments Tab -->
+        <div id="assignmentsTab">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📊 Recent Student Activity</h3>
+                    <h3 class="card-title">➕ Create New Assignment</h3>
                 </div>
-                <div id="recentActivity"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Today's Schedule</h3>
-                </div>
-                <div id="todaySchedule"></div>
-            </div>
-        </div>
-
-        <!-- Students Tab -->
-        <div id="studentsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">👥 Registered Students</h3>
-                    <span id="studentCount" style="background: #2ecc71; color: white; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.75rem;">0 Students</span>
-                </div>
-                <div id="studentsList"></div>
-            </div>
-        </div>
-
-        <!-- Manage Lessons Tab -->
-        <div id="lessonsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">➕ Create New Lesson</h3>
-                </div>
-                <form id="lessonForm">
+                <form id="assignmentForm">
                     <div class="form-group">
                         <label>Subject</label>
-                        <select id="lessonSubject" required>
+                        <select id="assignSubject" required>
                             <option value="">Select Subject</option>
                             <option value="Mathematics">Mathematics</option>
                             <option value="English">English Language</option>
@@ -570,98 +195,18 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Lesson Title</label>
-                        <input type="text" id="lessonTitle" placeholder="e.g., Algebra Basics" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Lesson Content</label>
-                        <textarea id="lessonContent" placeholder="Describe what students will learn..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Google Meet Link</label>
-                        <input type="text" id="lessonMeetLink" placeholder="https://meet.google.com/...">
-                    </div>
-                    <button type="submit" class="btn-primary">Create Lesson →</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📚 Your Lessons</h3>
-                </div>
-                <div id="lessonsList"></div>
-            </div>
-        </div>
-
-        <!-- Schedule Classes Tab -->
-        <div id="scheduleTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Schedule New Class</h3>
-                </div>
-                <form id="scheduleForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="scheduleSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="scheduleDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Time</label>
-                        <input type="time" id="scheduleTime" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Duration (hours)</label>
-                        <input type="number" id="scheduleDuration" value="1.5" step="0.5">
-                    </div>
-                    <button type="submit" class="btn-primary">Schedule Class →</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Weekly Schedule</h3>
-                </div>
-                <div id="weeklySchedule"></div>
-            </div>
-        </div>
-
-        <!-- Assignments Tab -->
-        <div id="assignmentsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📝 Create Assignment</h3>
-                </div>
-                <form id="assignmentForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="assignmentSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label>Assignment Title</label>
-                        <input type="text" id="assignmentTitle" placeholder="e.g., Algebra Worksheet" required>
+                        <input type="text" id="assignTitle" placeholder="e.g., Algebra Worksheet" required>
                     </div>
                     <div class="form-group">
                         <label>Description / Instructions</label>
-                        <textarea id="assignmentDesc" placeholder="Describe the assignment..." required></textarea>
+                        <textarea id="assignDesc" rows="3" placeholder="Describe the assignment..." required></textarea>
                     </div>
                     <div class="form-group">
                         <label>Due Date</label>
-                        <input type="date" id="assignmentDue" required>
+                        <input type="date" id="assignDue" required>
                     </div>
-                    <button type="submit" class="btn-primary">Post Assignment →</button>
+                    <button type="submit" class="btn-primary">📤 Send to Students →</button>
                 </form>
             </div>
 
@@ -673,426 +218,251 @@
             </div>
         </div>
 
-        <!-- Resources Tab -->
-        <div id="resourcesTab" style="display: none;">
+        <!-- Notes Tab -->
+        <div id="notesTab" style="display: none;">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📁 Upload Resource / Notes</h3>
+                    <h3 class="card-title">📝 Share Notes & Resources</h3>
                 </div>
-                <form id="resourceForm">
+                <form id="noteForm">
                     <div class="form-group">
                         <label>Subject</label>
-                        <select id="resourceSubject" required>
+                        <select id="noteSubject" required>
                             <option value="">Select Subject</option>
                             <option value="Mathematics">Mathematics</option>
                             <option value="English">English Language</option>
                             <option value="Science">Integrated Science</option>
+                            <option value="Social Studies">Social Studies</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Title</label>
-                        <input type="text" id="resourceTitle" placeholder="e.g., Algebra Notes" required>
+                        <input type="text" id="noteTitle" placeholder="e.g., Algebra Notes - Chapter 1" required>
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="resourceDesc" placeholder="Describe the resource..."></textarea>
+                        <label>Content / Notes</label>
+                        <textarea id="noteContent" rows="5" placeholder="Write your notes here..." required></textarea>
                     </div>
                     <div class="form-group">
-                        <label>File Link (Google Drive, PDF, etc.)</label>
-                        <input type="text" id="resourceLink" placeholder="https://drive.google.com/...">
+                        <label>Resource Link (Optional)</label>
+                        <input type="text" id="noteLink" placeholder="https://drive.google.com/...">
                     </div>
-                    <button type="submit" class="btn-primary">Upload Resource →</button>
+                    <button type="submit" class="btn-primary">📤 Share with Students →</button>
                 </form>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📚 Available Resources</h3>
+                    <h3 class="card-title">📚 Shared Notes & Resources</h3>
                 </div>
-                <div id="resourcesList"></div>
+                <div id="notesList"></div>
             </div>
         </div>
-    </main>
 
-    <!-- Student Detail Modal -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeStudentModal()">&times;</span>
-            <div id="studentModalContent"></div>
+        <!-- Students Tab -->
+        <div id="studentsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👥 Registered Students</h3>
+                </div>
+                <div id="studentsList"></div>
+            </div>
+        </div>
+
+        <!-- Submissions Tab -->
+        <div id="submissionsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Student Submissions</h3>
+                </div>
+                <div id="submissionsList"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Teacher name
-        let teacherName = localStorage.getItem('teacherName');
-        if (!teacherName) {
-            teacherName = prompt('Welcome to Teacher Portal! Enter your name:', 'Mr. Kofi Mensah');
-            if (teacherName) localStorage.setItem('teacherName', teacherName);
-            else teacherName = 'Teacher';
-        }
-        
-        document.getElementById('teacherName').textContent = teacherName;
-        const teacherInitials = teacherName.split(' ').map(n => n[0]).join('');
-        document.getElementById('teacherAvatar').textContent = teacherInitials;
-
-        // Sidebar toggle
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('toggleSidebarBtn');
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            document.getElementById('mainContent').classList.toggle('expanded');
-        });
-
-        // Tab switching
-        const tabs = document.querySelectorAll('.nav-item');
-        const tabContents = {
-            dashboard: document.getElementById('dashboardTab'),
-            students: document.getElementById('studentsTab'),
-            lessons: document.getElementById('lessonsTab'),
-            schedule: document.getElementById('scheduleTab'),
-            assignments: document.getElementById('assignmentsTab'),
-            resources: document.getElementById('resourcesTab')
-        };
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                Object.values(tabContents).forEach(content => {
-                    if (content) content.style.display = 'none';
-                });
-                if (tabContents[tabId]) tabContents[tabId].style.display = 'block';
-                loadTabData(tabId);
-            });
-        });
-
-        function loadTabData(tabId) {
-            if (tabId === 'dashboard') loadDashboard();
-            else if (tabId === 'students') loadStudents();
-            else if (tabId === 'lessons') loadLessons();
-            else if (tabId === 'schedule') loadSchedule();
-            else if (tabId === 'assignments') loadAssignments();
-            else if (tabId === 'resources') loadResources();
-        }
-
         // Data storage
-        let lessons = JSON.parse(localStorage.getItem('teacherLessons') || '[]');
-        let schedules = JSON.parse(localStorage.getItem('classSchedule') || '[]');
-        let assignments = JSON.parse(localStorage.getItem('assignments') || '[]');
-        let resources = JSON.parse(localStorage.getItem('resources') || '[]');
+        let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+        let notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
 
-        function saveData() {
-            localStorage.setItem('teacherLessons', JSON.stringify(lessons));
-            localStorage.setItem('classSchedule', JSON.stringify(schedules));
-            localStorage.setItem('assignments', JSON.stringify(assignments));
-            localStorage.setItem('resources', JSON.stringify(resources));
+        function saveAssignments() {
+            localStorage.setItem('teacherAssignments', JSON.stringify(assignments));
         }
 
-        // ========== STUDENTS MANAGEMENT ==========
-        function loadStudents() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const container = document.getElementById('studentsList');
-            const studentCount = document.getElementById('studentCount');
+        function saveNotes() {
+            localStorage.setItem('teacherNotes', JSON.stringify(notes));
+        }
+
+        // Show tab
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
             
-            studentCount.textContent = `${students.length} Students`;
+            document.getElementById('assignmentsTab').style.display = 'none';
+            document.getElementById('notesTab').style.display = 'none';
+            document.getElementById('studentsTab').style.display = 'none';
+            document.getElementById('submissionsTab').style.display = 'none';
             
-            if (students.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:2rem; color:#64748b;">No students registered yet. Students will appear here after they register.</div>';
+            if (tab === 'assignments') {
+                document.getElementById('assignmentsTab').style.display = 'block';
+                loadAssignments();
+            } else if (tab === 'notes') {
+                document.getElementById('notesTab').style.display = 'block';
+                loadNotes();
+            } else if (tab === 'students') {
+                document.getElementById('studentsTab').style.display = 'block';
+                loadStudents();
+            } else if (tab === 'submissions') {
+                document.getElementById('submissionsTab').style.display = 'block';
+                loadSubmissions();
+            }
+        }
+
+        // Create Assignment
+        document.getElementById('assignmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const assignment = {
+                id: Date.now(),
+                subject: document.getElementById('assignSubject').value,
+                title: document.getElementById('assignTitle').value,
+                description: document.getElementById('assignDesc').value,
+                dueDate: document.getElementById('assignDue').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            assignments.unshift(assignment);
+            saveAssignments();
+            
+            alert(`✅ Assignment "${assignment.title}" sent to all students!`);
+            e.target.reset();
+            loadAssignments();
+        });
+
+        function loadAssignments() {
+            const container = document.getElementById('assignmentsList');
+            if (assignments.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No assignments created yet.</p>';
                 return;
             }
             
-            container.innerHTML = students.map(student => {
-                // Get student's practice stats
-                const practiceStats = student.practiceStats || { total: 0, correct: 0, points: 0 };
-                const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-                
+            container.innerHTML = assignments.map(a => `
+                <div class="assignment-item">
+                    <div>
+                        <strong>${a.subject}: ${a.title}</strong>
+                        <p style="font-size: 0.8rem; margin-top: 0.25rem;">📅 Due: ${a.dueDate}</p>
+                        <p style="font-size: 0.8rem; color: #64748b;">${a.description.substring(0, 100)}...</p>
+                    </div>
+                    <button onclick="deleteAssignment(${a.id})" style="background: #ef4444; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 0.5rem; cursor: pointer;">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteAssignment(id) {
+            assignments = assignments.filter(a => a.id !== id);
+            saveAssignments();
+            loadAssignments();
+        }
+
+        // Create Note
+        document.getElementById('noteForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const note = {
+                id: Date.now(),
+                subject: document.getElementById('noteSubject').value,
+                title: document.getElementById('noteTitle').value,
+                content: document.getElementById('noteContent').value,
+                link: document.getElementById('noteLink').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            notes.unshift(note);
+            saveNotes();
+            
+            alert(`✅ Notes "${note.title}" shared with all students!`);
+            e.target.reset();
+            loadNotes();
+        });
+
+        function loadNotes() {
+            const container = document.getElementById('notesList');
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No notes shared yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = notes.map(n => `
+                <div class="assignment-item">
+                    <div>
+                        <strong>${n.subject}: ${n.title}</strong>
+                        <p style="font-size: 0.8rem; margin-top: 0.25rem;">${n.content.substring(0, 150)}...</p>
+                        ${n.link ? `<p style="font-size: 0.7rem; color: #6366f1;">🔗 ${n.link}</p>` : ''}
+                    </div>
+                    <button onclick="deleteNote(${n.id})" style="background: #ef4444; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 0.5rem; cursor: pointer;">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            notes = notes.filter(n => n.id !== id);
+            saveNotes();
+            loadNotes();
+        }
+
+        // Load Students
+        function loadStudents() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const container = document.getElementById('studentsList');
+            
+            if (students.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No students registered yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = students.map(s => {
+                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
+                const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
                 return `
                     <div class="student-card">
-                        <div class="student-info">
-                            <h4>${student.fullName}</h4>
-                            <p>📧 ${student.email} | 📱 ${student.phone}</p>
-                            <p>🏫 ${student.school} | 📚 ${student.class}</p>
-                            <p>👨‍👩 ${student.parentName} | 📞 ${student.parentPhone}</p>
-                            <p>🎂 ${student.dateOfBirth} | 📅 Registered: ${new Date(student.registeredDate).toLocaleDateString()}</p>
+                        <div>
+                            <strong>${s.fullName}</strong>
+                            <p style="font-size: 0.7rem;">📧 ${s.email} | 📱 ${s.phone}</p>
+                            <p style="font-size: 0.7rem;">🏫 ${s.school} | 📚 ${s.class}</p>
                         </div>
-                        <div class="student-stats">
-                            <div class="student-score">📊 ${accuracy}% Accuracy</div>
-                            <div>📝 ${practiceStats.total} Questions</div>
-                            <div>⭐ ${practiceStats.points || 0} Points</div>
-                            <button class="view-btn" onclick="viewStudentDetails(${student.id})">View Details</button>
+                        <div style="text-align: right;">
+                            <span class="badge">${accuracy}% Accuracy</span>
+                            <p style="font-size: 0.7rem; margin-top: 0.25rem;">📝 ${stats.total} Qs | ⭐ ${stats.points || 0} pts</p>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        window.viewStudentDetails = function(studentId) {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const student = students.find(s => s.id === studentId);
+        // Load Submissions
+        function loadSubmissions() {
+            const submissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+            const container = document.getElementById('submissionsList');
             
-            if (student) {
-                const practiceStats = student.practiceStats || { total: 0, correct: 0, points: 0 };
-                const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-                
-                const modalContent = document.getElementById('studentModalContent');
-                modalContent.innerHTML = `
-                    <h2 style="color: #1e3a5f; margin-bottom: 1rem;">Student Profile</h2>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-                        <p><strong>👤 Name:</strong> ${student.fullName}</p>
-                        <p><strong>🎂 Date of Birth:</strong> ${student.dateOfBirth}</p>
-                        <p><strong>🏫 School:</strong> ${student.school}</p>
-                        <p><strong>📚 Class:</strong> ${student.class}</p>
-                        <p><strong>📧 Email:</strong> ${student.email}</p>
-                        <p><strong>📱 Phone:</strong> ${student.phone}</p>
-                        <p><strong>👨‍👩 Parent/Guardian:</strong> ${student.parentName}</p>
-                        <p><strong>📞 Parent Phone:</strong> ${student.parentPhone}</p>
-                        <p><strong>📅 Registered:</strong> ${new Date(student.registeredDate).toLocaleString()}</p>
-                    </div>
-                    <h3 style="margin: 1rem 0 0.5rem;">📊 Academic Progress</h3>
-                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
-                        <p><strong>Questions Answered:</strong> ${practiceStats.total}</p>
-                        <p><strong>Correct Answers:</strong> ${practiceStats.correct}</p>
-                        <p><strong>Accuracy:</strong> ${accuracy}%</p>
-                        <p><strong>Total Points:</strong> ${practiceStats.points || 0}</p>
-                    </div>
-                `;
-                document.getElementById('studentModal').style.display = 'block';
-            }
-        };
-
-        function closeStudentModal() {
-            document.getElementById('studentModal').style.display = 'none';
-        }
-
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('studentModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-
-        // ========== DASHBOARD ==========
-        function loadDashboard() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            document.getElementById('totalStudents').textContent = students.length;
-            document.getElementById('totalLessons').textContent = lessons.length;
-            document.getElementById('totalAssignments').textContent = assignments.length;
-            
-            // Calculate average progress
-            let totalAccuracy = 0;
-            students.forEach(student => {
-                const stats = student.practiceStats || { total: 0, correct: 0 };
-                const accuracy = stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
-                totalAccuracy += accuracy;
-            });
-            const avgProgress = students.length > 0 ? Math.round(totalAccuracy / students.length) : 0;
-            document.getElementById('avgProgress').textContent = avgProgress + '%';
-            
-            // Recent activity
-            const activityContainer = document.getElementById('recentActivity');
-            if (students.length === 0) {
-                activityContainer.innerHTML = '<p style="text-align:center; color:#64748b;">No student activity yet.</p>';
-            } else {
-                activityContainer.innerHTML = students.slice(0, 5).map(student => {
-                    const stats = student.practiceStats || { total: 0, correct: 0 };
-                    return `
-                        <div class="student-card" style="margin-bottom: 0.5rem;">
-                            <div>
-                                <strong>${student.fullName}</strong>
-                                <p style="font-size: 0.75rem;">${student.email}</p>
-                            </div>
-                            <div class="student-stats">
-                                ${stats.total} questions answered | ${stats.correct} correct
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-            
-            // Today's schedule
-            const today = new Date().toISOString().split('T')[0];
-            const todaySchedules = schedules.filter(s => s.date === today);
-            const todayContainer = document.getElementById('todaySchedule');
-            if (todaySchedules.length === 0) {
-                todayContainer.innerHTML = '<p>No classes scheduled for today.</p>';
-            } else {
-                todayContainer.innerHTML = todaySchedules.map(s => `
-                    <div style="padding: 0.5rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 0.5rem;">
-                        <strong>${s.subject}</strong> at ${s.time} (${s.duration} hours)
-                    </div>
-                `).join('');
-            }
-        }
-
-        // ========== LESSONS ==========
-        document.getElementById('lessonForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const lesson = {
-                id: Date.now(),
-                subject: document.getElementById('lessonSubject').value,
-                title: document.getElementById('lessonTitle').value,
-                content: document.getElementById('lessonContent').value,
-                meetLink: document.getElementById('lessonMeetLink').value,
-                date: new Date().toISOString()
-            };
-            lessons.unshift(lesson);
-            saveData();
-            loadLessons();
-            e.target.reset();
-            alert('✅ Lesson created successfully!');
-        });
-
-        function loadLessons() {
-            const container = document.getElementById('lessonsList');
-            if (lessons.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b;">No lessons yet. Create your first lesson!</p>';
+            if (submissions.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No submissions yet.</p>';
                 return;
             }
-            container.innerHTML = lessons.map(lesson => `
-                <div class="lesson-item">
-                    <div>
-                        <h4>${lesson.subject}: ${lesson.title}</h4>
-                        <p>${lesson.content.substring(0, 100)}...</p>
-                        ${lesson.meetLink ? `<p>🔗 ${lesson.meetLink}</p>` : ''}
+            
+            container.innerHTML = submissions.reverse().map(sub => `
+                <div class="student-card" style="flex-direction: column; align-items: flex-start;">
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <strong>${sub.studentName}</strong>
+                        <span style="font-size: 0.7rem; color: #6366f1;">${sub.date}</span>
                     </div>
-                    <button class="btn-danger" onclick="deleteLesson(${lesson.id})">Delete</button>
+                    <p style="margin-top: 0.5rem;"><strong>Assignment:</strong> ${sub.title}</p>
+                    <p style="font-size: 0.85rem; margin-top: 0.25rem;">"${sub.answer.substring(0, 200)}${sub.answer.length > 200 ? '...' : ''}"</p>
                 </div>
             `).join('');
         }
-
-        window.deleteLesson = (id) => {
-            lessons = lessons.filter(l => l.id !== id);
-            saveData();
-            loadLessons();
-        };
-
-        // ========== SCHEDULE ==========
-        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const schedule = {
-                id: Date.now(),
-                subject: document.getElementById('scheduleSubject').value,
-                date: document.getElementById('scheduleDate').value,
-                time: document.getElementById('scheduleTime').value,
-                duration: document.getElementById('scheduleDuration').value
-            };
-            schedules.push(schedule);
-            saveData();
-            loadSchedule();
-            e.target.reset();
-            alert('✅ Class scheduled successfully!');
-        });
-
-        function loadSchedule() {
-            const container = document.getElementById('weeklySchedule');
-            const sorted = [...schedules].sort((a,b) => new Date(a.date) - new Date(b.date));
-            if (sorted.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b;">No classes scheduled yet.</p>';
-                return;
-            }
-            container.innerHTML = sorted.map(s => `
-                <div class="schedule-item">
-                    <div class="schedule-day">${s.subject}</div>
-                    <div>${s.date} at ${s.time}</div>
-                    <div>${s.duration} hours</div>
-                </div>
-            `).join('');
-        }
-
-        // ========== ASSIGNMENTS ==========
-        document.getElementById('assignmentForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const assignment = {
-                id: Date.now(),
-                subject: document.getElementById('assignmentSubject').value,
-                title: document.getElementById('assignmentTitle').value,
-                description: document.getElementById('assignmentDesc').value,
-                dueDate: document.getElementById('assignmentDue').value,
-                date: new Date().toISOString()
-            };
-            assignments.unshift(assignment);
-            saveData();
-            loadAssignments();
-            e.target.reset();
-            alert('✅ Assignment posted!');
-        });
-
-        function loadAssignments() {
-            const container = document.getElementById('assignmentsList');
-            if (assignments.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b;">No assignments yet.</p>';
-                return;
-            }
-            container.innerHTML = assignments.map(a => `
-                <div class="assignment-item">
-                    <div>
-                        <h4>${a.subject}: ${a.title}</h4>
-                        <p>${a.description.substring(0, 100)}...</p>
-                        <p>📅 Due: ${a.dueDate}</p>
-                    </div>
-                    <button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button>
-                </div>
-            `).join('');
-        }
-
-        window.deleteAssignment = (id) => {
-            assignments = assignments.filter(a => a.id !== id);
-            saveData();
-            loadAssignments();
-        };
-
-        // ========== RESOURCES ==========
-        document.getElementById('resourceForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const resource = {
-                id: Date.now(),
-                subject: document.getElementById('resourceSubject').value,
-                title: document.getElementById('resourceTitle').value,
-                description: document.getElementById('resourceDesc').value,
-                link: document.getElementById('resourceLink').value,
-                date: new Date().toISOString()
-            };
-            resources.unshift(resource);
-            saveData();
-            loadResources();
-            e.target.reset();
-            alert('✅ Resource uploaded!');
-        });
-
-        function loadResources() {
-            const container = document.getElementById('resourcesList');
-            if (resources.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#64748b;">No resources yet.</p>';
-                return;
-            }
-            container.innerHTML = resources.map(r => `
-                <div class="resource-item">
-                    <div>
-                        <h4>${r.subject}: ${r.title}</h4>
-                        <p>${r.description}</p>
-                        ${r.link ? `<a href="${r.link}" target="_blank" style="color:#2ecc71;">🔗 Open Resource →</a>` : ''}
-                    </div>
-                    <button class="btn-danger" onclick="deleteResource(${r.id})">Delete</button>
-                </div>
-            `).join('');
-        }
-
-        window.deleteResource = (id) => {
-            resources = resources.filter(r => r.id !== id);
-            saveData();
-            loadResources();
-        };
-
-        // Switch to student view
-        document.getElementById('switchToStudent').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'dashboard.html';
-        });
 
         // Initial load
-        loadDashboard();
+        loadAssignments();
     </script>
 </body>
 </html>
