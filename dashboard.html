@@ -2,474 +2,592 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - The Junior Scholar Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         :root {
-            --primary: #3b82f6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --primary: #0ea5e9;      /* Bright Sky Blue */
+            --primary-dark: #0284c8;
+            --accent: #14b8a6;       /* Teal Accent */
+            --text: #0f172a;
+            --text-light: #64748b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
 
-        .app-container { display: flex; min-height: 100vh; }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            transition: transform 0.3s ease;
-            z-index: 100;
-        }
-        .sidebar-header {
-            padding: 2rem 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .school-name { font-size: 0.75rem; opacity: 0.75; letter-spacing: 1.5px; }
-        .portal-title { font-size: 1.4rem; font-weight: 800; margin-top: 0.25rem; }
-        .vacation-badge {
-            background: #f59e0b;
-            color: #1e293b;
-            padding: 0.35rem 0.9rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-top: 0.75rem;
-            display: inline-block;
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         }
 
-        .sidebar-nav {
-            padding: 1rem 0;
-        }
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            padding: 0.85rem 1.5rem;
-            color: rgba(255,255,255,0.75);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .nav-item:hover, .nav-item.active {
-            background: rgba(59,130,246,0.25);
-            color: white;
-            border-left: 4px solid var(--primary);
-        }
-        .nav-icon { font-size: 1.35rem; width: 28px; }
-
-        .user-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            margin-bottom: 1rem;
-        }
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 2rem;
-        }
-
-        .main-header {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.75rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .current-time {
-            font-size: 0.95rem;
-            color: #64748b;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
         }
 
+        .logo-icon {
+            font-size: 2.1rem;
+        }
+
+        .logo-text {
+            font-size: 1.45rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            position: relative;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .btn-logout {
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            padding: 0.7rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout:hover {
+            background: #fecaca;
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .streak-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .streak-card .emoji {
+            font-size: 2.8rem;
+        }
+
+        .streak-card .days {
+            font-size: 2.4rem;
+            font-weight: 800;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
+
         .stat-card {
-            background: white;
-            padding: 1.75rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            padding: 1.8rem 1.5rem;
+            border-radius: 18px;
             text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s ease;
         }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+
         .stat-value {
-            font-size: 2.25rem;
+            font-size: 2.7rem;
             font-weight: 800;
             color: var(--primary);
         }
-        .stat-label { color: #64748b; margin-top: 0.5rem; font-size: 0.9rem; }
 
-        .card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 0.4rem;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
             margin-bottom: 2rem;
         }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-        }
-        .card-title { font-size: 1.25rem; font-weight: 700; }
 
-        .session-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 0.875rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s;
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--text);
         }
-        .session-item:hover { transform: translateX(6px); }
+
+        .progress-bar-container {
+            background: #e2e8f0;
+            height: 16px;
+            border-radius: 999px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
 
         .progress-bar {
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 9999px;
-            overflow: hidden;
-        }
-        .progress-fill {
             height: 100%;
-            background: var(--primary);
-            border-radius: 9999px;
-        }
-
-        /* Toast */
-        #toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e2937;
-            color: white;
-            padding: 1rem 1.75rem;
-            border-radius: 9999px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
-            display: none;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 999px;
+            transition: width 0.8s ease;
+            display: flex;
             align-items: center;
-            gap: 0.75rem;
-            z-index: 2000;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 700;
         }
 
+        /* Live Alert */
+        .live-alert {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 1.6rem 2rem;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+
+        .live-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pulse-dot {
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            animation: ping 1.5s infinite;
+        }
+
+        @keyframes ping {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+
+        .btn-join {
+            background: white;
+            color: #ef4444;
+            padding: 0.75rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Quick Actions & Recent Activity */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.6rem;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.4s ease;
+        }
+
+        .action-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.15);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            width: 62px;
+            height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f9ff;
+            border-radius: 14px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; padding: 1rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1.5rem;
+                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" style="position:fixed; top:1rem; left:1rem; z-index:1000; background:var(--primary); color:white; border:none; width:48px; height:48px; border-radius:0.75rem; font-size:1.5rem; cursor:pointer; display:none;">☰</button>
 
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="school-name">PRESEC-LEGON • VACATION SCHOOL</div>
-                <div class="portal-title">Junior Scholar Portal</div>
-                <div class="vacation-badge">2026 SESSION</div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">The Junior Scholar Portal</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="courses.html">Courses</a>
+                <a href="live-class.html">Live Classes</a>
+                <button class="btn-logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
+        </div>
+    </nav>
 
-            <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item active">
-                    <span class="nav-icon">📊</span> Dashboard
-                </a>
-                <a href="courses.html" class="nav-item">
-                    <span class="nav-icon">📚</span> My Courses
-                </a>
-                <a href="live-class.html" class="nav-item">
-                    <span class="nav-icon">🎥</span> Live Classes
-                </a>
-                <a href="practice.html" class="nav-item">
-                    <span class="nav-icon">📝</span> Practice Questions
-                </a>
-                <a href="#" class="nav-item" id="studentGuideBtn">
-                    <span class="nav-icon">📖</span> Student Guide
-                </a>
-            </nav>
-
-            <div class="user-section">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">CS</div>
-                    <div>
-                        <div class="user-name" id="userName">Caleb Asare</div>
-                        <div style="font-size:0.8rem; opacity:0.8;">BECE Candidate</div>
-                    </div>
-                </div>
-                <a href="index.html" id="logoutBtn" style="color:#f87171; text-decoration:none; display:flex; align-items:center; gap:0.5rem; font-size:0.9rem;">
-                    🚪 Logout
-                </a>
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-text">
+                <h1>Welcome back, <span id="studentName">Scholar</span>! 👋</h1>
+                <p>Ready to continue your journey to BECE excellence?</p>
             </div>
-        </aside>
+            <div class="streak-card">
+                <div class="emoji">🔥</div>
+                <div class="days" id="streakDays">7</div>
+                <div style="font-size: 0.9rem; opacity: 0.9;">day streak</div>
+            </div>
+        </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="main-header">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="syllabusProgress">68%</div>
+                <div class="stat-label">Syllabus Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="coursesCompleted">8</div>
+                <div class="stat-label">Courses Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="questionsAnswered">247</div>
+                <div class="stat-label">Questions Answered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="accuracyRate">85%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h3 class="section-title">📊 Your Overall Progress</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="overallProgress" style="width: 72%">72%</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-light); font-size: 0.95rem;">
+                <span>📚 12/16 Subjects Started</span>
+                <span>⭐ 4 Badges Earned</span>
+            </div>
+        </div>
+
+        <!-- Live Session Alert -->
+        <div class="live-alert">
+            <div class="live-content">
+                <span class="pulse-dot"></span>
                 <div>
-                    <h1 style="font-size:1.85rem; font-weight:800;">Welcome back, <span id="greetingName"></span>!</h1>
-                    <p style="color:#64748b;">Let's continue your BECE preparation today</p>
-                </div>
-                <div class="current-time" id="currentTime"></div>
-            </div>
-
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="coursesEnrolled">8</div>
-                    <div class="stat-label">Courses Enrolled</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="completedLessons">124</div>
-                    <div class="stat-label">Lessons Completed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="questionsAnswered">347</div>
-                    <div class="stat-label">Questions Answered</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="attendanceRate">92%</div>
-                    <div class="stat-label">Attendance Rate</div>
+                    <strong>🔴 LIVE CLASS IN PROGRESS</strong><br>
+                    <small>Mathematics - Algebra Masterclass with Mr. Kofi Mensah</small>
                 </div>
             </div>
+            <a href="live-class.html" class="btn-join">
+                <i class="fas fa-play"></i> Join Now
+            </a>
+        </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-                <!-- Today's Live Session -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">🎥 Today's Live Class</h3>
-                    </div>
-                    <div id="todayLive" style="padding:1.25rem; background:#fef2f2; border-radius:0.875rem; border-left:5px solid var(--danger);">
-                        <strong id="liveSubject">Mathematics - Algebra Masterclass</strong><br>
-                        <small style="color:#b91c1c;">Today • 4:00 PM - 5:30 PM • Mr. Kofi Mensah</small>
-                        <br><br>
-                        <a href="live-class.html" style="background:var(--danger); color:white; padding:0.75rem 1.5rem; border-radius:0.5rem; text-decoration:none; font-weight:600; display:inline-block;">
-                            Join Live Class →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Upcoming Sessions -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📅 Upcoming Sessions</h3>
-                        <a href="live-class.html" style="color:var(--primary); font-size:0.9rem;">View All →</a>
-                    </div>
-                    <div id="upcomingSessions" class="session-list"></div>
-                </div>
-            </div>
-
-            <!-- Enrolled Courses -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📚 My Courses</h3>
-                    <a href="courses.html" style="color:var(--primary); font-size:0.9rem;">Manage →</a>
-                </div>
-                <div id="enrolledCourses"></div>
-            </div>
-
+        <!-- Main Content Grid -->
+        <div class="content-grid">
             <!-- Quick Actions -->
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">⚡ Quick Actions</h3>
-                </div>
-                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;">
-                    <a href="practice.html" style="text-decoration:none;">
-                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
-                            📝<br>
-                            <strong>Practice Questions</strong><br>
-                            <small style="color:#64748b;">Build exam confidence</small>
+                <h3 class="section-title">⚡ Quick Actions</h3>
+                <div class="action-grid">
+                    <a href="practice.html" class="action-card">
+                        <div class="action-icon">📝</div>
+                        <div>
+                            <h4>Practice Questions</h4>
+                            <p style="color: var(--text-light);">Test your knowledge with past questions</p>
                         </div>
                     </a>
-                    <a href="live-class.html" style="text-decoration:none;">
-                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
-                            🎥<br>
-                            <strong>Join Live Class</strong><br>
-                            <small style="color:#64748b;">Today at 4:00 PM</small>
+                    <a href="courses.html" class="action-card">
+                        <div class="action-icon">📚</div>
+                        <div>
+                            <h4>Continue Learning</h4>
+                            <p style="color: var(--text-light);">Resume your courses</p>
                         </div>
                     </a>
-                    <a href="#" id="markAttendanceQuick" style="text-decoration:none;">
-                        <div style="background:#f8fafc; padding:1.25rem; border-radius:0.875rem; text-align:center;">
-                            📋<br>
-                            <strong>Mark Attendance</strong><br>
-                            <small style="color:#64748b;">For today's session</small>
+                    <a href="live-class.html" class="action-card">
+                        <div class="action-icon">🎥</div>
+                        <div>
+                            <h4>Live Classes</h4>
+                            <p style="color: var(--text-light);">Join interactive sessions</p>
+                        </div>
+                    </a>
+                    <a href="#" class="action-card" id="leaderboardBtn">
+                        <div class="action-icon">🏆</div>
+                        <div>
+                            <h4>Leaderboard</h4>
+                            <p style="color: var(--text-light);">See how you rank</p>
                         </div>
                     </a>
                 </div>
             </div>
-        </main>
+
+            <!-- Recent Activity -->
+            <div class="card">
+                <h3 class="section-title">📅 Recent Activity</h3>
+                <div>
+                    <div class="activity-item">
+                        <span style="font-size: 1.8rem;">✅</span>
+                        <div>
+                            <p><strong>Completed:</strong> Algebra Basics Module</p>
+                            <small style="color: var(--text-light);">2 hours ago</small>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span style="font-size: 1.8rem;">🎥</span>
+                        <div>
+                            <p><strong>Attended:</strong> English Essay Writing Class</p>
+                            <small style="color: var(--text-light);">Yesterday at 4:30 PM</small>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <span style="font-size: 1.8rem;">📝</span>
+                        <div>
+                            <p><strong>Scored 85% on:</strong> Science Practice Test</p>
+                            <small style="color: var(--text-light);">2 days ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Toast -->
-    <div id="toast"></div>
-
     <script>
-        // Toast function
-        function showToast(msg, duration = 3000) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.style.display = 'flex';
-            setTimeout(() => toast.style.display = 'none', duration);
-        }
-
-        // Mobile menu
-        const mobileBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
-        mobileBtn.style.display = window.innerWidth <= 768 ? 'block' : 'none';
-
-        mobileBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
-
-        // User info
-        let studentName = localStorage.getItem('scholarName') || 'Caleb Asare';
-        localStorage.setItem('scholarName', studentName);
-        document.getElementById('userName').textContent = studentName;
-        document.getElementById('greetingName').textContent = studentName.split(' ')[0];
-        document.getElementById('userAvatar').textContent = studentName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
-
-        // Live clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', minute: '2-digit', hour12: true 
-            });
-        }
-        setInterval(updateClock, 10000);
-        updateClock();
-
-        // Sample data
-        const upcoming = [
-            { subject: "Chemistry Practical", time: "3:00 PM", date: "Today" },
-            { subject: "English Language", time: "5:30 PM", date: "Today" },
-            { subject: "General Mathematics", time: "8:00 AM", date: "Tomorrow" }
-        ];
-
-        function renderUpcoming() {
-            const container = document.getElementById('upcomingSessions');
-            container.innerHTML = upcoming.map(item => `
-                <div class="session-item" onclick="window.location.href='live-class.html'">
-                    <div>
-                        <strong>${item.subject}</strong><br>
-                        <small style="color:#64748b;">${item.date} • ${item.time}</small>
-                    </div>
-                    <span style="background:#fef3c7; color:#d97706; padding:0.35rem 0.85rem; border-radius:9999px; font-size:0.8rem;">Upcoming</span>
-                </div>
-            `).join('');
-        }
-
-        function renderCourses() {
-            const courses = [
-                {name: "General Mathematics", progress: 68},
-                {name: "English Language", progress: 75},
-                {name: "Integrated Science", progress: 52},
-                {name: "Social Studies", progress: 61}
-            ];
-
-            const container = document.getElementById('enrolledCourses');
-            container.innerHTML = courses.map(c => `
-                <div style="margin-bottom:1rem;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
-                        <strong>${c.name}</strong>
-                        <span style="color:var(--primary);">${c.progress}%</span>
-                    </div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${c.progress}%"></div></div>
-                </div>
-            `).join('');
-        }
-
-        // Load & sync stats from localStorage (works with live-class.html)
-        function loadStats() {
-            const attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-            const practice = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0}');
-
-            document.getElementById('questionsAnswered').textContent = practice.total || 347;
-            document.getElementById('attendanceRate').textContent = attendance.length > 0 ? 
-                Math.min(98, 75 + attendance.length * 5) + '%' : '82%';
-            
-            // You can expand this further
-        }
-
-        // Quick attendance
-        document.getElementById('markAttendanceQuick').addEventListener('click', (e) => {
-            e.preventDefault();
-            const today = new Date().toDateString();
-            let attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-
-            if (attendance.some(a => new Date(a.date).toDateString() === today)) {
-                showToast("✅ Attendance already marked for today!");
-                return;
-            }
-
-            attendance.push({ date: new Date().toISOString(), subject: "Dashboard Quick Mark" });
-            localStorage.setItem('attendance', JSON.stringify(attendance));
-
-            showToast("🎉 Attendance marked successfully! +10 points added");
-            loadStats();
-        });
-
-        // Student Guide
-        document.getElementById('studentGuideBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast("📖 Opening Student Guide...\n\nConsistency beats intensity. Study daily!");
+        // Mobile Menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
         });
 
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
-            if (confirm("Logout from The Junior Scholar Portal?")) {
-                window.location.href = "index.html";
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
             }
         });
 
-        // Initialize
-        function init() {
-            renderUpcoming();
-            renderCourses();
-            loadStats();
-            showToast("Welcome back to your dashboard! 👋", 2200);
-        }
+        // Student Name
+        let studentName = localStorage.getItem('scholarName') || 'Scholar';
+        document.getElementById('studentName').textContent = studentName;
 
-        init();
+        // Load Progress
+        function loadProgress() {
+            const saved = localStorage.getItem('scholarProgress');
+            if (saved) {
+                const p = JSON.parse(saved);
+                document.getElementById('syllabusProgress').textContent = p.syllabus || '68%';
+                document.getElementById('coursesCompleted').textContent = p.courses || '8';
+                document.getElementById('questionsAnswered').textContent = p.questions || '247';
+                document.getElementById('accuracyRate').textContent = p.accuracy || '85%';
+                
+                const bar = document.getElementById('overallProgress');
+                bar.style.width = p.overall || '72%';
+                bar.textContent = p.overall || '72%';
+                
+                document.getElementById('streakDays').textContent = p.streak || '7';
+            }
+        }
+        loadProgress();
+
+        // Leaderboard Demo
+        document.getElementById('leaderboardBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('🏆 Leaderboard Coming Soon!\n\nTop Scholars this week:\n1. Adwoa - 2,450 pts\n2. Kwame - 2,120 pts\n3. You - 1,890 pts\n\nKeep practicing!');
+        });
+
+        window.saveProgress = function(progressData) {
+            localStorage.setItem('scholarProgress', JSON.stringify(progressData));
+            loadProgress();
+        };
     </script>
 </body>
 </html>
