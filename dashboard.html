@@ -462,6 +462,10 @@
                 <span class="nav-icon">📋</span>
                 <span>My Resources</span>
             </a>
+            <a href="attendance.html" class="nav-item">
+                <span class="nav-icon">✅</span>
+                <span>Attendance</span>
+            </a>
         </nav>
 
         <div class="user-section">
@@ -498,8 +502,8 @@
                 <div class="stat-label">Pending Assignments</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="upcomingClasses">0</div>
-                <div class="stat-label">Upcoming Classes</div>
+                <div class="stat-number" id="attendanceCount">0</div>
+                <div class="stat-label">Attendance Records</div>
             </div>
         </div>
 
@@ -546,10 +550,10 @@
                 <div class="action-title">Live Classes</div>
                 <div class="action-count" id="liveCount">Join sessions</div>
             </a>
-            <a href="student-resources.html" class="action-card">
-                <div class="action-icon">📋</div>
-                <div class="action-title">My Resources</div>
-                <div class="action-count" id="resourcesCount">View assignments</div>
+            <a href="attendance.html" class="action-card">
+                <div class="action-icon">✅</div>
+                <div class="action-title">Mark Attendance</div>
+                <div class="action-count">Earn points</div>
             </a>
         </div>
 
@@ -588,6 +592,10 @@
             // Load practice stats
             const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
             document.getElementById('questionsDone').textContent = practiceStats.total;
+            
+            // Load attendance count
+            const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
+            document.getElementById('attendanceCount').textContent = attendanceRecords.length;
         } else {
             // Demo mode
             document.getElementById('welcomeName').textContent = 'Guest';
@@ -597,6 +605,7 @@
             
             const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
             document.getElementById('questionsDone').textContent = practiceStats.total;
+            document.getElementById('attendanceCount').textContent = '0';
         }
 
         // Load assignments count
@@ -632,9 +641,7 @@
             }
         });
         
-        document.getElementById('upcomingClasses').textContent = upcomingCount;
         document.getElementById('liveCount').textContent = liveClass ? '🔴 LIVE NOW' : `${upcomingCount} upcoming`;
-        document.getElementById('resourcesCount').textContent = `${assignments.length} assignments`;
         
         // Show live alert if there's a live class
         if (liveClass) {
