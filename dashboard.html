@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dashboard - The Junior Scholar Portal</title>
+    <title>The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,22 +14,22 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a2c3e 0%, #0f2b3a 50%, #0a1a2a 100%);
+            color: #1a2c3e;
             min-height: 100vh;
-            color: #1e293b;
         }
 
         /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -38,7 +38,10 @@
         .logo {
             font-size: 1.3rem;
             font-weight: 800;
-            color: white;
+            background: linear-gradient(135deg, #1a2c3e, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
         }
 
@@ -50,15 +53,20 @@
 
         .nav-links a {
             text-decoration: none;
-            color: white;
+            color: #4a5568;
             font-weight: 500;
-            transition: all 0.3s;
-            padding: 0.3rem 0.8rem;
-            border-radius: 2rem;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.3);
+            color: #2ecc71;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
         }
 
         /* Sidebar */
@@ -68,10 +76,10 @@
             top: 0;
             width: 280px;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
+            border-right: 1px solid rgba(46, 204, 113, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             overflow-y: auto;
         }
@@ -82,14 +90,14 @@
 
         .sidebar-header {
             padding: 2rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(46, 204, 113, 0.2);
         }
 
         .school-badge {
             font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 1px;
-            color: #ffd700;
+            color: #2ecc71;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
         }
@@ -97,7 +105,10 @@
         .portal-title {
             font-size: 1.3rem;
             font-weight: 800;
-            color: white;
+            background: linear-gradient(135deg, #1a2c3e, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             line-height: 1.3;
         }
 
@@ -105,8 +116,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            background: rgba(255, 215, 0, 0.3);
-            color: #ffd700;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
             font-size: 0.65rem;
             font-weight: 600;
             padding: 0.35rem 0.85rem;
@@ -124,7 +135,7 @@
             gap: 0.85rem;
             padding: 0.75rem 1.5rem;
             margin: 0.3rem 1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #4b5563;
             text-decoration: none;
             transition: all 0.3s;
             font-size: 0.9rem;
@@ -133,14 +144,14 @@
         }
 
         .nav-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
             transform: translateX(5px);
         }
 
         .nav-item.active {
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
         }
 
         .nav-icon {
@@ -154,7 +165,8 @@
             left: 0;
             right: 0;
             padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(46, 204, 113, 0.2);
+            background: white;
         }
 
         .user-info {
@@ -166,39 +178,35 @@
         .user-avatar {
             width: 44px;
             height: 44px;
-            background: linear-gradient(135deg, #ffd700, #f59e0b);
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
             font-size: 1rem;
-            color: #1e293b;
+            color: white;
         }
 
         .user-name {
             font-weight: 700;
             font-size: 0.9rem;
-            color: white;
+            color: #1e293b;
         }
 
         .user-email {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #6b7280;
         }
 
         .logout-btn {
             display: block;
-            color: rgba(255, 255, 255, 0.7);
+            color: #ef4444;
             text-decoration: none;
             font-size: 0.8rem;
             margin-top: 0.5rem;
             padding-top: 0.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .logout-btn:hover {
-            color: #ef4444;
+            border-top: 1px solid rgba(46, 204, 113, 0.2);
         }
 
         /* Main Content */
@@ -218,58 +226,88 @@
             position: fixed;
             left: 20px;
             top: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            background: white;
             border: none;
             width: 42px;
             height: 42px;
             border-radius: 12px;
             cursor: pointer;
             font-size: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             z-index: 1001;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #2ecc71;
             transition: all 0.3s;
         }
 
         .toggle-sidebar:hover {
-            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         /* Hero Section */
         .hero-section {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 2rem;
             padding: 2rem;
             margin-bottom: 2rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            border: 1px solid rgba(46, 204, 113, 0.2);
         }
 
-        .hero-section::before {
-            content: '🎓';
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            font-size: 80px;
-            opacity: 0.1;
-        }
-
-        .hero-title {
+        .hero-section h1 {
             font-size: 1.8rem;
             font-weight: 700;
+            background: linear-gradient(135deg, #1a2c3e, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             margin-bottom: 0.5rem;
         }
 
-        .hero-subtitle {
+        .hero-section p {
+            color: #6b7280;
             font-size: 0.9rem;
-            opacity: 0.9;
+        }
+
+        /* Access Banner */
+        .access-banner {
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .access-banner.paid {
+            background: rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+
+        .access-banner.expired {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
         }
 
         /* Stats Grid */
@@ -281,98 +319,79 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
+            background: white;
+            padding: 1.2rem;
             border-radius: 1rem;
-            padding: 1rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(46, 204, 113, 0.1);
         }
 
         .stat-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.3);
         }
 
         .stat-value {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #ffd700;
+            color: #2ecc71;
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
         }
 
-        /* Access Banner */
-        .access-banner {
-            background: rgba(255, 215, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            border: 1px solid rgba(255, 215, 0, 0.4);
-        }
-
-        .access-banner.paid {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-
-        .access-banner.expired {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-
-        .btn-pay {
-            background: #ffd700;
-            color: #1e293b;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-pay:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        /* Speech Card */
+        /* Speech Card with Typing Animation */
         .speech-card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1.5rem;
             padding: 2rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 4px solid #2ecc71;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .speech-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #ffd700;
+            color: #2ecc71;
             margin-bottom: 1rem;
         }
 
-        .speech-text {
+        .typing-container {
+            min-height: 280px;
+        }
+
+        .typed-text {
             font-size: 0.95rem;
-            line-height: 1.6;
-            color: white;
+            line-height: 1.8;
+            color: #334155;
+            font-style: italic;
+            position: relative;
+        }
+
+        .typed-text::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #2ecc71;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .speech-author {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #94a3b8;
+            text-align: right;
+            border-top: 1px solid #eef2f6;
+            padding-top: 1rem;
         }
 
         /* Quick Actions */
@@ -384,20 +403,22 @@
         }
 
         .action-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
+            background: white;
             padding: 1.2rem;
+            border-radius: 1rem;
             text-align: center;
             text-decoration: none;
-            color: white;
+            color: #1e293b;
             transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(46, 204, 113, 0.1);
         }
 
         .action-card:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.25);
+            background: linear-gradient(135deg, #ffffff, #f0fdf4);
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.15);
+            border-color: #2ecc71;
         }
 
         .action-icon {
@@ -412,28 +433,48 @@
 
         /* Credits */
         .credits-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1rem;
             padding: 1.5rem;
             text-align: center;
             margin-top: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(46, 204, 113, 0.1);
         }
 
         .credits-text {
             font-size: 0.8rem;
-            color: #ffd700;
+            color: #2ecc71;
             font-weight: 500;
         }
 
         .credits-names {
             font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: #64748b;
             margin-top: 0.25rem;
         }
 
-        /* Responsive */
+        /* Teacher Portal Button */
+        .teacher-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .teacher-btn:hover {
+            transform: scale(1.05);
+        }
+
         @media (max-width: 1024px) {
             .stats-grid, .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
@@ -454,7 +495,7 @@
                 left: auto;
                 right: 20px;
             }
-            .hero-title {
+            .hero-section h1 {
                 font-size: 1.3rem;
             }
             .stats-grid, .quick-actions {
@@ -515,8 +556,8 @@
     <main class="main-content" id="mainContent">
         <!-- Hero Section -->
         <div class="hero-section">
-            <h1 class="hero-title">Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p class="hero-subtitle" id="greetingMessage">Your journey to BECE excellence continues. Let's make today productive!</p>
+            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
+            <p id="greetingMessage">Your journey to BECE excellence continues. Let's make today productive!</p>
         </div>
 
         <!-- Access Status Banner -->
@@ -542,16 +583,11 @@
             </div>
         </div>
 
-        <!-- Inspirational Message -->
+        <!-- Speech Card with Typing Animation -->
         <div class="speech-card">
             <div class="speech-title">🎓 A Message for BECE Candidates</div>
-            <div class="speech-text">
-                "Dear Junior Scholar,<br><br>
-                The BECE is your first giant leap towards your dreams. Every question you answer, 
-                every lesson you learn brings you one step closer to success. Remember, greatness is not achieved by luck, 
-                but by consistent effort, determination, and belief in yourself.<br><br>
-                You are capable of more than you know. Stay focused, work hard, and trust the process.<br><br>
-                <strong>Your future self will thank you for the work you do today.</strong>"
+            <div class="typing-container">
+                <div id="typedMessage" class="typed-text"></div>
             </div>
             <div class="speech-author">— The Junior Scholar Portal Team</div>
         </div>
@@ -582,6 +618,9 @@
             <div class="credits-names">Caleb Fiifi Asare & Arnold Kadi</div>
         </div>
     </main>
+
+    <!-- Teacher Portal Button -->
+    <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
 
     <script>
         // Sidebar toggle
@@ -633,19 +672,17 @@
                     `;
                     return true;
                 } else {
-                    // Access expired
                     localStorage.removeItem('accessStatus');
                     banner.className = 'access-banner expired';
                     banner.innerHTML = `
                         <div>
-                            ⚠️ <strong>ACCESS EXPIRED</strong> | Your access has expired. Please renew to continue.
+                            ⚠️ <strong>ACCESS EXPIRED</strong> | Please renew to continue.
                         </div>
                         <a href="payment.html" class="btn-pay">Renew Access →</a>
                     `;
                     return false;
                 }
             } else {
-                // No access
                 banner.className = 'access-banner';
                 banner.innerHTML = `
                     <div>
@@ -657,25 +694,67 @@
             }
         }
 
-        // Load practice stats
+        // Typing Animation
+        const fullMessage = `"Dear Junior Scholar, 🌟\n\nThe BECE is your first giant leap towards your dreams. Every question you answer, every lesson you learn brings you one step closer to success. Remember, greatness is not achieved by luck, but by consistent effort, determination, and belief in yourself.\n\nYou are capable of more than you know. Stay focused, work hard, and trust the process.\n\nYour future self will thank you for the work you do today. 💪"`;
+
+        let charIndex = 0;
+        let isTyping = true;
+        let pauseTimer = null;
+        let displayedText = "";
+        const typingSpeed = 40;
+        const pauseBeforeDelete = 5000;
+        const deleteSpeed = 25;
+
+        function typeLetter() {
+            const typedElement = document.getElementById('typedMessage');
+            
+            if (isTyping && charIndex <= fullMessage.length) {
+                displayedText = fullMessage.substring(0, charIndex);
+                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
+                charIndex++;
+                setTimeout(typeLetter, typingSpeed);
+            } 
+            else if (isTyping && charIndex > fullMessage.length) {
+                isTyping = false;
+                pauseTimer = setTimeout(() => {
+                    deleteLetter();
+                }, pauseBeforeDelete);
+            }
+        }
+
+        function deleteLetter() {
+            const typedElement = document.getElementById('typedMessage');
+            
+            if (!isTyping && charIndex >= 0) {
+                displayedText = fullMessage.substring(0, charIndex);
+                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
+                charIndex--;
+                setTimeout(deleteLetter, deleteSpeed);
+            } 
+            else if (!isTyping && charIndex < 0) {
+                isTyping = true;
+                charIndex = 0;
+                setTimeout(typeLetter, 500);
+            }
+        }
+
+        setTimeout(typeLetter, 500);
+
+        // Load stats
         const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
         document.getElementById('questionsDone').textContent = practiceStats.total;
 
-        // Load attendance count
         const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
         document.getElementById('attendanceCount').textContent = attendanceRecords.length;
 
-        // Load assignments count
         const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
         const submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
         let pendingCount = 0;
         assignments.forEach(a => { if (!submissions[a.id]) pendingCount++; });
         document.getElementById('pendingAssignments').textContent = pendingCount;
 
-        // Set total courses
         document.getElementById('totalCourses').textContent = '7';
 
-        // Check access status on load
         checkAccessStatus();
 
         // Logout
@@ -687,7 +766,7 @@
 
         // Time-based greeting
         const hour = new Date().getHours();
-        const heroSubtitle = document.querySelector('.hero-subtitle');
+        const heroSubtitle = document.querySelector('.hero-section p');
         if (hour < 12) {
             heroSubtitle.textContent = 'Good morning! Start your day with practice and make today count! ☀️';
         } else if (hour < 17) {
