@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dashboard - The Junior Scholar Portal</title>
+    <title>The Junior Scholar Portal - BECE Excellence</title>
     <style>
         * {
             margin: 0;
@@ -13,809 +13,644 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
-            overflow-x: hidden;
-        }
-
-        /* ========== SIDEBAR - LIGHT GREEN ========== */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            color: #1e293b;
-            transition: all 0.3s ease-in-out;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
-            overflow-y: auto;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        /* Sidebar Header */
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .school-name {
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            color: #2d6a4f;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .portal-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #2d6a4f);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.25rem;
-        }
-
-        .vacation-badge {
-            display: inline-block;
-            background: #2d6a4f;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            margin-top: 0.5rem;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
         }
 
         /* Navigation */
-        .nav-menu {
-            padding: 1rem 0;
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .nav-item {
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: #2d6a4f;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin: 0.25rem 0.75rem;
-            border-radius: 0.5rem;
         }
 
-        .nav-item:hover {
-            background: white;
-            color: #1e293b;
-            transform: translateX(5px);
-        }
-
-        .nav-item.active {
-            background: white;
-            color: #2d6a4f;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            width: 28px;
-        }
-
-        /* User Section */
-        .user-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.5);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #2d6a4f, #40916c);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: white;
-        }
-
-        .user-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #1e293b;
-        }
-
-        .user-role {
-            font-size: 0.7rem;
-            color: #2d6a4f;
-        }
-
-        .logout-btn {
+        .logo {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #2d6a4f;
             text-decoration: none;
-            font-size: 0.85rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
         }
 
-        .logout-btn:hover {
-            background: rgba(45, 106, 79, 0.1);
-            color: #dc2626;
+        .logo-icon {
+            font-size: 1.8rem;
         }
 
-        /* ========== MAIN CONTENT ========== */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            transition: margin-left 0.3s ease-in-out;
-            min-height: 100vh;
-            padding: 1.5rem;
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b 0%, #2ecc71 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        /* Toggle Button */
-        .toggle-sidebar {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            background: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1001;
-            transition: all 0.3s;
+        .nav-links {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2d6a4f;
-        }
-
-        .toggle-sidebar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        /* Welcome Section */
-        .welcome-section {
-            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-
-        .welcome-section h1 {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-section p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        /* Profile Summary */
-        .profile-summary {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .summary-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem;
-        }
-
-        .summary-card {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            display: flex;
-            justify-content: space-between;
+            gap: 2rem;
             align-items: center;
         }
 
-        .summary-label {
-            color: #64748b;
-            font-size: 0.85rem;
-        }
-
-        .summary-value {
-            font-weight: 700;
-            color: #2d6a4f;
-        }
-
-        .status-badge {
-            background: #10b981;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-        }
-
-        /* Two Column Layout */
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.25rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #f0f4f8;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .view-link {
-            color: #2d6a4f;
+        .nav-links a {
             text-decoration: none;
-            font-size: 0.75rem;
+            color: #334155;
             font-weight: 500;
+            transition: color 0.3s;
         }
 
-        /* Session List */
-        .session-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+        .nav-links a:hover {
+            color: #2ecc71;
         }
 
-        .session-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            transition: all 0.3s;
-            cursor: pointer;
+        .btn-login {
+            background: #2ecc71;
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            transition: transform 0.3s;
         }
 
-        .session-item:hover {
-            background: #e8f5e9;
-            transform: translateX(5px);
+        .btn-login:hover {
+            transform: translateY(-2px);
+            background: #27ae60;
+            color: white !important;
         }
 
-        .session-date {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-
-        .session-subject {
-            font-weight: 700;
-            color: #1e293b;
-            margin: 0.25rem 0;
-        }
-
-        .session-time {
-            font-size: 0.7rem;
-            color: #2d6a4f;
-        }
-
-        .status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .status-upcoming {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .status-live {
-            background: #fee2e2;
-            color: #dc2626;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Course List - Simple without progress */
-        .courses-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .course-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .course-item:hover {
-            background: #e8f5e9;
-            transform: translateX(5px);
-        }
-
-        .course-icon {
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
             font-size: 1.5rem;
+            cursor: pointer;
+            color: #2ecc71;
         }
 
-        .course-info {
-            flex: 1;
-        }
-
-        .course-name {
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.25rem;
-        }
-
-        .course-category {
-            font-size: 0.7rem;
-            color: #64748b;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-        }
-
-        .action-card {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
+            color: white;
+            padding: 4rem 2rem;
             text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: #2ecc71;
+            color: white;
+            padding: 0.875rem 2rem;
             text-decoration: none;
-            color: #1e293b;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .action-card:hover {
-            background: #e8f5e9;
-            transform: translateY(-3px);
-        }
-
-        .action-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .action-title {
+            border-radius: 0.5rem;
             font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
+            transition: transform 0.3s;
         }
 
-        .action-desc {
-            font-size: 0.7rem;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #27ae60;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.875rem 2rem;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2ecc71;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #1e3a5f;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #2ecc71;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #1e3a5f;
+        }
+
+        .feature-card p {
             color: #64748b;
         }
 
-        /* Mobile Responsive */
+        /* Testimonials */
+        .testimonials {
+            background: #e8f5e9;
+            padding: 4rem 2rem;
+        }
+
+        .testimonials-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+
+        .testimonial-role {
+            font-size: 0.875rem;
+            color: #2ecc71;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #2ecc71;
+        }
+
+        .copyright {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* Teacher Portal Button */
+        .teacher-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e3a5f, #2ecc71);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .teacher-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 15% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 400px;
+            text-align: center;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: #1e3a5f;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .close:hover {
+            color: #ef4444;
+        }
+
+        .demo-text {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
+            .mobile-menu-btn {
+                display: block;
             }
             
-            .sidebar.visible {
-                transform: translateX(0);
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             }
             
-            .main-content {
-                margin-left: 0;
+            .nav-links.active {
+                display: flex;
             }
             
-            .two-columns {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: 2rem;
             }
             
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
+            .hero-subtitle {
+                font-size: 1rem;
             }
             
-            .toggle-sidebar {
-                left: auto;
-                right: 20px;
-                top: 20px;
+            .stat-card {
+                padding: 1rem;
+                min-width: 120px;
             }
             
-            .welcome-section h1 {
-                font-size: 1.25rem;
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .features {
+                padding: 2rem 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Toggle Sidebar Button -->
-    <button class="toggle-sidebar" id="toggleSidebarBtn">
-        ☰
-    </button>
-
-    <!-- Sidebar - Light Green -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="school-name">PRESEC-LEGON</div>
-            <div class="portal-title">The Junior Scholar<br>Portal</div>
-            <div class="vacation-badge">📚 VACATION SCHOOL</div>
-        </div>
-
-        <nav class="nav-menu">
-            <a href="dashboard.html" class="nav-item active">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="#" class="nav-item" id="studentGuideBtn">
-                <span class="nav-icon">📖</span>
-                <span>Student Guide</span>
-            </a>
-            <a href="courses.html" class="nav-item">
-                <span class="nav-icon">📚</span>
-                <span>My Courses</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">📁</span>
-                <span>My Course Materials</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">✅</span>
-                <span>My Tasks</span>
-            </a>
-            <a href="practice.html" class="nav-item">
-                <span class="nav-icon">📝</span>
-                <span>Practice Questions</span>
-            </a>
-            <a href="live-class.html" class="nav-item">
-                <span class="nav-icon">🎥</span>
-                <span>My Sessions</span>
-            </a>
-            <a href="live-class.html" class="nav-item">
-                <span class="nav-icon">📋</span>
-                <span>Mark Attendance</span>
-            </a>
-        </nav>
-
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JS</div>
-                <div>
-                    <div class="user-name" id="userName">Junior Scholar</div>
-                    <div class="user-role">Student</div>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">The Junior Scholar Portal</span>
             </div>
-            <a href="index.html" class="logout-btn" id="logoutBtn">
-                <span>🚪</span>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content" id="mainContent">
-        <!-- Welcome Section with Student Name -->
-        <div class="welcome-section">
-            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p>Ready to continue your journey to BECE excellence? Let's make today productive!</p>
-        </div>
-
-        <!-- Profile Summary -->
-        <div class="profile-summary">
-            <h3 class="summary-title">Profile Summary</h3>
-            <div class="summary-grid">
-                <div class="summary-card">
-                    <span class="summary-label">Cohort:</span>
-                    <span class="summary-value">BECE VACATION CLASS 2025</span>
-                </div>
-                <div class="summary-card">
-                    <span class="summary-label">Status:</span>
-                    <span class="status-badge">✅ Enrolled</span>
-                </div>
-                <div class="summary-card">
-                    <span class="summary-label">Training Location:</span>
-                    <span class="summary-value">🎥 Virtual Class (Online)</span>
-                </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="courses.html">Courses</a>
+                <a href="live-class.html">Live Classes</a>
+                <a href="practice.html">Practice</a>
+                <a href="#" class="btn-login" id="loginBtn">Login</a>
             </div>
         </div>
+    </nav>
 
-        <!-- Two Columns -->
-        <div class="two-columns">
-            <!-- Upcoming Sessions -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Upcoming Sessions</h3>
-                    <a href="live-class.html" class="view-link">View All →</a>
-                </div>
-                <div class="session-list" id="upcomingSessions">
-                    <!-- Dynamic content -->
-                </div>
-            </div>
-
-            <!-- Enrolled Courses (No Progress Bars) -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📚 Enrolled Courses</h3>
-                    <a href="courses.html" class="view-link">View All →</a>
-                </div>
-                <div class="courses-list" id="enrolledCourses">
-                    <!-- Dynamic content -->
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Your Journey to <span>BECE Excellence</span> Begins Here
+            </h1>
+            <p class="hero-subtitle">
+                Join hundreds of junior scholars preparing for the BECE with expert-led live classes, 
+                interactive practice questions, and personalized learning paths.
+            </p>
+            <div class="hero-buttons">
+                <a href="dashboard.html" class="btn-primary">Start Learning →</a>
+                <a href="#features" class="btn-secondary">Explore Features</a>
             </div>
         </div>
-
-        <!-- Quick Actions -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">⚡ Quick Actions</h3>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Live Classes</div>
             </div>
-            <div class="quick-actions">
-                <a href="practice.html" class="action-card">
-                    <div class="action-icon">📝</div>
-                    <div class="action-title">Practice Questions</div>
-                    <div class="action-desc">Test your knowledge</div>
-                </a>
-                <a href="live-class.html" class="action-card">
-                    <div class="action-icon">🎥</div>
-                    <div class="action-title">Join Live Class</div>
-                    <div class="action-desc">Today at 4:00 PM</div>
-                </a>
-                <a href="#" class="action-card" id="markAttendanceAction">
-                    <div class="action-icon">📋</div>
-                    <div class="action-title">Mark Attendance</div>
-                    <div class="action-desc">For today's class</div>
-                </a>
-                <a href="courses.html" class="action-card">
-                    <div class="action-icon">📚</div>
-                    <div class="action-title">My Courses</div>
-                    <div class="action-desc">Continue learning</div>
-                </a>
+            <div class="stat-card">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Practice Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Success Rate</div>
             </div>
         </div>
-    </main>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose The Junior Scholar Portal?</h2>
+        <div class="features-grid">
+            <div class="feature-card" onclick="window.location.href='live-class.html'">
+                <div class="feature-icon">🎥</div>
+                <h3>Live Google Meet Classes</h3>
+                <p>Interactive sessions with expert teachers. Join directly through Google Meet.</p>
+            </div>
+            <div class="feature-card" onclick="window.location.href='practice.html'">
+                <div class="feature-icon">📝</div>
+                <h3>Practice & Mock Exams</h3>
+                <p>100+ BECE past questions with instant feedback and detailed explanations.</p>
+            </div>
+            <div class="feature-card" onclick="window.location.href='dashboard.html'">
+                <div class="feature-icon">📊</div>
+                <h3>Track Your Progress</h3>
+                <p>Monitor your improvement with detailed analytics and insights.</p>
+            </div>
+            <div class="feature-card" onclick="window.location.href='courses.html'">
+                <div class="feature-icon">🏆</div>
+                <h3>Challenge Mode</h3>
+                <p>Compete with friends on the leaderboard and earn badges.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2 class="section-title">What Our Junior Scholars Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The Junior Scholar Portal transformed my preparation. The live classes on Google Meet made learning interactive and fun!"</p>
+                <div class="testimonial-author">Adwoa Mensah</div>
+                <div class="testimonial-role">BECE Candidate 2025</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"I improved my math score by 40% in just 3 months. The practice questions are exactly what you need for the BECE."</p>
+                <div class="testimonial-author">Kwame Asare</div>
+                <div class="testimonial-role">BECE Candidate 2024</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The progress tracking feature kept me motivated. I could see my improvement week by week!"</p>
+                <div class="testimonial-author">Efua Baidoo</div>
+                <div class="testimonial-role">Aggregate 6, 2024</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text" style="color: white; background: none;">The Junior Scholar Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="courses.html">Courses</a>
+                <a href="live-class.html">Live Classes</a>
+                <a href="practice.html">Practice</a>
+                <a href="teacher-portal.html">Teacher Portal</a>
+            </div>
+            <div class="copyright">
+                © 2025 The Junior Scholar Portal | Empowering BECE candidates across Ghana
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Welcome Back!</h2>
+            <form id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email Address" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+            </form>
+            <p class="demo-text">Demo Mode: Enter any email to continue</p>
+        </div>
+    </div>
+
+    <!-- Teacher Portal Button -->
+    <a href="teacher-portal.html" class="teacher-btn">
+        👨‍🏫 Teacher Portal
+    </a>
 
     <script>
-        // ========== SIDEBAR TOGGLE ==========
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('mainContent');
-        const toggleBtn = document.getElementById('toggleSidebarBtn');
-        let sidebarVisible = true;
-
-        function toggleSidebar() {
-            sidebarVisible = !sidebarVisible;
-            if (window.innerWidth <= 768) {
-                if (sidebarVisible) {
-                    sidebar.classList.add('visible');
-                    sidebar.classList.remove('hidden');
-                } else {
-                    sidebar.classList.remove('visible');
-                    sidebar.classList.add('hidden');
-                }
-            } else {
-                if (sidebarVisible) {
-                    sidebar.classList.remove('hidden');
-                    mainContent.classList.remove('expanded');
-                } else {
-                    sidebar.classList.add('hidden');
-                    mainContent.classList.add('expanded');
-                }
-            }
-        }
-
-        toggleBtn.addEventListener('click', toggleSidebar);
-
-        // Handle responsive
-        function handleResponsive() {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.add('hidden');
-                sidebar.classList.remove('visible');
-                sidebarVisible = false;
-                mainContent.classList.add('expanded');
-            } else {
-                sidebar.classList.remove('hidden');
-                sidebar.classList.remove('visible');
-                sidebarVisible = true;
-                mainContent.classList.remove('expanded');
-            }
-        }
-
-        window.addEventListener('resize', handleResponsive);
-        handleResponsive();
-
-        // ========== USER NAME ==========
-        let studentName = localStorage.getItem('scholarName');
-        if (!studentName) {
-            studentName = prompt('Welcome to The Junior Scholar Portal!\n\nWhat\'s your name?', 'Junior Scholar');
-            if (studentName) localStorage.setItem('scholarName', studentName);
-            else studentName = 'Scholar';
-        }
-
-        // Set name in multiple places
-        document.getElementById('userName').textContent = studentName;
-        document.getElementById('welcomeName').textContent = studentName.split(' ')[0];
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
         
-        const initials = studentName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-        document.getElementById('userAvatar').textContent = initials;
-
-        // ========== SESSIONS DATA ==========
-        const sessions = [
-            { date: 'Mar 30, 2026', time: '08:00 AM', subject: 'CHEMISTRY', status: 'upcoming' },
-            { date: 'Mar 30, 2026', time: '03:00 PM', subject: 'CHEMISTRY PRACTICAL', status: 'upcoming' },
-            { date: 'Mar 30, 2026', time: '05:30 PM', subject: 'ENGLISH LANGUAGE', status: 'upcoming' },
-            { date: 'Mar 31, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' },
-            { date: 'Apr 01, 2026', time: '08:00 AM', subject: 'GENERAL MATHEMATICS', status: 'upcoming' }
-        ];
-
-        // Check for live session (if current hour is 4 PM)
-        const currentHour = new Date().getHours();
-        if (currentHour === 16) {
-            sessions.unshift({
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                time: '04:00 PM',
-                subject: 'MATHEMATICS - ALGEBRA',
-                status: 'live'
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
             });
         }
 
-        function renderSessions() {
-            const container = document.getElementById('upcomingSessions');
-            container.innerHTML = sessions.slice(0, 5).map(session => `
-                <div class="session-item" onclick="window.location.href='live-class.html'">
-                    <div>
-                        <div class="session-date">${session.date}</div>
-                        <div class="session-subject">${session.subject}</div>
-                        <div class="session-time">⏰ ${session.time}</div>
-                    </div>
-                    <div class="status status-${session.status}">
-                        ${session.status === 'live' ? '🔴 LIVE NOW' : '📅 Upcoming'}
-                    </div>
-                </div>
-            `).join('');
+        // Login Modal functionality
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+
+        if (loginBtn) {
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.style.display = 'block';
+            });
         }
 
-        // ========== COURSES DATA (No Progress Bars) ==========
-        const courses = [
-            { name: 'GENERAL MATHEMATICS', category: 'SHS 2 CLASS', icon: '📐' },
-            { name: 'ENGLISH LANGUAGE', category: 'SHS 2 CLASS', icon: '📖' },
-            { name: 'SOCIAL STUDIES', category: 'SHS 2 CLASS', icon: '🌍' },
-            { name: 'ADDITIONAL MATHEMATICS', category: 'SHS 2 CLASS', icon: '🧮' },
-            { name: 'BIOLOGY', category: 'SHS 2 CLASS', icon: '🔬' },
-            { name: 'CHEMISTRY', category: 'SHS 2 CLASS', icon: '⚗️' },
-            { name: 'PHYSICS', category: 'SHS 2 CLASS', icon: '⚡' }
-        ];
-
-        function renderCourses() {
-            const container = document.getElementById('enrolledCourses');
-            container.innerHTML = courses.map(course => `
-                <div class="course-item" onclick="window.location.href='courses.html'">
-                    <div class="course-icon">${course.icon}</div>
-                    <div class="course-info">
-                        <div class="course-name">${course.name}</div>
-                        <div class="course-category">📁 ${course.category}</div>
-                    </div>
-                    <span style="color: #2d6a4f;">→</span>
-                </div>
-            `).join('');
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
         }
 
-        // ========== MARK ATTENDANCE ==========
-        document.getElementById('markAttendanceAction').addEventListener('click', (e) => {
-            e.preventDefault();
-            const today = new Date().toDateString();
-            const attendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-            
-            const alreadyMarked = attendance.some(a => new Date(a.date).toDateString() === today);
-            
-            if (alreadyMarked) {
-                alert('✅ You have already marked attendance for today!');
-            } else {
-                attendance.push({
-                    date: new Date().toISOString(),
-                    subject: 'General Session'
-                });
-                localStorage.setItem('attendance', JSON.stringify(attendance));
-                
-                // Add points
-                let practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-                practiceStats.points = (practiceStats.points || 0) + 10;
-                localStorage.setItem('practiceStats', JSON.stringify(practiceStats));
-                
-                alert('✅ Attendance marked! +10 points earned!');
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
             }
         });
 
-        // ========== STUDENT GUIDE ==========
-        document.getElementById('studentGuideBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert(`📖 Student Guide\n\nWelcome ${studentName}!\n\n📚 How to use The Junior Scholar Portal:\n\n1. 📚 My Courses - Access all your enrolled subjects\n2. 📝 Practice Questions - Test your knowledge with BECE past questions\n3. 🎥 My Sessions - Join live Google Meet classes\n4. 📋 Mark Attendance - Track your participation\n\n🎯 Goal: Master all subjects and ace your BECE!\n\n💡 Tip: Study at least 30 minutes daily for best results.`);
-        });
-
-        // ========== LOGOUT ==========
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Initialize
-        renderSessions();
-        renderCourses();
-        
-        // Set greeting based on time
-        function setTimeGreeting() {
-            const hour = new Date().getHours();
-            const welcomeSection = document.querySelector('.welcome-section p');
-            if (hour < 12) {
-                welcomeSection.textContent = 'Good morning! Ready to learn? Start your day with a practice session! ☀️';
-            } else if (hour < 17) {
-                welcomeSection.textContent = 'Good afternoon! Keep up the great work! Your dedication will pay off! 📚';
-            } else {
-                welcomeSection.textContent = 'Good evening! Great time to review what you learned today! 🌙';
-            }
+        // Handle login form submission
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                if (email) {
+                    // Save name from email
+                    const name = email.split('@')[0];
+                    localStorage.setItem('scholarName', name);
+                    localStorage.setItem('scholarEmail', email);
+                    alert(`Welcome ${name}!`);
+                    loginModal.style.display = 'none';
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Please enter your email address');
+                }
+            });
         }
-        setTimeGreeting();
     </script>
 </body>
 </html>
