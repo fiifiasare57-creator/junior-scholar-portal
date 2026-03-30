@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay School Fees - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .glass-header p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .student-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .student-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .student-details {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .detail {
+            background: rgba(0,0,0,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            color: white;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .number-box {
+            background: #ffd700;
+            color: #1e293b;
+            padding: 1rem;
+            border-radius: 1rem;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .instructions {
+            text-align: left;
+            color: white;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .verification-form {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .verification-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .btn-verify {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-verify:hover {
+            background: #059669;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.3);
+            color: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .amount-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .amount-box span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .number-box {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">📚 The Junior Scholar Portal</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="practice.html">Practice</a>
+            <a href="live-class.html">Live Classes</a>
+            <a href="payment.html" style="background: rgba(255,215,0,0.3);">Pay Fees</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="glass-header">
+            <h1>💰 School Fees Payment</h1>
+            <p>Pay via Mobile Money to access all learning materials</p>
+        </div>
+
+        <div id="successMessage" class="success-message"></div>
+
+        <!-- Student Info -->
+        <div class="student-card">
+            <h3>👤 Student Information</h3>
+            <div class="student-details">
+                <div class="detail" id="studentName">Loading...</div>
+                <div class="detail" id="studentSchool">Loading...</div>
+                <div class="detail" id="studentClass">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Payment Card -->
+        <div class="payment-card">
+            <h3 style="color: white; text-align: center;">📱 Send Payment to This Number</h3>
+            
+            <div class="number-box">
+                055 967 4720
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="copy-btn" onclick="copyNumber()">📋 Copy Number</button>
+            </div>
+
+            <div class="amount-box">
+                <p style="color: white;">School Fees Amount:</p>
+                <span>GHS 50.00</span>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-top: 0.3rem;">(One-time payment for full access)</p>
+            </div>
+
+            <div class="instructions">
+                <strong>📝 Instructions:</strong><br>
+                1️⃣ Open your Mobile Money app (MTN MoMo, Vodafone Cash, or AirtelTigo Cash)<br>
+                2️⃣ Select "Send Money"<br>
+                3️⃣ Enter number: <strong>055 967 4720</strong><br>
+                4️⃣ Enter amount: <strong>GHS 50.00</strong><br>
+                5️⃣ Enter Reference: <strong id="paymentRef">Loading...</strong><br>
+                6️⃣ Complete the payment<br>
+                7️⃣ Enter the transaction ID below to verify and activate access
+            </div>
+
+            <div class="verification-form">
+                <label style="color: white; display: block; margin-bottom: 0.5rem;">📱 Transaction ID / Reference Number</label>
+                <input type="text" id="transactionId" class="verification-input" placeholder="e.g., MTN123456789">
+                <button class="btn-verify" onclick="verifyPayment()">✅ Verify Payment & Activate Access</button>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.7rem; margin-top: 0.5rem; text-align: center;">
+                    After sending payment, enter the transaction ID from your mobile money notification
+                </p>
+            </div>
+        </div>
+
+        <div class="payment-card">
+            <h3 style="color: white;">❓ Need Help?</h3>
+            <p style="color: rgba(255,255,255,0.8); margin-top: 0.5rem;">
+                📞 Call/WhatsApp: <strong>055 967 4720</strong><br>
+                📧 Email: support@juniorscholar.com<br>
+                ⏰ Support Hours: 8am - 6pm, Monday - Saturday
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Get student data
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
+
+        if (!studentData) {
+            alert('Please login first');
+            window.location.href = 'login.html';
+        }
+
+        // Display student info
+        document.getElementById('studentName').innerHTML = `👤 ${studentData.fullName}`;
+        document.getElementById('studentSchool').innerHTML = `🏫 ${studentData.school}`;
+        document.getElementById('studentClass').innerHTML = `📚 ${studentData.class}`;
+
+        // Payment number
+        const PAYMENT_NUMBER = '0559674720';
+        
+        // Generate unique reference
+        const reference = `JSP${studentData.id}${Date.now()}`;
+        document.getElementById('paymentRef').textContent = reference;
+
+        function copyNumber() {
+            navigator.clipboard.writeText(PAYMENT_NUMBER);
+            alert('✅ Mobile Money number copied: 055 967 4720');
+        }
+
+        function verifyPayment() {
+            const transactionId = document.getElementById('transactionId').value.trim();
+            
+            if (!transactionId) {
+                alert('Please enter the transaction ID from your mobile money payment');
+                return;
+            }
+            
+            // Calculate expiry date (1 year access)
+            let expiryDate = new Date();
+            expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+            
+            // Save payment record
+            const paymentRecord = {
+                studentId: studentData.id,
+                studentName: studentData.fullName,
+                studentEmail: studentData.email,
+                amount: 50,
+                transactionId: transactionId,
+                paymentNumber: PAYMENT_NUMBER,
+                paymentDate: new Date().toISOString(),
+                expiryDate: expiryDate.toISOString(),
+                status: 'verified'
+            };
+            
+            // Save to payment history
+            let payments = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+            payments.push(paymentRecord);
+            localStorage.setItem('paymentHistory', JSON.stringify(payments));
+            
+            // Save access status
+            const accessData = {
+                active: true,
+                startDate: new Date().toISOString(),
+                expiryDate: expiryDate.toISOString(),
+                transactionId: transactionId,
+                verified: true
+            };
+            localStorage.setItem('accessStatus', JSON.stringify(accessData));
+            
+            // Update student data
+            let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
+            const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+            if (studentIndex !== -1) {
+                studentsList[studentIndex].hasAccess = true;
+                studentsList[studentIndex].accessExpiry = expiryDate.toISOString();
+                localStorage.setItem('students', JSON.stringify(studentsList));
+            }
+            
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.innerHTML = `✅ Payment Verified! Your access is active until ${expiryDate.toLocaleDateString()}. Redirecting to dashboard...`;
+            successMsg.style.display = 'block';
+            
+            // Disable verify button
+            const verifyBtn = document.querySelector('.btn-verify');
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = '✓ Payment Verified!';
+            
+            // Redirect to dashboard after 3 seconds
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
