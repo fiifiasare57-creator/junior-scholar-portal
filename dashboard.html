@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +19,7 @@
             overflow-x: hidden;
         }
 
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -157,6 +158,7 @@
             border-top: 1px solid #eef2f6;
         }
 
+        /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
@@ -186,14 +188,31 @@
             align-items: center;
             justify-content: center;
             color: #6366f1;
+            transition: all 0.3s;
         }
 
+        .toggle-sidebar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
         .hero-section {
             background: linear-gradient(135deg, #6366f1, #4f46e5);
             border-radius: 1.5rem;
             padding: 2rem;
             margin-bottom: 2rem;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '🎓';
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            font-size: 80px;
+            opacity: 0.1;
         }
 
         .hero-title {
@@ -202,6 +221,96 @@
             margin-bottom: 0.5rem;
         }
 
+        .hero-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99,102,241,0.15);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        /* Live Alert */
+        .live-alert {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 1rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: pulse-border 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
+        }
+
+        .live-alert-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .btn-join-live {
+            background: white;
+            color: #dc2626;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Speech Card */
         .speech-card {
             background: white;
             border-radius: 1.5rem;
@@ -230,12 +339,54 @@
             color: #94a3b8;
         }
 
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s;
+            border: 1px solid #eef2f6;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            background: #eef2ff;
+            border-color: #6366f1;
+        }
+
+        .action-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .action-count {
+            font-size: 0.7rem;
+            color: #6366f1;
+            margin-top: 0.25rem;
+        }
+
+        /* Credits */
         .credits-section {
             background: white;
             border-radius: 1rem;
             padding: 1.5rem;
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
         .credits-text {
@@ -248,6 +399,13 @@
             font-size: 0.75rem;
             color: #64748b;
             margin-top: 0.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid, .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
@@ -266,6 +424,9 @@
             }
             .hero-title {
                 font-size: 1.3rem;
+            }
+            .stats-grid, .quick-actions {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -297,9 +458,9 @@
                 <span class="nav-icon">🎥</span>
                 <span>Live Classes</span>
             </a>
-            <a href="assignments.html" class="nav-item">
+            <a href="student-resources.html" class="nav-item">
                 <span class="nav-icon">📋</span>
-                <span>Assignments</span>
+                <span>My Resources</span>
             </a>
         </nav>
 
@@ -316,21 +477,83 @@
     </aside>
 
     <main class="main-content" id="mainContent">
+        <!-- Hero Section -->
         <div class="hero-section">
             <h1 class="hero-title">Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
+            <p class="hero-subtitle" id="greetingMessage">Your journey to BECE excellence continues. Let's make today productive!</p>
         </div>
 
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCourses">7</div>
+                <div class="stat-label">Enrolled Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="questionsDone">0</div>
+                <div class="stat-label">Questions Practiced</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingAssignments">0</div>
+                <div class="stat-label">Pending Assignments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="upcomingClasses">0</div>
+                <div class="stat-label">Upcoming Classes</div>
+            </div>
+        </div>
+
+        <!-- Live Alert (only shows if there's a live class) -->
+        <div id="liveAlert" style="display: none;" class="live-alert" onclick="window.location.href='live-class.html'">
+            <div class="live-alert-content">
+                <span class="pulse-dot"></span>
+                <div>
+                    <strong>🔴 LIVE CLASS IN PROGRESS</strong><br>
+                    <small id="liveClassInfo">Join now to participate!</small>
+                </div>
+            </div>
+            <span class="btn-join-live">Join Now →</span>
+        </div>
+
+        <!-- Inspirational Message -->
         <div class="speech-card">
-            <div class="speech-title">🎓 A Message for You</div>
+            <div class="speech-title">🎓 A Message for BECE Candidates</div>
             <div class="speech-text">
                 "Dear Junior Scholar,<br><br>
                 The BECE is your first giant leap towards your dreams. Every question you answer, 
-                every lesson you learn brings you closer to success. You are capable of amazing things.<br><br>
+                every lesson you learn brings you one step closer to success. Remember, greatness is not achieved by luck, 
+                but by consistent effort, determination, and belief in yourself.<br><br>
+                You are capable of more than you know. Stay focused, work hard, and trust the process.<br><br>
                 <strong>Your future self will thank you for the work you do today.</strong>"
             </div>
             <div class="speech-author">— The Junior Scholar Portal Team</div>
         </div>
 
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="practice.html" class="action-card">
+                <div class="action-icon">📝</div>
+                <div class="action-title">Practice Questions</div>
+                <div class="action-count">Test your knowledge</div>
+            </a>
+            <a href="courses.html" class="action-card">
+                <div class="action-icon">📚</div>
+                <div class="action-title">My Courses</div>
+                <div class="action-count">Continue learning</div>
+            </a>
+            <a href="live-class.html" class="action-card">
+                <div class="action-icon">🎥</div>
+                <div class="action-title">Live Classes</div>
+                <div class="action-count" id="liveCount">Join sessions</div>
+            </a>
+            <a href="student-resources.html" class="action-card">
+                <div class="action-icon">📋</div>
+                <div class="action-title">My Resources</div>
+                <div class="action-count" id="resourcesCount">View assignments</div>
+            </a>
+        </div>
+
+        <!-- Credits -->
         <div class="credits-section">
             <div class="credits-text">✨ MADE WITH EXCELLENCE BY SKILABS ✨</div>
             <div class="credits-names">Caleb Fiifi Asare & Arnold Kadi</div>
@@ -338,6 +561,7 @@
     </main>
 
     <script>
+        // Sidebar toggle
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
         const toggleBtn = document.getElementById('toggleSidebarBtn');
@@ -347,23 +571,98 @@
             mainContent.classList.toggle('expanded');
         });
 
+        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
 
+        // Set student info
         if (studentData) {
-            document.getElementById('welcomeName').textContent = studentData.fullName.split(' ')[0];
+            const firstName = studentData.fullName.split(' ')[0];
+            document.getElementById('welcomeName').textContent = firstName;
             document.getElementById('userName').textContent = studentData.fullName;
             document.getElementById('userEmail').textContent = studentData.email;
             const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
             document.getElementById('userAvatar').textContent = initials;
+            
+            // Load practice stats
+            const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
+            document.getElementById('questionsDone').textContent = practiceStats.total;
+        } else {
+            // Demo mode
+            document.getElementById('welcomeName').textContent = 'Guest';
+            document.getElementById('userName').textContent = 'Guest User';
+            document.getElementById('userEmail').textContent = 'guest@example.com';
+            document.getElementById('userAvatar').textContent = 'GU';
+            
+            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
+            document.getElementById('questionsDone').textContent = practiceStats.total;
         }
 
+        // Load assignments count
+        const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+        let pendingCount = 0;
+        
+        if (studentData) {
+            const submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
+            assignments.forEach(a => {
+                if (!submissions[a.id]) pendingCount++;
+            });
+        } else {
+            pendingCount = assignments.length;
+        }
+        document.getElementById('pendingAssignments').textContent = pendingCount;
+
+        // Load classes count
+        const scheduledClasses = JSON.parse(localStorage.getItem('classSchedule') || '[]');
+        const now = new Date();
+        const todayDate = now.toISOString().split('T')[0];
+        
+        let upcomingCount = 0;
+        let liveClass = null;
+        
+        scheduledClasses.forEach(cls => {
+            const classDateTime = new Date(`${cls.date}T${cls.time}`);
+            const isLive = classDateTime <= now && new Date(classDateTime.getTime() + (cls.duration * 60 * 60 * 1000)) > now;
+            
+            if (isLive) {
+                liveClass = cls;
+            } else if (new Date(cls.date) >= new Date(todayDate)) {
+                upcomingCount++;
+            }
+        });
+        
+        document.getElementById('upcomingClasses').textContent = upcomingCount;
+        document.getElementById('liveCount').textContent = liveClass ? '🔴 LIVE NOW' : `${upcomingCount} upcoming`;
+        document.getElementById('resourcesCount').textContent = `${assignments.length} assignments`;
+        
+        // Show live alert if there's a live class
+        if (liveClass) {
+            const liveAlert = document.getElementById('liveAlert');
+            liveAlert.style.display = 'flex';
+            document.getElementById('liveClassInfo').innerHTML = `${liveClass.subject}: ${liveClass.title} with ${liveClass.teacher}`;
+        }
+
+        // Set total courses
+        document.getElementById('totalCourses').textContent = '7';
+
+        // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
+
+        // Time-based greeting
+        const hour = new Date().getHours();
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (hour < 12) {
+            heroSubtitle.textContent = 'Good morning! Start your day with practice and make today count! ☀️';
+        } else if (hour < 17) {
+            heroSubtitle.textContent = 'Good afternoon! Keep up the momentum! Every question brings you closer to success! 📚';
+        } else {
+            heroSubtitle.textContent = 'Good evening! Great time to review what you learned today! 🌙';
+        }
     </script>
 </body>
 </html>
