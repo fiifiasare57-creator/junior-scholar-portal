@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            color: #1a2c3e;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #6366f1;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .header-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .attendance-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .attendance-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .btn-mark {
+            width: 100%;
+            padding: 1rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-mark:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .attendance-history {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .history-date {
+            font-size: 0.7rem;
+            color: #6b7280;
+        }
+
+        .history-subject {
+            font-weight: 600;
+        }
+
+        .history-points {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .header-section h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html" class="logo">📚 The Junior Scholar Portal</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="practice.html">Practice</a>
+            <a href="live-class.html">Live Classes</a>
+            <a href="student-resources.html">Resources</a>
+            <a href="attendance.html" style="color:#6366f1; font-weight:600;">Attendance</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>📋 Mark Attendance</h1>
+            <p>Enter the keycode provided by your teacher to mark attendance</p>
+        </div>
+
+        <div class="attendance-card">
+            <div class="attendance-title">🔑 Enter Attendance Keycode</div>
+            <input type="text" id="keycodeInput" class="code-input" placeholder="Enter keycode here..." autocomplete="off">
+            <button class="btn-mark" onclick="markAttendance()">✅ Mark Attendance</button>
+            <div id="successMsg" class="success-message"></div>
+            <div id="errorMsg" class="error-message"></div>
+        </div>
+
+        <div class="attendance-history">
+            <div class="attendance-title">📅 My Attendance History</div>
+            <div id="attendanceHistory"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get current student
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
+
+        if (!studentData) {
+            window.location.href = 'login.html';
+        }
+
+        // Load student's attendance records
+        let studentAttendance = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
+
+        function markAttendance() {
+            const code = document.getElementById('keycodeInput').value.trim().toUpperCase();
+            
+            if (!code) {
+                showError('Please enter the keycode provided by your teacher.');
+                return;
+            }
+            
+            // Get active attendance sessions from teacher
+            const activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
+            const validSession = activeAttendances.find(a => a.code === code && a.active === true);
+            
+            if (!validSession) {
+                showError('Invalid keycode! Please check with your teacher for the correct code.');
+                return;
+            }
+            
+            // Check if already marked for this session
+            const alreadyMarked = studentAttendance.some(a => a.sessionId === validSession.id);
+            if (alreadyMarked) {
+                showError(`You've already marked attendance for ${validSession.subject}: ${validSession.title}`);
+                return;
+            }
+            
+            // Check expiry
+            if (validSession.expiry) {
+                const expiryDate = new Date(validSession.expiry);
+                const today = new Date();
+                if (expiryDate < today) {
+                    showError('This keycode has expired!');
+                    return;
+                }
+            }
+            
+            // Mark attendance
+            const attendanceRecord = {
+                sessionId: validSession.id,
+                subject: validSession.subject,
+                title: validSession.title,
+                code: validSession.code,
+                date: new Date().toLocaleString(),
+                timestamp: new Date().toISOString(),
+                pointsEarned: 15
+            };
+            
+            studentAttendance.unshift(attendanceRecord);
+            localStorage.setItem('studentAttendance_' + studentData.id, JSON.stringify(studentAttendance));
+            
+            // Update teacher's attendance records
+            let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords') || '[]');
+            let existingRecord = attendanceRecords.find(r => r.sessionId === validSession.id);
+            
+            if (existingRecord) {
+                existingRecord.students.push({
+                    id: studentData.id,
+                    name: studentData.fullName,
+                    email: studentData.email,
+                    time: new Date().toLocaleString()
+                });
+            } else {
+                attendanceRecords.push({
+                    sessionId: validSession.id,
+                    subject: validSession.subject,
+                    title: validSession.title,
+                    code: validSession.code,
+                    date: new Date().toLocaleString(),
+                    students: [{
+                        id: studentData.id,
+                        name: studentData.fullName,
+                        email: studentData.email,
+                        time: new Date().toLocaleString()
+                    }]
+                });
+            }
+            localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
+            
+            // Add points to student
+            let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
+            const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+            if (studentIndex !== -1) {
+                studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
+                studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 15;
+                localStorage.setItem('students', JSON.stringify(studentsList));
+            }
+            
+            showSuccess(`✅ Attendance marked for ${validSession.subject}: ${validSession.title}! +15 points earned!`);
+            document.getElementById('keycodeInput').value = '';
+            loadAttendanceHistory();
+        }
+
+        function loadAttendanceHistory() {
+            const container = document.getElementById('attendanceHistory');
+            
+            if (studentAttendance.length === 0) {
+                container.innerHTML = '<div class="empty-state">📭 No attendance records yet. Use a keycode to mark attendance!</div>';
+                return;
+            }
+            
+            container.innerHTML = studentAttendance.map(record => `
+                <div class="history-item">
+                    <div>
+                        <div class="history-subject">${record.subject}: ${record.title}</div>
+                        <div class="history-date">📅 ${record.date}</div>
+                        <div class="history-date">🔑 Code: ${record.code}</div>
+                    </div>
+                    <div class="history-points">+${record.pointsEarned} pts</div>
+                </div>
+            `).join('');
+        }
+
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMsg');
+            const errorMsg = document.getElementById('errorMsg');
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+            errorMsg.style.display = 'none';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+            successMsg.style.display = 'none';
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        // Load history on page load
+        loadAttendanceHistory();
+    </script>
+</body>
+</html>
