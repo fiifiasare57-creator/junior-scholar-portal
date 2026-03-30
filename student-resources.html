@@ -14,22 +14,22 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
         }
 
         /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -38,9 +38,11 @@
         .logo {
             font-size: 1.3rem;
             font-weight: 800;
-            color: white;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .nav-links {
@@ -51,15 +53,13 @@
 
         .nav-links a {
             text-decoration: none;
-            color: white;
+            color: #4a5568;
             font-weight: 500;
-            transition: all 0.3s;
-            padding: 0.3rem 0.8rem;
-            border-radius: 2rem;
+            transition: color 0.3s;
         }
 
         .nav-links a:hover, .nav-links a.active {
-            background: rgba(255, 255, 255, 0.3);
+            color: #667eea;
         }
 
         /* Main Container */
@@ -69,30 +69,24 @@
             padding: 2rem;
         }
 
-        /* Red Glass Header */
-        .glass-header {
-            background: rgba(239, 68, 68, 0.25);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
+        /* Header Section */
+        .header-section {
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
         }
 
-        .glass-header h1 {
+        .header-section h1 {
             font-size: 2rem;
             font-weight: 800;
             color: white;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .glass-header p {
-            color: rgba(255, 255, 255, 0.9);
+        .header-section p {
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Stats Cards - Red Glass */
+        /* Stats Cards - White Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -101,31 +95,28 @@
         }
 
         .stat-card {
-            background: rgba(239, 68, 68, 0.2);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1rem;
-            padding: 1rem;
+            padding: 1.2rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            background: rgba(239, 68, 68, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
         }
 
         .stat-value {
             font-size: 1.8rem;
             font-weight: 800;
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            color: #667eea;
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: #6b7280;
         }
 
         /* Tabs */
@@ -140,7 +131,7 @@
         .tab-btn {
             padding: 0.6rem 1.5rem;
             background: none;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: none;
             cursor: pointer;
             font-weight: 500;
             color: white;
@@ -149,43 +140,38 @@
         }
 
         .tab-btn.active {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: white;
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Assignment Cards - Red Glass */
+        /* Assignment Cards - White Cards */
         .assignment-card, .note-card {
-            background: rgba(239, 68, 68, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
+            background: white;
+            border-radius: 1rem;
             margin-bottom: 1.5rem;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .assignment-card:hover, .note-card:hover {
             transform: translateY(-5px);
-            background: rgba(239, 68, 68, 0.25);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
         }
 
         .assignment-header, .note-header {
             padding: 1rem 1.5rem;
-            background: rgba(239, 68, 68, 0.2);
-            border-left: 4px solid white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            border-bottom: 1px solid #eef2f6;
         }
 
         .assignment-subject, .note-subject {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: #667eea;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -193,13 +179,13 @@
         .assignment-title, .note-title {
             font-size: 1.1rem;
             font-weight: 700;
-            color: white;
+            color: #1e293b;
             margin-top: 0.25rem;
         }
 
         .assignment-due {
             font-size: 0.7rem;
-            color: #fcd34d;
+            color: #f59e0b;
             margin-top: 0.5rem;
             display: flex;
             align-items: center;
@@ -211,33 +197,32 @@
         }
 
         .assignment-description, .note-content {
-            color: rgba(255, 255, 255, 0.95);
+            color: #4a5568;
             font-size: 0.9rem;
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         .submission-area {
-            background: rgba(0, 0, 0, 0.2);
+            background: #f8fafc;
             border-radius: 0.75rem;
             padding: 1rem;
             margin-top: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid #eef2f6;
         }
 
         .submission-label {
             font-size: 0.8rem;
             font-weight: 600;
-            color: white;
+            color: #667eea;
             margin-bottom: 0.5rem;
         }
 
         .submission-input {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid #e2e8f0;
             border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.95);
             font-family: inherit;
             resize: vertical;
             transition: all 0.3s;
@@ -245,35 +230,30 @@
 
         .submission-input:focus {
             outline: none;
-            border-color: white;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
         }
 
         .btn-submit {
-            background: transparent;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border: 2px solid white;
+            border: none;
             padding: 0.5rem 1rem;
             border-radius: 2rem;
             cursor: pointer;
             font-weight: 600;
             margin-top: 0.5rem;
             transition: all 0.3s;
-            width: 100%;
         }
 
         .btn-submit:hover {
-            background: white;
-            color: #ef4444;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         .submitted-badge {
-            background: rgba(16, 185, 129, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: white;
+            background: #d1fae5;
+            color: #065f46;
             padding: 0.5rem;
             border-radius: 0.5rem;
             font-size: 0.8rem;
@@ -285,11 +265,9 @@
         .empty-state {
             text-align: center;
             padding: 3rem;
-            background: rgba(239, 68, 68, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: white;
+            border-radius: 1rem;
+            color: #6b7280;
         }
 
         /* Credits */
@@ -298,6 +276,7 @@
             padding: 1.5rem;
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
+            margin-top: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -330,7 +309,7 @@
     </nav>
 
     <div class="container">
-        <div class="glass-header">
+        <div class="header-section">
             <h1>📋 My Learning Resources</h1>
             <p>View assignments from your teachers and access study materials</p>
         </div>
@@ -427,7 +406,7 @@
                                         <span>✅</span>
                                         <span>Submitted on ${submitted.date}</span>
                                     </div>
-                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; color: white;">
+                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: #f1f5f9; border-radius: 0.5rem;">
                                         <strong>Your answer:</strong><br>
                                         "${submitted.answer}"
                                     </div>
@@ -462,8 +441,8 @@
                     </div>
                     <div class="note-body">
                         <div class="note-content">${n.content.replace(/\n/g, '<br>')}</div>
-                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: white; text-decoration: underline; display: inline-block; margin-top: 0.5rem; border: 1px solid white; padding: 0.3rem 0.8rem; border-radius: 2rem;">🔗 Open Resource →</a>` : ''}
-                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: #667eea; text-decoration: underline; display: inline-block; margin-top: 0.5rem;">🔗 Open Resource →</a>` : ''}
+                        <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #eef2f6;">
                             📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}
                         </div>
                     </div>
