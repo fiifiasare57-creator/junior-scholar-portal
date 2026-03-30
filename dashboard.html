@@ -19,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        /* ========== SIDEBAR ========== */
         .sidebar {
             position: fixed;
             left: 0;
@@ -31,7 +30,6 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             overflow-y: auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.02);
         }
 
         .sidebar.hidden {
@@ -138,7 +136,6 @@
             font-weight: 700;
             font-size: 1.1rem;
             color: white;
-            box-shadow: 0 4px 10px rgba(16,185,129,0.3);
         }
 
         .user-name {
@@ -170,11 +167,10 @@
             color: #ef4444;
         }
 
-        /* ========== MAIN CONTENT ========== */
         .main-content {
             flex: 1;
             margin-left: 280px;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: margin-left 0.3s;
             min-height: 100vh;
             padding: 1.5rem;
         }
@@ -200,22 +196,14 @@
             align-items: center;
             justify-content: center;
             color: #10b981;
-            transition: all 0.3s;
         }
 
-        .toggle-sidebar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-        }
-
-        /* Hero Section */
         .hero-section {
             background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
             border-radius: 1.5rem;
             padding: 2rem;
             margin-bottom: 2rem;
             border: 1px solid rgba(16,185,129,0.2);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .hero-badge {
@@ -254,12 +242,6 @@
             color: transparent;
         }
 
-        .hero-subtitle {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-        /* Speech Card */
         .speech-card {
             background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
             border-radius: 1.5rem;
@@ -277,12 +259,6 @@
             right: 20px;
             font-size: 120px;
             opacity: 0.1;
-            font-family: serif;
-        }
-
-        .speech-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
         }
 
         .speech-title {
@@ -296,24 +272,13 @@
             font-size: 1rem;
             line-height: 1.6;
             margin-bottom: 1rem;
-            opacity: 0.95;
         }
 
-        .speech-author {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            padding-top: 1rem;
-        }
-
-        /* Profile Card */
         .profile-card {
             background: white;
             border-radius: 1.5rem;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
             border: 1px solid #eef2f6;
         }
 
@@ -327,7 +292,6 @@
         .profile-title {
             font-size: 1rem;
             font-weight: 600;
-            color: #1e293b;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -346,18 +310,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
-        }
-
-        .profile-item:hover {
-            background: #f0fdf4;
-            transform: translateX(5px);
         }
 
         .profile-label {
             color: #6b7280;
             font-size: 0.8rem;
-            font-weight: 500;
         }
 
         .profile-value {
@@ -366,7 +323,6 @@
             font-size: 0.9rem;
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -379,36 +335,13 @@
             padding: 1.2rem;
             border-radius: 1.2rem;
             text-align: center;
-            transition: all 0.3s;
             border: 1px solid #eef2f6;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #10b981, #059669);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover::before {
-            transform: scaleX(1);
+            transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(16,185,129,0.1);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
         }
 
         .stat-value {
@@ -417,14 +350,6 @@
             color: #10b981;
         }
 
-        .stat-label {
-            font-size: 0.7rem;
-            color: #6b7280;
-            margin-top: 0.3rem;
-            font-weight: 500;
-        }
-
-        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -441,46 +366,25 @@
             color: #1a1f36;
             transition: all 0.3s;
             border: 1px solid #eef2f6;
-            cursor: pointer;
         }
 
         .action-card:hover {
             transform: translateY(-5px);
-            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            background: #f0fdf4;
             border-color: #10b981;
         }
 
-        .action-icon {
-            font-size: 2rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .action-title {
-            font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 0.2rem;
-            color: #1e293b;
-        }
-
-        .action-desc {
-            font-size: 0.7rem;
-            color: #6b7280;
-        }
-
-        /* Credits */
         .credits-section {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 1.5rem;
             padding: 1.5rem;
             text-align: center;
-            margin-top: 1rem;
         }
 
         .credits-text {
             color: #10b981;
             font-size: 0.85rem;
             font-weight: 500;
-            letter-spacing: 1px;
         }
 
         .credits-names {
@@ -489,7 +393,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Demo Mode Message */
         .demo-mode {
             background: #fef3c7;
             border-left: 4px solid #f59e0b;
@@ -500,30 +403,6 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .demo-mode p {
-            color: #92400e;
-            font-size: 0.85rem;
-        }
-
-        .demo-btn {
-            background: #f59e0b;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-size: 0.8rem;
-        }
-
-        @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 768px) {
@@ -540,36 +419,23 @@
                 left: auto;
                 right: 20px;
             }
+            .stats-grid, .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .hero-title {
                 font-size: 1.4rem;
-            }
-            .profile-grid {
-                grid-template-columns: 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .quick-actions {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <button class="toggle-sidebar" id="toggleSidebarBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-        </svg>
-    </button>
+    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="school-badge">PRESEC-LEGON</div>
             <div class="portal-title">The Junior Scholar<br>Portal</div>
-            <div class="vacation-badge">
-                <span>📚</span>
-                <span>BECE PREP 2025</span>
-            </div>
+            <div class="vacation-badge">📚 BECE PREP 2025</div>
         </div>
 
         <nav class="nav-menu">
@@ -589,10 +455,6 @@
                 <span class="nav-icon">🎥</span>
                 <span>Live Classes</span>
             </a>
-            <a href="teacher-portal.html" class="nav-item">
-                <span class="nav-icon">👨‍🏫</span>
-                <span>Teacher Portal</span>
-            </a>
         </nav>
 
         <div class="user-section">
@@ -611,140 +473,63 @@
     </aside>
 
     <main class="main-content" id="mainContent">
-        <!-- Demo Mode Notice (only shows if no student logged in) -->
         <div id="demoNotice" style="display: none;" class="demo-mode">
-            <p>📢 You're in Demo Mode. Create an account or login to save your progress!</p>
-            <a href="register.html" class="demo-btn">Register Now →</a>
+            <p>📢 You're in Demo Mode. Create an account to save your progress!</p>
+            <a href="register.html" style="background: #f59e0b; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; text-decoration: none;">Register Now →</a>
         </div>
 
-        <!-- Hero Section -->
-        <div class="hero-section animate-in">
+        <div class="hero-section">
             <div class="hero-badge">
                 <span></span>
                 <span>ACTIVE ACCOUNT</span>
             </div>
             <h1 class="hero-title">Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p class="hero-subtitle">Your journey to BECE excellence continues. Let's make today productive!</p>
         </div>
 
-        <!-- Inspirational BECE Speech -->
-        <div class="speech-card animate-in" style="animation-delay: 0.05s">
-            <div class="speech-icon">🎓</div>
-            <div class="speech-title">A Message for BECE Candidates</div>
+        <div class="speech-card">
+            <div class="speech-title">🎓 A Message for BECE Candidates</div>
             <div class="speech-text">
                 "Dear Junior Scholar,<br><br>
-                The BECE is not just an exam - it's your first giant leap towards your dreams. 
-                Every question you answer, every lesson you learn, and every challenge you overcome 
-                brings you one step closer to the future you envision. Remember, greatness is not 
-                achieved by luck, but by consistent effort, determination, and belief in yourself.<br><br>
-                You are capable of more than you know. Stay focused, work hard, and trust the process. 
-                Success is not an accident - it's a choice. Choose to be excellent. Choose to be a Scholar.<br><br>
+                The BECE is your first giant leap towards your dreams. Every question you answer brings you closer to success.<br><br>
+                You are capable of more than you know. Stay focused, work hard, and trust the process.<br><br>
                 <strong>Your future self will thank you for the work you do today.</strong>"
             </div>
-            <div class="speech-author">— The Junior Scholar Portal Team</div>
+            <div style="margin-top: 1rem; opacity: 0.7;">— The Junior Scholar Portal Team</div>
         </div>
 
-        <!-- Profile Card -->
-        <div class="profile-card animate-in" style="animation-delay: 0.1s">
+        <div class="profile-card">
             <div class="profile-header">
-                <div class="profile-title">
-                    <span>📋</span>
-                    <span>Student Profile</span>
-                </div>
-                <div class="profile-title" style="color: #10b981; font-size: 0.7rem;">
-                    <span>🟢 Active</span>
-                </div>
+                <div class="profile-title">📋 Student Profile</div>
+                <div style="color: #10b981; font-size: 0.7rem;">🟢 Active</div>
             </div>
             <div class="profile-grid" id="studentDetails">
-                <div class="profile-item">
-                    <span class="profile-label">👤 Full Name</span>
-                    <span class="profile-value" id="displayName">Demo Student</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">🎂 Age</span>
-                    <span class="profile-value" id="displayAge">14 years</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">🏫 School/Ward</span>
-                    <span class="profile-value" id="displaySchool">Demo School</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">📚 Class</span>
-                    <span class="profile-value" id="displayClass">JHS 3</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">📧 Email</span>
-                    <span class="profile-value" id="displayEmail">demo@example.com</span>
-                </div>
-                <div class="profile-item">
-                    <span class="profile-label">📱 Phone</span>
-                    <span class="profile-value" id="displayPhone">0244123456</span>
-                </div>
+                <div class="profile-item"><span class="profile-label">👤 Full Name</span><span class="profile-value" id="displayName">Guest User</span></div>
+                <div class="profile-item"><span class="profile-label">🏫 School</span><span class="profile-value" id="displaySchool">Not Registered</span></div>
+                <div class="profile-item"><span class="profile-label">📚 Class</span><span class="profile-value" id="displayClass">--</span></div>
+                <div class="profile-item"><span class="profile-label">📧 Email</span><span class="profile-value" id="displayEmail">demo@example.com</span></div>
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid animate-in" style="animation-delay: 0.15s">
-            <div class="stat-card">
-                <div class="stat-icon">📚</div>
-                <div class="stat-value" id="totalCourses">7</div>
-                <div class="stat-label">Enrolled Courses</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📝</div>
-                <div class="stat-value" id="questionsDone">0</div>
-                <div class="stat-label">Questions Practiced</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-value" id="accuracyRate">0%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🏆</div>
-                <div class="stat-value" id="totalPoints">0</div>
-                <div class="stat-label">Total Points</div>
-            </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="totalCourses">7</div><div>Enrolled Courses</div></div>
+            <div class="stat-card"><div class="stat-value" id="questionsDone">0</div><div>Questions Practiced</div></div>
+            <div class="stat-card"><div class="stat-value" id="accuracyRate">0%</div><div>Accuracy Rate</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div>Total Points</div></div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="profile-card animate-in" style="animation-delay: 0.2s">
-            <div class="profile-header">
-                <div class="profile-title">
-                    <span>⚡</span>
-                    <span>Quick Actions</span>
-                </div>
-            </div>
+        <div class="profile-card">
+            <div class="profile-header"><div class="profile-title">⚡ Quick Actions</div></div>
             <div class="quick-actions">
-                <a href="practice.html" class="action-card">
-                    <div class="action-icon">📝</div>
-                    <div class="action-title">Practice Questions</div>
-                    <div class="action-desc">Test your knowledge</div>
-                </a>
-                <a href="courses.html" class="action-card">
-                    <div class="action-icon">📚</div>
-                    <div class="action-title">My Courses</div>
-                    <div class="action-desc">Continue learning</div>
-                </a>
-                <a href="live-class.html" class="action-card">
-                    <div class="action-icon">🎥</div>
-                    <div class="action-title">Live Classes</div>
-                    <div class="action-desc">Join today's session</div>
-                </a>
-                <a href="#" class="action-card" id="refreshStats">
-                    <div class="action-icon">🔄</div>
-                    <div class="action-title">Refresh Stats</div>
-                    <div class="action-desc">Update progress</div>
-                </a>
+                <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div>Practice Questions</div></a>
+                <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div>My Courses</div></a>
+                <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div>Live Classes</div></a>
+                <a href="#" class="action-card" id="refreshStats"><div class="action-icon">🔄</div><div>Refresh Stats</div></a>
             </div>
         </div>
 
-        <!-- Credits Section -->
-        <div class="credits-section animate-in" style="animation-delay: 0.25s">
+        <div class="credits-section">
             <div class="credits-text">✨ MADE WITH EXCELLENCE ✨</div>
-            <div class="credits-names">
-                Skilabs_ Caleb Fiifi Asare & Arnold Kadi
-            </div>
+            <div class="credits-names">Skilabs_ Caleb Fiifi Asare & Arnold Kadi</div>
         </div>
     </main>
 
@@ -753,141 +538,63 @@
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
         const toggleBtn = document.getElementById('toggleSidebarBtn');
-        
         toggleBtn.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
             mainContent.classList.toggle('expanded');
         });
 
-        // Check for student data
-        let studentData = null;
-        let isLoggedIn = false;
-        
-        // Try to get current student
+        // Check login status
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
-        
-        if (currentStudent) {
-            studentData = students.find(s => s.id === currentStudent.id);
-            if (studentData) {
-                isLoggedIn = true;
-            }
-        }
-        
-        // If no student logged in, use demo mode
-        if (!isLoggedIn) {
-            // Show demo notice
-            document.getElementById('demoNotice').style.display = 'flex';
-            document.getElementById('heroBadge').style.background = '#fef3c7';
-            
-            // Set demo data
-            document.getElementById('welcomeName').textContent = 'Guest';
-            document.getElementById('userName').textContent = 'Guest User';
-            document.getElementById('userEmail').textContent = 'demo@example.com';
-            document.getElementById('userAvatar').textContent = 'GU';
-            
-            document.getElementById('displayName').textContent = 'Guest User';
-            document.getElementById('displayAge').textContent = '-- years';
-            document.getElementById('displaySchool').textContent = 'Not Registered';
-            document.getElementById('displayClass').textContent = '--';
-            document.getElementById('displayEmail').textContent = 'demo@example.com';
-            document.getElementById('displayPhone').textContent = '--';
-            
-            // Load practice stats from localStorage (for demo)
-            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-            const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-            document.getElementById('questionsDone').textContent = practiceStats.total;
-            document.getElementById('accuracyRate').textContent = accuracy + '%';
-            document.getElementById('totalPoints').textContent = practiceStats.points || 0;
-            
-        } else {
-            // Student is logged in - display their data
-            const firstName = studentData.fullName.split(' ')[0];
-            document.getElementById('welcomeName').textContent = firstName;
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
+
+        if (studentData) {
+            // Logged in user
+            document.getElementById('demoNotice').style.display = 'none';
+            document.getElementById('welcomeName').textContent = studentData.fullName.split(' ')[0];
             document.getElementById('userName').textContent = studentData.fullName;
             document.getElementById('userEmail').textContent = studentData.email;
-            
-            const initials = studentData.fullName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-            document.getElementById('userAvatar').textContent = initials;
-            
-            // Calculate age
-            function calculateAge(dob) {
-                const birthDate = new Date(dob);
-                const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                return age;
-            }
-            
-            const age = calculateAge(studentData.dateOfBirth);
-            
-            // Update profile display
+            document.getElementById('userAvatar').textContent = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
             document.getElementById('displayName').textContent = studentData.fullName;
-            document.getElementById('displayAge').textContent = age + ' years (Born: ' + studentData.dateOfBirth + ')';
             document.getElementById('displaySchool').textContent = studentData.school;
             document.getElementById('displayClass').textContent = studentData.class;
             document.getElementById('displayEmail').textContent = studentData.email;
-            document.getElementById('displayPhone').textContent = studentData.phone;
             
-            // Load practice stats
-            const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
-            const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-            document.getElementById('questionsDone').textContent = practiceStats.total;
-            document.getElementById('accuracyRate').textContent = accuracy + '%';
-            document.getElementById('totalPoints').textContent = practiceStats.points || 0;
+            const stats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
+            const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+            document.getElementById('questionsDone').textContent = stats.total;
+            document.getElementById('accuracyRate').textContent = acc + '%';
+            document.getElementById('totalPoints').textContent = stats.points || 0;
         }
-        
-        // Set total courses
+
         document.getElementById('totalCourses').textContent = '7';
-        
-        // Refresh stats button
+
         document.getElementById('refreshStats').addEventListener('click', (e) => {
             e.preventDefault();
-            if (isLoggedIn && studentData) {
-                const updatedStudents = JSON.parse(localStorage.getItem('students') || '[]');
-                const updatedStudent = updatedStudents.find(s => s.id === studentData.id);
-                if (updatedStudent) {
-                    const practiceStats = updatedStudent.practiceStats || { total: 0, correct: 0, points: 0 };
-                    const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-                    document.getElementById('questionsDone').textContent = practiceStats.total;
-                    document.getElementById('accuracyRate').textContent = accuracy + '%';
-                    document.getElementById('totalPoints').textContent = practiceStats.points || 0;
-                    alert('✅ Stats refreshed! Your progress has been updated.');
-                }
+            const updated = JSON.parse(localStorage.getItem('students') || '[]');
+            const updatedStudent = currentStudent ? updated.find(s => s.id === currentStudent.id) : null;
+            if (updatedStudent) {
+                const stats = updatedStudent.practiceStats || { total: 0, correct: 0, points: 0 };
+                const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                document.getElementById('questionsDone').textContent = stats.total;
+                document.getElementById('accuracyRate').textContent = acc + '%';
+                document.getElementById('totalPoints').textContent = stats.points || 0;
+                alert('✅ Stats refreshed!');
             } else {
-                // Demo mode - load from localStorage
-                const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
-                const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
-                document.getElementById('questionsDone').textContent = practiceStats.total;
-                document.getElementById('accuracyRate').textContent = accuracy + '%';
-                document.getElementById('totalPoints').textContent = practiceStats.points || 0;
-                alert('✅ Stats refreshed! Register to save your progress permanently.');
+                const stats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0,"points":0}');
+                const acc = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                document.getElementById('questionsDone').textContent = stats.total;
+                document.getElementById('accuracyRate').textContent = acc + '%';
+                document.getElementById('totalPoints').textContent = stats.points || 0;
+                alert('✅ Stats refreshed!');
             }
         });
-        
-        // Logout function
+
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
-        
-        // Set greeting based on time
-        function setGreeting() {
-            const hour = new Date().getHours();
-            const heroSubtitle = document.querySelector('.hero-subtitle');
-            if (hour < 12) {
-                heroSubtitle.textContent = 'Good morning! Start your day with a practice session and make today count! ☀️';
-            } else if (hour < 17) {
-                heroSubtitle.textContent = 'Good afternoon! Keep up the momentum - every question you answer brings you closer to success! 📚';
-            } else {
-                heroSubtitle.textContent = 'Good evening! Great time to review what you learned today and prepare for tomorrow! 🌙';
-            }
-        }
-        setGreeting();
     </script>
 </body>
 </html>
