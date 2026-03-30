@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dashboard - The Junior Scholar Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .school-name {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #2d6a4f;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #2d6a4f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .vacation-badge {
+            display: inline-block;
+            background: #2d6a4f;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #2d6a4f;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-item:hover {
+            background: white;
+            color: #1e293b;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: white;
+            color: #2d6a4f;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 28px;
+        }
+
+        .user-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.5);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #2d6a4f, #40916c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .user-email {
+            font-size: 0.7rem;
+            color: #2d6a4f;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2d6a4f;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(45, 106, 79, 0.1);
+            color: #dc2626;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease-in-out;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .toggle-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d6a4f;
+        }
+
+        .toggle-sidebar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .welcome-card h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-card p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        /* Student Details Card */
+        .details-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .details-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-label {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #2d6a4f;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .quick-link-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-color: #2ecc71;
+        }
+
+        .quick-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .quick-desc {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .toggle-sidebar {
+                left: auto;
+                right: 20px;
+            }
+            .welcome-card h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="school-name">PRESEC-LEGON</div>
+            <div class="portal-title">The Junior Scholar Portal</div>
+            <div class="vacation-badge">📚 BECE PREP</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="courses.html" class="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>My Courses</span>
+            </a>
+            <a href="practice.html" class="nav-item">
+                <span class="nav-icon">📝</span>
+                <span>Practice Questions</span>
+            </a>
+            <a href="live-class.html" class="nav-item">
+                <span class="nav-icon">🎥</span>
+                <span>Live Classes</span>
+            </a>
+        </nav>
+
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div>
+                    <div class="user-name" id="userName">Student</div>
+                    <div class="user-email" id="userEmail">student@example.com</div>
+                </div>
+            </div>
+            <a href="login.html" class="logout-btn" id="logoutBtn">
+                <span>🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <h1>Welcome, <span id="welcomeName">Scholar</span>! 👋</h1>
+            <p>Ready to continue your journey to BECE excellence? Let's make today productive!</p>
+        </div>
+
+        <!-- Student Details Card -->
+        <div class="details-card">
+            <div class="details-title">
+                <span>📋</span>
+                <span>Student Profile</span>
+            </div>
+            <div class="details-grid" id="studentDetails">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="practice.html" class="quick-link-card">
+                <div class="quick-icon">📝</div>
+                <div class="quick-title">Practice Questions</div>
+                <div class="quick-desc">Test your knowledge</div>
+            </a>
+            <a href="courses.html" class="quick-link-card">
+                <div class="quick-icon">📚</div>
+                <div class="quick-title">My Courses</div>
+                <div class="quick-desc">Continue learning</div>
+            </a>
+            <a href="live-class.html" class="quick-link-card">
+                <div class="quick-icon">🎥</div>
+                <div class="quick-title">Live Classes</div>
+                <div class="quick-desc">Join today's session</div>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Check if student is logged in
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        
+        let studentData = null;
+        
+        if (currentStudent) {
+            studentData = students.find(s => s.id === currentStudent.id);
+        }
+        
+        if (!studentData) {
+            // Not logged in, redirect to login
+            window.location.href = 'login.html';
+        } else {
+            // Display student info
+            const firstName = studentData.fullName.split(' ')[0];
+            document.getElementById('welcomeName').textContent = firstName;
+            document.getElementById('userName').textContent = studentData.fullName;
+            document.getElementById('userEmail').textContent = studentData.email;
+            
+            const initials = studentData.fullName.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+            
+            // Calculate age from date of birth
+            function calculateAge(dob) {
+                const birthDate = new Date(dob);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+            
+            const age = calculateAge(studentData.dateOfBirth);
+            
+            // Display student details
+            const detailsGrid = document.getElementById('studentDetails');
+            detailsGrid.innerHTML = `
+                <div class="detail-item">
+                    <span class="detail-label">👤 Full Name</span>
+                    <span class="detail-value">${studentData.fullName}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🎂 Date of Birth</span>
+                    <span class="detail-value">${studentData.dateOfBirth} (${age} years)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🏫 School/Ward</span>
+                    <span class="detail-value">${studentData.school}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📚 Class</span>
+                    <span class="detail-value">${studentData.class}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📧 Email</span>
+                    <span class="detail-value">${studentData.email}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📱 Phone</span>
+                    <span class="detail-value">${studentData.phone}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">👨‍👩 Parent/Guardian</span>
+                    <span class="detail-value">${studentData.parentName}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📞 Parent Phone</span>
+                    <span class="detail-value">${studentData.parentPhone}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📅 Registered</span>
+                    <span class="detail-value">${new Date(studentData.registeredDate).toLocaleDateString()}</span>
+                </div>
+            `;
+        }
+        
+        // Logout function
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('currentStudent');
+            window.location.href = 'login.html';
+        });
+        
+        // Set greeting based on time
+        function setGreeting() {
+            const hour = new Date().getHours();
+            const welcomeCard = document.querySelector('.welcome-card p');
+            if (hour < 12) {
+                welcomeCard.textContent = 'Good morning! Start your day with a practice session! ☀️';
+            } else if (hour < 17) {
+                welcomeCard.textContent = 'Good afternoon! Keep up the great work! 📚';
+            } else {
+                welcomeCard.textContent = 'Good evening! Great time to review what you learned! 🌙';
+            }
+        }
+        setGreeting();
+    </script>
+</body>
+</html>
