@@ -18,7 +18,7 @@
             overflow-x: hidden;
         }
 
-        /* ========== SIDEBAR - PROFESSIONAL BLUE ========== */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -157,7 +157,7 @@
             color: #ef4444;
         }
 
-        /* ========== MAIN CONTENT ========== */
+        /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
@@ -327,7 +327,84 @@
             font-size: 0.8rem;
         }
 
-        /* Lesson List */
+        /* Student Card */
+        .student-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .student-card:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+        }
+
+        .student-info h4 {
+            margin-bottom: 0.25rem;
+            color: #1e3a5f;
+        }
+
+        .student-info p {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .student-stats {
+            text-align: right;
+        }
+
+        .student-score {
+            font-weight: 700;
+            color: #2ecc71;
+        }
+
+        .view-btn {
+            background: #2ecc71;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+            display: inline-block;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        /* Lesson/Assignment Items */
         .lesson-item, .assignment-item, .resource-item {
             display: flex;
             justify-content: space-between;
@@ -336,27 +413,6 @@
             background: #f8fafc;
             border-radius: 0.75rem;
             margin-bottom: 0.75rem;
-        }
-
-        .lesson-info h4, .assignment-info h4 {
-            margin-bottom: 0.25rem;
-        }
-
-        .lesson-info p, .assignment-info p {
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        .lesson-time {
-            color: #1e3a5f;
-            font-weight: 500;
-            font-size: 0.8rem;
-        }
-
-        /* Schedule Grid */
-        .schedule-grid {
-            display: grid;
-            gap: 1rem;
         }
 
         .schedule-item {
@@ -369,12 +425,6 @@
             border-radius: 0.75rem;
         }
 
-        .schedule-day {
-            font-weight: 700;
-            color: #1e3a5f;
-        }
-
-        /* Mobile */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -413,6 +463,10 @@
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
             </div>
+            <div class="nav-item" data-tab="students">
+                <span class="nav-icon">👥</span>
+                <span>Students</span>
+            </div>
             <div class="nav-item" data-tab="lessons">
                 <span class="nav-icon">📚</span>
                 <span>Manage Lessons</span>
@@ -429,10 +483,6 @@
                 <span class="nav-icon">📁</span>
                 <span>Resources & Notes</span>
             </div>
-            <div class="nav-item" data-tab="students">
-                <span class="nav-icon">👥</span>
-                <span>Student Progress</span>
-            </div>
         </nav>
         <div class="user-section">
             <div class="user-info">
@@ -442,7 +492,7 @@
                     <div class="user-role">Senior Educator</div>
                 </div>
             </div>
-            <a href="dashboard.html" class="logout-btn">
+            <a href="dashboard.html" class="logout-btn" id="switchToStudent">
                 <span>👥</span>
                 <span>Switch to Student View</span>
             </a>
@@ -452,28 +502,35 @@
     <main class="main-content" id="mainContent">
         <div class="welcome-section">
             <h1>Teacher Dashboard</h1>
-            <p>Manage your lessons, schedule classes, and track student progress</p>
+            <p>Manage students, lessons, and track progress</p>
         </div>
 
         <!-- Dashboard Tab -->
         <div id="dashboardTab">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-value" id="totalLessons">0</div>
-                    <div class="stat-label">Total Lessons</div>
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Total Students</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="totalStudents">0</div>
-                    <div class="stat-label">Active Students</div>
+                    <div class="stat-value" id="totalLessons">0</div>
+                    <div class="stat-label">Total Lessons</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value" id="totalAssignments">0</div>
                     <div class="stat-label">Assignments</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" id="attendanceToday">0</div>
-                    <div class="stat-label">Today's Attendance</div>
+                    <div class="stat-value" id="avgProgress">0%</div>
+                    <div class="stat-label">Avg Student Progress</div>
                 </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Recent Student Activity</h3>
+                </div>
+                <div id="recentActivity"></div>
             </div>
 
             <div class="card">
@@ -482,12 +539,16 @@
                 </div>
                 <div id="todaySchedule"></div>
             </div>
+        </div>
 
+        <!-- Students Tab -->
+        <div id="studentsTab" style="display: none;">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">📊 Recent Activity</h3>
+                    <h3 class="card-title">👥 Registered Students</h3>
+                    <span id="studentCount" style="background: #2ecc71; color: white; padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.75rem;">0 Students</span>
                 </div>
-                <div id="recentActivity"></div>
+                <div id="studentsList"></div>
             </div>
         </div>
 
@@ -506,9 +567,6 @@
                             <option value="English">English Language</option>
                             <option value="Science">Integrated Science</option>
                             <option value="Social Studies">Social Studies</option>
-                            <option value="Chemistry">Chemistry</option>
-                            <option value="Physics">Physics</option>
-                            <option value="Biology">Biology</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -549,7 +607,6 @@
                             <option value="Mathematics">Mathematics</option>
                             <option value="English">English Language</option>
                             <option value="Science">Integrated Science</option>
-                            <option value="Social Studies">Social Studies</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -655,17 +712,15 @@
                 <div id="resourcesList"></div>
             </div>
         </div>
-
-        <!-- Student Progress Tab -->
-        <div id="studentsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">👥 Student Overview</h3>
-                </div>
-                <div id="studentProgressList"></div>
-            </div>
-        </div>
     </main>
+
+    <!-- Student Detail Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeStudentModal()">&times;</span>
+            <div id="studentModalContent"></div>
+        </div>
+    </div>
 
     <script>
         // Teacher name
@@ -692,11 +747,11 @@
         const tabs = document.querySelectorAll('.nav-item');
         const tabContents = {
             dashboard: document.getElementById('dashboardTab'),
+            students: document.getElementById('studentsTab'),
             lessons: document.getElementById('lessonsTab'),
             schedule: document.getElementById('scheduleTab'),
             assignments: document.getElementById('assignmentsTab'),
-            resources: document.getElementById('resourcesTab'),
-            students: document.getElementById('studentsTab')
+            resources: document.getElementById('resourcesTab')
         };
 
         tabs.forEach(tab => {
@@ -714,11 +769,11 @@
 
         function loadTabData(tabId) {
             if (tabId === 'dashboard') loadDashboard();
+            else if (tabId === 'students') loadStudents();
             else if (tabId === 'lessons') loadLessons();
             else if (tabId === 'schedule') loadSchedule();
             else if (tabId === 'assignments') loadAssignments();
             else if (tabId === 'resources') loadResources();
-            else if (tabId === 'students') loadStudents();
         }
 
         // Data storage
@@ -734,7 +789,144 @@
             localStorage.setItem('resources', JSON.stringify(resources));
         }
 
-        // Lesson Form
+        // ========== STUDENTS MANAGEMENT ==========
+        function loadStudents() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const container = document.getElementById('studentsList');
+            const studentCount = document.getElementById('studentCount');
+            
+            studentCount.textContent = `${students.length} Students`;
+            
+            if (students.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:2rem; color:#64748b;">No students registered yet. Students will appear here after they register.</div>';
+                return;
+            }
+            
+            container.innerHTML = students.map(student => {
+                // Get student's practice stats
+                const practiceStats = student.practiceStats || { total: 0, correct: 0, points: 0 };
+                const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
+                
+                return `
+                    <div class="student-card">
+                        <div class="student-info">
+                            <h4>${student.fullName}</h4>
+                            <p>📧 ${student.email} | 📱 ${student.phone}</p>
+                            <p>🏫 ${student.school} | 📚 ${student.class}</p>
+                            <p>👨‍👩 ${student.parentName} | 📞 ${student.parentPhone}</p>
+                            <p>🎂 ${student.dateOfBirth} | 📅 Registered: ${new Date(student.registeredDate).toLocaleDateString()}</p>
+                        </div>
+                        <div class="student-stats">
+                            <div class="student-score">📊 ${accuracy}% Accuracy</div>
+                            <div>📝 ${practiceStats.total} Questions</div>
+                            <div>⭐ ${practiceStats.points || 0} Points</div>
+                            <button class="view-btn" onclick="viewStudentDetails(${student.id})">View Details</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.viewStudentDetails = function(studentId) {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const student = students.find(s => s.id === studentId);
+            
+            if (student) {
+                const practiceStats = student.practiceStats || { total: 0, correct: 0, points: 0 };
+                const accuracy = practiceStats.total > 0 ? Math.round((practiceStats.correct / practiceStats.total) * 100) : 0;
+                
+                const modalContent = document.getElementById('studentModalContent');
+                modalContent.innerHTML = `
+                    <h2 style="color: #1e3a5f; margin-bottom: 1rem;">Student Profile</h2>
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                        <p><strong>👤 Name:</strong> ${student.fullName}</p>
+                        <p><strong>🎂 Date of Birth:</strong> ${student.dateOfBirth}</p>
+                        <p><strong>🏫 School:</strong> ${student.school}</p>
+                        <p><strong>📚 Class:</strong> ${student.class}</p>
+                        <p><strong>📧 Email:</strong> ${student.email}</p>
+                        <p><strong>📱 Phone:</strong> ${student.phone}</p>
+                        <p><strong>👨‍👩 Parent/Guardian:</strong> ${student.parentName}</p>
+                        <p><strong>📞 Parent Phone:</strong> ${student.parentPhone}</p>
+                        <p><strong>📅 Registered:</strong> ${new Date(student.registeredDate).toLocaleString()}</p>
+                    </div>
+                    <h3 style="margin: 1rem 0 0.5rem;">📊 Academic Progress</h3>
+                    <div style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem;">
+                        <p><strong>Questions Answered:</strong> ${practiceStats.total}</p>
+                        <p><strong>Correct Answers:</strong> ${practiceStats.correct}</p>
+                        <p><strong>Accuracy:</strong> ${accuracy}%</p>
+                        <p><strong>Total Points:</strong> ${practiceStats.points || 0}</p>
+                    </div>
+                `;
+                document.getElementById('studentModal').style.display = 'block';
+            }
+        };
+
+        function closeStudentModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('studentModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // ========== DASHBOARD ==========
+        function loadDashboard() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalLessons').textContent = lessons.length;
+            document.getElementById('totalAssignments').textContent = assignments.length;
+            
+            // Calculate average progress
+            let totalAccuracy = 0;
+            students.forEach(student => {
+                const stats = student.practiceStats || { total: 0, correct: 0 };
+                const accuracy = stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
+                totalAccuracy += accuracy;
+            });
+            const avgProgress = students.length > 0 ? Math.round(totalAccuracy / students.length) : 0;
+            document.getElementById('avgProgress').textContent = avgProgress + '%';
+            
+            // Recent activity
+            const activityContainer = document.getElementById('recentActivity');
+            if (students.length === 0) {
+                activityContainer.innerHTML = '<p style="text-align:center; color:#64748b;">No student activity yet.</p>';
+            } else {
+                activityContainer.innerHTML = students.slice(0, 5).map(student => {
+                    const stats = student.practiceStats || { total: 0, correct: 0 };
+                    return `
+                        <div class="student-card" style="margin-bottom: 0.5rem;">
+                            <div>
+                                <strong>${student.fullName}</strong>
+                                <p style="font-size: 0.75rem;">${student.email}</p>
+                            </div>
+                            <div class="student-stats">
+                                ${stats.total} questions answered | ${stats.correct} correct
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Today's schedule
+            const today = new Date().toISOString().split('T')[0];
+            const todaySchedules = schedules.filter(s => s.date === today);
+            const todayContainer = document.getElementById('todaySchedule');
+            if (todaySchedules.length === 0) {
+                todayContainer.innerHTML = '<p>No classes scheduled for today.</p>';
+            } else {
+                todayContainer.innerHTML = todaySchedules.map(s => `
+                    <div style="padding: 0.5rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                        <strong>${s.subject}</strong> at ${s.time} (${s.duration} hours)
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ========== LESSONS ==========
         document.getElementById('lessonForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const lesson = {
@@ -760,7 +952,7 @@
             }
             container.innerHTML = lessons.map(lesson => `
                 <div class="lesson-item">
-                    <div class="lesson-info">
+                    <div>
                         <h4>${lesson.subject}: ${lesson.title}</h4>
                         <p>${lesson.content.substring(0, 100)}...</p>
                         ${lesson.meetLink ? `<p>🔗 ${lesson.meetLink}</p>` : ''}
@@ -776,7 +968,7 @@
             loadLessons();
         };
 
-        // Schedule Form
+        // ========== SCHEDULE ==========
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const schedule = {
@@ -809,7 +1001,7 @@
             `).join('');
         }
 
-        // Assignment Form
+        // ========== ASSIGNMENTS ==========
         document.getElementById('assignmentForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const assignment = {
@@ -835,7 +1027,7 @@
             }
             container.innerHTML = assignments.map(a => `
                 <div class="assignment-item">
-                    <div class="assignment-info">
+                    <div>
                         <h4>${a.subject}: ${a.title}</h4>
                         <p>${a.description.substring(0, 100)}...</p>
                         <p>📅 Due: ${a.dueDate}</p>
@@ -851,7 +1043,7 @@
             loadAssignments();
         };
 
-        // Resource Form
+        // ========== RESOURCES ==========
         document.getElementById('resourceForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const resource = {
@@ -880,7 +1072,7 @@
                     <div>
                         <h4>${r.subject}: ${r.title}</h4>
                         <p>${r.description}</p>
-                        ${r.link ? `<a href="${r.link}" target="_blank" style="color:#1e3a5f;">🔗 Open Resource →</a>` : ''}
+                        ${r.link ? `<a href="${r.link}" target="_blank" style="color:#2ecc71;">🔗 Open Resource →</a>` : ''}
                     </div>
                     <button class="btn-danger" onclick="deleteResource(${r.id})">Delete</button>
                 </div>
@@ -893,53 +1085,11 @@
             loadResources();
         };
 
-        function loadDashboard() {
-            document.getElementById('totalLessons').textContent = lessons.length;
-            document.getElementById('totalAssignments').textContent = assignments.length;
-            document.getElementById('totalStudents').textContent = '24';
-            
-            const today = new Date().toDateString();
-            const todayAttendance = JSON.parse(localStorage.getItem('attendance') || '[]');
-            const todayCount = todayAttendance.filter(a => new Date(a.date).toDateString() === today).length;
-            document.getElementById('attendanceToday').textContent = todayCount;
-
-            const todaySchedules = schedules.filter(s => s.date === new Date().toISOString().split('T')[0]);
-            const todayContainer = document.getElementById('todaySchedule');
-            if (todaySchedules.length === 0) {
-                todayContainer.innerHTML = '<p>No classes scheduled for today.</p>';
-            } else {
-                todayContainer.innerHTML = todaySchedules.map(s => `
-                    <div style="padding: 0.5rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 0.5rem;">
-                        <strong>${s.subject}</strong> at ${s.time} (${s.duration} hours)
-                    </div>
-                `).join('');
-            }
-
-            const activityContainer = document.getElementById('recentActivity');
-            activityContainer.innerHTML = `
-                <div>📚 Created ${lessons.length} lessons</div>
-                <div>📝 Posted ${assignments.length} assignments</div>
-                <div>📅 Scheduled ${schedules.length} classes</div>
-                <div>📁 Uploaded ${resources.length} resources</div>
-            `;
-        }
-
-        function loadStudents() {
-            const container = document.getElementById('studentProgressList');
-            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0}');
-            const studentName = localStorage.getItem('scholarName') || 'Student';
-            container.innerHTML = `
-                <div class="lesson-item">
-                    <div>
-                        <h4>${studentName}</h4>
-                        <p>Questions Answered: ${practiceStats.total}</p>
-                        <p>Correct Answers: ${practiceStats.correct}</p>
-                        <p>Accuracy: ${practiceStats.total > 0 ? Math.round((practiceStats.correct/practiceStats.total)*100) : 0}%</p>
-                    </div>
-                </div>
-                <p style="margin-top: 1rem; color: #64748b;">More student data will appear as they complete activities.</p>
-            `;
-        }
+        // Switch to student view
+        document.getElementById('switchToStudent').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
 
         // Initial load
         loadDashboard();
