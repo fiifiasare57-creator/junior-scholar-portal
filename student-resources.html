@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Resources - The Junior Scholar Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            color: #1a2c3e;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #6366f1;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e293b, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #6366f1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #6366f1;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eef2f6;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .assignment-item, .note-item {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .assignment-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .assignment-due {
+            font-size: 0.7rem;
+            color: #f59e0b;
+            margin-top: 0.25rem;
+        }
+
+        .assignment-desc {
+            font-size: 0.85rem;
+            color: #4b5563;
+            margin-top: 0.5rem;
+        }
+
+        .submission-area {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .submission-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .submitted-badge {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .note-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+        }
+
+        .note-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html" class="logo">📚 The Junior Scholar Portal</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="practice.html">Practice</a>
+            <a href="live-class.html">Live Classes</a>
+            <a href="assignments.html" class="active">Resources</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('assignments')">📝 My Assignments</button>
+            <button class="tab-btn" onclick="showTab('notes')">📚 Notes & Resources</button>
+        </div>
+
+        <!-- Assignments Tab -->
+        <div id="assignmentsTab">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Active Assignments</h3>
+                </div>
+                <div id="assignmentsList"></div>
+            </div>
+        </div>
+
+        <!-- Notes Tab -->
+        <div id="notesTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 Teacher's Notes & Resources</h3>
+                </div>
+                <div id="notesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get current student
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
+
+        if (!studentData) {
+            window.location.href = 'login.html';
+        }
+
+        let submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
+
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('assignmentsTab').style.display = 'none';
+            document.getElementById('notesTab').style.display = 'none';
+            
+            if (tab === 'assignments') {
+                document.getElementById('assignmentsTab').style.display = 'block';
+                loadAssignments();
+            } else {
+                document.getElementById('notesTab').style.display = 'block';
+                loadNotes();
+            }
+        }
+
+        function loadAssignments() {
+            const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const container = document.getElementById('assignmentsList');
+            
+            if (assignments.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No assignments yet. Check back later!</p>';
+                return;
+            }
+            
+            container.innerHTML = assignments.map(assignment => {
+                const isSubmitted = submissions[assignment.id];
+                const dueDate = new Date(assignment.dueDate);
+                const today = new Date();
+                const isOverdue = dueDate < today && !isSubmitted;
+                
+                return `
+                    <div class="assignment-item">
+                        <div class="assignment-title">${assignment.subject}: ${assignment.title}</div>
+                        <div class="assignment-due">📅 Due: ${assignment.dueDate} ${isOverdue ? '⚠️ OVERDUE' : ''}</div>
+                        <div class="assignment-desc">${assignment.description}</div>
+                        <div class="submission-area">
+                            ${isSubmitted ? `
+                                <div class="submitted-badge">
+                                    ✅ Submitted on ${submissions[assignment.id].date}
+                                    <br><small>Your answer: "${submissions[assignment.id].answer.substring(0, 100)}..."</small>
+                                </div>
+                            ` : `
+                                <textarea id="answer_${assignment.id}" class="submission-input" rows="3" placeholder="Write your answer here..."></textarea>
+                                <button class="btn-submit" onclick="submitAssignment(${assignment.id}, '${assignment.title}')">Submit Assignment →</button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadNotes() {
+            const notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
+            const container = document.getElementById('notesList');
+            
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No notes shared yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <div class="assignment-title">${note.subject}: ${note.title}</div>
+                    <div class="note-content">${note.content}</div>
+                    ${note.link ? `<a href="${note.link}" class="note-link" target="_blank">🔗 Open Resource →</a>` : ''}
+                    <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.5rem;">📅 Shared: ${new Date(note.createdAt).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+        }
+
+        function submitAssignment(assignmentId, title) {
+            const answer = document.getElementById(`answer_${assignmentId}`).value;
+            
+            if (!answer.trim()) {
+                alert('Please write your answer before submitting.');
+                return;
+            }
+            
+            if (answer.length < 10) {
+                alert('Please provide a more detailed answer (at least 10 characters).');
+                return;
+            }
+            
+            submissions[assignmentId] = {
+                assignmentId: assignmentId,
+                title: title,
+                answer: answer,
+                date: new Date().toLocaleString(),
+                studentId: studentData.id,
+                studentName: studentData.fullName
+            };
+            
+            localStorage.setItem('submissions_' + studentData.id, JSON.stringify(submissions));
+            
+            let allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+            allSubmissions.push({
+                assignmentId: assignmentId,
+                title: title,
+                answer: answer,
+                date: new Date().toLocaleString(),
+                studentId: studentData.id,
+                studentName: studentData.fullName,
+                studentEmail: studentData.email
+            });
+            localStorage.setItem('allSubmissions', JSON.stringify(allSubmissions));
+            
+            alert(`✅ Assignment "${title}" submitted successfully!`);
+            loadAssignments();
+        }
+
+        loadAssignments();
+    </script>
+</body>
+</html>
