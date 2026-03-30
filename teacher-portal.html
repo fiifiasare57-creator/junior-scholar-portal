@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Teacher Portal - The Junior Scholar Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* ========== SIDEBAR - PROFESSIONAL BLUE ========== */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
+            color: white;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .school-name {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .teacher-badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: #1e3a5f;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 28px;
+        }
+
+        .user-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            background: #f59e0b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e3a5f;
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease-in-out;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .toggle-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e3a5f;
+        }
+
+        .toggle-sidebar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c4e6e 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #1e3a5f;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #1e3a5f;
+            color: white;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f4f8;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-primary {
+            background: #1e3a5f;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #2c4e6e;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Lesson List */
+        .lesson-item, .assignment-item, .resource-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .lesson-info h4, .assignment-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .lesson-info p, .assignment-info p {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .lesson-time {
+            color: #1e3a5f;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        /* Schedule Grid */
+        .schedule-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .schedule-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 120px;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
+        }
+
+        .schedule-day {
+            font-weight: 700;
+            color: #1e3a5f;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .toggle-sidebar {
+                left: auto;
+                right: 20px;
+            }
+            .schedule-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="school-name">PRESEC-LEGON</div>
+            <div class="portal-title">Teacher Portal</div>
+            <div class="teacher-badge">👨‍🏫 STAFF DASHBOARD</div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item active" data-tab="dashboard">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-tab="lessons">
+                <span class="nav-icon">📚</span>
+                <span>Manage Lessons</span>
+            </div>
+            <div class="nav-item" data-tab="schedule">
+                <span class="nav-icon">📅</span>
+                <span>Schedule Classes</span>
+            </div>
+            <div class="nav-item" data-tab="assignments">
+                <span class="nav-icon">📝</span>
+                <span>Assignments</span>
+            </div>
+            <div class="nav-item" data-tab="resources">
+                <span class="nav-icon">📁</span>
+                <span>Resources & Notes</span>
+            </div>
+            <div class="nav-item" data-tab="students">
+                <span class="nav-icon">👥</span>
+                <span>Student Progress</span>
+            </div>
+        </nav>
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="teacherAvatar">TK</div>
+                <div>
+                    <div class="user-name" id="teacherName">Teacher</div>
+                    <div class="user-role">Senior Educator</div>
+                </div>
+            </div>
+            <a href="dashboard.html" class="logout-btn">
+                <span>👥</span>
+                <span>Switch to Student View</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+        <div class="welcome-section">
+            <h1>Teacher Dashboard</h1>
+            <p>Manage your lessons, schedule classes, and track student progress</p>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboardTab">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLessons">0</div>
+                    <div class="stat-label">Total Lessons</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Active Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAssignments">0</div>
+                    <div class="stat-label">Assignments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="attendanceToday">0</div>
+                    <div class="stat-label">Today's Attendance</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📅 Today's Schedule</h3>
+                </div>
+                <div id="todaySchedule"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Recent Activity</h3>
+                </div>
+                <div id="recentActivity"></div>
+            </div>
+        </div>
+
+        <!-- Manage Lessons Tab -->
+        <div id="lessonsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">➕ Create New Lesson</h3>
+                </div>
+                <form id="lessonForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="lessonSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                            <option value="Social Studies">Social Studies</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Biology">Biology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lesson Title</label>
+                        <input type="text" id="lessonTitle" placeholder="e.g., Algebra Basics" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Lesson Content</label>
+                        <textarea id="lessonContent" placeholder="Describe what students will learn..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Google Meet Link</label>
+                        <input type="text" id="lessonMeetLink" placeholder="https://meet.google.com/...">
+                    </div>
+                    <button type="submit" class="btn-primary">Create Lesson →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 Your Lessons</h3>
+                </div>
+                <div id="lessonsList"></div>
+            </div>
+        </div>
+
+        <!-- Schedule Classes Tab -->
+        <div id="scheduleTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📅 Schedule New Class</h3>
+                </div>
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="scheduleSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                            <option value="Social Studies">Social Studies</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="scheduleDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="scheduleTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (hours)</label>
+                        <input type="number" id="scheduleDuration" value="1.5" step="0.5">
+                    </div>
+                    <button type="submit" class="btn-primary">Schedule Class →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📅 Weekly Schedule</h3>
+                </div>
+                <div id="weeklySchedule"></div>
+            </div>
+        </div>
+
+        <!-- Assignments Tab -->
+        <div id="assignmentsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📝 Create Assignment</h3>
+                </div>
+                <form id="assignmentForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="assignmentSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Assignment Title</label>
+                        <input type="text" id="assignmentTitle" placeholder="e.g., Algebra Worksheet" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description / Instructions</label>
+                        <textarea id="assignmentDesc" placeholder="Describe the assignment..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" id="assignmentDue" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Post Assignment →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📋 Active Assignments</h3>
+                </div>
+                <div id="assignmentsList"></div>
+            </div>
+        </div>
+
+        <!-- Resources Tab -->
+        <div id="resourcesTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📁 Upload Resource / Notes</h3>
+                </div>
+                <form id="resourceForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="resourceSubject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="English">English Language</option>
+                            <option value="Science">Integrated Science</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="resourceTitle" placeholder="e.g., Algebra Notes" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="resourceDesc" placeholder="Describe the resource..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>File Link (Google Drive, PDF, etc.)</label>
+                        <input type="text" id="resourceLink" placeholder="https://drive.google.com/...">
+                    </div>
+                    <button type="submit" class="btn-primary">Upload Resource →</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 Available Resources</h3>
+                </div>
+                <div id="resourcesList"></div>
+            </div>
+        </div>
+
+        <!-- Student Progress Tab -->
+        <div id="studentsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👥 Student Overview</h3>
+                </div>
+                <div id="studentProgressList"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Teacher name
+        let teacherName = localStorage.getItem('teacherName');
+        if (!teacherName) {
+            teacherName = prompt('Welcome to Teacher Portal! Enter your name:', 'Mr. Kofi Mensah');
+            if (teacherName) localStorage.setItem('teacherName', teacherName);
+            else teacherName = 'Teacher';
+        }
+        
+        document.getElementById('teacherName').textContent = teacherName;
+        const teacherInitials = teacherName.split(' ').map(n => n[0]).join('');
+        document.getElementById('teacherAvatar').textContent = teacherInitials;
+
+        // Sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            document.getElementById('mainContent').classList.toggle('expanded');
+        });
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.nav-item');
+        const tabContents = {
+            dashboard: document.getElementById('dashboardTab'),
+            lessons: document.getElementById('lessonsTab'),
+            schedule: document.getElementById('scheduleTab'),
+            assignments: document.getElementById('assignmentsTab'),
+            resources: document.getElementById('resourcesTab'),
+            students: document.getElementById('studentsTab')
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                Object.values(tabContents).forEach(content => {
+                    if (content) content.style.display = 'none';
+                });
+                if (tabContents[tabId]) tabContents[tabId].style.display = 'block';
+                loadTabData(tabId);
+            });
+        });
+
+        function loadTabData(tabId) {
+            if (tabId === 'dashboard') loadDashboard();
+            else if (tabId === 'lessons') loadLessons();
+            else if (tabId === 'schedule') loadSchedule();
+            else if (tabId === 'assignments') loadAssignments();
+            else if (tabId === 'resources') loadResources();
+            else if (tabId === 'students') loadStudents();
+        }
+
+        // Data storage
+        let lessons = JSON.parse(localStorage.getItem('teacherLessons') || '[]');
+        let schedules = JSON.parse(localStorage.getItem('classSchedule') || '[]');
+        let assignments = JSON.parse(localStorage.getItem('assignments') || '[]');
+        let resources = JSON.parse(localStorage.getItem('resources') || '[]');
+
+        function saveData() {
+            localStorage.setItem('teacherLessons', JSON.stringify(lessons));
+            localStorage.setItem('classSchedule', JSON.stringify(schedules));
+            localStorage.setItem('assignments', JSON.stringify(assignments));
+            localStorage.setItem('resources', JSON.stringify(resources));
+        }
+
+        // Lesson Form
+        document.getElementById('lessonForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const lesson = {
+                id: Date.now(),
+                subject: document.getElementById('lessonSubject').value,
+                title: document.getElementById('lessonTitle').value,
+                content: document.getElementById('lessonContent').value,
+                meetLink: document.getElementById('lessonMeetLink').value,
+                date: new Date().toISOString()
+            };
+            lessons.unshift(lesson);
+            saveData();
+            loadLessons();
+            e.target.reset();
+            alert('✅ Lesson created successfully!');
+        });
+
+        function loadLessons() {
+            const container = document.getElementById('lessonsList');
+            if (lessons.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No lessons yet. Create your first lesson!</p>';
+                return;
+            }
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <h4>${lesson.subject}: ${lesson.title}</h4>
+                        <p>${lesson.content.substring(0, 100)}...</p>
+                        ${lesson.meetLink ? `<p>🔗 ${lesson.meetLink}</p>` : ''}
+                    </div>
+                    <button class="btn-danger" onclick="deleteLesson(${lesson.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        window.deleteLesson = (id) => {
+            lessons = lessons.filter(l => l.id !== id);
+            saveData();
+            loadLessons();
+        };
+
+        // Schedule Form
+        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const schedule = {
+                id: Date.now(),
+                subject: document.getElementById('scheduleSubject').value,
+                date: document.getElementById('scheduleDate').value,
+                time: document.getElementById('scheduleTime').value,
+                duration: document.getElementById('scheduleDuration').value
+            };
+            schedules.push(schedule);
+            saveData();
+            loadSchedule();
+            e.target.reset();
+            alert('✅ Class scheduled successfully!');
+        });
+
+        function loadSchedule() {
+            const container = document.getElementById('weeklySchedule');
+            const sorted = [...schedules].sort((a,b) => new Date(a.date) - new Date(b.date));
+            if (sorted.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No classes scheduled yet.</p>';
+                return;
+            }
+            container.innerHTML = sorted.map(s => `
+                <div class="schedule-item">
+                    <div class="schedule-day">${s.subject}</div>
+                    <div>${s.date} at ${s.time}</div>
+                    <div>${s.duration} hours</div>
+                </div>
+            `).join('');
+        }
+
+        // Assignment Form
+        document.getElementById('assignmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const assignment = {
+                id: Date.now(),
+                subject: document.getElementById('assignmentSubject').value,
+                title: document.getElementById('assignmentTitle').value,
+                description: document.getElementById('assignmentDesc').value,
+                dueDate: document.getElementById('assignmentDue').value,
+                date: new Date().toISOString()
+            };
+            assignments.unshift(assignment);
+            saveData();
+            loadAssignments();
+            e.target.reset();
+            alert('✅ Assignment posted!');
+        });
+
+        function loadAssignments() {
+            const container = document.getElementById('assignmentsList');
+            if (assignments.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No assignments yet.</p>';
+                return;
+            }
+            container.innerHTML = assignments.map(a => `
+                <div class="assignment-item">
+                    <div class="assignment-info">
+                        <h4>${a.subject}: ${a.title}</h4>
+                        <p>${a.description.substring(0, 100)}...</p>
+                        <p>📅 Due: ${a.dueDate}</p>
+                    </div>
+                    <button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        window.deleteAssignment = (id) => {
+            assignments = assignments.filter(a => a.id !== id);
+            saveData();
+            loadAssignments();
+        };
+
+        // Resource Form
+        document.getElementById('resourceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const resource = {
+                id: Date.now(),
+                subject: document.getElementById('resourceSubject').value,
+                title: document.getElementById('resourceTitle').value,
+                description: document.getElementById('resourceDesc').value,
+                link: document.getElementById('resourceLink').value,
+                date: new Date().toISOString()
+            };
+            resources.unshift(resource);
+            saveData();
+            loadResources();
+            e.target.reset();
+            alert('✅ Resource uploaded!');
+        });
+
+        function loadResources() {
+            const container = document.getElementById('resourcesList');
+            if (resources.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#64748b;">No resources yet.</p>';
+                return;
+            }
+            container.innerHTML = resources.map(r => `
+                <div class="resource-item">
+                    <div>
+                        <h4>${r.subject}: ${r.title}</h4>
+                        <p>${r.description}</p>
+                        ${r.link ? `<a href="${r.link}" target="_blank" style="color:#1e3a5f;">🔗 Open Resource →</a>` : ''}
+                    </div>
+                    <button class="btn-danger" onclick="deleteResource(${r.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        window.deleteResource = (id) => {
+            resources = resources.filter(r => r.id !== id);
+            saveData();
+            loadResources();
+        };
+
+        function loadDashboard() {
+            document.getElementById('totalLessons').textContent = lessons.length;
+            document.getElementById('totalAssignments').textContent = assignments.length;
+            document.getElementById('totalStudents').textContent = '24';
+            
+            const today = new Date().toDateString();
+            const todayAttendance = JSON.parse(localStorage.getItem('attendance') || '[]');
+            const todayCount = todayAttendance.filter(a => new Date(a.date).toDateString() === today).length;
+            document.getElementById('attendanceToday').textContent = todayCount;
+
+            const todaySchedules = schedules.filter(s => s.date === new Date().toISOString().split('T')[0]);
+            const todayContainer = document.getElementById('todaySchedule');
+            if (todaySchedules.length === 0) {
+                todayContainer.innerHTML = '<p>No classes scheduled for today.</p>';
+            } else {
+                todayContainer.innerHTML = todaySchedules.map(s => `
+                    <div style="padding: 0.5rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                        <strong>${s.subject}</strong> at ${s.time} (${s.duration} hours)
+                    </div>
+                `).join('');
+            }
+
+            const activityContainer = document.getElementById('recentActivity');
+            activityContainer.innerHTML = `
+                <div>📚 Created ${lessons.length} lessons</div>
+                <div>📝 Posted ${assignments.length} assignments</div>
+                <div>📅 Scheduled ${schedules.length} classes</div>
+                <div>📁 Uploaded ${resources.length} resources</div>
+            `;
+        }
+
+        function loadStudents() {
+            const container = document.getElementById('studentProgressList');
+            const practiceStats = JSON.parse(localStorage.getItem('practiceStats') || '{"total":0,"correct":0}');
+            const studentName = localStorage.getItem('scholarName') || 'Student';
+            container.innerHTML = `
+                <div class="lesson-item">
+                    <div>
+                        <h4>${studentName}</h4>
+                        <p>Questions Answered: ${practiceStats.total}</p>
+                        <p>Correct Answers: ${practiceStats.correct}</p>
+                        <p>Accuracy: ${practiceStats.total > 0 ? Math.round((practiceStats.correct/practiceStats.total)*100) : 0}%</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">More student data will appear as they complete activities.</p>
+            `;
+        }
+
+        // Initial load
+        loadDashboard();
+    </script>
+</body>
+</html>
