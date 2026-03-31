@@ -19,9 +19,6 @@
             color: #1a2c3e;
         }
 
-        /* Navigation - REMOVED */
-        /* No top menu bar */
-
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -139,21 +136,57 @@
             transform: scale(1.05);
         }
 
+        /* Login Button */
+        .login-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #667eea;
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 100;
+            border: 1px solid rgba(102,126,234,0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            background: #667eea;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
+            .hero {
+                padding: 2rem;
+            }
             .hero h1 {
                 font-size: 1.5rem;
             }
-            .hero {
-                padding: 2rem;
+            .stats {
+                gap: 1rem;
+            }
+            .login-btn {
+                top: 10px;
+                right: 10px;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Login Button (Top Right) -->
+    <a href="login.html" class="login-btn">Login</a>
+
     <div class="container">
+        <!-- Hero Section -->
         <div class="hero">
             <h1>Your Journey to BECE Excellence Begins Here</h1>
             <p>Join hundreds of junior scholars preparing for the BECE with expert-led live classes, interactive practice questions, and personalized learning paths.</p>
@@ -181,4 +214,4 @@
     <!-- Teacher Portal Button -->
     <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
 </body>
-</html>
+</html>       
