@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>The Junior Scholar Portal - BECE Excellence</title>
+    <title>The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,6 +17,53 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1a2c3e;
+        }
+
+        /* Navigation Menu */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
         }
 
         /* Main Container */
@@ -136,30 +183,14 @@
             transform: scale(1.05);
         }
 
-        /* Login Button */
-        .login-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            color: #667eea;
-            padding: 0.6rem 1.2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            z-index: 100;
-            border: 1px solid rgba(102,126,234,0.3);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            background: #667eea;
-            color: white;
-        }
-
         @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
             .container {
                 padding: 1rem;
             }
@@ -172,18 +203,22 @@
             .stats {
                 gap: 1rem;
             }
-            .login-btn {
-                top: 10px;
-                right: 10px;
-                padding: 0.4rem 0.8rem;
-                font-size: 0.7rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Login Button (Top Right) -->
-    <a href="login.html" class="login-btn">Login</a>
+    <!-- Navigation Menu -->
+    <nav class="navbar">
+        <div class="logo">📚 The Junior Scholar Portal</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="courses.html">Courses</a>
+            <a href="live-class.html">Live Classes</a>
+            <a href="practice.html">Practice</a>
+            <a href="login.html" class="btn-login">Login</a>
+        </div>
+    </nav>
 
     <div class="container">
         <!-- Hero Section -->
@@ -192,7 +227,7 @@
             <p>Join hundreds of junior scholars preparing for the BECE with expert-led live classes, interactive practice questions, and personalized learning paths.</p>
             <div class="hero-buttons">
                 <a href="register.html" class="btn-primary">Start Learning →</a>
-                <a href="#features" class="btn-secondary">Explore Features</a>
+                <a href="#" class="btn-secondary">Explore Features</a>
             </div>
             <div class="stats">
                 <div class="stat-item">
@@ -214,4 +249,4 @@
     <!-- Teacher Portal Button -->
     <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
 </body>
-</html>       
+</html>
