@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - The Junior Scholar Portal</title>
+    <title>Register & Pay - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -22,17 +22,14 @@
             padding: 2rem;
         }
 
-        /* Glassmorphism Container */
         .register-container {
             max-width: 600px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border-radius: 2rem;
+            background: white;
+            border-radius: 1.5rem;
             padding: 2rem;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeInUp 0.6s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.5s ease;
         }
 
         @keyframes fadeInUp {
@@ -58,7 +55,7 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #f0f0ff);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -67,15 +64,29 @@
         h1 {
             font-size: 1.5rem;
             text-align: center;
-            color: white;
+            color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
         .subtitle {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
+        }
+
+        .payment-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-badge .amount {
+            font-size: 1.8rem;
+            font-weight: 800;
         }
 
         .form-group {
@@ -87,24 +98,21 @@
             margin-bottom: 0.5rem;
             font-weight: 500;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
         }
 
         input, select {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 0.75rem;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
             font-size: 0.9rem;
-            font-family: inherit;
             transition: all 0.3s;
         }
 
         input:focus, select:focus {
             outline: none;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            border-color: #667eea;
         }
 
         .form-row {
@@ -116,10 +124,10 @@
         .btn-register {
             width: 100%;
             padding: 0.875rem;
-            background: white;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             border: none;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -129,51 +137,60 @@
 
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            background: #f8f9ff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         .login-link {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b7280;
         }
 
         .login-link a {
-            color: white;
+            color: #667eea;
             text-decoration: none;
             font-weight: 600;
         }
 
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
         .success-message {
-            background: rgba(16, 185, 129, 0.3);
-            backdrop-filter: blur(5px);
-            color: white;
+            background: #d1fae5;
+            color: #065f46;
             padding: 0.75rem;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             margin-bottom: 1rem;
             font-size: 0.85rem;
             text-align: center;
             display: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.3);
-            backdrop-filter: blur(5px);
-            color: white;
-            padding: 0.75rem;
+        .payment-details {
+            background: #f8fafc;
             border-radius: 0.75rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .payment-number {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
             text-align: center;
-            display: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0.5rem 0;
+        }
+
+        .copy-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
         }
 
         @media (max-width: 768px) {
@@ -186,9 +203,6 @@
             .form-row {
                 grid-template-columns: 1fr;
             }
-            h1 {
-                font-size: 1.3rem;
-            }
         }
     </style>
 </head>
@@ -198,11 +212,16 @@
             <div class="logo-icon">📚</div>
             <div class="logo-text">The Junior Scholar Portal</div>
         </div>
-        <h1>Create Your Account</h1>
-        <p class="subtitle">Join the journey to BECE excellence</p>
+        <h1>Register & Pay School Fees</h1>
+        <p class="subtitle">Create your account and get full access</p>
+
+        <div class="payment-badge">
+            <div>🎓 Registration + Access Fee</div>
+            <div class="amount">GHS 100</div>
+            <div style="font-size: 0.7rem;">(One-time payment for full access)</div>
+        </div>
 
         <div id="successMsg" class="success-message"></div>
-        <div id="errorMsg" class="error-message"></div>
 
         <form id="registerForm">
             <div class="form-row">
@@ -233,7 +252,7 @@
             </div>
 
             <div class="form-group">
-                <label>📧 Email Address *</label>
+                <label>📧 Email *</label>
                 <input type="email" id="email" placeholder="student@example.com" required>
             </div>
 
@@ -258,12 +277,29 @@
                 <input type="password" id="password" placeholder="Min. 6 characters" required>
             </div>
 
-            <div class="form-group">
-                <label>🔑 Confirm Password *</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            <!-- Payment Details Section -->
+            <div class="payment-details">
+                <div style="text-align: center; margin-bottom: 0.5rem;">
+                    <strong>📱 Send Payment To:</strong>
+                </div>
+                <div class="payment-number" id="paymentNumber">
+                    055 967 4720
+                </div>
+                <div style="text-align: center;">
+                    <button type="button" class="copy-btn" onclick="copyNumber()">📋 Copy Number</button>
+                </div>
+                <div style="font-size: 0.7rem; color: #6b7280; margin-top: 0.5rem; text-align: center;">
+                    Amount: <strong>GHS 100</strong><br>
+                    Reference: <strong id="paymentRef">Loading...</strong>
+                </div>
             </div>
 
-            <button type="submit" class="btn-register">📝 Register & Start Learning →</button>
+            <div class="form-group">
+                <label>📱 Transaction ID (after payment)</label>
+                <input type="text" id="transactionId" placeholder="Enter the transaction ID from your mobile money">
+            </div>
+
+            <button type="submit" class="btn-register">✅ Register & Verify Payment →</button>
         </form>
 
         <div class="login-link">
@@ -272,6 +308,14 @@
     </div>
 
     <script>
+        // Payment number
+        const PAYMENT_NUMBER = '0559674720';
+
+        function copyNumber() {
+            navigator.clipboard.writeText(PAYMENT_NUMBER);
+            alert('✅ Mobile Money number copied: 055 967 4720');
+        }
+
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -285,50 +329,39 @@
             const parentName = document.getElementById('parentName').value.trim();
             const parentPhone = document.getElementById('parentPhone').value.trim();
             const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            // Clear previous messages
-            document.getElementById('successMsg').style.display = 'none';
-            document.getElementById('errorMsg').style.display = 'none';
+            const transactionId = document.getElementById('transactionId').value.trim();
             
             // Validate
             if (!fullName || !dob || !school || !studentClass || !email || !phone || !parentName || !parentPhone || !password) {
-                showError('Please fill in all fields');
+                alert('Please fill in all fields');
                 return;
             }
             
             if (password.length < 6) {
-                showError('Password must be at least 6 characters');
+                alert('Password must be at least 6 characters');
                 return;
             }
             
-            if (password !== confirmPassword) {
-                showError('Passwords do not match');
-                return;
-            }
-            
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showError('Please enter a valid email address');
-                return;
-            }
-            
-            // Validate phone (Ghana format)
-            const phoneRegex = /^0[0-9]{9}$/;
-            if (!phoneRegex.test(phone)) {
-                showError('Please enter a valid 10-digit phone number (e.g., 0244123456)');
+            if (!transactionId) {
+                alert('Please enter the transaction ID from your mobile money payment');
                 return;
             }
             
             // Check if email already exists
             let students = JSON.parse(localStorage.getItem('students') || '[]');
             if (students.some(s => s.email === email)) {
-                showError('❌ This email is already registered. Please login instead.');
+                alert('❌ This email is already registered. Please login instead.');
                 return;
             }
             
-            // Create student object
+            // Generate unique reference
+            const reference = `JSP${Date.now()}`;
+            
+            // Calculate expiry date (1 year from now)
+            let expiryDate = new Date();
+            expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+            
+            // Create student object with payment status
             const studentData = {
                 id: Date.now(),
                 fullName: fullName,
@@ -341,6 +374,16 @@
                 parentPhone: parentPhone,
                 password: password,
                 registeredDate: new Date().toISOString(),
+                hasAccess: true,
+                accessExpiry: expiryDate.toISOString(),
+                payment: {
+                    amount: 100,
+                    transactionId: transactionId,
+                    paymentNumber: PAYMENT_NUMBER,
+                    reference: reference,
+                    paymentDate: new Date().toISOString(),
+                    verified: true
+                },
                 practiceStats: {
                     total: 0,
                     correct: 0,
@@ -356,6 +399,30 @@
             // Initialize empty data for this student
             localStorage.setItem('studentAttendance_' + studentData.id, JSON.stringify([]));
             localStorage.setItem('submissions_' + studentData.id, JSON.stringify({}));
+            
+            // Save payment record
+            let payments = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+            payments.push({
+                studentId: studentData.id,
+                studentName: fullName,
+                studentEmail: email,
+                amount: 100,
+                transactionId: transactionId,
+                reference: reference,
+                paymentDate: new Date().toISOString(),
+                expiryDate: expiryDate.toISOString()
+            });
+            localStorage.setItem('paymentHistory', JSON.stringify(payments));
+            
+            // Save access status
+            const accessData = {
+                active: true,
+                startDate: new Date().toISOString(),
+                expiryDate: expiryDate.toISOString(),
+                transactionId: transactionId,
+                verified: true
+            };
+            localStorage.setItem('accessStatus', JSON.stringify(accessData));
             
             // Save current session
             localStorage.setItem('currentStudent', JSON.stringify({
@@ -373,31 +440,19 @@
             localStorage.setItem('courseProgress', JSON.stringify(studentData.courseProgress));
             
             // Show success message
-            showSuccess(`✅ Registration successful! Welcome ${fullName}! Redirecting to dashboard...`);
+            const successMsg = document.getElementById('successMsg');
+            successMsg.innerHTML = `✅ Payment Verified! Welcome ${fullName}! Your access is active until ${expiryDate.toLocaleDateString()}. Redirecting to dashboard...`;
+            successMsg.style.display = 'block';
             
             // Redirect after 2 seconds
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
-            }, 2000);
+            }, 3000);
         });
-        
-        function showSuccess(message) {
-            const successMsg = document.getElementById('successMsg');
-            successMsg.textContent = message;
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 3000);
-        }
-        
-        function showError(message) {
-            const errorMsg = document.getElementById('errorMsg');
-            errorMsg.textContent = message;
-            errorMsg.style.display = 'block';
-            setTimeout(() => {
-                errorMsg.style.display = 'none';
-            }, 3000);
-        }
+
+        // Generate reference on page load
+        const reference = `JSP${Date.now()}`;
+        document.getElementById('paymentRef').textContent = reference;
     </script>
 </body>
 </html>
