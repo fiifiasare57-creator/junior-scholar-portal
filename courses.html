@@ -86,7 +86,7 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Stats Cards - White Cards */
+        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -454,13 +454,13 @@
 
     <div class="container">
         <div class="header-section">
-            <h1>📚 BECE Courses</h1>
-            <p>Master all subjects with our comprehensive curriculum</p>
+            <h1>📚 BECE Core Courses</h1>
+            <p>Master all core subjects with our comprehensive curriculum</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-value" id="totalCourses">8</div>
+                <div class="stat-value" id="totalCourses">5</div>
                 <div class="stat-label">Total Courses</div>
             </div>
             <div class="stat-card">
@@ -480,9 +480,10 @@
         <div class="search-section">
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search courses...">
             <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn active" data-filter="all">All Courses</button>
                 <button class="filter-btn" data-filter="core">Core Subjects</button>
-                <button class="filter-btn" data-filter="elective">Electives</button>
+                <button class="filter-btn" data-filter="in-progress">In Progress</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
             </div>
         </div>
 
@@ -510,50 +511,120 @@
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
         const storageKey = 'courseProgress_' + (studentData?.id || 'guest');
 
+        // Course Data - Only 5 Core Subjects
         const courses = [
-            { id: 1, title: "Mathematics", description: "Master numbers, algebra, geometry, statistics, and mensuration.", icon: "📐", category: "core", lessons: 6, completedLessons: 0 },
-            { id: 2, title: "English Language", description: "Improve grammar, comprehension, essay writing, and literature.", icon: "📖", category: "core", lessons: 5, completedLessons: 0 },
-            { id: 3, title: "Integrated Science", description: "Explore biology, chemistry, physics, and health science.", icon: "🔬", category: "core", lessons: 5, completedLessons: 0 },
-            { id: 4, title: "Social Studies", description: "Learn about government, history, geography, and civic education.", icon: "🌍", category: "core", lessons: 4, completedLessons: 0 },
-            { id: 5, title: "ICT / Computing", description: "Learn computer fundamentals, software, and internet basics.", icon: "💻", category: "elective", lessons: 4, completedLessons: 0 },
-            { id: 6, title: "French", description: "Learn basic French vocabulary, grammar, and conversation.", icon: "🇫🇷", category: "elective", lessons: 4, completedLessons: 0 },
-            { id: 7, title: "RME", description: "Religious studies, moral values, and ethics.", icon: "🕊️", category: "core", lessons: 4, completedLessons: 0 },
-            { id: 8, title: "Ghanaian Language", description: "Reading, writing, and speaking in local language.", icon: "🗣️", category: "elective", lessons: 4, completedLessons: 0 }
+            { 
+                id: 1, 
+                title: "Mathematics", 
+                description: "Master numbers, algebra, geometry, statistics, and mensuration for BECE success.", 
+                icon: "📐", 
+                category: "core", 
+                lessons: 6, 
+                completedLessons: 0,
+                topics: ["Numbers & Numeration", "Algebraic Expressions", "Linear Equations", "Geometry", "Mensuration", "Statistics & Probability"]
+            },
+            { 
+                id: 2, 
+                title: "English Language", 
+                description: "Improve grammar, comprehension, essay writing, and literature analysis for top scores.", 
+                icon: "📖", 
+                category: "core", 
+                lessons: 5, 
+                completedLessons: 0,
+                topics: ["Grammar & Parts of Speech", "Comprehension Passages", "Essay Writing", "Literature", "Vocabulary Development"]
+            },
+            { 
+                id: 3, 
+                title: "Integrated Science", 
+                description: "Explore biology, chemistry, physics, and health science concepts with practical examples.", 
+                icon: "🔬", 
+                category: "core", 
+                lessons: 5, 
+                completedLessons: 0,
+                topics: ["Living Things & Cells", "Plants & Photosynthesis", "Human Body Systems", "Matter & Energy", "Health & Environment"]
+            },
+            { 
+                id: 4, 
+                title: "Social Studies", 
+                description: "Learn about government, history, geography, and civic education for BECE.", 
+                icon: "🌍", 
+                category: "core", 
+                lessons: 4, 
+                completedLessons: 0,
+                topics: ["Ghana History", "Government & Constitution", "Geography & Map Reading", "Civic Education"]
+            },
+            { 
+                id: 5, 
+                title: "Religious & Moral Education", 
+                description: "Religious studies, moral values, ethics, and character development.", 
+                icon: "🕊️", 
+                category: "core", 
+                lessons: 4, 
+                completedLessons: 0,
+                topics: ["Religious Studies", "Moral Values", "Ethics & Character", "Community & Leadership"]
+            }
         ];
 
+        // Load saved progress
         let courseProgress = JSON.parse(localStorage.getItem(storageKey) || '{}');
 
         function updateProgress() {
-            let completedLessons = 0, totalLessons = 0;
-            courses.forEach(c => {
-                const saved = courseProgress[c.id] || { completed: [] };
-                totalLessons += c.lessons;
+            let completedLessons = 0;
+            let totalLessons = 0;
+            
+            courses.forEach(course => {
+                const saved = courseProgress[course.id] || { completed: [] };
+                totalLessons += course.lessons;
                 completedLessons += saved.completed?.length || 0;
-                c.completedLessons = saved.completed?.length || 0;
+                course.completedLessons = saved.completed?.length || 0;
             });
-            document.getElementById('completedCourses').textContent = courses.filter(c => c.completedLessons === c.lessons).length;
-            document.getElementById('inProgressCourses').textContent = courses.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons).length;
+            
+            const completedCourses = courses.filter(c => c.completedLessons === c.lessons).length;
+            const inProgress = courses.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons).length;
+            
+            document.getElementById('completedCourses').textContent = completedCourses;
+            document.getElementById('inProgressCourses').textContent = inProgress;
             document.getElementById('totalLessons').textContent = completedLessons;
+            document.getElementById('totalCourses').textContent = courses.length;
         }
 
         function renderCourses(filter = 'all', search = '') {
             const grid = document.getElementById('coursesGrid');
             let filtered = [...courses];
-            if (filter !== 'all') filtered = filtered.filter(c => c.category === filter);
-            if (search) filtered = filtered.filter(c => c.title.toLowerCase().includes(search.toLowerCase()));
-            if (filtered.length === 0) { grid.innerHTML = '<div class="empty-state">📚 No courses found.</div>'; return; }
+            
+            if (filter !== 'all') {
+                if (filter === 'core') filtered = filtered.filter(c => c.category === 'core');
+                else if (filter === 'in-progress') filtered = filtered.filter(c => c.completedLessons > 0 && c.completedLessons < c.lessons);
+                else if (filter === 'completed') filtered = filtered.filter(c => c.completedLessons === c.lessons);
+            }
+            
+            if (search) {
+                filtered = filtered.filter(c => c.title.toLowerCase().includes(search.toLowerCase()));
+            }
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state">📚 No courses found. Try a different filter!</div>';
+                return;
+            }
             
             grid.innerHTML = filtered.map(course => {
                 const progress = Math.round((course.completedLessons / course.lessons) * 100);
-                let status = progress === 100 ? 'completed' : progress > 0 ? 'in-progress' : 'not-started';
-                let statusText = progress === 100 ? 'Completed ✓' : progress > 0 ? `${progress}% Complete` : 'Not Started';
+                let status = 'not-started';
+                let statusText = 'Not Started';
+                if (progress === 100) {
+                    status = 'completed';
+                    statusText = 'Completed ✓';
+                } else if (progress > 0) {
+                    status = 'in-progress';
+                    statusText = `${progress}% Complete`;
+                }
                 
                 return `
                     <div class="course-card" onclick="openCourse(${course.id})">
                         <div class="course-header">
                             <div class="course-icon">${course.icon}</div>
                             <div class="course-title">${course.title}</div>
-                            <div class="course-category">${course.category === 'core' ? 'CORE SUBJECT' : 'ELECTIVE'}</div>
+                            <div class="course-category">CORE SUBJECT</div>
                         </div>
                         <div class="course-body">
                             <div class="course-description">${course.description}</div>
@@ -562,13 +633,18 @@
                                 <div class="stats-item">✅ ${course.completedLessons}/${course.lessons} Completed</div>
                             </div>
                             <div class="progress-section">
-                                <div class="progress-label"><span>Progress</span><span>${progress}%</span></div>
-                                <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+                                <div class="progress-label">
+                                    <span>Progress</span>
+                                    <span>${progress}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="course-footer">
                             <span class="status-badge status-${status}">${statusText}</span>
-                            <button class="btn-continue" onclick="event.stopPropagation(); openCourse(${course.id})">${progress > 0 ? 'Continue →' : 'Start →'}</button>
+                            <button class="btn-continue" onclick="event.stopPropagation(); openCourse(${course.id})">${progress > 0 ? 'Continue →' : 'Start Course →'}</button>
                         </div>
                     </div>
                 `;
@@ -577,24 +653,51 @@
 
         function openCourse(courseId) {
             const course = courses.find(c => c.id === courseId);
-            const saved = courseProgress[course.id] || { completed: [] };
-            const completed = saved.completed || [];
+            if (!course) return;
             
-            let lessonsHtml = `<p style="margin-bottom:1rem;">${course.description}</p><div class="lesson-list">`;
-            for (let i = 1; i <= course.lessons; i++) {
-                const titles = {1:"Introduction",2:"Core Concepts",3:"Practice",4:"Advanced",5:"Review",6:"Mastery"};
+            const saved = courseProgress[course.id] || { completed: [] };
+            const completedLessons = saved.completed || [];
+            
+            let lessonsHtml = `
+                <p style="margin-bottom: 1rem; color: #4b5563;">${course.description}</p>
+                <div class="lesson-list">
+            `;
+            
+            for (let i = 0; i < course.lessons; i++) {
+                const isCompleted = completedLessons.includes(i);
+                const lessonTitle = course.topics[i] || `Lesson ${i + 1}`;
+                
                 lessonsHtml += `
                     <div class="lesson-item">
-                        <div class="lesson-check ${completed.includes(i) ? 'completed' : ''}" onclick="toggleLesson(${course.id}, ${i})">${completed.includes(i) ? '✓' : ''}</div>
-                        <div class="lesson-info"><div class="lesson-title">${titles[i] || `Lesson ${i}`}</div><div class="lesson-desc">Complete this lesson</div></div>
+                        <div class="lesson-check ${isCompleted ? 'completed' : ''}" onclick="toggleLesson(${course.id}, ${i})">
+                            ${isCompleted ? '✓' : ''}
+                        </div>
+                        <div class="lesson-info">
+                            <div class="lesson-title">${lessonTitle}</div>
+                            <div class="lesson-desc">Complete this lesson to master ${course.title}</div>
+                        </div>
                     </div>
                 `;
             }
-            lessonsHtml += `</div><div style="margin-top:1rem; padding:1rem; background:#f8fafc; border-radius:0.75rem;">
-                <div>Progress: ${Math.round((completed.length/course.lessons)*100)}%</div>
-                <div class="progress-bar" style="margin-top:0.5rem;"><div class="progress-fill" style="width: ${(completed.length/course.lessons)*100}%"></div></div>
+            
+            lessonsHtml += `</div>`;
+            
+            const progress = Math.round((completedLessons.length / course.lessons) * 100);
+            lessonsHtml += `
+                <div style="margin-top: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Overall Progress</span>
+                        <span style="color: #667eea; font-weight: 700;">${progress}%</span>
+                    </div>
+                    <div class="progress-bar" style="background: #e2e8f0;">
+                        <div class="progress-fill" style="width: ${progress}%; background: linear-gradient(90deg, #667eea, #764ba2);"></div>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem;">
+                        ✅ ${completedLessons.length}/${course.lessons} lessons completed
+                    </div>
+                </div>
                 <button class="close-btn" onclick="closeModal()">Close</button>
-            </div>`;
+            `;
             
             document.getElementById('modalTitle').innerHTML = `${course.icon} ${course.title}`;
             document.getElementById('modalBody').innerHTML = lessonsHtml;
@@ -603,29 +706,55 @@
 
         function toggleLesson(courseId, lessonIndex) {
             if (!courseProgress[courseId]) courseProgress[courseId] = { completed: [] };
+            
             const completed = courseProgress[courseId].completed || [];
-            const idx = completed.indexOf(lessonIndex);
-            idx === -1 ? completed.push(lessonIndex) : completed.splice(idx, 1);
+            const index = completed.indexOf(lessonIndex);
+            
+            if (index === -1) completed.push(lessonIndex);
+            else completed.splice(index, 1);
+            
             courseProgress[courseId].completed = completed;
             localStorage.setItem(storageKey, JSON.stringify(courseProgress));
+            
+            if (studentData && index === -1) {
+                let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
+                const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
+                if (studentIndex !== -1) {
+                    studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
+                    studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 10;
+                    localStorage.setItem('students', JSON.stringify(studentsList));
+                }
+            }
+            
             updateProgress();
             renderCourses(document.querySelector('.filter-btn.active')?.dataset.filter || 'all', document.getElementById('searchInput').value);
             openCourse(courseId);
         }
 
-        function closeModal() { document.getElementById('courseModal').style.display = 'none'; }
+        function closeModal() {
+            document.getElementById('courseModal').style.display = 'none';
+        }
 
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderCourses(btn.dataset.filter, document.getElementById('searchInput').value);
-        }));
+        // Filter and Search
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderCourses(btn.dataset.filter, document.getElementById('searchInput').value);
+            });
+        });
+
         document.getElementById('searchInput').addEventListener('input', () => {
             const active = document.querySelector('.filter-btn.active').dataset.filter;
             renderCourses(active, document.getElementById('searchInput').value);
         });
-        window.onclick = e => { if (e.target === document.getElementById('courseModal')) closeModal(); };
-        
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('courseModal');
+            if (event.target === modal) closeModal();
+        };
+
         updateProgress();
         renderCourses('all', '');
     </script>
