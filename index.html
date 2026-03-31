@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>The Junior Scholar Portal - BECE Excellence</title>
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Junior Scholar">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#667eea">
     <style>
         * {
             margin: 0;
@@ -13,9 +20,9 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: #0f172a;
-            line-height: 1.5;
         }
 
         /* Navigation */
@@ -50,7 +57,7 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -62,61 +69,46 @@
             align-items: center;
         }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #334155;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #3b82f6;
-        }
-
         .btn-login {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white !important;
             padding: 0.5rem 1.25rem;
             border-radius: 0.5rem;
-            transition: transform 0.3s !important;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.3s;
         }
 
         .btn-login:hover {
             transform: translateY(-2px);
-            background: #2563eb;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 2rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            padding: 3rem;
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            font-size: 3rem;
+        .hero h1 {
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 1rem;
         }
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .hero p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
         }
 
         .hero-buttons {
@@ -124,184 +116,133 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
 
         .btn-primary {
-            display: inline-block;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 0.875rem 2rem;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
             text-decoration: none;
-            border-radius: 0.5rem;
             font-weight: 600;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            background: #2563eb;
         }
 
         .btn-secondary {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 0.875rem 2rem;
+            background: white;
+            color: #667eea;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
             text-decoration: none;
-            border-radius: 0.5rem;
             font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #667eea;
             transition: transform 0.3s;
         }
 
         .btn-secondary:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.2);
+            background: #f8f9ff;
         }
 
         /* Stats */
-        .hero-stats {
+        .stats {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 3rem;
             flex-wrap: wrap;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
-            border-radius: 1rem;
+        .stat-item {
             text-align: center;
-            min-width: 150px;
         }
 
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
-            color: #60a5fa;
+            color: #667eea;
         }
 
         .stat-label {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            color: #6b7280;
         }
 
         /* Features Section */
         .features {
-            padding: 4rem 2rem;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 2rem;
         }
 
         .section-title {
             text-align: center;
             font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 3rem;
-            color: #0f172a;
+            margin-bottom: 2rem;
+            color: white;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .feature-card {
-            background: white;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
             border-radius: 1rem;
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s;
             cursor: pointer;
-            border: 1px solid #e2e8f0;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             margin-bottom: 0.5rem;
-            color: #0f172a;
+            color: #1e293b;
         }
 
         .feature-card p {
-            color: #64748b;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            background: #f1f5f9;
-            padding: 4rem 2rem;
-        }
-
-        .testimonials-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: #334155;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #0f172a;
-        }
-
-        .testimonial-role {
-            font-size: 0.875rem;
-            color: #64748b;
+            font-size: 0.85rem;
+            color: #6b7280;
         }
 
         /* Footer */
         .footer {
             background: #0f172a;
             color: white;
-            padding: 3rem 2rem;
+            padding: 2rem;
             text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-top: 2rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin: 1.5rem 0;
+            gap: 1.5rem;
+            margin: 1rem 0;
             flex-wrap: wrap;
         }
 
         .footer-links a {
             color: #94a3b8;
             text-decoration: none;
-            transition: color 0.3s;
+            font-size: 0.85rem;
         }
 
         .footer-links a:hover {
@@ -309,55 +250,39 @@
         }
 
         .copyright {
+            font-size: 0.75rem;
             color: #64748b;
-            font-size: 0.875rem;
         }
 
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        /* Teacher Portal Button */
+        .teacher-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
+            .hero {
+                margin: 1rem;
+                padding: 1.5rem;
             }
-            
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-            
-            .stat-card {
-                padding: 1rem;
-                min-width: 120px;
-            }
-            
-            .stat-number {
+            .hero h1 {
                 font-size: 1.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                gap: 1rem;
             }
         }
     </style>
@@ -369,110 +294,84 @@
                 <span class="logo-icon">📚</span>
                 <span class="logo-text">The Junior Scholar Portal</span>
             </div>
-            <div class="nav-links" id="navLinks">
+            <div class="nav-links">
                 <a href="login.html" class="btn-login">Login</a>
             </div>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Your Journey to <span>BECE Excellence</span> Begins Here
-            </h1>
-            <p class="hero-subtitle">
-                Join hundreds of junior scholars preparing for the BECE with expert-led live classes, 
-                interactive practice questions, and personalized learning paths.
-            </p>
-            <div class="hero-buttons">
-                <a href="register.html" class="btn-primary">Start Learning →</a>
-                <a href="#features" class="btn-secondary">Explore Features</a>
-            </div>
+    <div class="hero">
+        <h1>Your Journey to BECE Excellence Begins Here</h1>
+        <p>Join hundreds of junior scholars preparing for the BECE with expert-led live classes, interactive practice questions, and personalized learning paths.</p>
+        <div class="hero-buttons">
+            <a href="register.html" class="btn-primary">Start Learning →</a>
+            <a href="#features" class="btn-secondary">Explore Features</a>
         </div>
-        <div class="hero-stats">
-            <div class="stat-card">
+        <div class="stats">
+            <div class="stat-item">
                 <div class="stat-number">50+</div>
                 <div class="stat-label">Live Classes</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">100+</div>
+            <div class="stat-item">
+                <div class="stat-number">150+</div>
                 <div class="stat-label">Practice Questions</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-item">
                 <div class="stat-number">98%</div>
                 <div class="stat-label">Success Rate</div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="features" class="features">
-        <h2 class="section-title">Why Choose The Junior Scholar Portal?</h2>
+    <div id="features" class="features">
+        <h2 class="section-title">Why Choose Us?</h2>
         <div class="features-grid">
             <div class="feature-card" onclick="window.location.href='live-class.html'">
                 <div class="feature-icon">🎥</div>
                 <h3>Live Google Meet Classes</h3>
-                <p>Interactive sessions with expert teachers. Join directly through Google Meet.</p>
+                <p>Interactive sessions with expert teachers</p>
             </div>
             <div class="feature-card" onclick="window.location.href='practice.html'">
                 <div class="feature-icon">📝</div>
                 <h3>Practice & Mock Exams</h3>
-                <p>Past questions with instant feedback and detailed explanations.</p>
+                <p>150+ BECE past questions</p>
             </div>
             <div class="feature-card" onclick="window.location.href='dashboard.html'">
-                <div class="feature-icon">📊</div>
-                <h3>Track Your Progress</h3>
-                <p>Monitor your improvement with detailed analytics and insights.</p>
-            </div>
-            <div class="feature-card" onclick="window.location.href='courses.html'">
                 <div class="feature-icon">🏆</div>
-                <h3>Challenge Mode</h3>
-                <p>Compete with friends on the leaderboard and earn badges.</p>
+                <h3>Leaderboard & Gamification</h3>
+                <p>Earn points, badges, and climb the ranks!</p>
+            </div>
+            <div class="feature-card" onclick="window.location.href='#'">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Study Assistant</h3>
+                <p>Get instant answers to your questions</p>
             </div>
         </div>
-    </section>
-
-    <section class="testimonials">
-        <h2 class="section-title">What Our Junior Scholars Say</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The Junior Scholar Portal transformed my preparation. The live classes on Google Meet made learning interactive and fun!"</p>
-                <div class="testimonial-author">Adwoa Mensah</div>
-                <div class="testimonial-role">BECE Candidate 2025</div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"I improved my math score by 40% in just 3 months. The practice questions are exactly what you need for the BECE."</p>
-                <div class="testimonial-author">Kwame Asare</div>
-                <div class="testimonial-role">BECE Candidate 2024</div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The progress tracking feature kept me motivated. I could see my improvement week by week!"</p>
-                <div class="testimonial-author">Efua Baidoo</div>
-                <div class="testimonial-role">Aggregate 6, 2024</div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text" style="color: white; background: none;">The Junior Scholar Portal</span>
-            </div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
-            </div>
-            <div class="copyright">
-                © 2025 The Junior Scholar Portal. Empowering BECE candidates across Ghana.
-            </div>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="copyright">
+            ✨ Made with Excellence by SKILABS ✨<br>
+            Caleb Fiifi Asare & Arnold Kadi
         </div>
     </footer>
 
+    <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
+
     <script>
-        // No mobile menu needed since we removed the menu
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker failed:', err));
+        }
     </script>
 </body>
 </html>
