@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>The Junior Scholar Portal - BECE Excellence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,123 +13,47 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
-            line-height: 1.5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1a2c3e;
         }
 
-        /* Navigation */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #e2e8f0;
-        }
+        /* Navigation - REMOVED */
+        /* No top menu bar */
 
-        .nav-container {
+        /* Main Container */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 1.8rem;
-        }
-
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #1e293b 0%, #2ecc71 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #334155;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #2ecc71;
-        }
-
-        .btn-login {
-            background: #2ecc71;
-            color: white !important;
-            padding: 0.5rem 1.25rem;
-            border-radius: 0.5rem;
-            transition: transform 0.3s;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            background: #27ae60;
-            color: white !important;
-        }
-
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #2ecc71;
+            padding: 2rem;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b42 100%);
-            color: white;
-            padding: 4rem 2rem;
+            background: white;
+            border-radius: 2rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            font-size: 3rem;
+        .hero h1 {
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 1rem;
         }
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .hero p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
         }
 
         .hero-buttons {
@@ -136,194 +61,61 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
 
         .btn-primary {
-            display: inline-block;
-            background: #2ecc71;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 0.875rem 2rem;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
             text-decoration: none;
-            border-radius: 0.5rem;
             font-weight: 600;
             transition: transform 0.3s;
+            display: inline-block;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            background: #27ae60;
         }
 
         .btn-secondary {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 0.875rem 2rem;
+            background: white;
+            color: #667eea;
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
             text-decoration: none;
-            border-radius: 0.5rem;
             font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #667eea;
             transition: transform 0.3s;
         }
 
         .btn-secondary:hover {
             transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.2);
+            background: #f8f9ff;
         }
 
         /* Stats */
-        .hero-stats {
+        .stats {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 3rem;
             flex-wrap: wrap;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
-            border-radius: 1rem;
+        .stat-item {
             text-align: center;
-            min-width: 150px;
         }
 
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
-            color: #2ecc71;
+            color: #667eea;
         }
 
         .stat-label {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-top: 0.25rem;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: #1e3a5f;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            border: 1px solid #e2e8f0;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border-color: #2ecc71;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: #1e3a5f;
-        }
-
-        .feature-card p {
-            color: #64748b;
-        }
-
-        /* Testimonials */
-        .testimonials {
-            background: #e8f5e9;
-            padding: 4rem 2rem;
-        }
-
-        .testimonials-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: #334155;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: #1e3a5f;
-        }
-
-        .testimonial-role {
-            font-size: 0.875rem;
-            color: #2ecc71;
-        }
-
-        /* Footer */
-        .footer {
-            background: #0f172a;
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: #2ecc71;
-        }
-
-        .copyright {
-            color: #64748b;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            color: #6b7280;
         }
 
         /* Teacher Portal Button */
@@ -331,326 +123,62 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #1e3a5f, #2ecc71);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 0.85rem;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            transition: transform 0.3s;
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+            transition: all 0.3s;
+            z-index: 100;
         }
 
         .teacher-btn:hover {
             transform: scale(1.05);
         }
 
-        /* Login Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 15% auto;
-            padding: 2rem;
-            border-radius: 1rem;
-            max-width: 400px;
-            text-align: center;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-content h2 {
-            margin-bottom: 1rem;
-            color: #1e3a5f;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-        }
-
-        .close {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #64748b;
-        }
-
-        .close:hover {
-            color: #ef4444;
-        }
-
-        .demo-text {
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
+            .container {
                 padding: 1rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-            
-            .stat-card {
-                padding: 1rem;
-                min-width: 120px;
-            }
-            
-            .stat-number {
+            .hero h1 {
                 font-size: 1.5rem;
             }
-            
-            .features {
-                padding: 2rem 1rem;
+            .hero {
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">The Junior Scholar Portal</span>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html">Home</a>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="courses.html">Courses</a>
-                <a href="live-class.html">Live Classes</a>
-                <a href="practice.html">Practice</a>
-                <a href="#" class="btn-login" id="loginBtn">Login</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Your Journey to <span>BECE Excellence</span> Begins Here
-            </h1>
-            <p class="hero-subtitle">
-                Join hundreds of junior scholars preparing for the BECE with expert-led live classes, 
-                interactive practice questions, and personalized learning paths.
-            </p>
+    <div class="container">
+        <div class="hero">
+            <h1>Your Journey to BECE Excellence Begins Here</h1>
+            <p>Join hundreds of junior scholars preparing for the BECE with expert-led live classes, interactive practice questions, and personalized learning paths.</p>
             <div class="hero-buttons">
-                <a href="dashboard.html" class="btn-primary">Start Learning →</a>
+                <a href="register.html" class="btn-primary">Start Learning →</a>
                 <a href="#features" class="btn-secondary">Explore Features</a>
             </div>
-        </div>
-        <div class="hero-stats">
-            <div class="stat-card">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">Live Classes</div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Live Classes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Practice Questions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">100+</div>
-                <div class="stat-label">Practice Questions</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">98%</div>
-                <div class="stat-label">Success Rate</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <h2 class="section-title">Why Choose The Junior Scholar Portal?</h2>
-        <div class="features-grid">
-            <div class="feature-card" onclick="window.location.href='live-class.html'">
-                <div class="feature-icon">🎥</div>
-                <h3>Live Google Meet Classes</h3>
-                <p>Interactive sessions with expert teachers. Join directly through Google Meet.</p>
-            </div>
-            <div class="feature-card" onclick="window.location.href='practice.html'">
-                <div class="feature-icon">📝</div>
-                <h3>Practice & Mock Exams</h3>
-                <p>100+ BECE past questions with instant feedback and detailed explanations.</p>
-            </div>
-            <div class="feature-card" onclick="window.location.href='dashboard.html'">
-                <div class="feature-icon">📊</div>
-                <h3>Track Your Progress</h3>
-                <p>Monitor your improvement with detailed analytics and insights.</p>
-            </div>
-            <div class="feature-card" onclick="window.location.href='courses.html'">
-                <div class="feature-icon">🏆</div>
-                <h3>Challenge Mode</h3>
-                <p>Compete with friends on the leaderboard and earn badges.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <h2 class="section-title">What Our Junior Scholars Say</h2>
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The Junior Scholar Portal transformed my preparation. The live classes on Google Meet made learning interactive and fun!"</p>
-                <div class="testimonial-author">Adwoa Mensah</div>
-                <div class="testimonial-role">BECE Candidate 2025</div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"I improved my math score by 40% in just 3 months. The practice questions are exactly what you need for the BECE."</p>
-                <div class="testimonial-author">Kwame Asare</div>
-                <div class="testimonial-role">BECE Candidate 2024</div>
-            </div>
-            <div class="testimonial-card">
-                <p class="testimonial-text">"The progress tracking feature kept me motivated. I could see my improvement week by week!"</p>
-                <div class="testimonial-author">Efua Baidoo</div>
-                <div class="testimonial-role">Aggregate 6, 2024</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text" style="color: white; background: none;">The Junior Scholar Portal</span>
-            </div>
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="dashboard.html">Dashboard</a>
-                <a href="courses.html">Courses</a>
-                <a href="live-class.html">Live Classes</a>
-                <a href="practice.html">Practice</a>
-                <a href="teacher-portal.html">Teacher Portal</a>
-            </div>
-            <div class="copyright">
-                © 2025 The Junior Scholar Portal | Empowering BECE candidates across Ghana
-            </div>
-        </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Welcome Back!</h2>
-            <form id="loginForm">
-                <input type="email" id="loginEmail" placeholder="Email Address" required>
-                <input type="password" id="loginPassword" placeholder="Password" required>
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
-            </form>
-            <p class="demo-text">Demo Mode: Enter any email to continue</p>
         </div>
     </div>
 
     <!-- Teacher Portal Button -->
-    <a href="teacher-portal.html" class="teacher-btn">
-        👨‍🏫 Teacher Portal
-    </a>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-        }
-
-        // Login Modal functionality
-        const loginBtn = document.getElementById('loginBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.getElementById('closeModal');
-        const loginForm = document.getElementById('loginForm');
-
-        if (loginBtn) {
-            loginBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                loginModal.style.display = 'block';
-            });
-        }
-
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                loginModal.style.display = 'none';
-            });
-        }
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-        });
-
-        // Handle login form submission
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                if (email) {
-                    // Save name from email
-                    const name = email.split('@')[0];
-                    localStorage.setItem('scholarName', name);
-                    localStorage.setItem('scholarEmail', email);
-                    alert(`Welcome ${name}!`);
-                    loginModal.style.display = 'none';
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert('Please enter your email address');
-                }
-            });
-        }
-    </script>
+    <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
 </body>
 </html>
