@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,7 +28,7 @@
             background: white;
             border-radius: 1.5rem;
             padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             animation: fadeInUp 0.5s ease;
         }
 
@@ -55,7 +55,7 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #6366f1);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -98,13 +98,13 @@
 
         input:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: #667eea;
         }
 
         .btn-login {
             width: 100%;
             padding: 0.875rem;
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
             border-radius: 0.5rem;
@@ -117,7 +117,7 @@
 
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         .register-link {
@@ -128,13 +128,9 @@
         }
 
         .register-link a {
-            color: #6366f1;
+            color: #667eea;
             text-decoration: none;
             font-weight: 600;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
         }
 
         .error-message {
@@ -148,22 +144,30 @@
             display: none;
         }
 
-        .demo-mode {
-            margin-top: 1.5rem;
+        .admin-section {
+            margin-top: 1rem;
             padding-top: 1rem;
-            border-top: 1px solid #eef2f6;
-            text-align: center;
+            border-top: 1px solid #e2e8f0;
         }
 
-        .demo-btn {
-            background: #f1f5f9;
-            color: #6366f1;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-top: 0.5rem;
+        .admin-toggle {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .admin-toggle:hover {
+            color: #667eea;
+        }
+
+        .admin-code {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .admin-code input {
+            background: #f8fafc;
         }
 
         @media (max-width: 768px) {
@@ -196,70 +200,75 @@
             <button type="submit" class="btn-login">🔓 Login →</button>
         </form>
 
-        <div class="register-link">
-            Don't have an account? <a href="register.html">Register here</a>
+        <div class="admin-section">
+            <div class="admin-toggle" onclick="toggleAdminCode()">🔐 Admin Access ▼</div>
+            <div class="admin-code" id="adminCode">
+                <div class="form-group">
+                    <label>🔑 Secret Code</label>
+                    <input type="password" id="secretCode" placeholder="Enter admin code">
+                </div>
+                <button type="button" class="btn-login" onclick="adminLogin()" style="background: #10b981;">👨‍💻 Admin Login</button>
+            </div>
         </div>
 
-        <div class="demo-mode">
-            <small style="color: #6b7280;">Demo Mode</small><br>
-            <a href="#" class="demo-btn" id="demoLoginBtn">Continue as Guest</a>
+        <div class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
         </div>
     </div>
 
     <script>
-        // Demo login (guest mode)
-        document.getElementById('demoLoginBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            localStorage.setItem('currentStudent', JSON.stringify({
-                id: 'guest',
-                name: 'Guest User',
-                email: 'guest@example.com'
-            }));
-            localStorage.setItem('scholarName', 'Guest User');
-            localStorage.setItem('scholarEmail', 'guest@example.com');
-            window.location.href = 'dashboard.html';
-        });
+        // Secret admin code
+        const SECRET_CODE = "nkb gf";
+        
+        function toggleAdminCode() {
+            const adminDiv = document.getElementById('adminCode');
+            if (adminDiv.style.display === 'none' || adminDiv.style.display === '') {
+                adminDiv.style.display = 'block';
+            } else {
+                adminDiv.style.display = 'none';
+            }
+        }
 
-        // Regular login
+        function adminLogin() {
+            const code = document.getElementById('secretCode').value;
+            
+            if (code === SECRET_CODE) {
+                // Admin login successful
+                localStorage.setItem('isAdmin', 'true');
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('currentStudent', JSON.stringify({
+                    id: 'admin',
+                    name: 'Administrator',
+                    email: 'admin@juniorscholar.com'
+                }));
+                localStorage.setItem('scholarName', 'Administrator');
+                alert('✅ Admin access granted! Redirecting to Teacher Portal...');
+                window.location.href = 'teacher-portal.html';
+            } else {
+                alert('❌ Invalid secret code!');
+            }
+        }
+
+        // Regular student login
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Get all registered students
             const students = JSON.parse(localStorage.getItem('students') || '[]');
-            
-            // Find student with matching email and password
             const student = students.find(s => s.email === email && s.password === password);
             
             if (student) {
-                // Save current student session
                 localStorage.setItem('currentStudent', JSON.stringify({
                     id: student.id,
                     name: student.fullName,
                     email: student.email
                 }));
-                
-                // Save scholar name for dashboard
                 localStorage.setItem('scholarName', student.fullName);
                 localStorage.setItem('scholarEmail', student.email);
-                
-                // Initialize empty data structures if not exist
-                if (!student.practiceStats) {
-                    student.practiceStats = { total: 0, correct: 0, points: 0 };
-                }
-                if (!student.courseProgress) {
-                    student.courseProgress = {};
-                }
-                
-                // Load practice stats
-                localStorage.setItem('practiceStats', JSON.stringify(student.practiceStats));
-                localStorage.setItem('courseProgress', JSON.stringify(student.courseProgress));
-                
-                // Load attendance records
-                const attendanceRecords = JSON.parse(localStorage.getItem('studentAttendance_' + student.id) || '[]');
-                localStorage.setItem('studentAttendance', JSON.stringify(attendanceRecords));
+                localStorage.setItem('practiceStats', JSON.stringify(student.practiceStats || { total: 0, correct: 0, points: 0 }));
+                localStorage.setItem('courseProgress', JSON.stringify(student.courseProgress || {}));
                 
                 alert(`✅ Welcome back, ${student.fullName}!`);
                 window.location.href = 'dashboard.html';
@@ -267,12 +276,9 @@
                 const errorDiv = document.getElementById('errorMessage');
                 errorDiv.textContent = '❌ Invalid email or password. Please try again or register.';
                 errorDiv.style.display = 'block';
-                
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 3000);
+                setTimeout(() => errorDiv.style.display = 'none', 3000);
             }
         });
     </script>
 </body>
-</html>     
+</html>
