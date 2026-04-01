@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create App Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .icon-box {
+            text-align: center;
+        }
+        canvas {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            margin: 10px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .instructions {
+            background: #eef2ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>📱 Create App Icons for The Junior Scholar Portal</h1>
+    <p>Click the buttons below to download your app icons</p>
+
+    <div class="icon-container">
+        <div class="icon-box">
+            <canvas id="icon192" width="192" height="192"></canvas>
+            <br>
+            <button onclick="downloadIcon(192)">Download icon-192.png</button>
+        </div>
+        <div class="icon-box">
+            <canvas id="icon512" width="512" height="512"></canvas>
+            <br>
+            <button onclick="downloadIcon(512)">Download icon-512.png</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h3>📝 Instructions:</h3>
+        <ol>
+            <li>Click both download buttons above</li>
+            <li>Save the files as <strong>icon-192.png</strong> and <strong>icon-512.png</strong></li>
+            <li>Upload both files to your GitHub repository</li>
+            <li>Your app will now have custom icons!</li>
+        </ol>
+        <p><strong>Icon Design:</strong> Purple gradient background with 📚 book emoji</p>
+    </div>
+
+    <script>
+        // Draw 192x192 icon
+        const canvas192 = document.getElementById('icon192');
+        const ctx192 = canvas192.getContext('2d');
+        
+        // Draw 512x512 icon
+        const canvas512 = document.getElementById('icon512');
+        const ctx512 = canvas512.getContext('2d');
+        
+        function drawIcon(ctx, size) {
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Rounded corners effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Redraw gradient inside circle
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw book emoji
+            const fontSize = size * 0.45;
+            ctx.font = `${fontSize}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial`;
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('📚', size/2, size/2);
+        }
+        
+        // Draw both icons
+        drawIcon(ctx192, 192);
+        drawIcon(ctx512, 512);
+        
+        function downloadIcon(size) {
+            const canvas = size === 192 ? canvas192 : canvas512;
+            const link = document.createElement('a');
+            link.download = `icon-${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
