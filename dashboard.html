@@ -24,47 +24,47 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
+            overflow: hidden;
         }
 
-        /* Navigation */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
+        /* Main Layout */
+        .app-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-
-        /* Sidebar */
+        /* Sidebar with Scrollbar */
         .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
             width: 280px;
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             border-right: 1px solid rgba(0,0,0,0.05);
             transition: all 0.3s;
-            z-index: 1000;
+            display: flex;
+            flex-direction: column;
             overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #eef2f6;
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #4f46e5;
         }
 
         .sidebar.hidden {
@@ -74,6 +74,7 @@
         .sidebar-header {
             padding: 2rem 1.5rem;
             border-bottom: 1px solid #eef2f6;
+            flex-shrink: 0;
         }
 
         .school-badge {
@@ -93,6 +94,7 @@
 
         .nav-menu {
             padding: 1rem 0;
+            flex: 1;
         }
 
         .nav-item {
@@ -126,13 +128,10 @@
         }
 
         .user-section {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
             padding: 1rem 1.5rem;
             border-top: 1px solid #eef2f6;
             background: white;
+            flex-shrink: 0;
         }
 
         .user-info {
@@ -175,13 +174,33 @@
             border-top: 1px solid #eef2f6;
         }
 
-        /* Main Content */
+        /* Main Content with Scrollbar */
         .main-content {
             flex: 1;
-            margin-left: 280px;
-            transition: margin-left 0.3s;
-            min-height: 100vh;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
             padding: 2rem;
+            transition: margin-left 0.3s;
+        }
+
+        /* Custom Scrollbar for Main Content */
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #ffffff;
+            border-radius: 10px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background: #e0e7ff;
         }
 
         .main-content.expanded {
@@ -300,13 +319,16 @@
 
         @media (max-width: 768px) {
             .sidebar {
+                position: fixed;
                 transform: translateX(-100%);
+                z-index: 1000;
             }
             .sidebar.visible {
                 transform: translateX(0);
             }
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
             }
             .toggle-sidebar {
                 left: auto;
@@ -319,104 +341,106 @@
     </style>
 </head>
 <body>
-    <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
+    <div class="app-container">
+        <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="school-badge">PRESEC-LEGON</div>
-            <div class="portal-title">The Junior Scholar<br>Portal</div>
-        </div>
-        <nav class="nav-menu">
-            <a href="dashboard.html" class="nav-item active">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="courses.html" class="nav-item">
-                <span class="nav-icon">📚</span>
-                <span>My Courses</span>
-            </a>
-            <a href="practice.html" class="nav-item">
-                <span class="nav-icon">📝</span>
-                <span>Practice</span>
-            </a>
-            <a href="live-class.html" class="nav-item">
-                <span class="nav-icon">🎥</span>
-                <span>Live Classes</span>
-            </a>
-            <a href="student-resources.html" class="nav-item">
-                <span class="nav-icon">📋</span>
-                <span>Resources</span>
-            </a>
-            <a href="payment.html" class="nav-item">
-                <span class="nav-icon">💰</span>
-                <span>Pay Fees</span>
-            </a>
-        </nav>
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JS</div>
-                <div>
-                    <div class="user-name" id="userName">Scholar</div>
-                    <div class="user-email" id="userEmail">student@example.com</div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="school-badge">PRESEC-LEGON</div>
+                <div class="portal-title">The Junior Scholar<br>Portal</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="courses.html" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>My Courses</span>
+                </a>
+                <a href="practice.html" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Practice</span>
+                </a>
+                <a href="live-class.html" class="nav-item">
+                    <span class="nav-icon">🎥</span>
+                    <span>Live Classes</span>
+                </a>
+                <a href="student-resources.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span>Resources</span>
+                </a>
+                <a href="payment.html" class="nav-item">
+                    <span class="nav-icon">💰</span>
+                    <span>Pay Fees</span>
+                </a>
+            </nav>
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">JS</div>
+                    <div>
+                        <div class="user-name" id="userName">Scholar</div>
+                        <div class="user-email" id="userEmail">student@example.com</div>
+                    </div>
+                </div>
+                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content" id="mainContent">
+            <div class="welcome-card">
+                <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
+                <p id="greetingMessage">Your BECE journey continues</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="questionsDone">0</div>
+                    <div class="stat-label">Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="attendanceCount">0</div>
+                    <div class="stat-label">Attendance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingAssignments">0</div>
+                    <div class="stat-label">Assignments</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalPoints">0</div>
+                    <div class="stat-label">Points</div>
                 </div>
             </div>
-            <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
-        </div>
-    </aside>
 
-    <main class="main-content" id="mainContent">
-        <div class="welcome-card">
-            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p id="greetingMessage">Your BECE journey continues</p>
-        </div>
+            <div class="quick-actions">
+                <a href="practice.html" class="action-card">
+                    <div class="action-icon">📝</div>
+                    <div class="action-title">Practice</div>
+                </a>
+                <a href="courses.html" class="action-card">
+                    <div class="action-icon">📚</div>
+                    <div class="action-title">Courses</div>
+                </a>
+                <a href="live-class.html" class="action-card">
+                    <div class="action-icon">🎥</div>
+                    <div class="action-title">Live Classes</div>
+                </a>
+                <a href="payment.html" class="action-card">
+                    <div class="action-icon">💰</div>
+                    <div class="action-title">Pay Fees</div>
+                </a>
+                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; display: none;">
+                    <div class="action-icon">📲</div>
+                    <div class="action-title">Install App</div>
+                </button>
+            </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="questionsDone">0</div>
-                <div class="stat-label">Questions</div>
+            <div class="credits">
+                ✨ Made with Excellence by SKILABS ✨<br>
+                Caleb Fiifi Asare & Arnold Kadi
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="attendanceCount">0</div>
-                <div class="stat-label">Attendance</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="pendingAssignments">0</div>
-                <div class="stat-label">Assignments</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalPoints">0</div>
-                <div class="stat-label">Points</div>
-            </div>
-        </div>
-
-        <div class="quick-actions">
-            <a href="practice.html" class="action-card">
-                <div class="action-icon">📝</div>
-                <div class="action-title">Practice</div>
-            </a>
-            <a href="courses.html" class="action-card">
-                <div class="action-icon">📚</div>
-                <div class="action-title">Courses</div>
-            </a>
-            <a href="live-class.html" class="action-card">
-                <div class="action-icon">🎥</div>
-                <div class="action-title">Live Classes</div>
-            </a>
-            <a href="payment.html" class="action-card">
-                <div class="action-icon">💰</div>
-                <div class="action-title">Pay Fees</div>
-            </a>
-            <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; display: none;">
-                <div class="action-icon">📲</div>
-                <div class="action-title">Install App</div>
-            </button>
-        </div>
-
-        <div class="credits">
-            ✨ Made with Excellence by SKILABS ✨<br>
-            Caleb Fiifi Asare & Arnold Kadi
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         // Sidebar toggle
@@ -505,4 +529,4 @@
         }
     </script>
 </body>
-</html>
+</html>m
