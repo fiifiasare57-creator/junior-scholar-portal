@@ -429,7 +429,7 @@
                     <div class="action-icon">💰</div>
                     <div class="action-title">Pay Fees</div>
                 </a>
-                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; display: flex;">
+                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer;">
                     <div class="action-icon">📲</div>
                     <div class="action-title">Install App</div>
                 </button>
@@ -493,34 +493,35 @@
             window.location.href = 'login.html';
         });
 
-        // ========== INSTALL APP BUTTON ==========
-        let installPromptEvent = null;
+        // ========== INSTALL APP BUTTON - ALWAYS VISIBLE ==========
         const installBtn = document.getElementById('installAppButton');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            installPromptEvent = e;
-            if (installBtn) {
-                installBtn.style.display = 'flex';
-                installBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-            }
-        });
-
+        
         if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                if (installPromptEvent) {
-                    installPromptEvent.prompt();
-                    const { outcome } = await installPromptEvent.userChoice;
-                    if (outcome === 'accepted') {
-                        console.log('App installed');
-                        installBtn.style.display = 'none';
-                    }
-                    installPromptEvent = null;
-                } else {
-                    alert('📱 To install the app:\n\n1. Open in Chrome browser\n2. Tap the three dots (⋮)\n3. Select "Add to Home screen"');
-                }
+            installBtn.addEventListener('click', function() {
+                // Show installation instructions
+                alert('📱 How to install the app:\n\n1. Open this site in Chrome browser\n2. Tap the three dots (⋮) in the top right\n3. Select "Add to Home screen"\n4. Tap "Add"\n\nThe app icon will appear on your home screen!');
             });
         }
+
+        // Check if PWA can be installed
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Update button to use real install
+            installBtn.onclick = async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        alert('✅ App installed! Check your home screen.');
+                    }
+                    deferredPrompt = null;
+                } else {
+                    alert('📱 To install: Tap the share button → "Add to Home Screen"');
+                }
+            };
+        });
 
         // Register Service Worker
         if ('serviceWorker' in navigator) {
