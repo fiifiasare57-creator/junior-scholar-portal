@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Resources - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,7 +17,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             min-height: 100vh;
             color: #1e293b;
         }
@@ -29,16 +32,16 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .logo {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1e293b, #ef4444);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -59,7 +62,7 @@
         }
 
         .nav-links a:hover, .nav-links a.active {
-            color: #667eea;
+            color: #ef4444;
         }
 
         /* Main Container */
@@ -69,24 +72,29 @@
             padding: 2rem;
         }
 
-        /* Header Section */
-        .header-section {
-            text-align: center;
+        /* Glass Header */
+        .glass-header {
+            background: rgba(239, 68, 68, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 2rem;
             margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(239, 68, 68, 0.5);
         }
 
-        .header-section h1 {
+        .glass-header h1 {
             font-size: 2rem;
             font-weight: 800;
             color: white;
             margin-bottom: 0.5rem;
         }
 
-        .header-section p {
-            color: rgba(255, 255, 255, 0.8);
+        .glass-header p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Stats Cards - White Cards */
+        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -95,28 +103,29 @@
         }
 
         .stat-card {
-            background: white;
+            background: rgba(239, 68, 68, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
-            padding: 1.2rem;
+            padding: 1rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            background: rgba(239, 68, 68, 0.3);
         }
 
         .stat-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         /* Tabs */
@@ -124,7 +133,7 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(239, 68, 68, 0.4);
             padding-bottom: 0.5rem;
         }
 
@@ -140,52 +149,54 @@
         }
 
         .tab-btn.active {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(239, 68, 68, 0.4);
         }
 
         .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(239, 68, 68, 0.2);
         }
 
-        /* Assignment Cards - White Cards */
+        /* Assignment Cards */
         .assignment-card, .note-card {
-            background: white;
+            background: rgba(239, 68, 68, 0.15);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
             margin-bottom: 1.5rem;
             overflow: hidden;
+            border: 1px solid rgba(239, 68, 68, 0.4);
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .assignment-card:hover, .note-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.7);
         }
 
         .assignment-header, .note-header {
             padding: 1rem 1.5rem;
-            background: #f8fafc;
-            border-left: 4px solid #667eea;
-            border-bottom: 1px solid #eef2f6;
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #fecaca;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         .assignment-subject, .note-subject {
             font-size: 0.7rem;
-            color: #667eea;
+            color: #fecaca;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .assignment-title, .note-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: #1e293b;
+            color: white;
             margin-top: 0.25rem;
         }
 
         .assignment-due {
             font-size: 0.7rem;
-            color: #f59e0b;
+            color: #fcd34d;
             margin-top: 0.5rem;
             display: flex;
             align-items: center;
@@ -197,66 +208,66 @@
         }
 
         .assignment-description, .note-content {
-            color: #4a5568;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.85rem;
+            line-height: 1.5;
             margin-bottom: 1rem;
         }
 
         .submission-area {
-            background: #f8fafc;
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 0.75rem;
             padding: 1rem;
             margin-top: 1rem;
-            border: 1px solid #eef2f6;
         }
 
         .submission-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #667eea;
+            color: #fecaca;
             margin-bottom: 0.5rem;
         }
 
         .submission-input {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #e2e8f0;
+            border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.95);
             font-family: inherit;
             resize: vertical;
-            transition: all 0.3s;
         }
 
         .submission-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+            border-color: white;
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: transparent;
             color: white;
-            border: none;
+            border: 2px solid white;
             padding: 0.5rem 1rem;
             border-radius: 2rem;
             cursor: pointer;
             font-weight: 600;
             margin-top: 0.5rem;
+            width: 100%;
             transition: all 0.3s;
         }
 
         .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            background: white;
+            color: #ef4444;
         }
 
         .submitted-badge {
-            background: #d1fae5;
-            color: #065f46;
+            background: rgba(16, 185, 129, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
             padding: 0.5rem;
             border-radius: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -265,18 +276,17 @@
         .empty-state {
             text-align: center;
             padding: 3rem;
-            background: white;
-            border-radius: 1rem;
-            color: #6b7280;
+            background: rgba(239, 68, 68, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            color: white;
         }
 
-        /* Credits */
         .credits {
             text-align: center;
             padding: 1.5rem;
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
-            margin-top: 1rem;
         }
 
         @media (max-width: 768px) {
@@ -309,7 +319,7 @@
     </nav>
 
     <div class="container">
-        <div class="header-section">
+        <div class="glass-header">
             <h1>📋 My Learning Resources</h1>
             <p>View assignments from your teachers and access study materials</p>
         </div>
@@ -344,41 +354,72 @@
     </div>
 
     <script>
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX12Kbhb8L1R",
+            authDomain: "junior-scholar-portal.firebaseapp.com",
+            projectId: "junior-scholar-portal",
+            storageBucket: "junior-scholar-portal.firebasestorage.app",
+            messagingSenderId: "519496965849",
+            appId: "1:519496965849:web:86",
+            databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
-        const students = JSON.parse(localStorage.getItem('students') || '[]');
-        const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
+        const studentId = currentStudent ? currentStudent.id : null;
 
-        if (!studentData) {
+        if (!studentId) {
             window.location.href = 'login.html';
         }
 
-        let submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
+        let submissions = {};
 
-        function showTab(tab) {
-            const btns = document.querySelectorAll('.tab-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (tab === 'assignments') {
-                document.getElementById('assignmentsContainer').style.display = 'block';
-                document.getElementById('notesContainer').style.display = 'none';
-                loadAssignments();
-            } else {
-                document.getElementById('assignmentsContainer').style.display = 'none';
-                document.getElementById('notesContainer').style.display = 'block';
-                loadNotes();
-            }
+        async function loadSubmissions() {
+            const snapshot = await database.ref(`submissions/${studentId}`).once('value');
+            submissions = snapshot.val() || {};
+            return submissions;
         }
 
-        function loadAssignments() {
-            const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
-            const container = document.getElementById('assignmentsContainer');
+        async function loadAssignments() {
+            const snapshot = await database.ref('assignments').orderByChild('createdAt').once('value');
+            const assignments = [];
+            snapshot.forEach(child => {
+                assignments.push({ id: child.key, ...child.val() });
+            });
+            assignments.reverse();
+            return assignments;
+        }
+
+        async function loadNotes() {
+            const snapshot = await database.ref('notes').orderByChild('createdAt').once('value');
+            const notes = [];
+            snapshot.forEach(child => {
+                notes.push({ id: child.key, ...child.val() });
+            });
+            notes.reverse();
+            return notes;
+        }
+
+        async function updateStats() {
+            const assignments = await loadAssignments();
+            const notes = await loadNotes();
+            await loadSubmissions();
             
             let pending = 0;
             assignments.forEach(a => { if (!submissions[a.id]) pending++; });
             document.getElementById('pendingCount').textContent = pending;
             document.getElementById('submittedCount').textContent = Object.keys(submissions).length;
+            document.getElementById('notesCount').textContent = notes.length;
+        }
+
+        async function renderAssignments() {
+            const assignments = await loadAssignments();
+            const container = document.getElementById('assignmentsContainer');
             
             if (assignments.length === 0) {
                 container.innerHTML = '<div class="empty-state">📭 No assignments yet. Check back later!</div>';
@@ -406,13 +447,13 @@
                                         <span>✅</span>
                                         <span>Submitted on ${submitted.date}</span>
                                     </div>
-                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: #f1f5f9; border-radius: 0.5rem;">
+                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; color: white;">
                                         <strong>Your answer:</strong><br>
                                         "${submitted.answer}"
                                     </div>
                                 ` : `
                                     <textarea id="answer_${a.id}" class="submission-input" rows="4" placeholder="Write your answer here..."></textarea>
-                                    <button class="btn-submit" onclick="submitAssignment(${a.id}, '${a.title.replace(/'/g, "\\'")}')">
+                                    <button class="btn-submit" onclick="submitAssignment('${a.id}', '${a.title.replace(/'/g, "\\'")}')">
                                         📤 Submit Assignment
                                     </button>
                                 `}
@@ -423,10 +464,9 @@
             }).join('');
         }
 
-        function loadNotes() {
-            const notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
+        async function renderNotes() {
+            const notes = await loadNotes();
             const container = document.getElementById('notesContainer');
-            document.getElementById('notesCount').textContent = notes.length;
             
             if (notes.length === 0) {
                 container.innerHTML = '<div class="empty-state">📚 No notes shared yet. Check back later!</div>';
@@ -441,8 +481,8 @@
                     </div>
                     <div class="note-body">
                         <div class="note-content">${n.content.replace(/\n/g, '<br>')}</div>
-                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: #667eea; text-decoration: underline; display: inline-block; margin-top: 0.5rem;">🔗 Open Resource →</a>` : ''}
-                        <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #eef2f6;">
+                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: #fecaca; text-decoration: underline; display: inline-block; margin-top: 0.5rem;">🔗 Open Resource →</a>` : ''}
+                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(239,68,68,0.3);">
                             📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}
                         </div>
                     </div>
@@ -450,8 +490,8 @@
             `).join('');
         }
 
-        function submitAssignment(id, title) {
-            const answer = document.getElementById(`answer_${id}`).value;
+        async function submitAssignment(assignmentId, title) {
+            const answer = document.getElementById(`answer_${assignmentId}`).value;
             if (!answer.trim()) {
                 alert('Please write your answer before submitting.');
                 return;
@@ -461,42 +501,59 @@
                 return;
             }
             
-            submissions[id] = {
-                assignmentId: id,
+            // Save submission to Firebase
+            const submissionData = {
+                assignmentId: assignmentId,
                 title: title,
                 answer: answer,
                 date: new Date().toLocaleString(),
-                studentId: studentData.id,
-                studentName: studentData.fullName
+                studentId: studentId,
+                studentName: currentStudent.name
             };
-            localStorage.setItem('submissions_' + studentData.id, JSON.stringify(submissions));
             
-            let allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
-            allSubmissions.push({
-                assignmentId: id,
-                title: title,
-                answer: answer,
-                date: new Date().toLocaleString(),
-                studentId: studentData.id,
-                studentName: studentData.fullName,
-                studentEmail: studentData.email
+            await database.ref(`submissions/${studentId}/${assignmentId}`).set(submissionData);
+            
+            // Also save to all submissions for teacher
+            await database.ref(`allSubmissions`).push().set({
+                ...submissionData,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
             });
-            localStorage.setItem('allSubmissions', JSON.stringify(allSubmissions));
             
-            let studentsList = JSON.parse(localStorage.getItem('students') || '[]');
-            const studentIndex = studentsList.findIndex(s => s.id === studentData.id);
-            if (studentIndex !== -1) {
-                studentsList[studentIndex].practiceStats = studentsList[studentIndex].practiceStats || { total: 0, correct: 0, points: 0 };
-                studentsList[studentIndex].practiceStats.points = (studentsList[studentIndex].practiceStats.points || 0) + 20;
-                localStorage.setItem('students', JSON.stringify(studentsList));
-            }
+            // Add points to student
+            await database.ref(`students/${studentId}/practiceStats/points`).transaction(points => (points || 0) + 20);
             
             alert(`✅ Assignment "${title}" submitted successfully! +20 points earned!`);
-            loadAssignments();
+            
+            // Reload data
+            await loadSubmissions();
+            await renderAssignments();
+            await updateStats();
+        }
+
+        function showTab(tab) {
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tab === 'assignments') {
+                document.getElementById('assignmentsContainer').style.display = 'block';
+                document.getElementById('notesContainer').style.display = 'none';
+                renderAssignments();
+            } else {
+                document.getElementById('assignmentsContainer').style.display = 'none';
+                document.getElementById('notesContainer').style.display = 'block';
+                renderNotes();
+            }
         }
 
         // Initial load
-        loadAssignments();
+        async function init() {
+            await loadSubmissions();
+            await renderAssignments();
+            await updateStats();
+        }
+        
+        init();
     </script>
 </body>
 </html>
