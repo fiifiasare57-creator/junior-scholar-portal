@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- PWA Mobile App Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -27,14 +26,12 @@
             overflow: hidden;
         }
 
-        /* Main Layout */
         .app-container {
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Sidebar with Scrollbar */
         .sidebar {
             width: 280px;
             height: 100vh;
@@ -48,7 +45,6 @@
             overflow-x: hidden;
         }
 
-        /* Custom Scrollbar for Sidebar */
         .sidebar::-webkit-scrollbar {
             width: 6px;
         }
@@ -63,10 +59,6 @@
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #4f46e5;
-        }
-
         .sidebar.hidden {
             transform: translateX(-100%);
         }
@@ -74,7 +66,6 @@
         .sidebar-header {
             padding: 2rem 1.5rem;
             border-bottom: 1px solid #eef2f6;
-            flex-shrink: 0;
         }
 
         .school-badge {
@@ -131,7 +122,6 @@
             padding: 1rem 1.5rem;
             border-top: 1px solid #eef2f6;
             background: white;
-            flex-shrink: 0;
         }
 
         .user-info {
@@ -174,17 +164,14 @@
             border-top: 1px solid #eef2f6;
         }
 
-        /* Main Content with Scrollbar */
         .main-content {
             flex: 1;
             height: 100vh;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 2rem;
-            transition: margin-left 0.3s;
         }
 
-        /* Custom Scrollbar for Main Content */
         .main-content::-webkit-scrollbar {
             width: 8px;
         }
@@ -197,14 +184,6 @@
         .main-content::-webkit-scrollbar-thumb {
             background: #ffffff;
             border-radius: 10px;
-        }
-
-        .main-content::-webkit-scrollbar-thumb:hover {
-            background: #e0e7ff;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
         }
 
         .toggle-sidebar {
@@ -226,7 +205,6 @@
             color: #667eea;
         }
 
-        /* Welcome Card */
         .welcome-card {
             background: white;
             border-radius: 1rem;
@@ -240,13 +218,6 @@
             color: #1e293b;
         }
 
-        .welcome-card p {
-            color: #6b7280;
-            font-size: 0.85rem;
-            margin-top: 0.3rem;
-        }
-
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -272,7 +243,6 @@
             color: #6b7280;
         }
 
-        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -289,7 +259,6 @@
             color: #1e293b;
             transition: all 0.3s;
             cursor: pointer;
-            border: none;
             display: block;
         }
 
@@ -308,7 +277,6 @@
             font-weight: 500;
         }
 
-        /* Credits */
         .credits {
             text-align: center;
             padding: 1.5rem;
@@ -380,6 +348,17 @@
                     </div>
                 </div>
                 <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+                
+                <!-- Secret Admin Switch -->
+                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #eef2f6;">
+                    <button id="secretAdminBtn" style="background: none; border: none; color: #94a3b8; font-size: 0.6rem; cursor: pointer; width: 100%; text-align: center;">
+                        🔐 Admin
+                    </button>
+                    <div id="secretCodeInput" style="display: none; margin-top: 0.5rem;">
+                        <input type="password" id="adminCodeInput" placeholder="Enter secret code" style="width: 100%; padding: 0.3rem; border: 1px solid #e2e8f0; border-radius: 0.3rem; font-size: 0.7rem;">
+                        <button id="submitAdminCode" style="width: 100%; margin-top: 0.3rem; background: #667eea; color: white; border: none; padding: 0.3rem; border-radius: 0.3rem; font-size: 0.7rem;">Verify</button>
+                    </div>
+                </div>
             </div>
         </aside>
 
@@ -485,16 +464,40 @@
             window.location.href = 'login.html';
         });
 
-        // ========== INSTALL APP BUTTON ==========
+        // Secret Admin Code
+        const secretBtn = document.getElementById('secretAdminBtn');
+        const secretInputDiv = document.getElementById('secretCodeInput');
+        const adminCodeInput = document.getElementById('adminCodeInput');
+        const submitAdminCode = document.getElementById('submitAdminCode');
+
+        secretBtn.addEventListener('click', () => {
+            if (secretInputDiv.style.display === 'none' || secretInputDiv.style.display === '') {
+                secretInputDiv.style.display = 'block';
+            } else {
+                secretInputDiv.style.display = 'none';
+            }
+        });
+
+        submitAdminCode.addEventListener('click', () => {
+            const code = adminCodeInput.value;
+            if (code === 'nkb gf') {
+                localStorage.setItem('isAdmin', 'true');
+                localStorage.setItem('adminLoggedIn', 'true');
+                alert('✅ Admin access granted! Redirecting to Teacher Portal...');
+                window.location.href = 'teacher-portal.html';
+            } else {
+                alert('❌ Invalid secret code!');
+            }
+        });
+
+        // Install App Button
         const installBtn = document.getElementById('installAppButton');
-        
         if (installBtn) {
             installBtn.addEventListener('click', function() {
                 alert('📱 How to install the app:\n\n1. Open this site in Chrome browser\n2. Tap the three dots (⋮) in the top right\n3. Select "Add to Home screen"\n4. Tap "Add"\n\nThe app icon will appear on your home screen!');
             });
         }
 
-        // Check if PWA can be installed
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -513,7 +516,6 @@
             };
         });
 
-        // Register Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
                 .then(() => console.log('Service Worker registered'))
