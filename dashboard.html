@@ -275,7 +275,7 @@
         /* Quick Actions */
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -370,10 +370,6 @@
                     <span class="nav-icon">📋</span>
                     <span>Resources</span>
                 </a>
-                <a href="payment.html" class="nav-item">
-                    <span class="nav-icon">💰</span>
-                    <span>Pay Fees</span>
-                </a>
             </nav>
             <div class="user-section">
                 <div class="user-info">
@@ -424,10 +420,6 @@
                 <a href="live-class.html" class="action-card">
                     <div class="action-icon">🎥</div>
                     <div class="action-title">Live Classes</div>
-                </a>
-                <a href="payment.html" class="action-card">
-                    <div class="action-icon">💰</div>
-                    <div class="action-title">Pay Fees</div>
                 </a>
                 <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer;">
                     <div class="action-icon">📲</div>
@@ -493,12 +485,11 @@
             window.location.href = 'login.html';
         });
 
-        // ========== INSTALL APP BUTTON - ALWAYS VISIBLE ==========
+        // ========== INSTALL APP BUTTON ==========
         const installBtn = document.getElementById('installAppButton');
         
         if (installBtn) {
             installBtn.addEventListener('click', function() {
-                // Show installation instructions
                 alert('📱 How to install the app:\n\n1. Open this site in Chrome browser\n2. Tap the three dots (⋮) in the top right\n3. Select "Add to Home screen"\n4. Tap "Add"\n\nThe app icon will appear on your home screen!');
             });
         }
@@ -508,7 +499,6 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            // Update button to use real install
             installBtn.onclick = async () => {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
