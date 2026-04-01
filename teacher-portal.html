@@ -15,6 +15,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             color: #1e293b;
         }
 
@@ -205,17 +206,7 @@
             font-size: 0.8rem;
         }
 
-        .btn-small {
-            background: #10b981;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-
-        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item, .schedule-item, .payment-item {
+        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item, .schedule-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -242,29 +233,19 @@
             color: #667eea;
         }
 
-        .attendance-stats {
-            display: inline-block;
+        .student-view-btn {
             background: #10b981;
             color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 2rem;
-            font-size: 0.7rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
         }
 
-        .meet-link {
-            color: #667eea;
-            font-size: 0.7rem;
-            word-break: break-all;
-        }
-
-        .admin-badge {
-            background: #f59e0b;
-            color: #1e293b;
-            padding: 0.2rem 0.5rem;
-            border-radius: 2rem;
-            font-size: 0.6rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
+        .student-view-btn:hover {
+            background: #059669;
         }
 
         @media (max-width: 1024px) {
@@ -298,7 +279,7 @@
         <a href="dashboard.html" class="logo">👨‍🏫 Teacher Portal | The Junior Scholar Portal</a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="dashboard.html">Student View</a>
+            <a href="#" onclick="goToStudentDashboard()" class="student-view-btn">👨‍🎓 Student View</a>
             <a href="login.html">Logout</a>
         </div>
     </nav>
@@ -307,17 +288,13 @@
         <div class="welcome-card">
             <h1>Welcome, <span id="teacherName">Administrator</span>! 👋</h1>
             <p>Manage assignments, share notes, schedule classes, track attendance, and view student progress</p>
-            <span class="admin-badge">🔐 ADMIN ACCESS</span>
+            <span style="display: inline-block; background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem; margin-top: 0.5rem;">🔐 ADMIN ACCESS</span>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-number" id="totalStudents">0</div>
                 <div class="stat-label">Total Students</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalPayments">0</div>
-                <div class="stat-label">Payments Received</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="totalAssignments">0</div>
@@ -335,6 +312,10 @@
                 <div class="stat-number" id="totalSubmissions">0</div>
                 <div class="stat-label">Submissions</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalAttendance">0</div>
+                <div class="stat-label">Attendance Records</div>
+            </div>
         </div>
 
         <div class="tabs">
@@ -343,7 +324,6 @@
             <button class="tab-btn" onclick="showTab('schedule')">📅 Schedule Classes</button>
             <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
             <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
-            <button class="tab-btn" onclick="showTab('payments')">💰 Payments</button>
             <button class="tab-btn" onclick="showTab('submissions')">📋 Submissions</button>
         </div>
 
@@ -454,7 +434,7 @@
                         <input type="text" id="scheduleTitle" placeholder="e.g., Algebra Masterclass" required>
                     </div>
                     <div class="form-group">
-                        <label>Description / Topics to be covered</label>
+                        <label>Description / Topics</label>
                         <textarea id="scheduleDesc" rows="3" placeholder="Describe what will be taught..." required></textarea>
                     </div>
                     <div class="form-group">
@@ -462,126 +442,45 @@
                         <input type="text" id="scheduleTeacher" placeholder="e.g., Mr. Kofi Mensah" required>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Date</label>
-                            <input type="date" id="scheduleDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Time</label>
-                            <input type="time" id="scheduleTime" required>
-                        </div>
+                        <div class="form-group"><label>Date</label><input type="date" id="scheduleDate" required></div>
+                        <div class="form-group"><label>Time</label><input type="time" id="scheduleTime" required></div>
                     </div>
-                    <div class="form-group">
-                        <label>Duration (hours)</label>
-                        <input type="number" id="scheduleDuration" value="1.5" step="0.5">
-                    </div>
-                    <div class="form-group">
-                        <label>🔗 Google Meet Link *</label>
-                        <input type="text" id="scheduleMeetLink" placeholder="https://meet.google.com/abc-defg-hij" required>
-                        <small style="color: #6b7280; display: block; margin-top: 0.25rem;">
-                            💡 Get from <a href="https://meet.google.com" target="_blank">meet.google.com</a> → New meeting → Create a meeting for later
-                        </small>
-                    </div>
+                    <div class="form-group"><label>Duration (hours)</label><input type="number" id="scheduleDuration" value="1.5" step="0.5"></div>
+                    <div class="form-group"><label>🔗 Google Meet Link</label><input type="text" id="scheduleMeetLink" placeholder="https://meet.google.com/abc-defg-hij" required></div>
                     <button type="submit" class="btn-primary">📅 Schedule Class →</button>
                 </form>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Scheduled Classes</h3>
-                </div>
-                <div id="scheduleList"></div>
-            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📅 Scheduled Classes</h3></div><div id="scheduleList"></div></div>
         </div>
 
         <!-- Attendance Tab -->
         <div id="attendanceTab" style="display: none;">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">🔑 Generate Attendance Keycode</h3>
-                </div>
+                <div class="card-header"><h3 class="card-title">🔑 Generate Attendance Keycode</h3></div>
                 <form id="attendanceForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="attendanceSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                            <option value="Social Studies">Social Studies</option>
-                            <option value="ICT">ICT</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Session Title</label>
-                        <input type="text" id="attendanceTitle" placeholder="e.g., Algebra Class - Week 2" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Keycode (Any word students will enter)</label>
-                        <input type="text" id="attendanceCode" placeholder="e.g., ALGEBRA2025 or BECEMATH" required>
-                        <small>Students need to enter this exact word to mark attendance</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Expiry Date (Optional)</label>
-                        <input type="date" id="attendanceExpiry">
-                    </div>
+                    <div class="form-group"><label>Subject</label><select id="attendanceSubject" required><option value="">Select</option><option value="Mathematics">Math</option><option value="English">English</option><option value="Science">Science</option></select></div>
+                    <div class="form-group"><label>Session Title</label><input type="text" id="attendanceTitle" placeholder="e.g., Algebra Class" required></div>
+                    <div class="form-group"><label>Keycode</label><input type="text" id="attendanceCode" placeholder="Any word students will enter" required></div>
+                    <div class="form-group"><label>Expiry Date</label><input type="date" id="attendanceExpiry"></div>
                     <button type="submit" class="btn-primary">🎫 Generate Keycode →</button>
                 </form>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📋 Active Attendance Sessions</h3>
-                </div>
-                <div id="activeAttendanceList"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Attendance History</h3>
-                </div>
-                <div id="attendanceHistory"></div>
-            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📋 Active Sessions</h3></div><div id="activeAttendanceList"></div></div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📊 Attendance History</h3></div><div id="attendanceHistory"></div></div>
         </div>
 
         <!-- Students Tab -->
         <div id="studentsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">👥 Registered Students</h3>
-                </div>
-                <div id="studentsList"></div>
-            </div>
-        </div>
-
-        <!-- Payments Tab -->
-        <div id="paymentsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">💰 Payment History</h3>
-                </div>
-                <div id="paymentsList"></div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📊 Payment Summary</h3>
-                </div>
-                <div id="paymentSummary"></div>
-            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">👥 Registered Students</h3></div><div id="studentsList"></div></div>
         </div>
 
         <!-- Submissions Tab -->
         <div id="submissionsTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📋 Student Submissions</h3>
-                </div>
-                <div id="submissionsList"></div>
-            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📋 Student Submissions</h3></div><div id="submissionsList"></div></div>
         </div>
     </div>
 
-    <div id="studentModal" class="modal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div id="studentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
         <div style="background:white; border-radius:1rem; max-width:500px; width:90%; max-height:80vh; overflow-y:auto;">
             <div style="background:linear-gradient(135deg, #667eea, #764ba2); color:white; padding:1rem; border-radius:1rem 1rem 0 0;">
                 <span style="float:right; cursor:pointer;" onclick="closeModal()">&times;</span>
@@ -592,15 +491,13 @@
     </div>
 
     <script>
-        // Check admin access
+        // Admin check
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
-
-        if (!isAdmin && (!currentStudent || currentStudent.id !== 'admin')) {
-            alert('🔐 Admin access required. Please login with secret code.');
+        const currentAdmin = JSON.parse(localStorage.getItem('currentStudent'));
+        if (!isAdmin && (!currentAdmin || currentAdmin.id !== 'admin')) {
+            alert('🔐 Admin access required.');
             window.location.href = 'login.html';
         }
-
         document.getElementById('teacherName').textContent = 'Administrator';
 
         // Data storage
@@ -613,245 +510,165 @@
         function saveAssignments() { localStorage.setItem('teacherAssignments', JSON.stringify(assignments)); }
         function saveNotes() { localStorage.setItem('teacherNotes', JSON.stringify(notes)); }
         function saveSchedules() { localStorage.setItem('classSchedule', JSON.stringify(schedules)); }
-        function saveAttendanceData() {
-            localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances));
-            localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
-        }
+        function saveAttendance() { localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances)); localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords)); }
 
         function updateStats() {
             const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const payments = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+            const subs = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
             document.getElementById('totalStudents').textContent = students.length;
-            document.getElementById('totalPayments').textContent = payments.length;
             document.getElementById('totalAssignments').textContent = assignments.length;
             document.getElementById('totalNotes').textContent = notes.length;
             document.getElementById('totalClasses').textContent = schedules.length;
-            const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
-            document.getElementById('totalSubmissions').textContent = allSubmissions.length;
+            document.getElementById('totalSubmissions').textContent = subs.length;
+            document.getElementById('totalAttendance').textContent = attendanceRecords.length;
         }
 
         function showTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
-            document.getElementById('assignmentsTab').style.display = 'none';
-            document.getElementById('notesTab').style.display = 'none';
-            document.getElementById('scheduleTab').style.display = 'none';
-            document.getElementById('attendanceTab').style.display = 'none';
-            document.getElementById('studentsTab').style.display = 'none';
-            document.getElementById('paymentsTab').style.display = 'none';
-            document.getElementById('submissionsTab').style.display = 'none';
-            
+            document.querySelectorAll('#assignmentsTab, #notesTab, #scheduleTab, #attendanceTab, #studentsTab, #submissionsTab').forEach(el => el.style.display = 'none');
             if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; loadAssignments(); }
             else if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; loadNotes(); }
             else if (tab === 'schedule') { document.getElementById('scheduleTab').style.display = 'block'; loadSchedule(); }
             else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; loadAttendance(); }
             else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; loadStudents(); }
-            else if (tab === 'payments') { document.getElementById('paymentsTab').style.display = 'block'; loadPayments(); }
             else if (tab === 'submissions') { document.getElementById('submissionsTab').style.display = 'block'; loadSubmissions(); }
         }
 
-        // ========== ASSIGNMENTS ==========
+        // Assignments
         document.getElementById('assignmentForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            assignments.unshift({
-                id: Date.now(),
-                subject: document.getElementById('assignSubject').value,
-                title: document.getElementById('assignTitle').value,
-                description: document.getElementById('assignDesc').value,
-                dueDate: document.getElementById('assignDue').value,
-                createdAt: new Date().toISOString()
-            });
+            assignments.unshift({ id: Date.now(), subject: document.getElementById('assignSubject').value, title: document.getElementById('assignTitle').value, description: document.getElementById('assignDesc').value, dueDate: document.getElementById('assignDue').value, createdAt: new Date().toISOString() });
             saveAssignments();
-            alert('✅ Assignment sent to students!');
+            alert('✅ Assignment sent!');
             e.target.reset();
             loadAssignments();
             updateStats();
         });
-
         function loadAssignments() {
             const container = document.getElementById('assignmentsList');
-            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments yet.</div>'; return; }
-            container.innerHTML = assignments.map(a => `
-                <div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div style="font-size:0.8rem;">📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div>
-                <button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button></div>
-            `).join('');
+            if (!assignments.length) { container.innerHTML = '<div class="empty-state">📭 No assignments.</div>'; return; }
+            container.innerHTML = assignments.map(a => `<div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div>📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div><button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button></div>`).join('');
         }
-
         function deleteAssignment(id) { if(confirm('Delete?')){ assignments = assignments.filter(a=>a.id!==id); saveAssignments(); loadAssignments(); updateStats(); } }
 
-        // ========== NOTES ==========
+        // Notes
         document.getElementById('noteForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            notes.unshift({
-                id: Date.now(),
-                subject: document.getElementById('noteSubject').value,
-                title: document.getElementById('noteTitle').value,
-                content: document.getElementById('noteContent').value,
-                link: document.getElementById('noteLink').value,
-                createdAt: new Date().toISOString()
-            });
+            notes.unshift({ id: Date.now(), subject: document.getElementById('noteSubject').value, title: document.getElementById('noteTitle').value, content: document.getElementById('noteContent').value, link: document.getElementById('noteLink').value, createdAt: new Date().toISOString() });
             saveNotes();
-            alert('✅ Notes shared with students!');
+            alert('✅ Notes shared!');
             e.target.reset();
             loadNotes();
             updateStats();
         });
-
         function loadNotes() {
             const container = document.getElementById('notesList');
-            if (notes.length === 0) { container.innerHTML = '<div class="empty-state">📚 No notes yet.</div>'; return; }
-            container.innerHTML = notes.map(n => `
-                <div class="note-item"><div><strong>${n.subject}: ${n.title}</strong><div>${n.content.substring(0,100)}...</div>${n.link ? `<div>🔗 ${n.link}</div>` : ''}</div>
-                <button class="btn-danger" onclick="deleteNote(${n.id})">Delete</button></div>
-            `).join('');
+            if (!notes.length) { container.innerHTML = '<div class="empty-state">📚 No notes.</div>'; return; }
+            container.innerHTML = notes.map(n => `<div class="note-item"><div><strong>${n.subject}: ${n.title}</strong><div>${n.content.substring(0,100)}...</div>${n.link?`<div>🔗 ${n.link}</div>`:''}</div><button class="btn-danger" onclick="deleteNote(${n.id})">Delete</button></div>`).join('');
         }
-
         function deleteNote(id) { if(confirm('Delete?')){ notes = notes.filter(n=>n.id!==id); saveNotes(); loadNotes(); updateStats(); } }
 
-        // ========== SCHEDULE ==========
+        // Schedule
         document.getElementById('scheduleForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            schedules.push({
-                id: Date.now(),
-                subject: document.getElementById('scheduleSubject').value,
-                title: document.getElementById('scheduleTitle').value,
-                description: document.getElementById('scheduleDesc').value,
-                teacher: document.getElementById('scheduleTeacher').value,
-                date: document.getElementById('scheduleDate').value,
-                time: document.getElementById('scheduleTime').value,
-                duration: document.getElementById('scheduleDuration').value,
-                meetLink: document.getElementById('scheduleMeetLink').value,
-                createdAt: new Date().toISOString()
-            });
+            schedules.push({ id: Date.now(), subject: document.getElementById('scheduleSubject').value, title: document.getElementById('scheduleTitle').value, description: document.getElementById('scheduleDesc').value, teacher: document.getElementById('scheduleTeacher').value, date: document.getElementById('scheduleDate').value, time: document.getElementById('scheduleTime').value, duration: document.getElementById('scheduleDuration').value, meetLink: document.getElementById('scheduleMeetLink').value });
             saveSchedules();
             alert('✅ Class scheduled!');
             e.target.reset();
             loadSchedule();
             updateStats();
         });
-
         function loadSchedule() {
             const container = document.getElementById('scheduleList');
-            const sorted = [...schedules].sort((a,b)=>new Date(`${a.date}T${a.time}`)-new Date(`${b.date}T${b.time}`));
-            if (sorted.length === 0) { container.innerHTML = '<div class="empty-state">📅 No classes scheduled.</div>'; return; }
-            container.innerHTML = sorted.map(s => `
-                <div class="schedule-item"><div><strong>${s.subject}: ${s.title}</strong><div>👨‍🏫 ${s.teacher}</div><div>📅 ${s.date} at ${s.time} (${s.duration}h)</div><div class="meet-link">🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div></div>
-                <button class="btn-danger" onclick="deleteSchedule(${s.id})">Delete</button></div>
-            `).join('');
+            if (!schedules.length) { container.innerHTML = '<div class="empty-state">📅 No classes.</div>'; return; }
+            container.innerHTML = schedules.map(s => `<div class="schedule-item"><div><strong>${s.subject}: ${s.title}</strong><div>👨‍🏫 ${s.teacher}</div><div>📅 ${s.date} at ${s.time} (${s.duration}h)</div><div>🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div></div><button class="btn-danger" onclick="deleteSchedule(${s.id})">Delete</button></div>`).join('');
         }
-
         function deleteSchedule(id) { if(confirm('Delete?')){ schedules = schedules.filter(s=>s.id!==id); saveSchedules(); loadSchedule(); updateStats(); } }
 
-        // ========== ATTENDANCE ==========
+        // Attendance
         document.getElementById('attendanceForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            activeAttendances.push({
-                id: Date.now(),
-                subject: document.getElementById('attendanceSubject').value,
-                title: document.getElementById('attendanceTitle').value,
-                code: document.getElementById('attendanceCode').value.toUpperCase(),
-                expiry: document.getElementById('attendanceExpiry').value || null,
-                createdAt: new Date().toISOString(),
-                active: true
-            });
-            saveAttendanceData();
-            alert(`✅ Attendance session created!\nKeycode: ${document.getElementById('attendanceCode').value.toUpperCase()}`);
+            activeAttendances.push({ id: Date.now(), subject: document.getElementById('attendanceSubject').value, title: document.getElementById('attendanceTitle').value, code: document.getElementById('attendanceCode').value.toUpperCase(), expiry: document.getElementById('attendanceExpiry').value || null, active: true });
+            saveAttendance();
+            alert(`✅ Keycode: ${document.getElementById('attendanceCode').value.toUpperCase()}`);
             e.target.reset();
             loadAttendance();
             updateStats();
         });
-
         function loadAttendance() {
             const active = activeAttendances.filter(a=>a.active);
-            document.getElementById('activeAttendanceList').innerHTML = active.length ? active.map(a=>`
-                <div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 Keycode: <strong class="code-display">${a.code}</strong></div>${a.expiry?`Expires: ${a.expiry}`:'No expiry'}</div>
-                <button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button></div>
-            `).join('') : '<div class="empty-state">📭 No active sessions.</div>';
-            
+            document.getElementById('activeAttendanceList').innerHTML = active.length ? active.map(a=>`<div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 ${a.code}</div>${a.expiry?`Expires: ${a.expiry}`:''}</div><button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button></div>`).join('') : '<div class="empty-state">📭 No active sessions.</div>';
             const history = [...attendanceRecords].sort((a,b)=>new Date(b.date)-new Date(a.date));
-            document.getElementById('attendanceHistory').innerHTML = history.length ? history.map(r=>`
-                <div class="attendance-item"><div><strong>${r.subject}: ${r.title}</strong><div>📅 ${r.date}</div><div>👥 ${r.students.length} students</div>
-                <details><summary>View students</summary>${r.students.map(s=>`<div>• ${s.name} (${s.email})</div>`).join('')}</details></div></div>
-            `).join('') : '<div class="empty-state">📊 No records yet.</div>';
+            document.getElementById('attendanceHistory').innerHTML = history.length ? history.map(r=>`<div class="attendance-item"><div><strong>${r.subject}: ${r.title}</strong><div>📅 ${r.date}</div><div>👥 ${r.students.length} students</div><details><summary>View</summary>${r.students.map(s=>`<div>• ${s.name}</div>`).join('')}</details></div></div>`).join('') : '<div class="empty-state">📊 No records.</div>';
         }
+        function deactivateAttendance(id) { const i = activeAttendances.findIndex(a=>a.id===id); if(i!==-1){ activeAttendances[i].active=false; saveAttendance(); loadAttendance(); } }
 
-        function deactivateAttendance(id) { if(confirm('Deactivate?')){ const i=activeAttendances.findIndex(a=>a.id===id); if(i!==-1){ activeAttendances[i].active=false; saveAttendanceData(); loadAttendance(); } } }
-
-        // ========== STUDENTS ==========
+        // Students
         function loadStudents() {
             const students = JSON.parse(localStorage.getItem('students') || '[]');
             const container = document.getElementById('studentsList');
-            if (students.length === 0) { container.innerHTML = '<div class="empty-state">👥 No students registered.</div>'; return; }
-            container.innerHTML = students.map(s => {
-                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
-                const accuracy = stats.total ? Math.round((stats.correct/stats.total)*100) : 0;
-                const access = s.hasAccess ? `✅ Active until ${new Date(s.accessExpiry).toLocaleDateString()}` : '❌ No access';
-                return `<div class="student-card"><div><strong>${s.fullName}</strong><div>📧 ${s.email} | 📱 ${s.phone}</div><div>🏫 ${s.school} | 📚 ${s.class}</div><div>💰 ${access}</div></div>
-                <div><span class="attendance-stats">${accuracy}%</span><div>📝 ${stats.total} Qs</div><div>⭐ ${stats.points} pts</div>
-                <button class="btn-small" onclick="viewStudentDetails(${s.id})">View Details</button></div></div>`;
-            }).join('');
+            if (!students.length) { container.innerHTML = '<div class="empty-state">👥 No students.</div>'; return; }
+            container.innerHTML = students.map(s => `<div class="student-card"><div><strong>${s.fullName}</strong><div>📧 ${s.email}</div><div>🏫 ${s.school} | 📚 ${s.class}</div></div><button class="btn-primary" style="padding:0.3rem 0.8rem;" onclick="viewStudentDetails(${s.id})">View</button></div>`).join('');
         }
-
         function viewStudentDetails(id) {
             const students = JSON.parse(localStorage.getItem('students') || '[]');
             const s = students.find(s=>s.id===id);
             if(s){
                 const stats = s.practiceStats || { total:0, correct:0, points:0 };
-                const acc = stats.total ? Math.round((stats.correct/stats.total)*100) : 0;
-                const attendance = JSON.parse(localStorage.getItem('studentAttendance_'+s.id) || '[]');
-                const subs = JSON.parse(localStorage.getItem('submissions_'+s.id) || '{}');
-                document.getElementById('modalBody').innerHTML = `
-                    <h3>${s.fullName}</h3>
-                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; margin:1rem 0;">
-                        <p><strong>📧 Email:</strong> ${s.email}</p><p><strong>📱 Phone:</strong> ${s.phone}</p>
-                        <p><strong>🏫 School:</strong> ${s.school}</p><p><strong>📚 Class:</strong> ${s.class}</p>
-                        <p><strong>👨‍👩 Parent:</strong> ${s.parentName}</p><p><strong>📞 Parent Phone:</strong> ${s.parentPhone}</p>
-                        <p><strong>💰 Payment:</strong> GHS 100 - ${new Date(s.payment?.paymentDate).toLocaleDateString()}</p>
-                        <p><strong>📅 Access until:</strong> ${new Date(s.accessExpiry).toLocaleDateString()}</p>
-                    </div>
-                    <h4>📊 Performance</h4><div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
-                        <p>Questions: ${stats.total}</p><p>Correct: ${stats.correct}</p><p>Accuracy: ${acc}%</p><p>Points: ${stats.points}</p>
-                    </div>
-                    <h4>✅ Attendance (${attendance.length})</h4><div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
-                        ${attendance.length?attendance.slice(0,5).map(a=>`<div><strong>${a.subject}</strong>: ${a.title}<br><small>${a.date}</small></div>`).join(''):'<p>No records.</p>'}
-                    </div>
-                    <h4>📝 Submissions (${Object.keys(subs).length})</h4><div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
-                        ${Object.keys(subs).length?Object.values(subs).slice(0,3).map(s=>`<div><strong>${s.title}</strong><br><small>${s.date}</small><div>"${s.answer.substring(0,80)}..."</div></div>`).join(''):'<p>No submissions.</p>'}
-                    </div>
-                `;
+                const att = JSON.parse(localStorage.getItem('studentAttendance_'+s.id) || '[]');
+                document.getElementById('modalBody').innerHTML = `<h3>${s.fullName}</h3><div><p>📧 ${s.email}</p><p>📱 ${s.phone}</p><p>🏫 ${s.school}</p><p>📚 ${s.class}</p></div><h4>Performance</h4><p>Questions: ${stats.total}</p><p>Points: ${stats.points}</p><h4>Attendance: ${att.length}</h4>`;
                 document.getElementById('studentModal').style.display = 'flex';
             }
         }
 
-        // ========== PAYMENTS ==========
-        function loadPayments() {
-            const payments = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
-            const container = document.getElementById('paymentsList');
-            const summaryContainer = document.getElementById('paymentSummary');
-            let total = 0;
-            if (payments.length === 0) { container.innerHTML = '<div class="empty-state">💰 No payments recorded.</div>'; }
-            else {
-                container.innerHTML = payments.map(p => `
-                    <div class="payment-item"><div><strong>${p.studentName}</strong><div>📧 ${p.studentEmail}</div><div>💰 GHS ${p.amount}</div><div>📅 ${new Date(p.paymentDate).toLocaleDateString()}</div><div>🔑 TXN: ${p.transactionId}</div></div></div>
-                `).join('');
-                total = payments.reduce((sum,p)=>sum + p.amount, 0);
-            }
-            summaryContainer.innerHTML = `<div class="empty-state"><strong>Total Revenue:</strong> GHS ${total}<br><strong>Total Students:</strong> ${payments.length}</div>`;
-        }
-
-        // ========== SUBMISSIONS ==========
+        // Submissions
         function loadSubmissions() {
-            const allSubmissions = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+            const subs = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
             const container = document.getElementById('submissionsList');
-            if (allSubmissions.length === 0) { container.innerHTML = '<div class="empty-state">📋 No submissions yet.</div>'; return; }
-            container.innerHTML = allSubmissions.reverse().map(sub => `
-                <div class="submission-item"><div><strong>${sub.studentName}</strong><div>${sub.title}</div><div>"${sub.answer.substring(0,100)}..."</div><div>📅 ${sub.date}</div></div></div>
-            `).join('');
+            if (!subs.length) { container.innerHTML = '<div class="empty-state">📋 No submissions.</div>'; return; }
+            container.innerHTML = subs.reverse().map(sub => `<div class="submission-item"><div><strong>${sub.studentName}</strong><div>${sub.title}</div><div>"${sub.answer.substring(0,100)}..."</div><div>📅 ${sub.date}</div></div></div>`).join('');
         }
 
         function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
         window.onclick = (e) => { if(e.target === document.getElementById('studentModal')) closeModal(); };
+
+        // ========== DIRECT STUDENT VIEW ==========
+        function goToStudentDashboard() {
+            let students = JSON.parse(localStorage.getItem('students') || '[]');
+            let demoStudent = students.find(s => s.email === 'demo@student.com');
+            
+            if (!demoStudent) {
+                demoStudent = {
+                    id: Date.now(),
+                    fullName: 'Demo Student',
+                    email: 'demo@student.com',
+                    school: 'Demo School',
+                    class: 'JHS 3',
+                    dateOfBirth: '2010-01-01',
+                    phone: '0244123456',
+                    parentName: 'Demo Parent',
+                    parentPhone: '0244123457',
+                    registeredDate: new Date().toISOString(),
+                    hasAccess: true,
+                    practiceStats: { total: 0, correct: 0, points: 0 },
+                    courseProgress: {}
+                };
+                students.push(demoStudent);
+                localStorage.setItem('students', JSON.stringify(students));
+            }
+            
+            localStorage.setItem('currentStudent', JSON.stringify({
+                id: demoStudent.id,
+                name: demoStudent.fullName,
+                email: demoStudent.email
+            }));
+            localStorage.setItem('scholarName', demoStudent.fullName);
+            localStorage.setItem('scholarEmail', demoStudent.email);
+            localStorage.setItem('practiceStats', JSON.stringify(demoStudent.practiceStats));
+            
+            window.location.href = 'dashboard.html';
+        }
 
         loadAssignments();
         updateStats();
