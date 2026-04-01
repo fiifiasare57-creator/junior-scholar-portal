@@ -24,14 +24,12 @@
             min-height: 100vh;
             color: #1e293b;
             overflow: hidden;
-            position: relative;
         }
 
         .app-container {
             display: flex;
             height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
         .sidebar {
@@ -52,17 +50,6 @@
 
         .sidebar.open {
             transform: translateX(0);
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-track {
-            background: #eef2f6;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
         }
 
         .sidebar-header {
@@ -195,13 +182,6 @@
         .main-content::-webkit-scrollbar {
             width: 4px;
         }
-        .main-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .main-content::-webkit-scrollbar-thumb {
-            background: #ffffff;
-            border-radius: 10px;
-        }
 
         .welcome-card {
             background: white;
@@ -215,12 +195,6 @@
         .welcome-card h1 {
             font-size: 1.1rem;
             color: #1e293b;
-        }
-
-        .welcome-card p {
-            color: #6b7280;
-            font-size: 0.7rem;
-            margin-top: 0.2rem;
         }
 
         .stats-grid {
@@ -265,29 +239,15 @@
             margin-bottom: 0.5rem;
         }
 
-        .typing-container {
-            min-height: 320px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .typed-text {
+        .message-content {
             font-size: 0.75rem;
             line-height: 1.6;
             color: #334155;
             font-style: italic;
             white-space: pre-wrap;
-        }
-
-        .typed-text::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: #667eea;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
         }
 
         .speech-author {
@@ -396,9 +356,6 @@
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
-            .typing-container {
-                min-height: 280px;
-            }
         }
     </style>
 </head>
@@ -480,8 +437,8 @@
 
             <div class="speech-card">
                 <div class="speech-title">🎓 A Message for You</div>
-                <div class="typing-container">
-                    <div id="typedMessage" class="typed-text"></div>
+                <div id="messageDisplay" class="message-content">
+                    Loading message...
                 </div>
                 <div class="speech-author">— The Junior Scholar Portal Team</div>
             </div>
@@ -527,8 +484,8 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ========== TYPING EFFECT - INSPIRATIONAL MESSAGE ==========
-        const fullMessage = `"To My Dear Junior Scholar, 🌟
+        // ========== INSPIRATIONAL MESSAGE - DISPLAYED DIRECTLY ==========
+        const message = `"To My Dear Junior Scholar, 🌟
 
 The BECE is calling your name. And you? You are ready.
 
@@ -547,46 +504,8 @@ Because your best is more than enough. Always.
 
 Go make yourself proud, Scholar. 💪🎓✨"`;
 
-        let charIndex = 0;
-        let isTyping = true;
-        let displayedText = "";
-        const typingSpeed = 25;
-        const pauseBeforeDelete = 8000;
-        const deleteSpeed = 15;
-
-        function typeLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            if (!typedElement) return;
-            
-            if (isTyping && charIndex <= fullMessage.length) {
-                displayedText = fullMessage.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex++;
-                setTimeout(typeLetter, typingSpeed);
-            } else if (isTyping && charIndex > fullMessage.length) {
-                isTyping = false;
-                setTimeout(() => deleteLetter(), pauseBeforeDelete);
-            }
-        }
-
-        function deleteLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            if (!typedElement) return;
-            
-            if (!isTyping && charIndex >= 0) {
-                displayedText = fullMessage.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex--;
-                setTimeout(deleteLetter, deleteSpeed);
-            } else if (!isTyping && charIndex < 0) {
-                isTyping = true;
-                charIndex = 0;
-                setTimeout(typeLetter, 500);
-            }
-        }
-        
-        // Start typing after page loads
-        setTimeout(typeLetter, 1000);
+        // Display message immediately
+        document.getElementById('messageDisplay').innerHTML = message.replace(/\n/g, '<br>');
 
         // ========== SIDEBAR TOGGLE ==========
         const sidebar = document.getElementById('sidebar');
