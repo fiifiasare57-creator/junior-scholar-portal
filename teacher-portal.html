@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Portal - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -55,6 +58,21 @@
             color: #667eea;
         }
 
+        .student-view-btn {
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .student-view-btn:hover {
+            background: #059669;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -78,7 +96,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -233,19 +251,14 @@
             color: #667eea;
         }
 
-        .student-view-btn {
+        .sync-status {
+            display: inline-block;
             background: #10b981;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 500;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2rem;
+            font-size: 0.6rem;
             margin-left: 1rem;
-        }
-
-        .student-view-btn:hover {
-            background: #059669;
         }
 
         @media (max-width: 1024px) {
@@ -288,7 +301,10 @@
         <div class="welcome-card">
             <h1>Welcome, <span id="teacherName">Administrator</span>! 👋</h1>
             <p>Manage assignments, share notes, schedule classes, track attendance, and view student progress</p>
-            <span style="display: inline-block; background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem; margin-top: 0.5rem;">🔐 ADMIN ACCESS</span>
+            <div style="margin-top: 0.5rem;">
+                <span style="background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem;">🔐 ADMIN ACCESS</span>
+                <span id="syncStatus" class="sync-status">☁️ Syncing...</span>
+            </div>
         </div>
 
         <div class="stats-grid">
@@ -311,10 +327,6 @@
             <div class="stat-card">
                 <div class="stat-number" id="totalSubmissions">0</div>
                 <div class="stat-label">Submissions</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalAttendance">0</div>
-                <div class="stat-label">Attendance Records</div>
             </div>
         </div>
 
@@ -491,6 +503,25 @@
     </div>
 
     <script>
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX12Kbhb8L1R",
+            authDomain: "junior-scholar-portal.firebaseapp.com",
+            projectId: "junior-scholar-portal",
+            storageBucket: "junior-scholar-portal.firebasestorage.app",
+            messagingSenderId: "519496965849",
+            appId: "1:519496965849:web:86",
+            databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Update sync status
+        document.getElementById('syncStatus').innerHTML = '☁️ Connected to Cloud';
+        document.getElementById('syncStatus').style.background = '#10b981';
+
         // Admin check
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
         const currentAdmin = JSON.parse(localStorage.getItem('currentStudent'));
@@ -500,178 +531,320 @@
         }
         document.getElementById('teacherName').textContent = 'Administrator';
 
-        // Data storage
-        let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
-        let notes = JSON.parse(localStorage.getItem('teacherNotes') || '[]');
-        let schedules = JSON.parse(localStorage.getItem('classSchedule') || '[]');
-        let activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
-        let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords') || '[]');
+        // ========== DATABASE REFERENCES ==========
+        const assignmentsRef = database.ref('assignments');
+        const notesRef = database.ref('notes');
+        const schedulesRef = database.ref('schedules');
+        const activeAttendancesRef = database.ref('activeAttendances');
+        const attendanceRecordsRef = database.ref('attendanceRecords');
+        const studentsRef = database.ref('students');
+        const submissionsRef = database.ref('submissions');
 
-        function saveAssignments() { localStorage.setItem('teacherAssignments', JSON.stringify(assignments)); }
-        function saveNotes() { localStorage.setItem('teacherNotes', JSON.stringify(notes)); }
-        function saveSchedules() { localStorage.setItem('classSchedule', JSON.stringify(schedules)); }
-        function saveAttendance() { localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances)); localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords)); }
+        // ========== LOAD DATA FUNCTIONS ==========
+        async function loadAssignments() {
+            const snapshot = await assignmentsRef.orderByChild('createdAt').once('value');
+            const assignments = [];
+            snapshot.forEach(child => {
+                assignments.push({ id: child.key, ...child.val() });
+            });
+            assignments.reverse();
+            return assignments;
+        }
 
-        function updateStats() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const subs = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+        async function loadNotes() {
+            const snapshot = await notesRef.orderByChild('createdAt').once('value');
+            const notes = [];
+            snapshot.forEach(child => {
+                notes.push({ id: child.key, ...child.val() });
+            });
+            notes.reverse();
+            return notes;
+        }
+
+        async function loadSchedules() {
+            const snapshot = await schedulesRef.once('value');
+            const schedules = [];
+            snapshot.forEach(child => {
+                schedules.push({ id: child.key, ...child.val() });
+            });
+            return schedules;
+        }
+
+        async function loadActiveAttendances() {
+            const snapshot = await activeAttendancesRef.once('value');
+            const attendances = [];
+            snapshot.forEach(child => {
+                if (child.val().active === true) {
+                    attendances.push({ id: child.key, ...child.val() });
+                }
+            });
+            return attendances;
+        }
+
+        async function loadAttendanceRecords() {
+            const snapshot = await attendanceRecordsRef.once('value');
+            const records = [];
+            snapshot.forEach(child => {
+                records.push({ id: child.key, ...child.val() });
+            });
+            records.sort((a,b) => new Date(b.date) - new Date(a.date));
+            return records;
+        }
+
+        async function loadStudents() {
+            const snapshot = await studentsRef.once('value');
+            const students = [];
+            snapshot.forEach(child => {
+                students.push(child.val());
+            });
+            return students;
+        }
+
+        async function loadAllSubmissions() {
+            const snapshot = await submissionsRef.once('value');
+            const submissions = [];
+            snapshot.forEach(child => {
+                submissions.push(child.val());
+            });
+            submissions.reverse();
+            return submissions;
+        }
+
+        async function updateStats() {
+            const students = await loadStudents();
+            const assignments = await loadAssignments();
+            const notes = await loadNotes();
+            const schedules = await loadSchedules();
+            const submissions = await loadAllSubmissions();
+            
             document.getElementById('totalStudents').textContent = students.length;
             document.getElementById('totalAssignments').textContent = assignments.length;
             document.getElementById('totalNotes').textContent = notes.length;
             document.getElementById('totalClasses').textContent = schedules.length;
-            document.getElementById('totalSubmissions').textContent = subs.length;
-            document.getElementById('totalAttendance').textContent = attendanceRecords.length;
+            document.getElementById('totalSubmissions').textContent = submissions.length;
         }
 
-        function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.querySelectorAll('#assignmentsTab, #notesTab, #scheduleTab, #attendanceTab, #studentsTab, #submissionsTab').forEach(el => el.style.display = 'none');
-            if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; loadAssignments(); }
-            else if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; loadNotes(); }
-            else if (tab === 'schedule') { document.getElementById('scheduleTab').style.display = 'block'; loadSchedule(); }
-            else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; loadAttendance(); }
-            else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; loadStudents(); }
-            else if (tab === 'submissions') { document.getElementById('submissionsTab').style.display = 'block'; loadSubmissions(); }
-        }
-
-        // Assignments
-        document.getElementById('assignmentForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            assignments.unshift({ id: Date.now(), subject: document.getElementById('assignSubject').value, title: document.getElementById('assignTitle').value, description: document.getElementById('assignDesc').value, dueDate: document.getElementById('assignDue').value, createdAt: new Date().toISOString() });
-            saveAssignments();
-            alert('✅ Assignment sent!');
-            e.target.reset();
-            loadAssignments();
-            updateStats();
-        });
-        function loadAssignments() {
+        // ========== RENDER FUNCTIONS ==========
+        async function renderAssignments() {
+            const assignments = await loadAssignments();
             const container = document.getElementById('assignmentsList');
             if (!assignments.length) { container.innerHTML = '<div class="empty-state">📭 No assignments.</div>'; return; }
-            container.innerHTML = assignments.map(a => `<div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div>📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div><button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button></div>`).join('');
+            container.innerHTML = assignments.map(a => `
+                <div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div>📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div>
+                <button class="btn-danger" onclick="deleteAssignment('${a.id}')">Delete</button></div>
+            `).join('');
         }
-        function deleteAssignment(id) { if(confirm('Delete?')){ assignments = assignments.filter(a=>a.id!==id); saveAssignments(); loadAssignments(); updateStats(); } }
 
-        // Notes
-        document.getElementById('noteForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            notes.unshift({ id: Date.now(), subject: document.getElementById('noteSubject').value, title: document.getElementById('noteTitle').value, content: document.getElementById('noteContent').value, link: document.getElementById('noteLink').value, createdAt: new Date().toISOString() });
-            saveNotes();
-            alert('✅ Notes shared!');
-            e.target.reset();
-            loadNotes();
-            updateStats();
-        });
-        function loadNotes() {
+        async function renderNotes() {
+            const notes = await loadNotes();
             const container = document.getElementById('notesList');
             if (!notes.length) { container.innerHTML = '<div class="empty-state">📚 No notes.</div>'; return; }
-            container.innerHTML = notes.map(n => `<div class="note-item"><div><strong>${n.subject}: ${n.title}</strong><div>${n.content.substring(0,100)}...</div>${n.link?`<div>🔗 ${n.link}</div>`:''}</div><button class="btn-danger" onclick="deleteNote(${n.id})">Delete</button></div>`).join('');
+            container.innerHTML = notes.map(n => `
+                <div class="note-item"><div><strong>${n.subject}: ${n.title}</strong><div>${n.content.substring(0,100)}...</div>${n.link?`<div>🔗 ${n.link}</div>`:''}</div>
+                <button class="btn-danger" onclick="deleteNote('${n.id}')">Delete</button></div>
+            `).join('');
         }
-        function deleteNote(id) { if(confirm('Delete?')){ notes = notes.filter(n=>n.id!==id); saveNotes(); loadNotes(); updateStats(); } }
 
-        // Schedule
-        document.getElementById('scheduleForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            schedules.push({ id: Date.now(), subject: document.getElementById('scheduleSubject').value, title: document.getElementById('scheduleTitle').value, description: document.getElementById('scheduleDesc').value, teacher: document.getElementById('scheduleTeacher').value, date: document.getElementById('scheduleDate').value, time: document.getElementById('scheduleTime').value, duration: document.getElementById('scheduleDuration').value, meetLink: document.getElementById('scheduleMeetLink').value });
-            saveSchedules();
-            alert('✅ Class scheduled!');
-            e.target.reset();
-            loadSchedule();
-            updateStats();
-        });
-        function loadSchedule() {
+        async function renderSchedule() {
+            const schedules = await loadSchedules();
             const container = document.getElementById('scheduleList');
             if (!schedules.length) { container.innerHTML = '<div class="empty-state">📅 No classes.</div>'; return; }
-            container.innerHTML = schedules.map(s => `<div class="schedule-item"><div><strong>${s.subject}: ${s.title}</strong><div>👨‍🏫 ${s.teacher}</div><div>📅 ${s.date} at ${s.time} (${s.duration}h)</div><div>🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div></div><button class="btn-danger" onclick="deleteSchedule(${s.id})">Delete</button></div>`).join('');
+            container.innerHTML = schedules.map(s => `
+                <div class="schedule-item"><div><strong>${s.subject}: ${s.title}</strong><div>👨‍🏫 ${s.teacher}</div><div>📅 ${s.date} at ${s.time} (${s.duration}h)</div><div>🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div></div>
+                <button class="btn-danger" onclick="deleteSchedule('${s.id}')">Delete</button></div>
+            `).join('');
         }
-        function deleteSchedule(id) { if(confirm('Delete?')){ schedules = schedules.filter(s=>s.id!==id); saveSchedules(); loadSchedule(); updateStats(); } }
 
-        // Attendance
-        document.getElementById('attendanceForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            activeAttendances.push({ id: Date.now(), subject: document.getElementById('attendanceSubject').value, title: document.getElementById('attendanceTitle').value, code: document.getElementById('attendanceCode').value.toUpperCase(), expiry: document.getElementById('attendanceExpiry').value || null, active: true });
-            saveAttendance();
-            alert(`✅ Keycode: ${document.getElementById('attendanceCode').value.toUpperCase()}`);
-            e.target.reset();
-            loadAttendance();
-            updateStats();
-        });
-        function loadAttendance() {
-            const active = activeAttendances.filter(a=>a.active);
-            document.getElementById('activeAttendanceList').innerHTML = active.length ? active.map(a=>`<div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 ${a.code}</div>${a.expiry?`Expires: ${a.expiry}`:''}</div><button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button></div>`).join('') : '<div class="empty-state">📭 No active sessions.</div>';
-            const history = [...attendanceRecords].sort((a,b)=>new Date(b.date)-new Date(a.date));
-            document.getElementById('attendanceHistory').innerHTML = history.length ? history.map(r=>`<div class="attendance-item"><div><strong>${r.subject}: ${r.title}</strong><div>📅 ${r.date}</div><div>👥 ${r.students.length} students</div><details><summary>View</summary>${r.students.map(s=>`<div>• ${s.name}</div>`).join('')}</details></div></div>`).join('') : '<div class="empty-state">📊 No records.</div>';
+        async function renderAttendance() {
+            const active = await loadActiveAttendances();
+            const history = await loadAttendanceRecords();
+            
+            document.getElementById('activeAttendanceList').innerHTML = active.length ? active.map(a => `
+                <div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 ${a.code}</div>${a.expiry?`Expires: ${a.expiry}`:''}</div>
+                <button class="btn-danger" onclick="deactivateAttendance('${a.id}')">Deactivate</button></div>
+            `).join('') : '<div class="empty-state">📭 No active sessions.</div>';
+            
+            document.getElementById('attendanceHistory').innerHTML = history.length ? history.map(r => `
+                <div class="attendance-item"><div><strong>${r.subject}: ${r.title}</strong><div>📅 ${r.date}</div><div>👥 ${r.students?.length || 0} students</div></div>
+            `).join('') : '<div class="empty-state">📊 No records.</div>';
         }
-        function deactivateAttendance(id) { const i = activeAttendances.findIndex(a=>a.id===id); if(i!==-1){ activeAttendances[i].active=false; saveAttendance(); loadAttendance(); } }
 
-        // Students
-        function loadStudents() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
+        async function renderStudents() {
+            const students = await loadStudents();
             const container = document.getElementById('studentsList');
             if (!students.length) { container.innerHTML = '<div class="empty-state">👥 No students.</div>'; return; }
-            container.innerHTML = students.map(s => `<div class="student-card"><div><strong>${s.fullName}</strong><div>📧 ${s.email}</div><div>🏫 ${s.school} | 📚 ${s.class}</div></div><button class="btn-primary" style="padding:0.3rem 0.8rem;" onclick="viewStudentDetails(${s.id})">View</button></div>`).join('');
-        }
-        function viewStudentDetails(id) {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const s = students.find(s=>s.id===id);
-            if(s){
-                const stats = s.practiceStats || { total:0, correct:0, points:0 };
-                const att = JSON.parse(localStorage.getItem('studentAttendance_'+s.id) || '[]');
-                document.getElementById('modalBody').innerHTML = `<h3>${s.fullName}</h3><div><p>📧 ${s.email}</p><p>📱 ${s.phone}</p><p>🏫 ${s.school}</p><p>📚 ${s.class}</p></div><h4>Performance</h4><p>Questions: ${stats.total}</p><p>Points: ${stats.points}</p><h4>Attendance: ${att.length}</h4>`;
-                document.getElementById('studentModal').style.display = 'flex';
-            }
+            container.innerHTML = students.map(s => `
+                <div class="student-card"><div><strong>${s.fullName}</strong><div>📧 ${s.email}</div><div>🏫 ${s.school} | 📚 ${s.class}</div></div>
+                <button class="btn-primary" style="padding:0.3rem 0.8rem;" onclick="viewStudentDetails('${s.id}')">View</button></div>
+            `).join('');
         }
 
-        // Submissions
-        function loadSubmissions() {
-            const subs = JSON.parse(localStorage.getItem('allSubmissions') || '[]');
+        async function renderSubmissions() {
+            const submissions = await loadAllSubmissions();
             const container = document.getElementById('submissionsList');
-            if (!subs.length) { container.innerHTML = '<div class="empty-state">📋 No submissions.</div>'; return; }
-            container.innerHTML = subs.reverse().map(sub => `<div class="submission-item"><div><strong>${sub.studentName}</strong><div>${sub.title}</div><div>"${sub.answer.substring(0,100)}..."</div><div>📅 ${sub.date}</div></div></div>`).join('');
+            if (!submissions.length) { container.innerHTML = '<div class="empty-state">📋 No submissions.</div>'; return; }
+            container.innerHTML = submissions.map(sub => `
+                <div class="submission-item"><div><strong>${sub.studentName}</strong><div>${sub.title}</div><div>"${sub.answer.substring(0,100)}..."</div><div>📅 ${sub.date}</div></div></div>
+            `).join('');
         }
+
+        // ========== CREATE FUNCTIONS ==========
+        document.getElementById('assignmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newRef = assignmentsRef.push();
+            await newRef.set({
+                id: newRef.key,
+                subject: document.getElementById('assignSubject').value,
+                title: document.getElementById('assignTitle').value,
+                description: document.getElementById('assignDesc').value,
+                dueDate: document.getElementById('assignDue').value,
+                createdAt: new Date().toISOString()
+            });
+            alert('✅ Assignment saved to cloud! All teachers can see it.');
+            e.target.reset();
+            await renderAssignments();
+            await updateStats();
+        });
+
+        document.getElementById('noteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newRef = notesRef.push();
+            await newRef.set({
+                id: newRef.key,
+                subject: document.getElementById('noteSubject').value,
+                title: document.getElementById('noteTitle').value,
+                content: document.getElementById('noteContent').value,
+                link: document.getElementById('noteLink').value,
+                createdAt: new Date().toISOString()
+            });
+            alert('✅ Notes saved to cloud! All students can see them.');
+            e.target.reset();
+            await renderNotes();
+            await updateStats();
+        });
+
+        document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newRef = schedulesRef.push();
+            await newRef.set({
+                id: newRef.key,
+                subject: document.getElementById('scheduleSubject').value,
+                title: document.getElementById('scheduleTitle').value,
+                description: document.getElementById('scheduleDesc').value,
+                teacher: document.getElementById('scheduleTeacher').value,
+                date: document.getElementById('scheduleDate').value,
+                time: document.getElementById('scheduleTime').value,
+                duration: document.getElementById('scheduleDuration').value,
+                meetLink: document.getElementById('scheduleMeetLink').value,
+                createdAt: new Date().toISOString()
+            });
+            alert('✅ Class scheduled! Students can see it in Live Classes.');
+            e.target.reset();
+            await renderSchedule();
+            await updateStats();
+        });
+
+        document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newRef = activeAttendancesRef.push();
+            await newRef.set({
+                id: newRef.key,
+                subject: document.getElementById('attendanceSubject').value,
+                title: document.getElementById('attendanceTitle').value,
+                code: document.getElementById('attendanceCode').value.toUpperCase(),
+                expiry: document.getElementById('attendanceExpiry').value || null,
+                active: true,
+                createdAt: new Date().toISOString()
+            });
+            alert(`✅ Keycode: ${document.getElementById('attendanceCode').value.toUpperCase()}`);
+            e.target.reset();
+            await renderAttendance();
+            await updateStats();
+        });
+
+        // ========== DELETE FUNCTIONS ==========
+        window.deleteAssignment = async (id) => {
+            if(confirm('Delete this assignment?')) {
+                await assignmentsRef.child(id).remove();
+                await renderAssignments();
+                await updateStats();
+            }
+        };
+
+        window.deleteNote = async (id) => {
+            if(confirm('Delete this note?')) {
+                await notesRef.child(id).remove();
+                await renderNotes();
+                await updateStats();
+            }
+        };
+
+        window.deleteSchedule = async (id) => {
+            if(confirm('Delete this class?')) {
+                await schedulesRef.child(id).remove();
+                await renderSchedule();
+                await updateStats();
+            }
+        };
+
+        window.deactivateAttendance = async (id) => {
+            if(confirm('Deactivate this attendance session?')) {
+                await activeAttendancesRef.child(id).update({ active: false });
+                await renderAttendance();
+            }
+        };
+
+        // ========== STUDENT DETAILS ==========
+        window.viewStudentDetails = async (id) => {
+            const snapshot = await studentsRef.child(id).once('value');
+            const s = snapshot.val();
+            if(s){
+                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
+                const attSnapshot = await database.ref(`attendance/${id}`).once('value');
+                const attCount = attSnapshot.numChildren();
+                document.getElementById('modalBody').innerHTML = `
+                    <h3>${s.fullName}</h3>
+                    <div><p>📧 ${s.email}</p><p>📱 ${s.phone}</p><p>🏫 ${s.school}</p><p>📚 ${s.class}</p></div>
+                    <h4>Performance</h4><p>Questions: ${stats.total}</p><p>Points: ${stats.points}</p>
+                    <h4>Attendance: ${attCount}</h4>
+                `;
+                document.getElementById('studentModal').style.display = 'flex';
+            }
+        };
 
         function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
         window.onclick = (e) => { if(e.target === document.getElementById('studentModal')) closeModal(); };
 
-        // ========== DIRECT STUDENT VIEW ==========
-        function goToStudentDashboard() {
-            let students = JSON.parse(localStorage.getItem('students') || '[]');
-            let demoStudent = students.find(s => s.email === 'demo@student.com');
-            
-            if (!demoStudent) {
-                demoStudent = {
-                    id: Date.now(),
-                    fullName: 'Demo Student',
-                    email: 'demo@student.com',
-                    school: 'Demo School',
-                    class: 'JHS 3',
-                    dateOfBirth: '2010-01-01',
-                    phone: '0244123456',
-                    parentName: 'Demo Parent',
-                    parentPhone: '0244123457',
-                    registeredDate: new Date().toISOString(),
-                    hasAccess: true,
-                    practiceStats: { total: 0, correct: 0, points: 0 },
-                    courseProgress: {}
-                };
-                students.push(demoStudent);
-                localStorage.setItem('students', JSON.stringify(students));
-            }
-            
-            localStorage.setItem('currentStudent', JSON.stringify({
-                id: demoStudent.id,
-                name: demoStudent.fullName,
-                email: demoStudent.email
-            }));
-            localStorage.setItem('scholarName', demoStudent.fullName);
-            localStorage.setItem('scholarEmail', demoStudent.email);
-            localStorage.setItem('practiceStats', JSON.stringify(demoStudent.practiceStats));
-            
-            window.location.href = 'dashboard.html';
+        // ========== TAB SWITCHING ==========
+        async function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('#assignmentsTab, #notesTab, #scheduleTab, #attendanceTab, #studentsTab, #submissionsTab').forEach(el => el.style.display = 'none');
+            if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; await renderAssignments(); }
+            else if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; await renderNotes(); }
+            else if (tab === 'schedule') { document.getElementById('scheduleTab').style.display = 'block'; await renderSchedule(); }
+            else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; await renderAttendance(); }
+            else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; await renderStudents(); }
+            else if (tab === 'submissions') { document.getElementById('submissionsTab').style.display = 'block'; await renderSubmissions(); }
         }
 
-        loadAssignments();
-        updateStats();
+        // ========== STUDENT VIEW ==========
+        window.goToStudentDashboard = function() {
+            localStorage.setItem('currentStudent', JSON.stringify({
+                id: 'demo',
+                name: 'Demo Student',
+                email: 'demo@student.com'
+            }));
+            localStorage.setItem('scholarName', 'Demo Student');
+            window.location.href = 'dashboard.html';
+        };
+
+        // ========== INITIAL LOAD ==========
+        async function init() {
+            await renderAssignments();
+            await updateStats();
+        }
+        init();
     </script>
 </body>
 </html>
