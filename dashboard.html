@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>The Junior Scholar Portal</title>
+    <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- PWA Mobile App Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Junior Scholar">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="theme-color" content="#667eea">
     <style>
         * {
             margin: 0;
@@ -17,7 +24,32 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
-            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
         }
 
         /* Sidebar */
@@ -29,7 +61,7 @@
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            border-right: 1px solid rgba(0,0,0,0.05);
             transition: all 0.3s;
             z-index: 1000;
             overflow-y: auto;
@@ -50,30 +82,13 @@
             letter-spacing: 1px;
             color: #667eea;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
         }
 
         .portal-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #667eea);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.3;
-        }
-
-        .vacation-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: linear-gradient(135deg, #667eea, #4f46e5);
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.35rem 0.85rem;
-            border-radius: 2rem;
-            margin-top: 0.75rem;
+            color: #1e293b;
+            margin-top: 0.5rem;
         }
 
         .nav-menu {
@@ -190,142 +205,93 @@
             align-items: center;
             justify-content: center;
             color: #667eea;
-            transition: all 0.3s;
-        }
-
-        .toggle-sidebar:hover {
-            transform: scale(1.05);
         }
 
         /* Welcome Card */
         .welcome-card {
             background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
         }
 
         .welcome-card h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            color: #1e293b;
         }
 
         .welcome-card p {
             color: #6b7280;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
         }
 
-        /* Access Banner */
-        .access-banner {
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            margin-bottom: 1.5rem;
         }
 
-        .btn-pay {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s;
-        }
-
-        .btn-pay:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Speech Card - Typing Effect */
-        .speech-card {
+        .stat-card {
             background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
         }
 
-        .speech-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .typing-container {
-            min-height: 280px;
-        }
-
-        .typed-text {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #334155;
-            font-style: italic;
-        }
-
-        .typed-text::after {
-            content: '|';
-            animation: blink 1s infinite;
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #667eea;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
         }
 
-        .speech-author {
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: #94a3b8;
-            text-align: right;
-            border-top: 1px solid #eef2f6;
-            padding-top: 1rem;
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .action-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: #1e293b;
+            transition: all 0.3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            background: #eef2ff;
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .action-title {
+            font-size: 0.75rem;
+            font-weight: 500;
         }
 
         /* Credits */
         .credits {
             text-align: center;
-            padding: 1rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 1rem;
-        }
-
-        /* Teacher Button */
-        .teacher-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: 0.3s;
-            z-index: 100;
-        }
-
-        .teacher-btn:hover {
-            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
@@ -342,8 +308,8 @@
                 left: auto;
                 right: 20px;
             }
-            .welcome-card h1 {
-                font-size: 1.3rem;
+            .stats-grid, .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -355,9 +321,7 @@
         <div class="sidebar-header">
             <div class="school-badge">PRESEC-LEGON</div>
             <div class="portal-title">The Junior Scholar<br>Portal</div>
-            <div class="vacation-badge">📚 BECE PREP 2025</div>
         </div>
-
         <nav class="nav-menu">
             <a href="dashboard.html" class="nav-item active">
                 <span class="nav-icon">📊</span>
@@ -365,7 +329,7 @@
             </a>
             <a href="courses.html" class="nav-item">
                 <span class="nav-icon">📚</span>
-                <span>Courses</span>
+                <span>My Courses</span>
             </a>
             <a href="practice.html" class="nav-item">
                 <span class="nav-icon">📝</span>
@@ -384,7 +348,6 @@
                 <span>Pay Fees</span>
             </a>
         </nav>
-
         <div class="user-section">
             <div class="user-info">
                 <div class="user-avatar" id="userAvatar">JS</div>
@@ -398,39 +361,60 @@
     </aside>
 
     <main class="main-content" id="mainContent">
-        <!-- Welcome Card -->
         <div class="welcome-card">
             <h1>Welcome back, <span id="welcomeName">Scholar</span>! 👋</h1>
-            <p id="greetingMessage">Your journey to BECE excellence continues.</p>
+            <p id="greetingMessage">Your BECE journey continues</p>
         </div>
 
-        <!-- Access Status Banner -->
-        <div id="accessBanner" class="access-banner"></div>
-
-        <!-- Inspirational Message with Typing Effect -->
-        <div class="speech-card">
-            <div class="speech-title">🎓 A Message for You</div>
-            <div class="typing-container">
-                <div id="typedMessage" class="typed-text"></div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="questionsDone">0</div>
+                <div class="stat-label">Questions</div>
             </div>
-            <div class="speech-author">— The Junior Scholar Portal Team</div>
+            <div class="stat-card">
+                <div class="stat-value" id="attendanceCount">0</div>
+                <div class="stat-label">Attendance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pendingAssignments">0</div>
+                <div class="stat-label">Assignments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalPoints">0</div>
+                <div class="stat-label">Points</div>
+            </div>
         </div>
 
-        <!-- Credits -->
+        <div class="quick-actions">
+            <a href="practice.html" class="action-card">
+                <div class="action-icon">📝</div>
+                <div class="action-title">Practice</div>
+            </a>
+            <a href="courses.html" class="action-card">
+                <div class="action-icon">📚</div>
+                <div class="action-title">Courses</div>
+            </a>
+            <a href="live-class.html" class="action-card">
+                <div class="action-icon">🎥</div>
+                <div class="action-title">Live Classes</div>
+            </a>
+            <a href="payment.html" class="action-card">
+                <div class="action-icon">💰</div>
+                <div class="action-title">Pay Fees</div>
+            </a>
+        </div>
+
         <div class="credits">
             ✨ Made with Excellence by SKILABS ✨<br>
             Caleb Fiifi Asare & Arnold Kadi
         </div>
     </main>
 
-    <a href="teacher-portal.html" class="teacher-btn">👨‍🏫 Teacher Portal</a>
-
     <script>
         // Sidebar toggle
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
         const toggleBtn = document.getElementById('toggleSidebarBtn');
-        
         toggleBtn.addEventListener('click', () => {
             sidebar.classList.toggle('hidden');
             mainContent.classList.toggle('expanded');
@@ -445,7 +429,6 @@
             window.location.href = 'login.html';
         }
 
-        // Set student info
         const firstName = studentData.fullName.split(' ')[0];
         document.getElementById('welcomeName').textContent = firstName;
         document.getElementById('userName').textContent = studentData.fullName;
@@ -453,93 +436,85 @@
         const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
         document.getElementById('userAvatar').textContent = initials;
 
-        // Access Status
-        function checkAccess() {
-            const access = JSON.parse(localStorage.getItem('accessStatus'));
-            const banner = document.getElementById('accessBanner');
-            
-            if (access && access.active && new Date(access.expiryDate) > new Date()) {
-                banner.innerHTML = `
-                    <span>✅ Access Active until ${new Date(access.expiryDate).toLocaleDateString()}</span>
-                    <a href="payment.html" class="btn-pay">Renew</a>
-                `;
-            } else if (access && new Date(access.expiryDate) <= new Date()) {
-                banner.innerHTML = `
-                    <span>⚠️ Access Expired - Please renew</span>
-                    <a href="payment.html" class="btn-pay">Renew Now</a>
-                `;
-            } else {
-                banner.innerHTML = `
-                    <span>🔒 Pay School Fees to Unlock All Content</span>
-                    <a href="payment.html" class="btn-pay">Pay Now</a>
-                `;
-            }
-        }
-        checkAccess();
+        const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
+        document.getElementById('questionsDone').textContent = practiceStats.total;
+        document.getElementById('totalPoints').textContent = practiceStats.points || 0;
 
-        // Typing Animation - Full Message
-        const fullMessage = `"Dear Junior Scholar, 🌟\n\nThe BECE is your first giant leap towards your dreams. Every question you answer, every lesson you learn brings you one step closer to success.\n\nYou are capable of more than you know. Stay focused, work hard, and trust the process.\n\nYour future self will thank you for the work you do today. 💪"`;
+        const attendance = JSON.parse(localStorage.getItem('studentAttendance_' + studentData.id) || '[]');
+        document.getElementById('attendanceCount').textContent = attendance.length;
 
-        let charIndex = 0;
-        let isTyping = true;
-        let pauseTimer = null;
-        let displayedText = "";
-        const typingSpeed = 40;
-        const pauseBeforeDelete = 5000;
-        const deleteSpeed = 25;
+        const assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+        const submissions = JSON.parse(localStorage.getItem('submissions_' + studentData.id) || '{}');
+        let pending = 0;
+        assignments.forEach(a => { if (!submissions[a.id]) pending++; });
+        document.getElementById('pendingAssignments').textContent = pending;
 
-        function typeLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            
-            if (isTyping && charIndex <= fullMessage.length) {
-                displayedText = fullMessage.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex++;
-                setTimeout(typeLetter, typingSpeed);
-            } 
-            else if (isTyping && charIndex > fullMessage.length) {
-                isTyping = false;
-                pauseTimer = setTimeout(() => {
-                    deleteLetter();
-                }, pauseBeforeDelete);
-            }
-        }
-
-        function deleteLetter() {
-            const typedElement = document.getElementById('typedMessage');
-            
-            if (!isTyping && charIndex >= 0) {
-                displayedText = fullMessage.substring(0, charIndex);
-                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
-                charIndex--;
-                setTimeout(deleteLetter, deleteSpeed);
-            } 
-            else if (!isTyping && charIndex < 0) {
-                isTyping = true;
-                charIndex = 0;
-                setTimeout(typeLetter, 500);
-            }
-        }
-
-        setTimeout(typeLetter, 500);
-
-        // Time-based greeting
         const hour = new Date().getHours();
-        const greetingEl = document.getElementById('greetingMessage');
-        if (hour < 12) {
-            greetingEl.textContent = 'Good morning! Start your day strong ☀️';
-        } else if (hour < 17) {
-            greetingEl.textContent = 'Good afternoon! Keep up the momentum 📚';
-        } else {
-            greetingEl.textContent = 'Good evening! Great time to review 🌙';
-        }
+        const greeting = document.getElementById('greetingMessage');
+        if (hour < 12) greeting.textContent = 'Good morning! Start your day strong ☀️';
+        else if (hour < 17) greeting.textContent = 'Good afternoon! Keep going 📚';
+        else greeting.textContent = 'Good evening! Review what you learned 🌙';
 
-        // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
+
+        // ========== PWA INSTALL PROMPT ==========
+        let deferredPrompt;
+        const installBanner = document.createElement('div');
+        installBanner.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            z-index: 1000;
+            border: 1px solid #e2e8f0;
+        `;
+        installBanner.innerHTML = `
+            <div>
+                <strong>📱 Install App</strong><br>
+                <small>Get a faster experience</small>
+            </div>
+            <button id="installAppBtn" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">Install</button>
+        `;
+        document.body.appendChild(installBanner);
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'flex';
+        });
+
+        const installBtn = document.getElementById('installAppBtn');
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBanner.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                }
+            });
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker failed:', err));
+        }
     </script>
 </body>
 </html>
