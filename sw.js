@@ -1,15 +1,15 @@
 const CACHE_NAME = 'junior-scholar-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/dashboard.html',
-  '/courses.html',
-  '/practice.html',
-  '/live-class.html',
-  '/student-resources.html',
-  '/login.html',
-  '/register.html',
-  '/payment.html'
+  '/junior-scholar-portal/',
+  '/junior-scholar-portal/index.html',
+  '/junior-scholar-portal/dashboard.html',
+  '/junior-scholar-portal/courses.html',
+  '/junior-scholar-portal/practice.html',
+  '/junior-scholar-portal/live-class.html',
+  '/junior-scholar-portal/student-resources.html',
+  '/junior-scholar-portal/login.html',
+  '/junior-scholar-portal/register.html',
+  '/junior-scholar-portal/payment.html'
 ];
 
 self.addEventListener('install', event => {
