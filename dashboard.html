@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
     <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
@@ -24,102 +24,106 @@
             min-height: 100vh;
             color: #1e293b;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Main Layout */
         .app-container {
             display: flex;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
+        /* Sidebar */
         .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
             width: 280px;
             height: 100vh;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
             border-right: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            transition: transform 0.3s ease;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            overflow-x: hidden;
+            transform: translateX(-100%);
         }
 
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        /* Custom Scrollbar for Sidebar */
         .sidebar::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
-
         .sidebar::-webkit-scrollbar-track {
             background: #eef2f6;
-            border-radius: 10px;
         }
-
         .sidebar::-webkit-scrollbar-thumb {
             background: #667eea;
             border-radius: 10px;
         }
 
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
         .sidebar-header {
-            padding: 2rem 1.5rem;
+            padding: 1.5rem;
             border-bottom: 1px solid #eef2f6;
-        }
-
-        .school-badge {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #667eea;
-            text-transform: uppercase;
         }
 
         .portal-title {
             font-size: 1.2rem;
             font-weight: 800;
-            color: #1e293b;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .vacation-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
             margin-top: 0.5rem;
         }
 
         .nav-menu {
-            padding: 1rem 0;
+            padding: 0.5rem 0;
             flex: 1;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.85rem;
-            padding: 0.75rem 1.5rem;
-            margin: 0.3rem 1rem;
+            gap: 0.75rem;
+            padding: 0.7rem 1.2rem;
+            margin: 0.2rem 0.8rem;
             color: #4b5563;
             text-decoration: none;
             transition: all 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             border-radius: 0.75rem;
         }
 
-        .nav-item:hover {
+        .nav-item:hover, .nav-item.active {
             background: #eef2ff;
-            color: #667eea;
-            transform: translateX(5px);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
             color: #667eea;
         }
 
         .nav-icon {
-            font-size: 1.2rem;
-            width: 28px;
+            font-size: 1.1rem;
+            width: 24px;
         }
 
         .user-section {
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-top: 1px solid #eef2f6;
             background: white;
         }
@@ -131,26 +135,26 @@
         }
 
         .user-avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #667eea, #4f46e5);
-            border-radius: 1rem;
+            border-radius: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: white;
         }
 
         .user-name {
-            font-weight: 700;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.85rem;
             color: #1e293b;
         }
 
         .user-email {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #6b7280;
         }
 
@@ -158,46 +162,25 @@
             display: block;
             color: #ef4444;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin-top: 0.5rem;
             padding-top: 0.5rem;
             border-top: 1px solid #eef2f6;
         }
 
-        .main-content {
-            flex: 1;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 2rem;
-        }
-
-        .main-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .main-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-        }
-
-        .main-content::-webkit-scrollbar-thumb {
-            background: #ffffff;
-            border-radius: 10px;
-        }
-
-        .toggle-sidebar {
+        /* Sidebar Toggle Button */
+        .menu-toggle {
             position: fixed;
-            left: 20px;
-            top: 20px;
+            top: 12px;
+            left: 12px;
             background: white;
             border: none;
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 1.3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             z-index: 1001;
             display: flex;
             align-items: center;
@@ -205,55 +188,132 @@
             color: #667eea;
         }
 
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem;
+            padding-top: 65px;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #ffffff;
+            border-radius: 10px;
+        }
+
+        /* Welcome Card */
         .welcome-card {
             background: white;
             border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
             text-align: center;
         }
 
         .welcome-card h1 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #1e293b;
         }
 
+        .welcome-card p {
+            color: #6b7280;
+            font-size: 0.75rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .stat-card {
             background: white;
-            padding: 1rem;
-            border-radius: 1rem;
+            padding: 0.8rem;
+            border-radius: 0.75rem;
             text-align: center;
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #667eea;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: #6b7280;
         }
 
+        /* Speech Card with Typing Effect */
+        .speech-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .speech-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .typing-container {
+            min-height: 180px;
+        }
+
+        .typed-text {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #334155;
+            font-style: italic;
+        }
+
+        .typed-text::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #667eea;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .speech-author {
+            margin-top: 0.8rem;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            text-align: right;
+            border-top: 1px solid #eef2f6;
+            padding-top: 0.5rem;
+        }
+
+        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
         }
 
         .action-card {
             background: white;
-            padding: 1rem;
-            border-radius: 1rem;
+            padding: 0.8rem 0.3rem;
+            border-radius: 0.75rem;
             text-align: center;
             text-decoration: none;
             color: #1e293b;
@@ -263,59 +323,99 @@
         }
 
         .action-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             background: #eef2ff;
         }
 
         .action-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
         }
 
         .action-title {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 500;
         }
 
+        /* Credits */
         .credits {
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.7rem;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.6rem;
         }
 
-        @media (max-width: 768px) {
+        /* Install Button */
+        .install-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Secret Admin */
+        .secret-admin {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #eef2f6;
+            text-align: center;
+        }
+
+        .secret-admin-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 0.55rem;
+            cursor: pointer;
+        }
+
+        /* Overlay when sidebar open */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
             .sidebar {
-                position: fixed;
-                transform: translateX(-100%);
-                z-index: 1000;
-            }
-            .sidebar.visible {
                 transform: translateX(0);
+                position: relative;
+            }
+            .menu-toggle {
+                display: none;
             }
             .main-content {
-                margin-left: 0;
-                padding: 1rem;
+                padding-top: 1rem;
             }
-            .toggle-sidebar {
-                left: auto;
-                right: 20px;
+            .overlay {
+                display: none !important;
             }
-            .stats-grid, .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <button class="toggle-sidebar" id="toggleSidebarBtn">☰</button>
+        <div class="overlay" id="overlay"></div>
+        
+        <button class="menu-toggle" id="menuToggle">☰</button>
 
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="school-badge">PRESEC-LEGON</div>
                 <div class="portal-title">The Junior Scholar<br>Portal</div>
+                <div class="vacation-badge">📚 BECE PREP 2025</div>
             </div>
             <nav class="nav-menu">
                 <a href="dashboard.html" class="nav-item active">
@@ -349,13 +449,10 @@
                 </div>
                 <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
                 
-                <!-- Secret Admin Switch -->
-                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #eef2f6;">
-                    <button id="secretAdminBtn" style="background: none; border: none; color: #94a3b8; font-size: 0.6rem; cursor: pointer; width: 100%; text-align: center;">
-                        🔐 Admin
-                    </button>
+                <div class="secret-admin">
+                    <button id="secretAdminBtn" class="secret-admin-btn">🔐 Admin</button>
                     <div id="secretCodeInput" style="display: none; margin-top: 0.5rem;">
-                        <input type="password" id="adminCodeInput" placeholder="Enter secret code" style="width: 100%; padding: 0.3rem; border: 1px solid #e2e8f0; border-radius: 0.3rem; font-size: 0.7rem;">
+                        <input type="password" id="adminCodeInput" placeholder="Secret code" style="width: 100%; padding: 0.3rem; border: 1px solid #e2e8f0; border-radius: 0.3rem; font-size: 0.7rem;">
                         <button id="submitAdminCode" style="width: 100%; margin-top: 0.3rem; background: #667eea; color: white; border: none; padding: 0.3rem; border-radius: 0.3rem; font-size: 0.7rem;">Verify</button>
                     </div>
                 </div>
@@ -387,6 +484,15 @@
                 </div>
             </div>
 
+            <!-- Speech Card with Typing Effect -->
+            <div class="speech-card">
+                <div class="speech-title">🎓 A Message for BECE Candidates</div>
+                <div class="typing-container">
+                    <div id="typedMessage" class="typed-text"></div>
+                </div>
+                <div class="speech-author">— The Junior Scholar Portal Team</div>
+            </div>
+
             <div class="quick-actions">
                 <a href="practice.html" class="action-card">
                     <div class="action-icon">📝</div>
@@ -400,7 +506,7 @@
                     <div class="action-icon">🎥</div>
                     <div class="action-title">Live Classes</div>
                 </a>
-                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer;">
+                <button id="installAppButton" class="action-card install-btn">
                     <div class="action-icon">📲</div>
                     <div class="action-title">Install App</div>
                 </button>
@@ -414,16 +520,70 @@
     </div>
 
     <script>
-        // Sidebar toggle
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('mainContent');
-        const toggleBtn = document.getElementById('toggleSidebarBtn');
-        toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-            mainContent.classList.toggle('expanded');
-        });
+        // ========== TYPING EFFECT ==========
+        const fullMessage = `"Dear Junior Scholar, 🌟\n\nThe BECE is your first giant leap towards your dreams. Every question you answer, every lesson you learn brings you one step closer to success.\n\nYou are capable of more than you know. Stay focused, work hard, and trust the process.\n\nYour future self will thank you for the work you do today. 💪"`;
 
-        // Get current student
+        let charIndex = 0;
+        let isTyping = true;
+        let displayedText = "";
+        const typingSpeed = 35;
+        const pauseBeforeDelete = 5000;
+        const deleteSpeed = 20;
+
+        function typeLetter() {
+            const typedElement = document.getElementById('typedMessage');
+            
+            if (isTyping && charIndex <= fullMessage.length) {
+                displayedText = fullMessage.substring(0, charIndex);
+                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
+                charIndex++;
+                setTimeout(typeLetter, typingSpeed);
+            } 
+            else if (isTyping && charIndex > fullMessage.length) {
+                isTyping = false;
+                setTimeout(() => {
+                    deleteLetter();
+                }, pauseBeforeDelete);
+            }
+        }
+
+        function deleteLetter() {
+            const typedElement = document.getElementById('typedMessage');
+            
+            if (!isTyping && charIndex >= 0) {
+                displayedText = fullMessage.substring(0, charIndex);
+                typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
+                charIndex--;
+                setTimeout(deleteLetter, deleteSpeed);
+            } 
+            else if (!isTyping && charIndex < 0) {
+                isTyping = true;
+                charIndex = 0;
+                setTimeout(typeLetter, 500);
+            }
+        }
+
+        setTimeout(typeLetter, 500);
+
+        // ========== SIDEBAR TOGGLE ==========
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menuToggle');
+        const overlay = document.getElementById('overlay');
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('active');
+        }
+
+        menuToggle.addEventListener('click', openSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        // ========== GET STUDENT DATA ==========
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const students = JSON.parse(localStorage.getItem('students') || '[]');
         const studentData = currentStudent ? students.find(s => s.id === currentStudent.id) : null;
@@ -439,6 +599,7 @@
         const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
         document.getElementById('userAvatar').textContent = initials;
 
+        // ========== LOAD STATS ==========
         const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
         document.getElementById('questionsDone').textContent = practiceStats.total;
         document.getElementById('totalPoints').textContent = practiceStats.points || 0;
@@ -452,19 +613,21 @@
         assignments.forEach(a => { if (!submissions[a.id]) pending++; });
         document.getElementById('pendingAssignments').textContent = pending;
 
+        // ========== GREETING ==========
         const hour = new Date().getHours();
         const greeting = document.getElementById('greetingMessage');
         if (hour < 12) greeting.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greeting.textContent = 'Good afternoon! Keep going 📚';
         else greeting.textContent = 'Good evening! Review what you learned 🌙';
 
+        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
 
-        // Secret Admin Code
+        // ========== SECRET ADMIN CODE ==========
         const secretBtn = document.getElementById('secretAdminBtn');
         const secretInputDiv = document.getElementById('secretCodeInput');
         const adminCodeInput = document.getElementById('adminCodeInput');
@@ -490,32 +653,31 @@
             }
         });
 
-        // Install App Button
+        // ========== INSTALL APP BUTTON ==========
         const installBtn = document.getElementById('installAppButton');
-        if (installBtn) {
-            installBtn.addEventListener('click', function() {
-                alert('📱 How to install the app:\n\n1. Open this site in Chrome browser\n2. Tap the three dots (⋮) in the top right\n3. Select "Add to Home screen"\n4. Tap "Add"\n\nThe app icon will appear on your home screen!');
-            });
-        }
-
         let deferredPrompt;
+        
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            installBtn.onclick = async () => {
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
                     if (outcome === 'accepted') {
-                        alert('✅ App installed! Check your home screen.');
+                        console.log('App installed');
                     }
                     deferredPrompt = null;
                 } else {
-                    alert('📱 To install: Tap the share button → "Add to Home Screen"');
+                    alert('📱 To install the app:\n\n1. Open in Chrome browser\n2. Tap the three dots (⋮)\n3. Select "Add to Home screen"');
                 }
-            };
-        });
+            });
+        }
 
+        // Register Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
                 .then(() => console.log('Service Worker registered'))
