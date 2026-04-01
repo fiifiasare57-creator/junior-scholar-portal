@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Classes - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,7 +17,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             min-height: 100vh;
             color: #1e293b;
         }
@@ -29,16 +32,16 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         .logo {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1e293b, #10b981);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -59,7 +62,7 @@
         }
 
         .nav-links a:hover, .nav-links a.active {
-            color: #667eea;
+            color: #10b981;
         }
 
         /* Main Container */
@@ -69,24 +72,29 @@
             padding: 2rem;
         }
 
-        /* Header Section */
-        .header-section {
-            text-align: center;
+        /* Glass Header */
+        .glass-header {
+            background: rgba(16, 185, 129, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 2rem;
             margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.5);
         }
 
-        .header-section h1 {
+        .glass-header h1 {
             font-size: 2rem;
             font-weight: 800;
             color: white;
             margin-bottom: 0.5rem;
         }
 
-        .header-section p {
-            color: rgba(255, 255, 255, 0.8);
+        .glass-header p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Stats Cards - White Cards */
+        /* Stats Cards */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -95,43 +103,45 @@
         }
 
         .stat-card {
-            background: white;
+            background: rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
-            padding: 1.2rem;
+            padding: 1rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(16, 185, 129, 0.4);
             transition: all 0.3s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            background: rgba(16, 185, 129, 0.3);
         }
 
         .stat-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
         }
 
         .stat-label {
             font-size: 0.7rem;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         /* Live Now Section */
         .live-now-section {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
-            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.2));
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            animation: pulseBorder 2s infinite;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            animation: pulse-border 2s infinite;
         }
 
-        @keyframes pulseBorder {
-            0%, 100% { border-color: rgba(239, 68, 68, 0.3); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
-            50% { border-color: rgba(239, 68, 68, 0.8); box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
         }
 
         .live-header {
@@ -169,28 +179,32 @@
             margin-bottom: 2rem;
         }
 
-        /* White Cards with Purple Accents */
+        /* Glassmorphism Class Card */
         .class-card {
-            background: white;
+            background: rgba(16, 185, 129, 0.15);
+            backdrop-filter: blur(10px);
             border-radius: 1rem;
             overflow: hidden;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(16, 185, 129, 0.4);
         }
 
         .class-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
+            background: rgba(16, 185, 129, 0.25);
+            border-color: rgba(16, 185, 129, 0.8);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .class-header {
             padding: 1.2rem;
-            border-bottom: 1px solid #eef2f6;
+            background: rgba(16, 185, 129, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .class-subject {
             font-size: 0.7rem;
-            color: #667eea;
+            color: #6ee7b7;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -198,7 +212,7 @@
         .class-title {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #1e293b;
+            color: white;
             margin-top: 0.25rem;
         }
 
@@ -208,7 +222,7 @@
             gap: 0.5rem;
             margin-top: 0.5rem;
             font-size: 0.8rem;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .class-body {
@@ -216,7 +230,7 @@
         }
 
         .class-description {
-            color: #4a5568;
+            color: rgba(255, 255, 255, 0.95);
             font-size: 0.85rem;
             line-height: 1.5;
             margin-bottom: 1rem;
@@ -227,8 +241,8 @@
             justify-content: space-between;
             margin-bottom: 1rem;
             padding: 0.5rem 0;
-            border-top: 1px solid #eef2f6;
-            border-bottom: 1px solid #eef2f6;
+            border-top: 1px solid rgba(16, 185, 129, 0.3);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .class-date, .class-time {
@@ -236,16 +250,16 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .class-footer {
             padding: 1rem 1.2rem;
-            background: #f8fafc;
+            background: rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-badge {
@@ -256,28 +270,23 @@
         }
 
         .status-upcoming {
-            background: #eef2ff;
-            color: #667eea;
+            background: rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
         }
 
         .status-live {
-            background: #fee2e2;
-            color: #ef4444;
-            animation: pulseText 1.5s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            background: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            animation: pulse-text 2s infinite;
         }
 
         .status-ended {
-            background: #f1f5f9;
+            background: rgba(100, 116, 139, 0.3);
             color: #94a3b8;
         }
 
         .btn-join {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
             padding: 0.5rem 1.2rem;
@@ -292,21 +301,21 @@
 
         .btn-join:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.5);
         }
 
         .btn-join.disabled, .btn-join:disabled {
-            background: #cbd5e1;
+            background: rgba(100, 116, 139, 0.5);
             cursor: not-allowed;
-            transform: none;
         }
 
         .empty-state {
             text-align: center;
             padding: 3rem;
-            background: white;
-            border-radius: 1rem;
-            color: #6b7280;
+            background: rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            color: white;
         }
 
         .credits {
@@ -346,7 +355,7 @@
     </nav>
 
     <div class="container">
-        <div class="header-section">
+        <div class="glass-header">
             <h1>🎥 Live Classes</h1>
             <p>Join interactive sessions with your teachers via Google Meet</p>
         </div>
@@ -376,84 +385,171 @@
     </div>
 
     <script>
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX12Kbhb8L1R",
+            authDomain: "junior-scholar-portal.firebaseapp.com",
+            projectId: "junior-scholar-portal",
+            storageBucket: "junior-scholar-portal.firebasestorage.app",
+            messagingSenderId: "519496965849",
+            appId: "1:519496965849:web:86",
+            databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
-        let scheduledClasses = JSON.parse(localStorage.getItem('classSchedule') || '[]');
+        
+        // Load classes from Firebase
+        let scheduledClasses = [];
 
-        if (scheduledClasses.length === 0) {
-            const today = new Date();
-            const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
-            const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
-            scheduledClasses = [
-                { id: Date.now(), subject: "Mathematics", title: "Algebra Masterclass", description: "Learn about linear equations, quadratic equations, and algebraic expressions.", teacher: "Mr. Kofi Mensah", date: today.toISOString().split('T')[0], time: "16:00", duration: "1.5", meetLink: "https://meet.google.com/junior-math" },
-                { id: Date.now() + 1, subject: "English Language", title: "Essay Writing Techniques", description: "Master the art of essay writing. Learn structure, grammar, and expression.", teacher: "Ms. Adwoa Serwaa", date: tomorrow.toISOString().split('T')[0], time: "15:00", duration: "1.5", meetLink: "https://meet.google.com/junior-english" },
-                { id: Date.now() + 2, subject: "Integrated Science", title: "Photosynthesis", description: "Understand how plants make their food and the process of photosynthesis.", teacher: "Dr. Mensah", date: dayAfter.toISOString().split('T')[0], time: "14:00", duration: "1.5", meetLink: "https://meet.google.com/junior-science" }
-            ];
-            localStorage.setItem('classSchedule', JSON.stringify(scheduledClasses));
+        async function loadClasses() {
+            const snapshot = await database.ref('schedules').once('value');
+            const classes = [];
+            snapshot.forEach(child => {
+                classes.push({ id: child.key, ...child.val() });
+            });
+            return classes;
         }
 
+        // Get current date and time
         const now = new Date();
-        function getStatus(cls) {
-            const dt = new Date(`${cls.date}T${cls.time}`);
-            const end = new Date(dt.getTime() + (cls.duration * 60 * 60 * 1000));
-            if (dt <= now && end > now) return 'live';
-            if (dt > now) return 'upcoming';
-            return 'ended';
+
+        function getClassStatus(cls) {
+            const classDateTime = new Date(`${cls.date}T${cls.time}`);
+            const classEndTime = new Date(classDateTime.getTime() + (cls.duration * 60 * 60 * 1000));
+            
+            if (classDateTime <= now && classEndTime > now) return 'live';
+            else if (classDateTime > now) return 'upcoming';
+            else return 'ended';
         }
 
-        let live = [], upcoming = [], ended = [];
-        scheduledClasses.forEach(cls => {
-            const s = getStatus(cls);
-            if (s === 'live') live.push(cls);
-            else if (s === 'upcoming') upcoming.push(cls);
-            else ended.push(cls);
-        });
-        upcoming.sort((a,b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
+        async function renderAll() {
+            scheduledClasses = await loadClasses();
+            
+            let liveClasses = [];
+            let upcomingClasses = [];
+            let endedClasses = [];
 
-        document.getElementById('totalClasses').textContent = scheduledClasses.length;
-        document.getElementById('upcomingCount').textContent = upcoming.length;
-        document.getElementById('liveNowCount').textContent = live.length;
+            scheduledClasses.forEach(cls => {
+                const status = getClassStatus(cls);
+                if (status === 'live') liveClasses.push(cls);
+                else if (status === 'upcoming') upcomingClasses.push(cls);
+                else endedClasses.push(cls);
+            });
 
-        function renderLiveNow() {
-            const section = document.getElementById('liveNowSection');
-            if (live.length === 0) { section.style.display = 'none'; return; }
-            section.style.display = 'block';
-            section.innerHTML = live.map(cls => `
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-                    <div>
-                        <div class="live-header"><span class="pulse-dot"></span><span class="live-title">LIVE NOW</span></div>
-                        <h2 style="color:#1e293b; font-size:1.2rem;">${cls.subject}: ${cls.title}</h2>
-                        <div style="display:flex; gap:1rem; margin-top:0.5rem; color:#6b7280;"><span>👨‍🏫 ${cls.teacher}</span><span>⏰ ${cls.time}</span><span>⏱️ ${cls.duration}h</span></div>
+            upcomingClasses.sort((a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`));
+
+            // Update stats
+            document.getElementById('totalClasses').textContent = scheduledClasses.length;
+            document.getElementById('upcomingCount').textContent = upcomingClasses.length;
+            document.getElementById('liveNowCount').textContent = liveClasses.length;
+
+            // Render Live Now Section
+            const liveSection = document.getElementById('liveNowSection');
+            if (liveClasses.length === 0) {
+                liveSection.style.display = 'none';
+            } else {
+                liveSection.style.display = 'block';
+                liveSection.innerHTML = liveClasses.map(cls => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <div class="live-header">
+                                <span class="pulse-dot"></span>
+                                <span class="live-title">LIVE NOW</span>
+                            </div>
+                            <h2 style="color: white; font-size: 1.2rem;">${cls.subject}: ${cls.title}</h2>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; color: rgba(255,255,255,0.9); font-size: 0.8rem; margin-top: 0.3rem;">
+                                <span>👨‍🏫 ${cls.teacher}</span>
+                                <span>⏰ Started at ${cls.time}</span>
+                                <span>⏱️ ${cls.duration} hours</span>
+                            </div>
+                        </div>
+                        <a href="${cls.meetLink}" class="btn-join" target="_blank" onclick="trackJoin('${cls.subject}')">🎥 Join Now →</a>
                     </div>
-                    <a href="${cls.meetLink}" class="btn-join" target="_blank">🎥 Join Now →</a>
-                </div>
-            `).join('');
-        }
+                `).join('');
+            }
 
-        function renderClasses() {
+            // Render all classes
             const container = document.getElementById('classesContainer');
-            const all = [...live, ...upcoming, ...ended];
-            if (all.length === 0) { container.innerHTML = '<div class="empty-state">📅 No classes scheduled.</div>'; return; }
-            container.innerHTML = all.map(cls => {
-                const s = getStatus(cls);
-                const text = s === 'live' ? '🔴 LIVE NOW' : s === 'upcoming' ? '📅 Upcoming' : '✅ Ended';
-                const statusClass = s === 'live' ? 'status-live' : s === 'upcoming' ? 'status-upcoming' : 'status-ended';
-                const date = new Date(cls.date).toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+            const allClasses = [...liveClasses, ...upcomingClasses, ...endedClasses];
+            
+            if (allClasses.length === 0) {
+                container.innerHTML = '<div class="empty-state">📅 No classes scheduled yet. Check back later!</div>';
+                return;
+            }
+            
+            container.innerHTML = allClasses.map(cls => {
+                const status = getClassStatus(cls);
+                const statusText = status === 'live' ? '🔴 LIVE NOW' : status === 'upcoming' ? '📅 Upcoming' : '✅ Ended';
+                const statusClass = status === 'live' ? 'status-live' : status === 'upcoming' ? 'status-upcoming' : 'status-ended';
+                const canJoinClass = status === 'live';
+                
+                const classDate = new Date(cls.date);
+                const formattedDate = classDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
                 return `
                     <div class="class-card">
-                        <div class="class-header"><div class="class-subject">${cls.subject}</div><div class="class-title">${cls.title}</div><div class="class-teacher">👨‍🏫 ${cls.teacher}</div></div>
-                        <div class="class-body"><div class="class-description">${cls.description.substring(0,120)}...</div>
-                        <div class="class-datetime"><div class="class-date">📅 ${date}</div><div class="class-time">⏰ ${cls.time}</div></div></div>
-                        <div class="class-footer"><span class="status-badge ${statusClass}">${text}</span>
-                        ${s === 'live' ? `<a href="${cls.meetLink}" class="btn-join" target="_blank">Join →</a>` : `<button class="btn-join disabled" disabled>${s === 'upcoming' ? 'Coming Soon' : 'Ended'}</button>`}
+                        <div class="class-header">
+                            <div class="class-subject">${cls.subject}</div>
+                            <div class="class-title">${cls.title}</div>
+                            <div class="class-teacher">
+                                <span>👨‍🏫</span>
+                                <span>${cls.teacher}</span>
+                            </div>
+                        </div>
+                        <div class="class-body">
+                            <div class="class-description">${cls.description.substring(0, 120)}${cls.description.length > 120 ? '...' : ''}</div>
+                            <div class="class-datetime">
+                                <div class="class-date">
+                                    <span>📅</span>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <div class="class-time">
+                                    <span>⏰</span>
+                                    <span>${cls.time}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="class-footer">
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                            ${canJoinClass ? 
+                                `<a href="${cls.meetLink}" class="btn-join" target="_blank" onclick="trackJoin('${cls.subject}')">Join Session →</a>` :
+                                `<button class="btn-join disabled" disabled>${status === 'upcoming' ? 'Coming Soon' : 'Session Ended'}</button>`
+                            }
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        setInterval(() => location.reload(), 60000);
-        renderLiveNow();
-        renderClasses();
+        function trackJoin(subject) {
+            // Track that student joined the class
+            let joinedClasses = JSON.parse(localStorage.getItem('joinedClasses') || '[]');
+            joinedClasses.push({
+                subject: subject,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('joinedClasses', JSON.stringify(joinedClasses));
+            
+            // Add points for attending (if student logged in)
+            const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+            if (currentStudent && currentStudent.id) {
+                database.ref(`students/${currentStudent.id}/practiceStats/points`).transaction(points => (points || 0) + 15);
+            }
+            
+            alert(`🔴 Joining ${subject} class!\n\n+15 points for attendance!`);
+        }
+
+        // Auto-refresh every minute
+        setInterval(() => {
+            renderAll();
+        }, 60000);
+
+        renderAll();
     </script>
 </body>
 </html>
