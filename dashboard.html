@@ -266,14 +266,15 @@
         }
 
         .typing-container {
-            min-height: 180px;
+            min-height: 280px;
         }
 
         .typed-text {
             font-size: 0.8rem;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #334155;
             font-style: italic;
+            white-space: pre-wrap;
         }
 
         .typed-text::after {
@@ -393,6 +394,9 @@
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+            .typing-container {
+                min-height: 220px;
+            }
         }
     </style>
 </head>
@@ -473,7 +477,7 @@
             </div>
 
             <div class="speech-card">
-                <div class="speech-title">🎓 A Message for BECE Candidates</div>
+                <div class="speech-title">🎓 A Message for You</div>
                 <div class="typing-container">
                     <div id="typedMessage" class="typed-text"></div>
                 </div>
@@ -507,7 +511,7 @@
     </div>
 
     <script>
-        // Firebase Config
+        // ========== FIREBASE CONFIGURATION ==========
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -521,14 +525,31 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Typing Effect
-        const fullMessage = `"Dear Junior Scholar, 🌟\n\nThe BECE is your first giant leap towards your dreams. Every question you answer, every lesson you learn brings you one step closer to success.\n\nYou are capable of more than you know. Stay focused, work hard, and trust the process.\n\nYour future self will thank you for the work you do today. 💪"`;
+        // ========== TYPING EFFECT - NEW INSPIRATIONAL MESSAGE ==========
+        const fullMessage = `"To My Dear Junior Scholar, 🌟
+
+The BECE is calling your name. And you? You are ready.
+
+I know the days feel long, the questions feel hard, and sometimes you wonder if you're making progress. But look at how far you've come. Every practice question you answered, every lesson you completed, every time you showed up—those are victories. They matter.
+
+You are not just preparing for an exam. You are building something bigger: confidence, discipline, and a future you can be proud of.
+
+So when you sit for that exam, remember:
+👉 You've done the work.
+👉 You've put in the time.
+👉 You belong in that hall.
+
+Breathe. Believe. And give it your best.
+
+Because your best is more than enough. Always.
+
+Go make yourself proud, Scholar. 💪🎓✨"`;
 
         let charIndex = 0;
         let isTyping = true;
         let displayedText = "";
-        const typingSpeed = 35;
-        const pauseBeforeDelete = 5000;
+        const typingSpeed = 30;
+        const pauseBeforeDelete = 8000;
         const deleteSpeed = 20;
 
         function typeLetter() {
@@ -559,7 +580,7 @@
         }
         setTimeout(typeLetter, 500);
 
-        // Sidebar Toggle
+        // ========== SIDEBAR TOGGLE ==========
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menuToggle');
         const overlay = document.getElementById('overlay');
@@ -575,7 +596,7 @@
         menuToggle.addEventListener('click', openSidebar);
         overlay.addEventListener('click', closeSidebar);
 
-        // Student Data
+        // ========== STUDENT DATA ==========
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const studentId = currentStudent ? currentStudent.id : null;
         if (!studentId) window.location.href = 'login.html';
@@ -608,19 +629,21 @@
         }
         loadStudentData();
 
+        // ========== GREETING ==========
         const hour = new Date().getHours();
         const greeting = document.getElementById('greetingMessage');
         if (hour < 12) greeting.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greeting.textContent = 'Good afternoon! Keep going 📚';
         else greeting.textContent = 'Good evening! Review what you learned 🌙';
 
+        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
 
-        // Secret Admin
+        // ========== SECRET ADMIN ==========
         const secretBtn = document.getElementById('secretAdminBtn');
         const secretInputDiv = document.getElementById('secretCodeInput');
         const adminCodeInput = document.getElementById('adminCodeInput');
@@ -636,7 +659,7 @@
             } else alert('❌ Invalid secret code!');
         });
 
-        // Install App
+        // ========== INSTALL APP ==========
         const installBtn = document.getElementById('installAppButton');
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
