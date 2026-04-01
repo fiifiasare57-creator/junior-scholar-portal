@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register & Pay - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -164,6 +167,17 @@
             display: none;
         }
 
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+
         .payment-details {
             background: #f8fafc;
             border-radius: 0.75rem;
@@ -222,6 +236,7 @@
         </div>
 
         <div id="successMsg" class="success-message"></div>
+        <div id="errorMsg" class="error-message"></div>
 
         <form id="registerForm">
             <div class="form-row">
@@ -308,7 +323,21 @@
     </div>
 
     <script>
-        // Payment number
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX12Kbhb8L1R",
+            authDomain: "junior-scholar-portal.firebaseapp.com",
+            projectId: "junior-scholar-portal",
+            storageBucket: "junior-scholar-portal.firebasestorage.app",
+            messagingSenderId: "519496965849",
+            appId: "1:519496965849:web:86",
+            databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         const PAYMENT_NUMBER = '0559674720';
 
         function copyNumber() {
@@ -316,7 +345,11 @@
             alert('✅ Mobile Money number copied: 055 967 4720');
         }
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        // Generate reference on page load
+        const reference = `JSP${Date.now()}`;
+        document.getElementById('paymentRef').textContent = reference;
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Get all values
@@ -347,23 +380,23 @@
                 return;
             }
             
-            // Check if email already exists
-            let students = JSON.parse(localStorage.getItem('students') || '[]');
-            if (students.some(s => s.email === email)) {
+            // Check if email already exists in Firebase
+            const existingSnapshot = await database.ref('students').orderByChild('email').equalTo(email).once('value');
+            if (existingSnapshot.exists()) {
                 alert('❌ This email is already registered. Please login instead.');
                 return;
             }
             
-            // Generate unique reference
-            const reference = `JSP${Date.now()}`;
+            // Generate unique ID
+            const studentId = Date.now();
             
             // Calculate expiry date (1 year from now)
             let expiryDate = new Date();
             expiryDate.setFullYear(expiryDate.getFullYear() + 1);
             
-            // Create student object with payment status
+            // Create student object
             const studentData = {
-                id: Date.now(),
+                id: studentId,
                 fullName: fullName,
                 dateOfBirth: dob,
                 school: school,
@@ -392,67 +425,59 @@
                 courseProgress: {}
             };
             
-            // Add to students list
-            students.push(studentData);
-            localStorage.setItem('students', JSON.stringify(students));
-            
-            // Initialize empty data for this student
-            localStorage.setItem('studentAttendance_' + studentData.id, JSON.stringify([]));
-            localStorage.setItem('submissions_' + studentData.id, JSON.stringify({}));
-            
-            // Save payment record
-            let payments = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
-            payments.push({
-                studentId: studentData.id,
-                studentName: fullName,
-                studentEmail: email,
-                amount: 100,
-                transactionId: transactionId,
-                reference: reference,
-                paymentDate: new Date().toISOString(),
-                expiryDate: expiryDate.toISOString()
-            });
-            localStorage.setItem('paymentHistory', JSON.stringify(payments));
-            
-            // Save access status
-            const accessData = {
-                active: true,
-                startDate: new Date().toISOString(),
-                expiryDate: expiryDate.toISOString(),
-                transactionId: transactionId,
-                verified: true
-            };
-            localStorage.setItem('accessStatus', JSON.stringify(accessData));
-            
-            // Save current session
-            localStorage.setItem('currentStudent', JSON.stringify({
-                id: studentData.id,
-                name: studentData.fullName,
-                email: studentData.email
-            }));
-            
-            // Save scholar name for dashboard
-            localStorage.setItem('scholarName', studentData.fullName);
-            localStorage.setItem('scholarEmail', studentData.email);
-            
-            // Initialize practice stats
-            localStorage.setItem('practiceStats', JSON.stringify(studentData.practiceStats));
-            localStorage.setItem('courseProgress', JSON.stringify(studentData.courseProgress));
-            
-            // Show success message
-            const successMsg = document.getElementById('successMsg');
-            successMsg.innerHTML = `✅ Payment Verified! Welcome ${fullName}! Your access is active until ${expiryDate.toLocaleDateString()}. Redirecting to dashboard...`;
-            successMsg.style.display = 'block';
-            
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 3000);
+            try {
+                // Save to Firebase
+                await database.ref(`students/${studentId}`).set(studentData);
+                
+                // Save payment record
+                await database.ref('payments').push().set({
+                    studentId: studentId,
+                    studentName: fullName,
+                    studentEmail: email,
+                    amount: 100,
+                    transactionId: transactionId,
+                    reference: reference,
+                    paymentDate: new Date().toISOString(),
+                    expiryDate: expiryDate.toISOString()
+                });
+                
+                // Save access status
+                const accessData = {
+                    active: true,
+                    startDate: new Date().toISOString(),
+                    expiryDate: expiryDate.toISOString(),
+                    transactionId: transactionId,
+                    verified: true
+                };
+                await database.ref(`access/${studentId}`).set(accessData);
+                
+                // Save to localStorage for session
+                localStorage.setItem('currentStudent', JSON.stringify({
+                    id: studentId,
+                    name: studentData.fullName,
+                    email: studentData.email
+                }));
+                localStorage.setItem('scholarName', studentData.fullName);
+                localStorage.setItem('scholarEmail', studentData.email);
+                localStorage.setItem('practiceStats', JSON.stringify(studentData.practiceStats));
+                
+                // Show success message
+                const successMsg = document.getElementById('successMsg');
+                successMsg.innerHTML = `✅ Payment Verified! Welcome ${fullName}! Your access is active until ${expiryDate.toLocaleDateString()}. Redirecting to dashboard...`;
+                successMsg.style.display = 'block';
+                
+                // Redirect after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.innerHTML = '❌ Registration failed. Please try again.';
+                errorMsg.style.display = 'block';
+            }
         });
-
-        // Generate reference on page load
-        const reference = `JSP${Date.now()}`;
-        document.getElementById('paymentRef').textContent = reference;
     </script>
 </body>
 </html>
