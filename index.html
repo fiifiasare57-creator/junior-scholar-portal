@@ -329,33 +329,6 @@
             cursor: pointer;
         }
 
-        /* Install App Banner */
-        .install-banner {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            z-index: 1000;
-            border: 1px solid #e2e8f0;
-        }
-
-        .install-banner button {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -505,15 +478,6 @@
         </div>
     </footer>
 
-    <!-- Install App Banner -->
-    <div id="installBanner" class="install-banner">
-        <div>
-            <strong>📱 Install App</strong><br>
-            <small>Get a faster experience</small>
-        </div>
-        <button id="installApp">Install</button>
-    </div>
-
     <script>
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -525,10 +489,33 @@
             });
         }
 
-        // PWA Install Prompt
+        // ========== PWA INSTALL PROMPT ==========
         let deferredPrompt;
-        const installBanner = document.getElementById('installBanner');
-        const installBtn = document.getElementById('installApp');
+        const installBanner = document.createElement('div');
+        installBanner.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            z-index: 1000;
+            border: 1px solid #e2e8f0;
+        `;
+        installBanner.innerHTML = `
+            <div>
+                <strong>📱 Install App</strong><br>
+                <small>Get a faster experience</small>
+            </div>
+            <button id="installAppBtn" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">Install</button>
+        `;
+        document.body.appendChild(installBanner);
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -536,16 +523,19 @@
             installBanner.style.display = 'flex';
         });
 
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBanner.style.display = 'none';
+        const installBtn = document.getElementById('installAppBtn');
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBanner.style.display = 'none';
+                    }
+                    deferredPrompt = null;
                 }
-                deferredPrompt = null;
-            }
-        });
+            });
+        }
 
         // Register Service Worker
         if ('serviceWorker' in navigator) {
