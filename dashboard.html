@@ -256,8 +256,9 @@
         /* Quick Actions */
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .action-card {
@@ -268,6 +269,9 @@
             text-decoration: none;
             color: #1e293b;
             transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: block;
         }
 
         .action-card:hover {
@@ -281,7 +285,7 @@
         }
 
         .action-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
         }
 
@@ -402,6 +406,10 @@
                 <div class="action-icon">💰</div>
                 <div class="action-title">Pay Fees</div>
             </a>
+            <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; display: none;">
+                <div class="action-icon">📲</div>
+                <div class="action-title">Install App</div>
+            </button>
         </div>
 
         <div class="credits">
@@ -461,50 +469,30 @@
             window.location.href = 'login.html';
         });
 
-        // ========== PWA INSTALL PROMPT ==========
-        let deferredPrompt;
-        const installBanner = document.createElement('div');
-        installBanner.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            z-index: 1000;
-            border: 1px solid #e2e8f0;
-        `;
-        installBanner.innerHTML = `
-            <div>
-                <strong>📱 Install App</strong><br>
-                <small>Get a faster experience</small>
-            </div>
-            <button id="installAppBtn" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">Install</button>
-        `;
-        document.body.appendChild(installBanner);
+        // ========== INSTALL APP BUTTON ==========
+        let installPromptEvent = null;
+        const installBtn = document.getElementById('installAppButton');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
-            deferredPrompt = e;
-            installBanner.style.display = 'flex';
+            installPromptEvent = e;
+            if (installBtn) {
+                installBtn.style.display = 'flex';
+            }
         });
 
-        const installBtn = document.getElementById('installAppBtn');
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
+                if (installPromptEvent) {
+                    installPromptEvent.prompt();
+                    const { outcome } = await installPromptEvent.userChoice;
                     if (outcome === 'accepted') {
-                        installBanner.style.display = 'none';
+                        console.log('App installed');
+                        installBtn.style.display = 'none';
                     }
-                    deferredPrompt = null;
+                    installPromptEvent = null;
+                } else {
+                    alert('📱 To install the app:\n\n1. Open in Chrome browser\n2. Tap the three dots (⋮)\n3. Select "Add to Home screen"');
                 }
             });
         }
