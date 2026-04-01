@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,16 +18,15 @@
             box-sizing: border-box;
         }
 
-       body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #1e293b;
-    overflow: hidden;
-    position: relative;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            overflow: hidden;
+            position: relative;
+        }
 
-        /* Main Layout */
         .app-container {
             display: flex;
             height: 100vh;
@@ -38,16 +34,14 @@
             position: relative;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             width: 280px;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(0,0,0,0.05);
+            background: white;
+            border-right: 1px solid rgba(102, 126, 234, 0.2);
             transition: transform 0.3s ease;
             z-index: 1000;
             display: flex;
@@ -73,7 +67,7 @@
 
         .sidebar-header {
             padding: 1.5rem;
-            border-bottom: 1px solid #eef2f6;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
         }
 
         .portal-title {
@@ -126,7 +120,7 @@
 
         .user-section {
             padding: 1rem;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
             background: white;
         }
 
@@ -167,7 +161,7 @@
             font-size: 0.75rem;
             margin-top: 0.5rem;
             padding-top: 0.5rem;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
         }
 
         .menu-toggle {
@@ -215,6 +209,7 @@
             padding: 1.2rem;
             margin-bottom: 1rem;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .welcome-card h1 {
@@ -240,6 +235,7 @@
             padding: 0.8rem;
             border-radius: 0.75rem;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .stat-value {
@@ -259,6 +255,7 @@
             padding: 1.2rem;
             margin-bottom: 1rem;
             border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .speech-title {
@@ -316,6 +313,7 @@
             transition: all 0.3s;
             cursor: pointer;
             display: block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .action-card:hover {
@@ -337,7 +335,7 @@
             text-align: center;
             padding: 1rem;
             margin-top: 0.5rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.6rem;
         }
 
@@ -351,7 +349,7 @@
         .secret-admin {
             margin-top: 0.5rem;
             padding-top: 0.5rem;
-            border-top: 1px solid #eef2f6;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
             text-align: center;
         }
 
@@ -401,7 +399,6 @@
 <body>
     <div class="app-container">
         <div class="overlay" id="overlay"></div>
-        
         <button class="menu-toggle" id="menuToggle">☰</button>
 
         <aside class="sidebar" id="sidebar">
@@ -440,7 +437,6 @@
                     </div>
                 </div>
                 <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
-                
                 <div class="secret-admin">
                     <button id="secretAdminBtn" class="secret-admin-btn">🔐 Admin</button>
                     <div id="secretCodeInput" style="display: none; margin-top: 0.5rem;">
@@ -511,7 +507,7 @@
     </div>
 
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -522,11 +518,10 @@
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ========== TYPING EFFECT ==========
+        // Typing Effect
         const fullMessage = `"Dear Junior Scholar, 🌟\n\nThe BECE is your first giant leap towards your dreams. Every question you answer, every lesson you learn brings you one step closer to success.\n\nYou are capable of more than you know. Stay focused, work hard, and trust the process.\n\nYour future self will thank you for the work you do today. 💪"`;
 
         let charIndex = 0;
@@ -538,40 +533,33 @@
 
         function typeLetter() {
             const typedElement = document.getElementById('typedMessage');
-            
             if (isTyping && charIndex <= fullMessage.length) {
                 displayedText = fullMessage.substring(0, charIndex);
                 typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
                 charIndex++;
                 setTimeout(typeLetter, typingSpeed);
-            } 
-            else if (isTyping && charIndex > fullMessage.length) {
+            } else if (isTyping && charIndex > fullMessage.length) {
                 isTyping = false;
-                setTimeout(() => {
-                    deleteLetter();
-                }, pauseBeforeDelete);
+                setTimeout(() => deleteLetter(), pauseBeforeDelete);
             }
         }
 
         function deleteLetter() {
             const typedElement = document.getElementById('typedMessage');
-            
             if (!isTyping && charIndex >= 0) {
                 displayedText = fullMessage.substring(0, charIndex);
                 typedElement.innerHTML = displayedText.replace(/\n/g, '<br>');
                 charIndex--;
                 setTimeout(deleteLetter, deleteSpeed);
-            } 
-            else if (!isTyping && charIndex < 0) {
+            } else if (!isTyping && charIndex < 0) {
                 isTyping = true;
                 charIndex = 0;
                 setTimeout(typeLetter, 500);
             }
         }
-
         setTimeout(typeLetter, 500);
 
-        // ========== SIDEBAR TOGGLE ==========
+        // Sidebar Toggle
         const sidebar = document.getElementById('sidebar');
         const menuToggle = document.getElementById('menuToggle');
         const overlay = document.getElementById('overlay');
@@ -580,28 +568,21 @@
             sidebar.classList.remove('open');
             overlay.classList.remove('active');
         }
-
         function openSidebar() {
             sidebar.classList.add('open');
             overlay.classList.add('active');
         }
-
         menuToggle.addEventListener('click', openSidebar);
         overlay.addEventListener('click', closeSidebar);
 
-        // ========== GET STUDENT DATA ==========
+        // Student Data
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const studentId = currentStudent ? currentStudent.id : null;
+        if (!studentId) window.location.href = 'login.html';
 
-        if (!studentId) {
-            window.location.href = 'login.html';
-        }
-
-        // Load student data from Firebase
         async function loadStudentData() {
             const snapshot = await database.ref(`students/${studentId}`).once('value');
             const studentData = snapshot.val();
-            
             if (studentData) {
                 const firstName = studentData.fullName.split(' ')[0];
                 document.getElementById('welcomeName').textContent = firstName;
@@ -610,100 +591,70 @@
                 const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
                 document.getElementById('userAvatar').textContent = initials;
                 
-                // Load stats
                 const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
                 document.getElementById('questionsDone').textContent = practiceStats.total;
                 document.getElementById('totalPoints').textContent = practiceStats.points || 0;
                 
-                // Load attendance count
                 const attSnapshot = await database.ref(`attendance/${studentId}`).once('value');
-                const attCount = attSnapshot.numChildren();
-                document.getElementById('attendanceCount').textContent = attCount;
+                document.getElementById('attendanceCount').textContent = attSnapshot.numChildren();
                 
-                // Load assignments and count pending
                 const assignmentsSnapshot = await database.ref('assignments').once('value');
                 const submissionsSnapshot = await database.ref(`submissions/${studentId}`).once('value');
                 const submissions = submissionsSnapshot.val() || {};
-                
                 let pending = 0;
-                assignmentsSnapshot.forEach(child => {
-                    if (!submissions[child.key]) pending++;
-                });
+                assignmentsSnapshot.forEach(child => { if (!submissions[child.key]) pending++; });
                 document.getElementById('pendingAssignments').textContent = pending;
             }
         }
-
         loadStudentData();
 
-        // ========== GREETING ==========
         const hour = new Date().getHours();
         const greeting = document.getElementById('greetingMessage');
         if (hour < 12) greeting.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greeting.textContent = 'Good afternoon! Keep going 📚';
         else greeting.textContent = 'Good evening! Review what you learned 🌙';
 
-        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
         });
 
-        // ========== SECRET ADMIN CODE ==========
+        // Secret Admin
         const secretBtn = document.getElementById('secretAdminBtn');
         const secretInputDiv = document.getElementById('secretCodeInput');
         const adminCodeInput = document.getElementById('adminCodeInput');
         const submitAdminCode = document.getElementById('submitAdminCode');
-
         secretBtn.addEventListener('click', () => {
-            if (secretInputDiv.style.display === 'none' || secretInputDiv.style.display === '') {
-                secretInputDiv.style.display = 'block';
-            } else {
-                secretInputDiv.style.display = 'none';
-            }
+            secretInputDiv.style.display = secretInputDiv.style.display === 'none' ? 'block' : 'none';
         });
-
         submitAdminCode.addEventListener('click', () => {
-            const code = adminCodeInput.value;
-            if (code === 'nkb gf') {
+            if (adminCodeInput.value === 'nkb gf') {
                 localStorage.setItem('isAdmin', 'true');
-                localStorage.setItem('adminLoggedIn', 'true');
-                alert('✅ Admin access granted! Redirecting to Teacher Portal...');
+                alert('✅ Admin access granted!');
                 window.location.href = 'teacher-portal.html';
-            } else {
-                alert('❌ Invalid secret code!');
-            }
+            } else alert('❌ Invalid secret code!');
         });
 
-        // ========== INSTALL APP BUTTON ==========
+        // Install App
         const installBtn = document.getElementById('installAppButton');
         let deferredPrompt;
-        
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
         });
-
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        console.log('App installed');
-                    }
+                    await deferredPrompt.userChoice;
                     deferredPrompt = null;
-                } else {
-                    alert('📱 To install the app:\n\n1. Open in Chrome browser\n2. Tap the three dots (⋮)\n3. Select "Add to Home screen"');
-                }
+                } else alert('📱 To install: Tap three dots → Add to Home screen');
             });
         }
 
-        // Register Service Worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(() => console.log('Service Worker registered'))
-                .catch(err => console.log('Service Worker failed:', err));
+            navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW failed:', err));
         }
     </script>
 </body>
