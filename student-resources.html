@@ -5,301 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Resources - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
         }
-
-     body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-        /* Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
         .logo {
             font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #1e293b, #ef4444);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-decoration: none;
         }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
         .nav-links a {
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
             transition: color 0.3s;
         }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #ef4444;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Glass Header */
+        .nav-links a:hover, .nav-links a.active { color: #667eea; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
         .glass-header {
-            background: rgba(239, 68, 68, 0.25);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.9);
             border-radius: 2rem;
             padding: 2rem;
             margin-bottom: 2rem;
             text-align: center;
-            border: 1px solid rgba(239, 68, 68, 0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-
         .glass-header h1 {
             font-size: 2rem;
             font-weight: 800;
-            color: white;
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-
-        .glass-header p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Stats Cards */
+        .glass-header p { color: #6b7280; }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
         .stat-card {
-            background: rgba(239, 68, 68, 0.2);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1rem;
             padding: 1rem;
             text-align: center;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            background: rgba(239, 68, 68, 0.3);
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid rgba(239, 68, 68, 0.4);
-            padding-bottom: 0.5rem;
-        }
-
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #667eea; }
+        .stat-label { font-size: 0.7rem; color: #6b7280; }
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eef2f6; padding-bottom: 0.5rem; }
         .tab-btn {
             padding: 0.6rem 1.5rem;
             background: none;
             border: none;
             cursor: pointer;
             font-weight: 500;
-            color: white;
+            color: #4a5568;
             border-radius: 2rem;
             transition: all 0.3s;
         }
-
-        .tab-btn.active {
-            background: rgba(239, 68, 68, 0.4);
-        }
-
-        .tab-btn:hover:not(.active) {
-            background: rgba(239, 68, 68, 0.2);
-        }
-
-        /* Assignment Cards */
+        .tab-btn.active { background: #667eea; color: white; }
         .assignment-card, .note-card {
-            background: rgba(239, 68, 68, 0.15);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 1rem;
             margin-bottom: 1.5rem;
             overflow: hidden;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-
-        .assignment-card:hover, .note-card:hover {
-            transform: translateY(-5px);
-            background: rgba(239, 68, 68, 0.25);
-            border-color: rgba(239, 68, 68, 0.7);
-        }
-
+        .assignment-card:hover, .note-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(102,126,234,0.15); }
         .assignment-header, .note-header {
             padding: 1rem 1.5rem;
-            background: rgba(239, 68, 68, 0.2);
-            border-left: 4px solid #fecaca;
-            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            border-bottom: 1px solid #eef2f6;
         }
-
-        .assignment-subject, .note-subject {
-            font-size: 0.7rem;
-            color: #fecaca;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .assignment-title, .note-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            margin-top: 0.25rem;
-        }
-
-        .assignment-due {
-            font-size: 0.7rem;
-            color: #fcd34d;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .assignment-body, .note-body {
-            padding: 1.5rem;
-        }
-
-        .assignment-description, .note-content {
-            color: rgba(255, 255, 255, 0.95);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-
-        .submission-area {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-top: 1rem;
-        }
-
-        .submission-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #fecaca;
-            margin-bottom: 0.5rem;
-        }
-
-        .submission-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 0.5rem;
-            background: rgba(255, 255, 255, 0.95);
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .submission-input:focus {
-            outline: none;
-            border-color: white;
-        }
-
-        .btn-submit {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            width: 100%;
-            transition: all 0.3s;
-        }
-
-        .btn-submit:hover {
-            background: white;
-            color: #ef4444;
-        }
-
-        .submitted-badge {
-            background: rgba(16, 185, 129, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(239, 68, 68, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            color: white;
-        }
-
-        .credits {
-            text-align: center;
-            padding: 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-        }
-
+        .assignment-subject, .note-subject { font-size: 0.7rem; color: #667eea; text-transform: uppercase; letter-spacing: 1px; }
+        .assignment-title, .note-title { font-size: 1rem; font-weight: 700; color: #1e293b; margin-top: 0.25rem; }
+        .assignment-due { font-size: 0.7rem; color: #f59e0b; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .assignment-body, .note-body { padding: 1.5rem; }
+        .assignment-description, .note-content { color: #4a5568; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; }
+        .submission-area { background: #f8fafc; border-radius: 0.75rem; padding: 1rem; margin-top: 1rem; }
+        .submission-label { font-size: 0.75rem; font-weight: 600; color: #667eea; margin-bottom: 0.5rem; }
+        .submission-input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit; resize: vertical; }
+        .submission-input:focus { outline: none; border-color: #667eea; }
+        .btn-submit { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; font-weight: 600; margin-top: 0.5rem; width: 100%; transition: all 0.3s; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .submitted-badge { background: #d1fae5; color: #065f46; padding: 0.5rem; border-radius: 0.5rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .empty-state { text-align: center; padding: 3rem; background: white; border-radius: 1rem; color: #6b7280; }
+        .credits { text-align: center; padding: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; }
         @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-            .container {
-                padding: 1rem;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .tabs {
-                justify-content: center;
-            }
+            .navbar { flex-direction: column; text-align: center; }
+            .container { padding: 1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .tabs { justify-content: center; }
         }
     </style>
 </head>
@@ -322,18 +145,9 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="pendingCount">0</div>
-                <div class="stat-label">Pending Assignments</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="submittedCount">0</div>
-                <div class="stat-label">Submitted</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="notesCount">0</div>
-                <div class="stat-label">Notes Available</div>
-            </div>
+            <div class="stat-card"><div class="stat-value" id="pendingCount">0</div><div class="stat-label">Pending Assignments</div></div>
+            <div class="stat-card"><div class="stat-value" id="submittedCount">0</div><div class="stat-label">Submitted</div></div>
+            <div class="stat-card"><div class="stat-value" id="notesCount">0</div><div class="stat-label">Notes Available</div></div>
         </div>
 
         <div class="tabs">
@@ -351,7 +165,6 @@
     </div>
 
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -361,52 +174,36 @@
             appId: "1:519496965849:web:86",
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
-
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Get current student
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
         const studentId = currentStudent ? currentStudent.id : null;
-
-        if (!studentId) {
-            window.location.href = 'login.html';
-        }
+        if (!studentId) window.location.href = 'login.html';
 
         let submissions = {};
-
         async function loadSubmissions() {
             const snapshot = await database.ref(`submissions/${studentId}`).once('value');
             submissions = snapshot.val() || {};
-            return submissions;
         }
-
         async function loadAssignments() {
             const snapshot = await database.ref('assignments').orderByChild('createdAt').once('value');
             const assignments = [];
-            snapshot.forEach(child => {
-                assignments.push({ id: child.key, ...child.val() });
-            });
+            snapshot.forEach(child => assignments.push({ id: child.key, ...child.val() }));
             assignments.reverse();
             return assignments;
         }
-
         async function loadNotes() {
             const snapshot = await database.ref('notes').orderByChild('createdAt').once('value');
             const notes = [];
-            snapshot.forEach(child => {
-                notes.push({ id: child.key, ...child.val() });
-            });
+            snapshot.forEach(child => notes.push({ id: child.key, ...child.val() }));
             notes.reverse();
             return notes;
         }
-
         async function updateStats() {
             const assignments = await loadAssignments();
             const notes = await loadNotes();
             await loadSubmissions();
-            
             let pending = 0;
             assignments.forEach(a => { if (!submissions[a.id]) pending++; });
             document.getElementById('pendingCount').textContent = pending;
@@ -417,12 +214,7 @@
         async function renderAssignments() {
             const assignments = await loadAssignments();
             const container = document.getElementById('assignmentsContainer');
-            
-            if (assignments.length === 0) {
-                container.innerHTML = '<div class="empty-state">📭 No assignments yet. Check back later!</div>';
-                return;
-            }
-            
+            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments yet.</div>'; return; }
             container.innerHTML = assignments.map(a => {
                 const submitted = submissions[a.id];
                 return `
@@ -430,29 +222,18 @@
                         <div class="assignment-header">
                             <div class="assignment-subject">${a.subject}</div>
                             <div class="assignment-title">${a.title}</div>
-                            <div class="assignment-due">
-                                <span>📅</span>
-                                <span>Due: ${a.dueDate}</span>
-                            </div>
+                            <div class="assignment-due">📅 Due: ${a.dueDate}</div>
                         </div>
                         <div class="assignment-body">
-                            <div class="assignment-description">${a.description.replace(/\n/g, '<br>')}</div>
+                            <div class="assignment-description">${a.description.replace(/\n/g,'<br>')}</div>
                             <div class="submission-area">
                                 <div class="submission-label">${submitted ? '✅ Your Submission' : '📝 Submit Your Answer'}</div>
                                 ${submitted ? `
-                                    <div class="submitted-badge">
-                                        <span>✅</span>
-                                        <span>Submitted on ${submitted.date}</span>
-                                    </div>
-                                    <div style="margin-top: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; color: white;">
-                                        <strong>Your answer:</strong><br>
-                                        "${submitted.answer}"
-                                    </div>
+                                    <div class="submitted-badge">✅ Submitted on ${submitted.date}</div>
+                                    <div style="margin-top:0.5rem; padding:0.75rem; background:#f1f5f9; border-radius:0.5rem;">Your answer: "${submitted.answer}"</div>
                                 ` : `
                                     <textarea id="answer_${a.id}" class="submission-input" rows="4" placeholder="Write your answer here..."></textarea>
-                                    <button class="btn-submit" onclick="submitAssignment('${a.id}', '${a.title.replace(/'/g, "\\'")}')">
-                                        📤 Submit Assignment
-                                    </button>
+                                    <button class="btn-submit" onclick="submitAssignment('${a.id}', '${a.title.replace(/'/g, "\\'")}')">📤 Submit Assignment</button>
                                 `}
                             </div>
                         </div>
@@ -464,12 +245,7 @@
         async function renderNotes() {
             const notes = await loadNotes();
             const container = document.getElementById('notesContainer');
-            
-            if (notes.length === 0) {
-                container.innerHTML = '<div class="empty-state">📚 No notes shared yet. Check back later!</div>';
-                return;
-            }
-            
+            if (notes.length === 0) { container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>'; return; }
             container.innerHTML = notes.map(n => `
                 <div class="note-card">
                     <div class="note-header">
@@ -477,61 +253,31 @@
                         <div class="note-title">${n.title}</div>
                     </div>
                     <div class="note-body">
-                        <div class="note-content">${n.content.replace(/\n/g, '<br>')}</div>
-                        ${n.link ? `<a href="${n.link}" target="_blank" style="color: #fecaca; text-decoration: underline; display: inline-block; margin-top: 0.5rem;">🔗 Open Resource →</a>` : ''}
-                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(239,68,68,0.3);">
-                            📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}
-                        </div>
+                        <div class="note-content">${n.content.replace(/\n/g,'<br>')}</div>
+                        ${n.link ? `<a href="${n.link}" target="_blank" style="color:#667eea;">🔗 Open Resource →</a>` : ''}
+                        <div style="font-size:0.7rem; color:#94a3b8; margin-top:0.75rem;">📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        async function submitAssignment(assignmentId, title) {
-            const answer = document.getElementById(`answer_${assignmentId}`).value;
-            if (!answer.trim()) {
-                alert('Please write your answer before submitting.');
-                return;
-            }
-            if (answer.length < 10) {
-                alert('Please provide a more detailed answer (at least 10 characters).');
-                return;
-            }
-            
-            // Save submission to Firebase
-            const submissionData = {
-                assignmentId: assignmentId,
-                title: title,
-                answer: answer,
-                date: new Date().toLocaleString(),
-                studentId: studentId,
-                studentName: currentStudent.name
-            };
-            
-            await database.ref(`submissions/${studentId}/${assignmentId}`).set(submissionData);
-            
-            // Also save to all submissions for teacher
-            await database.ref(`allSubmissions`).push().set({
-                ...submissionData,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-            
-            // Add points to student
-            await database.ref(`students/${studentId}/practiceStats/points`).transaction(points => (points || 0) + 20);
-            
-            alert(`✅ Assignment "${title}" submitted successfully! +20 points earned!`);
-            
-            // Reload data
+        async function submitAssignment(id, title) {
+            const answer = document.getElementById(`answer_${id}`).value;
+            if (!answer.trim()) { alert('Please write your answer.'); return; }
+            if (answer.length < 10) { alert('Please provide a detailed answer (at least 10 characters).'); return; }
+            const submissionData = { assignmentId: id, title, answer, date: new Date().toLocaleString(), studentId, studentName: currentStudent.name };
+            await database.ref(`submissions/${studentId}/${id}`).set(submissionData);
+            await database.ref('allSubmissions').push().set(submissionData);
+            await database.ref(`students/${studentId}/practiceStats/points`).transaction(p => (p || 0) + 20);
+            alert(`✅ Assignment submitted! +20 points!`);
             await loadSubmissions();
             await renderAssignments();
             await updateStats();
         }
 
         function showTab(tab) {
-            const btns = document.querySelectorAll('.tab-btn');
-            btns.forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
             if (tab === 'assignments') {
                 document.getElementById('assignmentsContainer').style.display = 'block';
                 document.getElementById('notesContainer').style.display = 'none';
@@ -543,13 +289,11 @@
             }
         }
 
-        // Initial load
         async function init() {
             await loadSubmissions();
             await renderAssignments();
             await updateStats();
         }
-        
         init();
     </script>
 </body>
