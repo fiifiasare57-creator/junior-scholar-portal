@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
@@ -23,75 +23,61 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
-            overflow: hidden;
-            position: relative;
         }
 
-        .app-container {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+        /* MENU BUTTON */
+        .menu-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+            color: #667eea;
         }
 
-        /* ========== SIDEBAR ========== */
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
-            left: 0;
             top: 0;
+            left: -280px;
             width: 280px;
-            height: 100vh;
+            height: 100%;
             background: white;
-            border-right: 1px solid rgba(102, 126, 234, 0.2);
-            transition: transform 0.3s ease;
-            z-index: 1000;
+            transition: left 0.3s ease;
+            z-index: 200;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-            transform: translateX(-100%);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
 
         .sidebar.open {
-            transform: translateX(0);
+            left: 0;
         }
 
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-track {
-            background: #eef2f6;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
-        }
-
-        .sidebar-close {
+        .close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 20px;
             cursor: pointer;
             color: #94a3b8;
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .sidebar-close:hover {
-            background: #fee2e2;
-            color: #ef4444;
         }
 
         .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            padding: 60px 20px 20px 20px;
+            border-bottom: 1px solid #eef2f6;
         }
 
         .portal-title {
@@ -113,52 +99,41 @@
             margin-top: 0.5rem;
         }
 
-        .nav-menu {
-            padding: 0.5rem 0;
-            flex: 1;
-        }
-
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.7rem 1.2rem;
-            margin: 0.2rem 0.8rem;
+            gap: 12px;
+            padding: 12px 20px;
             color: #4b5563;
             text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            border-radius: 0.75rem;
+            margin: 5px 10px;
+            border-radius: 10px;
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item.active {
             background: #eef2ff;
             color: #667eea;
         }
 
-        .nav-icon {
-            font-size: 1.1rem;
-            width: 24px;
-        }
-
         .user-section {
-            padding: 1rem;
-            border-top: 1px solid rgba(102, 126, 234, 0.2);
-            background: white;
+            padding: 15px;
+            border-top: 1px solid #eef2f6;
+            margin-top: auto;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 10px;
         }
 
         .user-avatar {
             width: 40px;
             height: 40px;
             background: linear-gradient(135deg, #667eea, #4f46e5);
-            border-radius: 0.75rem;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -167,95 +142,63 @@
             color: white;
         }
 
-        .user-name {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #1e293b;
-        }
-
-        .user-email {
-            font-size: 0.65rem;
-            color: #6b7280;
-        }
-
         .logout-btn {
             display: block;
             color: #ef4444;
             text-decoration: none;
             font-size: 0.75rem;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(102, 126, 234, 0.2);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eef2f6;
         }
 
-        .menu-toggle {
+        /* OVERLAY */
+        .overlay {
             position: fixed;
-            top: 12px;
-            left: 12px;
-            background: white;
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.3rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            z-index: 1001;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 150;
+            display: none;
         }
 
+        .overlay.show {
+            display: block;
+        }
+
+        /* MAIN CONTENT */
         .main-content {
-            flex: 1;
-            height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 1rem;
-            padding-top: 65px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .main-content::-webkit-scrollbar {
-            width: 3px;
-        }
-        .main-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .main-content::-webkit-scrollbar-thumb {
-            background: #ffffff;
-            border-radius: 10px;
+            padding: 80px 15px 20px 15px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .welcome-card {
             background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .welcome-card h1 {
-            font-size: 1rem;
-            color: #1e293b;
+            font-size: 1.1rem;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.8rem;
-            margin-bottom: 1rem;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .stat-card {
             background: white;
-            padding: 0.7rem;
-            border-radius: 0.75rem;
+            padding: 12px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .stat-value {
@@ -265,84 +208,58 @@
         }
 
         .stat-label {
-            font-size: 0.55rem;
+            font-size: 0.6rem;
             color: #6b7280;
         }
 
         .speech-card {
             background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
             border-left: 4px solid #667eea;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .speech-title {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #667eea;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
         }
 
-        .typed-text {
-            font-size: 0.7rem;
+        .message-text {
+            font-size: 0.75rem;
             line-height: 1.6;
             color: #334155;
-            font-style: italic;
-            min-height: 180px;
             white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .typed-text::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: #667eea;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
         }
 
         .speech-author {
-            margin-top: 0.5rem;
-            font-size: 0.55rem;
+            margin-top: 10px;
+            font-size: 0.6rem;
             color: #94a3b8;
             text-align: right;
-            border-top: 1px solid #eef2f6;
-            padding-top: 0.5rem;
         }
 
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.6rem;
-            margin-bottom: 1rem;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
         .action-card {
             background: white;
-            padding: 0.7rem 0.3rem;
-            border-radius: 0.75rem;
+            padding: 10px;
+            border-radius: 12px;
             text-align: center;
             text-decoration: none;
             color: #1e293b;
-            transition: all 0.3s;
-            cursor: pointer;
             display: block;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .action-card:hover {
-            transform: translateY(-2px);
-            background: #eef2ff;
         }
 
         .action-icon {
-            font-size: 1.1rem;
-            margin-bottom: 0.2rem;
+            font-size: 1.2rem;
         }
 
         .action-title {
@@ -352,9 +269,8 @@
 
         .credits {
             text-align: center;
-            padding: 0.8rem;
-            margin-top: 0.5rem;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            color: rgba(255,255,255,0.7);
             font-size: 0.55rem;
         }
 
@@ -362,176 +278,103 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            cursor: pointer;
-        }
-
-        .secret-admin {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(102, 126, 234, 0.2);
-            text-align: center;
-        }
-
-        .secret-admin-btn {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 0.55rem;
-            cursor: pointer;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-
-        .overlay.active {
-            display: block;
         }
 
         @media (min-width: 768px) {
+            .menu-btn {
+                display: none;
+            }
+            .close-btn {
+                display: none;
+            }
             .sidebar {
-                transform: translateX(0);
+                left: 0;
                 position: relative;
             }
-            .menu-toggle {
-                display: none;
-            }
-            .sidebar-close {
-                display: none;
-            }
             .main-content {
-                padding-top: 1rem;
-            }
-            .overlay {
-                display: none !important;
+                padding-top: 20px;
             }
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
-            }
-            .welcome-card h1 {
-                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="overlay" id="overlay"></div>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+    <!-- Menu Button -->
+    <button class="menu-btn" id="menuBtn">☰</button>
 
-        <aside class="sidebar" id="sidebar">
-            <button class="sidebar-close" id="sidebarClose">✕</button>
-            <div class="sidebar-header">
-                <div class="portal-title">The Junior Scholar<br>Portal</div>
-                <div class="vacation-badge">📚 BECE PREP 2025</div>
-            </div>
-            <nav class="nav-menu">
-                <a href="dashboard.html" class="nav-item active">
-                    <span class="nav-icon">📊</span>
-                    <span>Dashboard</span>
-                </a>
-                <a href="courses.html" class="nav-item">
-                    <span class="nav-icon">📚</span>
-                    <span>My Courses</span>
-                </a>
-                <a href="practice.html" class="nav-item">
-                    <span class="nav-icon">📝</span>
-                    <span>Practice</span>
-                </a>
-                <a href="live-class.html" class="nav-item">
-                    <span class="nav-icon">🎥</span>
-                    <span>Live Classes</span>
-                </a>
-                <a href="student-resources.html" class="nav-item">
-                    <span class="nav-icon">📋</span>
-                    <span>Resources</span>
-                </a>
-            </nav>
-            <div class="user-section">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">JS</div>
-                    <div>
-                        <div class="user-name" id="userName">Scholar</div>
-                        <div class="user-email" id="userEmail">student@example.com</div>
-                    </div>
-                </div>
-                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
-                <div class="secret-admin">
-                    <button id="secretAdminBtn" class="secret-admin-btn">🔐 Admin</button>
-                    <div id="secretCodeInput" style="display: none; margin-top: 0.5rem;">
-                        <input type="password" id="adminCodeInput" placeholder="Secret code" style="width: 100%; padding: 0.3rem; border: 1px solid #e2e8f0; border-radius: 0.3rem; font-size: 0.7rem;">
-                        <button id="submitAdminCode" style="width: 100%; margin-top: 0.3rem; background: #667eea; color: white; border: none; padding: 0.3rem; border-radius: 0.3rem; font-size: 0.7rem;">Verify</button>
-                    </div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeBtn">✕</button>
+        <div class="sidebar-header">
+            <div class="portal-title">The Junior Scholar<br>Portal</div>
+            <div class="vacation-badge">📚 BECE PREP 2025</div>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
+            <a href="courses.html" class="nav-item">📚 My Courses</a>
+            <a href="practice.html" class="nav-item">📝 Practice</a>
+            <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
+            <a href="student-resources.html" class="nav-item">📋 Resources</a>
+        </nav>
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div>
+                    <div class="user-name" id="userName">Scholar</div>
+                    <div class="user-email" id="userEmail">student@example.com</div>
                 </div>
             </div>
-        </aside>
-
-        <main class="main-content" id="mainContent">
-            <div class="welcome-card">
-                <h1>Welcome back, <span id="welcomeName">Scholar</span>! 🎉</h1>
-                <p id="greetingMessage">Your BECE journey continues</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="questionsDone">0</div>
-                    <div class="stat-label">Questions</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="attendanceCount">0</div>
-                    <div class="stat-label">Attendance</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="pendingAssignments">0</div>
-                    <div class="stat-label">Assignments</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalPoints">0</div>
-                    <div class="stat-label">Points</div>
+            <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+            <div style="margin-top: 10px; text-align: center;">
+                <button id="secretAdminBtn" style="background:none; border:none; color:#94a3b8; font-size:0.6rem; cursor:pointer;">🔐 Admin</button>
+                <div id="secretCodeInput" style="display:none; margin-top:5px;">
+                    <input type="password" id="adminCodeInput" placeholder="Secret code" style="width:100%; padding:5px; border:1px solid #e2e8f0; border-radius:5px; font-size:0.7rem;">
+                    <button id="submitAdminCode" style="margin-top:5px; width:100%; background:#667eea; color:white; border:none; padding:5px; border-radius:5px;">Verify</button>
                 </div>
             </div>
-
-            <div class="speech-card">
-                <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
-                <div id="typedMessage" class="typed-text"></div>
-                <div class="speech-author">— SKILABS_ACADEMY Team</div>
-            </div>
-
-            <div class="quick-actions">
-                <a href="practice.html" class="action-card">
-                    <div class="action-icon">📝</div>
-                    <div class="action-title">Practice</div>
-                </a>
-                <a href="courses.html" class="action-card">
-                    <div class="action-icon">📚</div>
-                    <div class="action-title">Courses</div>
-                </a>
-                <a href="live-class.html" class="action-card">
-                    <div class="action-icon">🎥</div>
-                    <div class="action-title">Live Classes</div>
-                </a>
-                <button id="installAppButton" class="action-card install-btn">
-                    <div class="action-icon">📲</div>
-                    <div class="action-title">Install App</div>
-                </button>
-            </div>
-
-            <div class="credits">
-                ✨ Made with Excellence by SKILABS ✨<br>
-                Caleb Fiifi Asare & Arnold Kadi
-            </div>
-        </main>
+        </div>
     </div>
 
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="welcome-card">
+            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 🎉</h1>
+            <p id="greetingMessage">Your BECE journey continues</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="questionsDone">0</div><div class="stat-label">Questions</div></div>
+            <div class="stat-card"><div class="stat-value" id="attendanceCount">0</div><div class="stat-label">Attendance</div></div>
+            <div class="stat-card"><div class="stat-value" id="pendingAssignments">0</div><div class="stat-label">Assignments</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">Points</div></div>
+        </div>
+
+        <div class="speech-card">
+            <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
+            <div id="messageDisplay" class="message-text"></div>
+            <div class="speech-author">— SKILABS_ACADEMY Team</div>
+        </div>
+
+        <div class="quick-actions">
+            <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
+            <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
+            <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
+            <button id="installAppButton" class="action-card install-btn"><div class="action-icon">📲</div><div class="action-title">Install App</div></button>
+        </div>
+
+        <div class="credits">
+            ✨ Made with Excellence by SKILABS ✨<br>
+            Caleb Fiifi Asare & Arnold Kadi
+        </div>
+    </main>
+
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
+        // ========== FIREBASE ==========
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -541,12 +384,32 @@
             appId: "1:519496965849:web:86",
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
-
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ========== TYPING EFFECT MESSAGE ==========
-        const fullMessage = `Hi! 👋
+        // ========== SIDEBAR - CORRECTED (classList, NOT classtlist) ==========
+        const sidebar = document.getElementById('sidebar');
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const overlay = document.getElementById('overlay');
+        
+        menuBtn.onclick = function() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        };
+        
+        closeBtn.onclick = function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        };
+        
+        overlay.onclick = function() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        };
+
+        // ========== DISPLAY MESSAGE ==========
+        const message = `Hi! 👋
 
 This is SKILABS_ACADEMY.
 
@@ -560,42 +423,10 @@ Breathe. Believe. Give it your best.
 
 Go make yourself proud! 💪🎓
 
+With love,
 SKILABS_ACADEMY 💜`;
 
-        let i = 0;
-        const speed = 40;
-        const messageElement = document.getElementById('typedMessage');
-
-        function typeWriter() {
-            if (i < fullMessage.length) {
-                let text = fullMessage.substring(0, i + 1);
-                messageElement.innerHTML = text.replace(/\n/g, '<br>');
-                i++;
-                setTimeout(typeWriter, speed);
-            }
-        }
-
-        setTimeout(typeWriter, 500);
-
-        // ========== SIDEBAR TOGGLE & CLOSE ==========
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebarClose = document.getElementById('sidebarClose');
-        const overlay = document.getElementById('overlay');
-
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-        }
-
-        function openSidebar() {
-            sidebar.classList.add('open');
-            overlay.classList.add('active');
-        }
-
-        menuToggle.addEventListener('click', openSidebar);
-        sidebarClose.addEventListener('click', closeSidebar);
-        overlay.addEventListener('click', closeSidebar);
+        document.getElementById('messageDisplay').innerHTML = message.replace(/\n/g, '<br>');
 
         // ========== STUDENT DATA ==========
         const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
@@ -603,82 +434,102 @@ SKILABS_ACADEMY 💜`;
         if (!studentId) window.location.href = 'login.html';
 
         async function loadStudentData() {
-            const snapshot = await database.ref(`students/${studentId}`).once('value');
-            const studentData = snapshot.val();
-            if (studentData) {
-                const firstName = studentData.fullName.split(' ')[0];
-                document.getElementById('welcomeName').textContent = firstName;
-                document.getElementById('userName').textContent = studentData.fullName;
-                document.getElementById('userEmail').textContent = studentData.email;
-                const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
-                document.getElementById('userAvatar').textContent = initials;
-                
-                const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
-                document.getElementById('questionsDone').textContent = practiceStats.total;
-                document.getElementById('totalPoints').textContent = practiceStats.points || 0;
-                
-                const attSnapshot = await database.ref(`attendance/${studentId}`).once('value');
-                document.getElementById('attendanceCount').textContent = attSnapshot.numChildren();
-                
-                const assignmentsSnapshot = await database.ref('assignments').once('value');
-                const submissionsSnapshot = await database.ref(`submissions/${studentId}`).once('value');
-                const submissions = submissionsSnapshot.val() || {};
-                let pending = 0;
-                assignmentsSnapshot.forEach(child => { if (!submissions[child.key]) pending++; });
-                document.getElementById('pendingAssignments').textContent = pending;
+            try {
+                const snapshot = await database.ref(`students/${studentId}`).once('value');
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('welcomeName').textContent = data.fullName.split(' ')[0];
+                    document.getElementById('userName').textContent = data.fullName;
+                    document.getElementById('userEmail').textContent = data.email;
+                    const initials = data.fullName.split(' ').map(n=>n[0]).join('').slice(0,2);
+                    document.getElementById('userAvatar').textContent = initials;
+                    
+                    const stats = data.practiceStats || { total: 0, correct: 0, points: 0 };
+                    document.getElementById('questionsDone').textContent = stats.total;
+                    document.getElementById('totalPoints').textContent = stats.points || 0;
+                    
+                    const att = await database.ref(`attendance/${studentId}`).once('value');
+                    document.getElementById('attendanceCount').textContent = att.numChildren();
+                    
+                    const assign = await database.ref('assignments').once('value');
+                    const subs = await database.ref(`submissions/${studentId}`).once('value');
+                    const submissions = subs.val() || {};
+                    let pending = 0;
+                    assign.forEach(child => { if (!submissions[child.key]) pending++; });
+                    document.getElementById('pendingAssignments').textContent = pending;
+                }
+            } catch (error) {
+                console.log("Firebase error:", error);
+                // Use demo data if Firebase fails
+                document.getElementById('questionsDone').textContent = "0";
+                document.getElementById('totalPoints').textContent = "0";
+                document.getElementById('attendanceCount').textContent = "0";
+                document.getElementById('pendingAssignments').textContent = "0";
             }
         }
         loadStudentData();
 
         // ========== GREETING ==========
         const hour = new Date().getHours();
-        const greeting = document.getElementById('greetingMessage');
-        if (hour < 12) greeting.textContent = 'Good morning! Start your day strong ☀️';
-        else if (hour < 17) greeting.textContent = 'Good afternoon! Keep going 📚';
-        else greeting.textContent = 'Good evening! Review what you learned 🌙';
+        const greet = document.getElementById('greetingMessage');
+        if (hour < 12) greet.textContent = 'Good morning! Start your day strong ☀️';
+        else if (hour < 17) greet.textContent = 'Good afternoon! Keep going 📚';
+        else greet.textContent = 'Good evening! Review what you learned 🌙';
 
         // ========== LOGOUT ==========
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        document.getElementById('logoutBtn').onclick = function(e) {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
             window.location.href = 'login.html';
-        });
+        };
 
         // ========== SECRET ADMIN ==========
         const secretBtn = document.getElementById('secretAdminBtn');
-        const secretInputDiv = document.getElementById('secretCodeInput');
-        const adminCodeInput = document.getElementById('adminCodeInput');
-        const submitAdminCode = document.getElementById('submitAdminCode');
-        secretBtn.addEventListener('click', () => {
-            secretInputDiv.style.display = secretInputDiv.style.display === 'none' ? 'block' : 'none';
-        });
-        submitAdminCode.addEventListener('click', () => {
-            if (adminCodeInput.value === 'nkb gf') {
+        const secretDiv = document.getElementById('secretCodeInput');
+        const adminInput = document.getElementById('adminCodeInput');
+        const submitAdmin = document.getElementById('submitAdminCode');
+        
+        secretBtn.onclick = function() {
+            if (secretDiv.style.display === 'none' || secretDiv.style.display === '') {
+                secretDiv.style.display = 'block';
+            } else {
+                secretDiv.style.display = 'none';
+            }
+        };
+        
+        submitAdmin.onclick = function() {
+            if (adminInput.value === 'nkb gf') {
                 localStorage.setItem('isAdmin', 'true');
                 alert('✅ Admin access granted!');
                 window.location.href = 'teacher-portal.html';
-            } else alert('❌ Invalid secret code!');
-        });
+            } else {
+                alert('❌ Invalid secret code!');
+            }
+        };
 
         // ========== INSTALL APP ==========
         const installBtn = document.getElementById('installAppButton');
         let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
+        window.addEventListener('beforeinstallprompt', function(e) {
             e.preventDefault();
             deferredPrompt = e;
         });
         if (installBtn) {
-            installBtn.addEventListener('click', async () => {
+            installBtn.onclick = async function() {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
                     await deferredPrompt.userChoice;
                     deferredPrompt = null;
-                } else alert('📱 To install: Tap Share → Add to Home Screen');
-            });
+                } else {
+                    alert('📱 To install: Tap Share → Add to Home Screen');
+                }
+            };
         }
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW failed:', err));
+            navigator.serviceWorker.register('/sw.js').catch(function(err) {
+                console.log('SW failed:', err);
+            });
         }
     </script>
 </body>
