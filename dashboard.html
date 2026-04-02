@@ -15,93 +15,88 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
-            overflow-x: hidden;
         }
 
-        /* Menu Button */
-        .menu-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background: white;
-            border: none;
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            font-size: 26px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-            color: #667eea;
-            cursor: pointer;
+        /* ========== LAYOUT ========== */
+        .app-wrapper {
+            display: flex;
+            min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* ========== SIDEBAR ========== */
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: -300px;
             width: 280px;
-            height: 100vh;
             background: white;
-            transition: left 0.4s ease;
-            z-index: 1200;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+            height: 100vh;
+            position: sticky;
+            top: 0;
             display: flex;
             flex-direction: column;
+            border-right: 1px solid rgba(102, 126, 234, 0.15);
+            transition: transform 0.3s ease;
+            z-index: 1000;
         }
 
-        .sidebar.open {
-            left: 0;
+        /* Mobile sidebar (hidden by default) */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                transform: translateX(-100%);
+                z-index: 1200;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
         }
 
-        .close-btn {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            background: none;
-            border: none;
-            font-size: 32px;
-            color: #94a3b8;
-            cursor: pointer;
-            z-index: 1300;
-            padding: 5px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
         }
 
-        .sidebar-header { padding: 80px 20px 30px; text-align: center; border-bottom: 1px solid #f1f5f9; }
         .portal-title {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+
         .vacation-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             padding: 5px 14px;
             border-radius: 30px;
             margin-top: 10px;
             display: inline-block;
         }
+
         .nav-item {
-            padding: 15px 22px;
+            padding: 14px 22px;
             color: #475569;
             text-decoration: none;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 4px 10px;
+            margin: 4px 12px;
             border-radius: 12px;
+            transition: all 0.3s;
         }
-        .nav-item.active { background: #eef2ff; color: #667eea; }
+
+        .nav-item:hover {
+            background: #eef2ff;
+        }
+
+        .nav-item.active {
+            background: #eef2ff;
+            color: #667eea;
+        }
 
         .user-section {
             margin-top: auto;
@@ -109,10 +104,15 @@
             border-top: 1px solid #f1f5f9;
         }
 
-        .user-info { display: flex; align-items: center; gap: 12px; }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
         .user-avatar {
-            width: 50px; height: 50px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, #667eea, #4f46e5);
             border-radius: 12px;
             display: flex;
@@ -120,7 +120,7 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .logout-btn {
@@ -128,240 +128,267 @@
             text-decoration: none;
             margin-top: 15px;
             display: block;
+            font-size: 0.85rem;
         }
 
-        /* Overlay */
-        .overlay {
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            color: #667eea;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1100;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
         }
 
-        /* Main Content */
+        .mobile-overlay.show {
+            display: block;
+        }
+
+        /* ========== MAIN CONTENT ========== */
         .main-content {
-            padding: 85px 15px 40px;
-            max-width: 620px;
-            margin: 0 auto;
+            flex: 1;
+            padding: 30px;
+            max-width: calc(100% - 280px);
         }
 
+        @media (max-width: 768px) {
+            .main-content {
+                max-width: 100%;
+                padding: 75px 15px 30px;
+            }
+        }
+
+        /* Cards */
         .welcome-card {
             background: white;
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             text-align: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .welcome-card h1 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .stat-card {
             background: white;
-            padding: 15px;
+            padding: 18px;
             border-radius: 16px;
             text-align: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: #667eea;
         }
 
         .stat-label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: #6b7280;
+            margin-top: 5px;
         }
 
         .speech-card {
             background: white;
-            border-radius: 18px;
-            padding: 22px;
-            border-left: 6px solid #667eea;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         .speech-title {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #667eea;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .message-text {
-            font-size: 0.82rem;
-            line-height: 1.75;
+            font-size: 0.85rem;
+            line-height: 1.7;
             color: #334155;
-            min-height: 170px;
+            white-space: pre-wrap;
         }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: #667eea;
-            animation: blink 0.8s infinite;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
 
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .action-card {
             background: white;
-            padding: 12px;
+            padding: 15px;
             border-radius: 16px;
             text-align: center;
             text-decoration: none;
             color: #1e293b;
-            display: block;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .action-card:hover {
             transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .action-icon {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 5px;
         }
 
         .action-title {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             font-weight: 500;
         }
 
         .credits {
             text-align: center;
-            margin-top: 30px;
-            color: rgba(255,255,255,0.85);
-            font-size: 0.65rem;
-        }
-
-        @media (min-width: 768px) {
-            .menu-btn { display: none; }
-            .sidebar { left: 0 !important; position: fixed; }
-            .main-content { padding-left: 300px; padding-top: 30px; }
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.7rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
 
-    <button class="menu-btn" id="menuBtn">☰</button>
-
-    <div class="sidebar" id="sidebar">
-        <button class="close-btn" id="closeBtn">✕</button>
-        
-        <div class="sidebar-header">
-            <div class="portal-title">Junior Scholar<br>Portal</div>
-            <div class="vacation-badge">📚 BECE PREP 2025</div>
-        </div>
-
-        <nav>
-            <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
-            <a href="courses.html" class="nav-item">📚 My Courses</a>
-            <a href="practice.html" class="nav-item">📝 Practice</a>
-            <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
-            <a href="student-resources.html" class="nav-item">📋 Resources</a>
-        </nav>
-
-        <div class="user-section">
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">JS</div>
-                <div>
-                    <div id="userName">Scholar</div>
-                    <div id="userEmail" style="font-size:0.82rem;color:#64748b;">student@example.com</div>
-                </div>
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="portal-title">Junior Scholar<br>Portal</div>
+                <div class="vacation-badge">📚 BECE PREP 2025</div>
             </div>
-            <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
-        </div>
+            <nav>
+                <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
+                <a href="courses.html" class="nav-item">📚 My Courses</a>
+                <a href="practice.html" class="nav-item">📝 Practice</a>
+                <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
+                <a href="student-resources.html" class="nav-item">📋 Resources</a>
+            </nav>
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">DS</div>
+                    <div>
+                        <div id="userName">Demo Student</div>
+                        <div id="userEmail" style="font-size:0.75rem; color:#64748b;">demo@student.com</div>
+                    </div>
+                </div>
+                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="welcome-card">
+                <h1>Welcome back, <span id="welcomeName">Demo</span>! 🎉</h1>
+                <p id="greetingMessage">Your BECE journey continues</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="questionsDone">24</div><div class="stat-label">Questions</div></div>
+                <div class="stat-card"><div class="stat-value" id="attendanceCount">5</div><div class="stat-label">Attendance</div></div>
+                <div class="stat-card"><div class="stat-value" id="pendingAssignments">2</div><div class="stat-label">Assignments</div></div>
+                <div class="stat-card"><div class="stat-value" id="totalPoints">340</div><div class="stat-label">Points</div></div>
+            </div>
+
+            <div class="speech-card">
+                <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
+                <div id="messageDisplay" class="message-text"></div>
+                <div style="text-align:right; margin-top:15px; font-size:0.7rem; color:#94a3b8;">— SKILABS_ACADEMY Team</div>
+            </div>
+
+            <div class="quick-actions">
+                <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
+                <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
+                <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
+                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
+                    <div class="action-icon">📲</div><div class="action-title">Install App</div>
+                </button>
+            </div>
+
+            <div class="credits">
+                ✨ Made with Excellence by SKILABS ✨<br>
+                Caleb Fiifi Asare & Arnold Kadi
+            </div>
+        </main>
     </div>
 
-    <div class="overlay" id="overlay"></div>
-
-    <main class="main-content">
-        <div class="welcome-card">
-            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 🎉</h1>
-            <p id="greetingMessage">Your BECE journey continues</p>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-value" id="questionsDone">0</div><div class="stat-label">Questions</div></div>
-            <div class="stat-card"><div class="stat-value" id="attendanceCount">0</div><div class="stat-label">Attendance</div></div>
-            <div class="stat-card"><div class="stat-value" id="pendingAssignments">0</div><div class="stat-label">Assignments</div></div>
-            <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">Points</div></div>
-        </div>
-
-        <div class="speech-card">
-            <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
-            <div id="messageDisplay" class="message-text"></div>
-            <div style="text-align:right; margin-top:12px; font-size:0.75rem; color:#94a3b8;">— SKILABS_ACADEMY Team</div>
-        </div>
-
-        <div class="quick-actions">
-            <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
-            <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
-            <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live</div></a>
-            <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
-                <div class="action-icon">📲</div><div class="action-title">Install</div>
-            </button>
-        </div>
-
-        <div class="credits">
-            ✨ Made with Excellence by SKILABS ✨<br>
-            Caleb Fiifi Asare & Arnold Kadi
-        </div>
-    </main>
-
     <script>
-        // ========== SIDEBAR ==========
+        // ========== SIDEBAR MOBILE TOGGLE ==========
         const sidebar = document.getElementById('sidebar');
-        const menuBtn = document.getElementById('menuBtn');
-        const closeBtn = document.getElementById('closeBtn');
-        const overlay = document.getElementById('overlay');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileOverlay = document.getElementById('mobileOverlay');
 
         function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('show');
+            sidebar.classList.remove('mobile-open');
+            mobileOverlay.classList.remove('show');
         }
 
         function openSidebar() {
-            sidebar.classList.add('open');
-            overlay.classList.add('show');
+            sidebar.classList.add('mobile-open');
+            mobileOverlay.classList.add('show');
         }
 
-        menuBtn.addEventListener('click', openSidebar);
-        closeBtn.addEventListener('click', closeSidebar);
-        overlay.addEventListener('click', closeSidebar);
+        mobileMenuBtn.addEventListener('click', openSidebar);
+        mobileOverlay.addEventListener('click', closeSidebar);
 
+        // Close on ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeSidebar();
         });
@@ -383,8 +410,6 @@
                     }
                     i++;
                     setTimeout(type, 35);
-                } else {
-                    messageElement.innerHTML += '<span class="typing-cursor"></span>';
                 }
             }
             type();
@@ -398,17 +423,6 @@
         if (hour < 12) greetEl.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greetEl.textContent = 'Good afternoon! Keep going 📚';
         else greetEl.textContent = 'Good evening! Review what you learned 🌙';
-
-        // ========== DEMO STUDENT DATA (NO FIREBASE FOR NOW) ==========
-        document.getElementById('welcomeName').textContent = 'Demo';
-        document.getElementById('userName').textContent = 'Demo Student';
-        document.getElementById('userEmail').textContent = 'demo@student.com';
-        document.getElementById('userAvatar').textContent = 'DS';
-        
-        document.getElementById('questionsDone').textContent = '24';
-        document.getElementById('attendanceCount').textContent = '5';
-        document.getElementById('pendingAssignments').textContent = '2';
-        document.getElementById('totalPoints').textContent = '340';
 
         // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
@@ -424,15 +438,18 @@
             deferredPrompt = e;
         });
 
-        document.getElementById('installAppButton').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                await deferredPrompt.userChoice;
-                deferredPrompt = null;
-            } else {
-                alert('📱 Tap Share → Add to Home Screen');
-            }
-        });
+        const installBtn = document.getElementById('installAppButton');
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    await deferredPrompt.userChoice;
+                    deferredPrompt = null;
+                } else {
+                    alert('📱 Tap Share → Add to Home Screen');
+                }
+            });
+        }
     </script>
 </body>
 </html>
