@@ -6,7 +6,6 @@
     <title>Dashboard - Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#667eea">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,88 +14,91 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
+            overflow-x: hidden;
         }
 
-        /* ========== LAYOUT ========== */
-        .app-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* ========== SIDEBAR ========== */
-        .sidebar {
-            width: 280px;
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
             background: white;
-            height: 100vh;
-            position: sticky;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            color: #667eea;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
             top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            transition: left 0.4s ease;
+            z-index: 1200;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
-            border-right: 1px solid rgba(102, 126, 234, 0.15);
-            transition: transform 0.3s ease;
-            z-index: 1000;
         }
 
-        /* Mobile sidebar (hidden by default) */
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                transform: translateX(-100%);
-                z-index: 1200;
-            }
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
+        .sidebar.open { left: 0; }
+
+        .close-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 32px;
+            color: #94a3b8;
+            cursor: pointer;
+            z-index: 1300;
+            padding: 5px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
+        .sidebar-header { padding: 80px 20px 30px; text-align: center; border-bottom: 1px solid #f1f5f9; }
         .portal-title {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-
         .vacation-badge {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             padding: 5px 14px;
             border-radius: 30px;
             margin-top: 10px;
             display: inline-block;
         }
-
         .nav-item {
-            padding: 14px 22px;
+            padding: 15px 22px;
             color: #475569;
             text-decoration: none;
             font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 4px 12px;
+            margin: 4px 10px;
             border-radius: 12px;
-            transition: all 0.3s;
         }
-
-        .nav-item:hover {
-            background: #eef2ff;
-        }
-
-        .nav-item.active {
-            background: #eef2ff;
-            color: #667eea;
-        }
+        .nav-item.active { background: #eef2ff; color: #667eea; }
 
         .user-section {
             margin-top: auto;
@@ -104,15 +106,9 @@
             border-top: 1px solid #f1f5f9;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .user-info { display: flex; align-items: center; gap: 12px; }
         .user-avatar {
-            width: 48px;
-            height: 48px;
+            width: 50px; height: 50px;
             background: linear-gradient(135deg, #667eea, #4f46e5);
             border-radius: 12px;
             display: flex;
@@ -120,280 +116,303 @@
             justify-content: center;
             color: white;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
+        .logout-btn { color: #ef4444; text-decoration: none; margin-top: 15px; display: block; }
 
-        .logout-btn {
-            color: #ef4444;
-            text-decoration: none;
-            margin-top: 15px;
-            display: block;
-            font-size: 0.85rem;
-        }
-
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background: white;
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            color: #667eea;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        /* Mobile Overlay */
-        .mobile-overlay {
-            display: none;
+        /* Overlay */
+        .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.55);
             z-index: 1100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
+        .overlay.show { opacity: 1; visibility: visible; }
 
-        .mobile-overlay.show {
-            display: block;
-        }
-
-        /* ========== MAIN CONTENT ========== */
+        /* Main Content */
         .main-content {
-            flex: 1;
-            padding: 30px;
-            max-width: calc(100% - 280px);
+            padding: 85px 15px 40px;
+            max-width: 620px;
+            margin: 0 auto;
         }
 
-        @media (max-width: 768px) {
-            .main-content {
-                max-width: 100%;
-                padding: 75px 15px 30px;
-            }
-        }
-
-        /* Cards */
-        .welcome-card {
+        .welcome-card, .speech-card, .stat-card, .action-card {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
 
-        .welcome-card h1 {
-            font-size: 1.3rem;
-        }
+        .welcome-card { padding: 20px; margin-bottom: 20px; text-align: center; }
+        .welcome-card h1 { font-size: 1.2rem; }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .stat-card {
-            background: white;
-            padding: 18px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .stat-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: #6b7280;
-            margin-top: 5px;
-        }
+        .stat-card { padding: 15px; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #667eea; }
+        .stat-label { font-size: 0.65rem; color: #6b7280; }
 
         .speech-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 22px;
+            border-left: 6px solid #667eea;
+            margin-bottom: 20px;
         }
 
-        .speech-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .message-text {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: #334155;
-            white-space: pre-wrap;
-        }
+        .speech-title { font-size: 0.9rem; font-weight: 600; color: #667eea; margin-bottom: 12px; }
+        .message-text { font-size: 0.82rem; line-height: 1.75; color: #334155; min-height: 170px; }
 
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            gap: 12px;
         }
 
         .action-card {
-            background: white;
-            padding: 15px;
-            border-radius: 16px;
+            padding: 12px;
             text-align: center;
             text-decoration: none;
             color: #1e293b;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: block;
+            transition: transform 0.2s;
         }
-
-        .action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-
-        .action-icon {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
-
-        .action-title {
-            font-size: 0.65rem;
-            font-weight: 500;
-        }
+        .action-card:hover { transform: translateY(-3px); }
+        .action-icon { font-size: 1.3rem; margin-bottom: 5px; }
+        .action-title { font-size: 0.6rem; font-weight: 500; }
 
         .credits {
             text-align: center;
-            padding: 20px;
-            color: rgba(255,255,255,0.8);
-            font-size: 0.7rem;
-            border-top: 1px solid rgba(255,255,255,0.15);
+            margin-top: 30px;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.65rem;
+        }
+
+        /* AI Tutor Button */
+        .ai-tutor-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+
+        /* AI Tutor Modal */
+        .ai-modal {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 380px;
+            height: 550px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1001;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .ai-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f8fafc;
+        }
+
+        .ai-message {
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+        .ai-message.user { background: #667eea; color: white; margin-left: auto; margin-right: 0; }
+        .ai-message.bot { background: #eef2ff; color: #1e293b; }
+
+        .ai-input-area {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+        .ai-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            outline: none;
+        }
+        .ai-send {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .menu-btn { display: none; }
+            .sidebar { left: 0 !important; position: fixed; }
+            .main-content { padding-left: 300px; padding-top: 30px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .ai-modal { width: 90%; right: 5%; left: 5%; bottom: 90px; }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-    <div class="mobile-overlay" id="mobileOverlay"></div>
 
-    <div class="app-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="portal-title">Junior Scholar<br>Portal</div>
-                <div class="vacation-badge">📚 BECE PREP 2025</div>
-            </div>
-            <nav>
-                <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
-                <a href="courses.html" class="nav-item">📚 My Courses</a>
-                <a href="practice.html" class="nav-item">📝 Practice</a>
-                <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
-                <a href="student-resources.html" class="nav-item">📋 Resources</a>
-            </nav>
-            <div class="user-section">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">DS</div>
-                    <div>
-                        <div id="userName">Demo Student</div>
-                        <div id="userEmail" style="font-size:0.75rem; color:#64748b;">demo@student.com</div>
-                    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeBtn">✕</button>
+        <div class="sidebar-header">
+            <div class="portal-title">Junior Scholar<br>Portal</div>
+            <div class="vacation-badge">📚 BECE PREP 2025</div>
+        </div>
+        <nav>
+            <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
+            <a href="courses.html" class="nav-item">📚 My Courses</a>
+            <a href="practice.html" class="nav-item">📝 Practice</a>
+            <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
+            <a href="student-resources.html" class="nav-item">📋 Resources</a>
+        </nav>
+        <div class="user-section">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div>
+                    <div id="userName">Scholar</div>
+                    <div id="userEmail" style="font-size:0.82rem;color:#64748b;">student@example.com</div>
                 </div>
-                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
             </div>
-        </aside>
+            <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+        </div>
+    </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="welcome-card">
-                <h1>Welcome back, <span id="welcomeName">Demo</span>! 🎉</h1>
-                <p id="greetingMessage">Your BECE journey continues</p>
-            </div>
+    <div class="overlay" id="overlay"></div>
 
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="questionsDone">24</div><div class="stat-label">Questions</div></div>
-                <div class="stat-card"><div class="stat-value" id="attendanceCount">5</div><div class="stat-label">Attendance</div></div>
-                <div class="stat-card"><div class="stat-value" id="pendingAssignments">2</div><div class="stat-label">Assignments</div></div>
-                <div class="stat-card"><div class="stat-value" id="totalPoints">340</div><div class="stat-label">Points</div></div>
-            </div>
+    <main class="main-content">
+        <div class="welcome-card">
+            <h1>Welcome back, <span id="welcomeName">Scholar</span>! 🎉</h1>
+            <p id="greetingMessage">Your BECE journey continues</p>
+        </div>
 
-            <div class="speech-card">
-                <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
-                <div id="messageDisplay" class="message-text"></div>
-                <div style="text-align:right; margin-top:15px; font-size:0.7rem; color:#94a3b8;">— SKILABS_ACADEMY Team</div>
-            </div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="questionsDone">0</div><div class="stat-label">Questions</div></div>
+            <div class="stat-card"><div class="stat-value" id="attendanceCount">0</div><div class="stat-label">Attendance</div></div>
+            <div class="stat-card"><div class="stat-value" id="pendingAssignments">0</div><div class="stat-label">Assignments</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">Points</div></div>
+        </div>
 
-            <div class="quick-actions">
-                <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
-                <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
-                <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
-                <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
-                    <div class="action-icon">📲</div><div class="action-title">Install App</div>
-                </button>
-            </div>
+        <div class="speech-card">
+            <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
+            <div id="messageDisplay" class="message-text"></div>
+            <div style="text-align:right; margin-top:12px; font-size:0.75rem; color:#94a3b8;">— SKILABS_ACADEMY Team</div>
+        </div>
 
-            <div class="credits">
-                ✨ Made with Excellence by SKILABS ✨<br>
-                Caleb Fiifi Asare & Arnold Kadi
+        <div class="quick-actions">
+            <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
+            <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
+            <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live</div></a>
+            <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
+                <div class="action-icon">📲</div><div class="action-title">Install</div>
+            </button>
+        </div>
+
+        <div class="credits">
+            ✨ Made with Excellence by SKILABS ✨<br>
+            Caleb Fiifi Asare & Arnold Kadi
+        </div>
+    </main>
+
+    <!-- AI Tutor Button -->
+    <button id="aiTutorBtn" class="ai-tutor-btn">🧠</button>
+
+    <!-- AI Tutor Modal -->
+    <div id="aiTutorModal" class="ai-modal">
+        <div class="ai-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">🧠</span>
+                <span style="font-weight: 600;">AI Tutor</span>
+                <span style="font-size: 10px; background: rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px;">DeepSeek AI</span>
             </div>
-        </main>
+            <button id="closeAiTutor" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">✕</button>
+        </div>
+        <div id="aiTutorMessages" class="ai-messages">
+            <div class="ai-message bot">
+                🧠 Hi! I'm your AI Tutor powered by DeepSeek.<br><br>
+                I can help you with:<br>
+                📚 Explaining BECE subjects<br>
+                📝 Solving math problems step-by-step<br>
+                📖 English grammar and essay writing<br>
+                🔬 Science concepts explained simply<br>
+                💪 Study tips and motivation<br><br>
+                What would you like to learn today?
+            </div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="aiTutorInput" class="ai-input" placeholder="Ask me anything...">
+            <button id="sendAiTutor" class="ai-send">➤</button>
+        </div>
     </div>
 
     <script>
-        // ========== SIDEBAR MOBILE TOGGLE ==========
+        // ========== SIDEBAR ==========
         const sidebar = document.getElementById('sidebar');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileOverlay = document.getElementById('mobileOverlay');
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const overlay = document.getElementById('overlay');
 
         function closeSidebar() {
-            sidebar.classList.remove('mobile-open');
-            mobileOverlay.classList.remove('show');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
         }
 
         function openSidebar() {
-            sidebar.classList.add('mobile-open');
-            mobileOverlay.classList.add('show');
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
         }
 
-        mobileMenuBtn.addEventListener('click', openSidebar);
-        mobileOverlay.addEventListener('click', closeSidebar);
+        menuBtn.addEventListener('click', openSidebar);
+        closeBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
 
-        // Close on ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeSidebar();
         });
 
-        // ========== TYPING EFFECT ==========
+        // ========== TYPING MESSAGE ==========
         const fullMessage = `Hi! 👋\n\nThis is SKILABS_ACADEMY.\n\nDear Scholar, 🌟\n\nThe BECE is calling your name. You are ready!\nYou've done the work. You belong in that hall.\n\nBreathe. Believe. Give it your best.\n\nGo make yourself proud! 💪🎓\n\nWith love,\nSKILABS_ACADEMY 💜`;
 
         const messageElement = document.getElementById('messageDisplay');
@@ -424,6 +443,16 @@
         else if (hour < 17) greetEl.textContent = 'Good afternoon! Keep going 📚';
         else greetEl.textContent = 'Good evening! Review what you learned 🌙';
 
+        // ========== DEMO DATA ==========
+        document.getElementById('welcomeName').textContent = 'Demo';
+        document.getElementById('userName').textContent = 'Demo Student';
+        document.getElementById('userEmail').textContent = 'demo@student.com';
+        document.getElementById('userAvatar').textContent = 'DS';
+        document.getElementById('questionsDone').textContent = '24';
+        document.getElementById('attendanceCount').textContent = '5';
+        document.getElementById('pendingAssignments').textContent = '2';
+        document.getElementById('totalPoints').textContent = '340';
+
         // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
@@ -438,18 +467,129 @@
             deferredPrompt = e;
         });
 
-        const installBtn = document.getElementById('installAppButton');
-        if (installBtn) {
-            installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    await deferredPrompt.userChoice;
-                    deferredPrompt = null;
-                } else {
-                    alert('📱 Tap Share → Add to Home Screen');
-                }
-            });
+        document.getElementById('installAppButton').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+            } else {
+                alert('📱 Tap Share → Add to Home Screen');
+            }
+        });
+
+        // ========== DEEPSEEK AI TUTOR ==========
+        // 🔴 REPLACE WITH YOUR DEEPSEEK API KEY 🔴
+        // Get free key: https://platform.deepseek.com/
+        // DeepSeek gives free credits to new users!
+        const DEEPSEEK_API_KEY = 'YOUR_DEEPSEEK_API_KEY_HERE';
+        
+        const aiTutorBtn = document.getElementById('aiTutorBtn');
+        const aiTutorModal = document.getElementById('aiTutorModal');
+        const closeAiTutor = document.getElementById('closeAiTutor');
+        const aiTutorInput = document.getElementById('aiTutorInput');
+        const sendAiTutor = document.getElementById('sendAiTutor');
+        const aiTutorMessages = document.getElementById('aiTutorMessages');
+        
+        let isLoading = false;
+        
+        aiTutorBtn.addEventListener('click', () => {
+            aiTutorModal.style.display = 'flex';
+        });
+        
+        closeAiTutor.addEventListener('click', () => {
+            aiTutorModal.style.display = 'none';
+        });
+        
+        function addTutorMessage(text, isUser) {
+            const div = document.createElement('div');
+            div.className = `ai-message ${isUser ? 'user' : 'bot'}`;
+            div.innerHTML = text.replace(/\n/g, '<br>');
+            aiTutorMessages.appendChild(div);
+            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
         }
+        
+        function addTypingIndicator() {
+            const div = document.createElement('div');
+            div.id = 'typingIndicator';
+            div.className = 'ai-message bot';
+            div.innerHTML = '🤔 DeepSeek is thinking...';
+            aiTutorMessages.appendChild(div);
+            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+        
+        async function getDeepSeekResponse(question) {
+            if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === 'sk-ad0823124ae247859997542c5fc3326b') {
+                return "⚠️ DeepSeek API key not configured.\n\nGet your free API key at: https://platform.deepseek.com/\n\nNew users get free credits!\n\nThen replace 'YOUR_DEEPSEEK_API_KEY_HERE' with your actual key.";
+            }
+            
+            try {
+                const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'You are a friendly, patient BECE tutor for Ghanaian JHS students. Explain concepts clearly, use examples, and be encouraging. Keep responses helpful and concise (under 200 words). Use emojis occasionally to make learning fun.'
+                            },
+                            {
+                                role: 'user',
+                                content: question
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 500,
+                        stream: false
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    console.error('DeepSeek API Error:', data.error);
+                    return `⚠️ Error: ${data.error.message || 'Something went wrong'}`;
+                }
+                
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
+                }
+                
+                return "I'm having trouble understanding. Could you rephrase your question?";
+                
+            } catch (error) {
+                console.error('DeepSeek API Error:', error);
+                return "😅 Oops! I'm having connection issues. Please check your internet and try again.";
+            }
+        }
+        
+        async function sendTutorMessage() {
+            const message = aiTutorInput.value.trim();
+            if (!message || isLoading) return;
+            
+            addTutorMessage(message, true);
+            aiTutorInput.value = '';
+            isLoading = true;
+            addTypingIndicator();
+            
+            const response = await getDeepSeekResponse(message);
+            removeTypingIndicator();
+            addTutorMessage(response, false);
+            isLoading = false;
+        }
+        
+        sendAiTutor.addEventListener('click', sendTutorMessage);
+        aiTutorInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendTutorMessage();
+        });
     </script>
 </body>
 </html>
