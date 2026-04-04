@@ -6,6 +6,9 @@
     <title>Dashboard - Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <meta name="theme-color" content="#667eea">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -200,6 +203,10 @@
             margin-bottom: 25px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .welcome-card h1 {
+            font-size: 1.3rem;
         }
 
         .stats-grid {
@@ -432,11 +439,11 @@
                 <div class="vacation-badge">📚 BECE PREP 2025</div>
             </div>
             <nav>
-                <a href="#" class="nav-item active">📊 Dashboard</a>
-                <a href="#" class="nav-item">📚 My Courses</a>
-                <a href="#" class="nav-item">📝 Practice</a>
-                <a href="#" class="nav-item">🎥 Live Classes</a>
-                <a href="#" class="nav-item">📋 Resources</a>
+                <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
+                <a href="courses.html" class="nav-item">📚 My Courses</a>
+                <a href="practice.html" class="nav-item">📝 Practice</a>
+                <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
+                <a href="student-resources.html" class="nav-item">📋 Resources</a>
             </nav>
             <div class="user-section">
                 <div class="user-info">
@@ -446,7 +453,7 @@
                         <div id="userEmail" style="font-size:0.75rem; color:#64748b;">demo@student.com</div>
                     </div>
                 </div>
-                <a href="#" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
             </div>
         </aside>
 
@@ -457,10 +464,10 @@
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="questionsDone">24</div><div class="stat-label">Questions</div></div>
-                <div class="stat-card"><div class="stat-value" id="attendanceCount">5</div><div class="stat-label">Attendance</div></div>
-                <div class="stat-card"><div class="stat-value" id="pendingAssignments">2</div><div class="stat-label">Assignments</div></div>
-                <div class="stat-card"><div class="stat-value" id="totalPoints">340</div><div class="stat-label">Points</div></div>
+                <div class="stat-card"><div class="stat-value" id="questionsDone">0</div><div class="stat-label">Questions</div></div>
+                <div class="stat-card"><div class="stat-value" id="attendanceCount">0</div><div class="stat-label">Attendance</div></div>
+                <div class="stat-card"><div class="stat-value" id="pendingAssignments">0</div><div class="stat-label">Assignments</div></div>
+                <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">Points</div></div>
             </div>
 
             <div class="speech-card">
@@ -470,9 +477,9 @@
             </div>
 
             <div class="quick-actions">
-                <a href="#" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
-                <a href="#" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
-                <a href="#" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
+                <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
+                <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
+                <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
                 <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
                     <div class="action-icon">📲</div><div class="action-title">Install App</div>
                 </button>
@@ -515,7 +522,78 @@
     </div>
 
     <script>
-        // Sidebar Mobile Toggle
+        // ========== FIREBASE CONFIGURATION ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX12Kbhb8L1R",
+            authDomain: "junior-scholar-portal.firebaseapp.com",
+            projectId: "junior-scholar-portal",
+            storageBucket: "junior-scholar-portal.firebasestorage.app",
+            messagingSenderId: "519496965849",
+            appId: "1:519496965849:web:86",
+            databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // ========== GET CURRENT STUDENT ==========
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const studentId = currentStudent ? currentStudent.id : null;
+
+        // ========== LOAD STUDENT DATA FROM FIREBASE ==========
+        async function loadStudentData() {
+            if (!studentId) {
+                // Demo mode - use default values
+                document.getElementById('welcomeName').textContent = 'Demo';
+                document.getElementById('userName').textContent = 'Demo Student';
+                document.getElementById('userEmail').textContent = 'demo@student.com';
+                document.getElementById('userAvatar').textContent = 'DS';
+                return;
+            }
+
+            try {
+                const snapshot = await database.ref(`students/${studentId}`).once('value');
+                const studentData = snapshot.val();
+                
+                if (studentData) {
+                    const firstName = studentData.fullName.split(' ')[0];
+                    document.getElementById('welcomeName').textContent = firstName;
+                    document.getElementById('userName').textContent = studentData.fullName;
+                    document.getElementById('userEmail').textContent = studentData.email;
+                    const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
+                    document.getElementById('userAvatar').textContent = initials;
+                    
+                    // Load practice stats
+                    const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
+                    document.getElementById('questionsDone').textContent = practiceStats.total;
+                    document.getElementById('totalPoints').textContent = practiceStats.points || 0;
+                    
+                    // Load attendance count
+                    const attSnapshot = await database.ref(`attendance/${studentId}`).once('value');
+                    document.getElementById('attendanceCount').textContent = attSnapshot.numChildren();
+                    
+                    // Load pending assignments
+                    const assignmentsSnapshot = await database.ref('assignments').once('value');
+                    const submissionsSnapshot = await database.ref(`submissions/${studentId}`).once('value');
+                    const submissions = submissionsSnapshot.val() || {};
+                    let pending = 0;
+                    assignmentsSnapshot.forEach(child => {
+                        if (!submissions[child.key]) pending++;
+                    });
+                    document.getElementById('pendingAssignments').textContent = pending;
+                }
+            } catch (error) {
+                console.error('Error loading student data:', error);
+                // Use demo values on error
+                document.getElementById('welcomeName').textContent = 'Scholar';
+            }
+        }
+
+        // Load data when page loads
+        loadStudentData();
+
+        // ========== SIDEBAR MOBILE TOGGLE ==========
         const sidebarEl = document.getElementById('sidebar');
         const mobileMenuBtnEl = document.getElementById('mobileMenuBtn');
         const mobileOverlayEl = document.getElementById('mobileOverlay');
@@ -537,7 +615,7 @@
             if (e.key === "Escape") closeSidebar();
         });
 
-        // Typing Message
+        // ========== TYPING MESSAGE ==========
         const fullMessage = `Hi! 👋\n\nThis is SKILABS_ACADEMY.\n\nDear Scholar, 🌟\n\nThe BECE is calling your name. You are ready!\nYou've done the work. You belong in that hall.\n\nBreathe. Believe. Give it your best.\n\nGo make yourself proud! 💪🎓\n\nWith love,\nSKILABS_ACADEMY 💜`;
 
         const messageElement = document.getElementById('messageDisplay');
@@ -561,21 +639,21 @@
 
         window.addEventListener('load', typeMessage);
 
-        // Greeting
+        // ========== GREETING ==========
         const hour = new Date().getHours();
         const greetEl = document.getElementById('greetingMessage');
         if (hour < 12) greetEl.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greetEl.textContent = 'Good afternoon! Keep going 📚';
         else greetEl.textContent = 'Good evening! Review what you learned 🌙';
 
-        // Logout
+        // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
-            alert('Logged out successfully!');
+            window.location.href = 'login.html';
         });
 
-        // Install Button
+        // ========== INSTALL BUTTON ==========
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
@@ -592,16 +670,9 @@
             }
         });
 
-        // ========== GROQ AI TUTOR - UPDATED MODEL (NOT DEPRECATED) ==========
+        // ========== GROQ AI TUTOR ==========
         const GROQ_API_KEY = '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';
-        
-        // CURRENT WORKING MODELS on Groq:
-        // - llama-3.3-70b-versatile (recommended, most capable)
-        // - llama-3.1-8b-instant (fastest)
-        // - mixtral-8x7b-32768 (good for long context)
-        // - gemma2-9b-it (Google's model)
-        
-        const GROQ_MODEL = 'llama-3.3-70b-versatile';  // Latest model, not deprecated
+        const GROQ_MODEL = 'llama-3.3-70b-versatile';
         
         const aiTutorBtnEl = document.getElementById('aiTutorBtn');
         const aiTutorModalEl = document.getElementById('aiTutorModal');
@@ -651,7 +722,7 @@
                         'Authorization': `Bearer ${GROQ_API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: GROQ_MODEL,  // Using llama-3.3-70b-versatile (current model)
+                        model: GROQ_MODEL,
                         messages: [
                             {
                                 role: 'system',
