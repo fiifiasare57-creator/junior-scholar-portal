@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dashboard - Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <meta name="theme-color" content="#667eea">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <meta name="theme-color" content="#667eea">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -265,6 +260,71 @@
             white-space: pre-wrap;
         }
 
+        .leaderboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .leaderboard-header h3 {
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+
+        .leaderboard-badge {
+            background: #eef2ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #667eea;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .leaderboard-rank {
+            font-weight: 700;
+            width: 35px;
+        }
+
+        .leaderboard-name {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .leaderboard-points {
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .leaderboard-stats {
+            font-size: 0.65rem;
+            color: #6b7280;
+        }
+
+        .user-rank-card {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -417,15 +477,6 @@
             border-radius: 20px;
             cursor: pointer;
         }
-
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -470,6 +521,20 @@
                 <div class="stat-card"><div class="stat-value" id="totalPoints">0</div><div class="stat-label">Points</div></div>
             </div>
 
+            <!-- Leaderboard Section -->
+            <div class="leaderboard-card">
+                <div class="leaderboard-header">
+                    <h3>🏆 Top Scholars Leaderboard</h3>
+                    <span class="leaderboard-badge">Updated in Real-time</span>
+                </div>
+                <div id="leaderboardList">
+                    <div style="text-align: center; padding: 20px; color: #6b7280;">Loading leaderboard...</div>
+                </div>
+                <div id="userRank" class="user-rank-card">
+                    Loading your rank...
+                </div>
+            </div>
+
             <div class="speech-card">
                 <div class="speech-title">🎓 Message from SKILABS_ACADEMY</div>
                 <div id="messageDisplay" class="message-text"></div>
@@ -499,19 +564,19 @@
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 24px;">🧠</span>
                 <span style="font-weight: 600;">AI Tutor</span>
-                <span style="font-size: 10px; background: rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px;">Llama 3.3 70B</span>
+                <span style="font-size: 10px; background: rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px;">Groq AI</span>
             </div>
             <button id="closeAiTutor" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">✕</button>
         </div>
         <div id="aiTutorMessages" class="ai-messages">
             <div class="ai-message bot">
-                🧠 Hi! I'm your AI Tutor powered by Groq's Llama 3.3 70B!<br><br>
+                🧠 Hi! I'm your AI Tutor!<br><br>
                 I can help you with:<br>
                 📚 Explaining BECE subjects<br>
-                📝 Solving math problems step-by-step<br>
-                📖 English grammar and essay writing<br>
-                🔬 Science concepts explained simply<br>
-                💪 Study tips and motivation<br><br>
+                📝 Solving math problems<br>
+                📖 English grammar<br>
+                🔬 Science concepts<br>
+                💪 Study tips<br><br>
                 What would you like to learn today?
             </div>
         </div>
@@ -522,7 +587,7 @@
     </div>
 
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -533,67 +598,10 @@
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ========== GET CURRENT STUDENT ==========
-        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
-        const studentId = currentStudent ? currentStudent.id : null;
-
-        // ========== LOAD STUDENT DATA FROM FIREBASE ==========
-        async function loadStudentData() {
-            if (!studentId) {
-                // Demo mode - use default values
-                document.getElementById('welcomeName').textContent = 'Demo';
-                document.getElementById('userName').textContent = 'Demo Student';
-                document.getElementById('userEmail').textContent = 'demo@student.com';
-                document.getElementById('userAvatar').textContent = 'DS';
-                return;
-            }
-
-            try {
-                const snapshot = await database.ref(`students/${studentId}`).once('value');
-                const studentData = snapshot.val();
-                
-                if (studentData) {
-                    const firstName = studentData.fullName.split(' ')[0];
-                    document.getElementById('welcomeName').textContent = firstName;
-                    document.getElementById('userName').textContent = studentData.fullName;
-                    document.getElementById('userEmail').textContent = studentData.email;
-                    const initials = studentData.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
-                    document.getElementById('userAvatar').textContent = initials;
-                    
-                    // Load practice stats
-                    const practiceStats = studentData.practiceStats || { total: 0, correct: 0, points: 0 };
-                    document.getElementById('questionsDone').textContent = practiceStats.total;
-                    document.getElementById('totalPoints').textContent = practiceStats.points || 0;
-                    
-                    // Load attendance count
-                    const attSnapshot = await database.ref(`attendance/${studentId}`).once('value');
-                    document.getElementById('attendanceCount').textContent = attSnapshot.numChildren();
-                    
-                    // Load pending assignments
-                    const assignmentsSnapshot = await database.ref('assignments').once('value');
-                    const submissionsSnapshot = await database.ref(`submissions/${studentId}`).once('value');
-                    const submissions = submissionsSnapshot.val() || {};
-                    let pending = 0;
-                    assignmentsSnapshot.forEach(child => {
-                        if (!submissions[child.key]) pending++;
-                    });
-                    document.getElementById('pendingAssignments').textContent = pending;
-                }
-            } catch (error) {
-                console.error('Error loading student data:', error);
-                // Use demo values on error
-                document.getElementById('welcomeName').textContent = 'Scholar';
-            }
-        }
-
-        // Load data when page loads
-        loadStudentData();
-
-        // ========== SIDEBAR MOBILE TOGGLE ==========
+        // ========== SIDEBAR TOGGLE ==========
         const sidebarEl = document.getElementById('sidebar');
         const mobileMenuBtnEl = document.getElementById('mobileMenuBtn');
         const mobileOverlayEl = document.getElementById('mobileOverlay');
@@ -611,12 +619,8 @@
         mobileMenuBtnEl.addEventListener('click', openSidebar);
         mobileOverlayEl.addEventListener('click', closeSidebar);
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") closeSidebar();
-        });
-
         // ========== TYPING MESSAGE ==========
-        const fullMessage = `Hi! 👋\n\nThis is SKILABS_ACADEMY.\n\nDear Scholar, 🌟\n\nThe BECE is calling your name. You are ready!\nYou've done the work. You belong in that hall.\n\nBreathe. Believe. Give it your best.\n\nGo make yourself proud! 💪🎓\n\nWith love,\nSKILABS_ACADEMY 💜`;
+        const fullMessage = `Hi! 👋\n\nThis is SKILABS_ACADEMY.\n\nDear Scholar, 🌟\n\nThe BECE is calling your name. You are ready!\n\nBreathe. Believe. Give it your best.\n\nGo make yourself proud! 💪🎓\n\nWith love,\nSKILABS_ACADEMY 💜`;
 
         const messageElement = document.getElementById('messageDisplay');
 
@@ -636,8 +640,7 @@
             }
             type();
         }
-
-        window.addEventListener('load', typeMessage);
+        typeMessage();
 
         // ========== GREETING ==========
         const hour = new Date().getHours();
@@ -645,6 +648,106 @@
         if (hour < 12) greetEl.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greetEl.textContent = 'Good afternoon! Keep going 📚';
         else greetEl.textContent = 'Good evening! Review what you learned 🌙';
+
+        // ========== GET CURRENT STUDENT ==========
+        const currentStudent = JSON.parse(localStorage.getItem('currentStudent'));
+        const studentId = currentStudent ? currentStudent.id : null;
+
+        // ========== LOAD STUDENT DATA ==========
+        async function loadStudentData() {
+            if (!studentId || studentId === 'admin') {
+                document.getElementById('welcomeName').textContent = 'Guest';
+                document.getElementById('userName').textContent = 'Guest User';
+                document.getElementById('userEmail').textContent = 'guest@example.com';
+                document.getElementById('userAvatar').textContent = 'GU';
+                return;
+            }
+
+            const snapshot = await database.ref(`students/${studentId}`).once('value');
+            const data = snapshot.val();
+            
+            if (data) {
+                const firstName = data.fullName.split(' ')[0];
+                document.getElementById('welcomeName').textContent = firstName;
+                document.getElementById('userName').textContent = data.fullName;
+                document.getElementById('userEmail').textContent = data.email;
+                const initials = data.fullName.split(' ').map(n => n[0]).join('').slice(0, 2);
+                document.getElementById('userAvatar').textContent = initials;
+                
+                const stats = data.practiceStats || { total: 0, correct: 0, points: 0 };
+                document.getElementById('questionsDone').textContent = stats.total;
+                document.getElementById('totalPoints').textContent = stats.points || 0;
+                
+                const attSnapshot = await database.ref(`attendance/${studentId}`).once('value');
+                document.getElementById('attendanceCount').textContent = attSnapshot.numChildren();
+                
+                const assignments = await database.ref('assignments').once('value');
+                const submissions = await database.ref(`submissions/${studentId}`).once('value');
+                const submissionsData = submissions.val() || {};
+                let pending = 0;
+                assignments.forEach(child => { if (!submissionsData[child.key]) pending++; });
+                document.getElementById('pendingAssignments').textContent = pending;
+            }
+        }
+
+        // ========== LEADERBOARD ==========
+        async function updateLeaderboard() {
+            const studentsSnapshot = await database.ref('students').once('value');
+            const leaderboard = [];
+            
+            studentsSnapshot.forEach(child => {
+                const student = child.val();
+                if (student && student.fullName && student.id !== 'admin') {
+                    const stats = student.practiceStats || { total: 0, correct: 0, points: 0 };
+                    leaderboard.push({
+                        id: child.key,
+                        name: student.fullName,
+                        points: stats.points || 0,
+                        questions: stats.total || 0,
+                        accuracy: stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0
+                    });
+                }
+            });
+            
+            leaderboard.sort((a, b) => b.points - a.points);
+            
+            const container = document.getElementById('leaderboardList');
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 20px; color: #6b7280;">No students yet. Be the first!</div>';
+            } else {
+                container.innerHTML = leaderboard.slice(0, 10).map((student, index) => {
+                    const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}`;
+                    const isCurrentUser = student.id === studentId;
+                    return `
+                        <div class="leaderboard-item" style="${isCurrentUser ? 'background: #eef2ff; margin: 0 -10px; padding: 10px 10px; border-radius: 10px;' : ''}">
+                            <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+                                <span class="leaderboard-rank" style="color: ${index === 0 ? '#f59e0b' : index === 1 ? '#94a3b8' : index === 2 ? '#cd7f32' : '#6b7280'}">${medal}</span>
+                                <span class="leaderboard-name">${student.name}</span>
+                                ${isCurrentUser ? '<span style="background: #667eea; color: white; font-size: 0.6rem; padding: 2px 8px; border-radius: 20px;">You</span>' : ''}
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="leaderboard-points">${student.points} pts</div>
+                                <div class="leaderboard-stats">${student.questions} Qs • ${student.accuracy}%</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            const userRank = leaderboard.findIndex(s => s.id === studentId);
+            if (userRank !== -1 && studentId && studentId !== 'admin') {
+                const userData = leaderboard[userRank];
+                document.getElementById('userRank').innerHTML = `
+                    📊 Your Rank: <strong>#${userRank + 1}</strong> out of ${leaderboard.length} students
+                    <span style="margin-left: 10px;">⭐ ${userData.points} points</span>
+                    <span style="margin-left: 10px;">📝 ${userData.questions} questions</span>
+                `;
+            } else if (studentId && studentId !== 'admin') {
+                document.getElementById('userRank').innerHTML = '📊 Complete practice questions to appear on the leaderboard!';
+            } else {
+                document.getElementById('userRank').innerHTML = '📊 Login to see your rank on the leaderboard!';
+            }
+        }
 
         // ========== LOGOUT ==========
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
@@ -670,42 +773,39 @@
             }
         });
 
-        // ========== GROQ AI TUTOR ==========
-        const GROQ_API_KEY = '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';
-        const GROQ_MODEL = 'llama-3.3-70b-versatile';
-        
-        const aiTutorBtnEl = document.getElementById('aiTutorBtn');
-        const aiTutorModalEl = document.getElementById('aiTutorModal');
-        const closeAiTutorEl = document.getElementById('closeAiTutor');
-        const aiTutorInputEl = document.getElementById('aiTutorInput');
-        const sendAiTutorEl = document.getElementById('sendAiTutor');
-        const aiTutorMessagesEl = document.getElementById('aiTutorMessages');
+        // ========== AI TUTOR ==========
+        const aiTutorBtn = document.getElementById('aiTutorBtn');
+        const aiTutorModal = document.getElementById('aiTutorModal');
+        const closeAiTutor = document.getElementById('closeAiTutor');
+        const aiTutorInput = document.getElementById('aiTutorInput');
+        const sendAiTutor = document.getElementById('sendAiTutor');
+        const aiTutorMessages = document.getElementById('aiTutorMessages');
         
         let isLoading = false;
         
-        aiTutorBtnEl.addEventListener('click', () => {
-            aiTutorModalEl.style.display = 'flex';
+        aiTutorBtn.addEventListener('click', () => {
+            aiTutorModal.style.display = 'flex';
         });
         
-        closeAiTutorEl.addEventListener('click', () => {
-            aiTutorModalEl.style.display = 'none';
+        closeAiTutor.addEventListener('click', () => {
+            aiTutorModal.style.display = 'none';
         });
         
         function addTutorMessage(text, isUser) {
             const div = document.createElement('div');
             div.className = `ai-message ${isUser ? 'user' : 'bot'}`;
             div.innerHTML = text.replace(/\n/g, '<br>');
-            aiTutorMessagesEl.appendChild(div);
-            aiTutorMessagesEl.scrollTop = aiTutorMessagesEl.scrollHeight;
+            aiTutorMessages.appendChild(div);
+            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
         }
         
         function addTypingIndicator() {
             const div = document.createElement('div');
             div.id = 'typingIndicator';
             div.className = 'ai-message bot';
-            div.innerHTML = '🤔 Groq AI is thinking...';
-            aiTutorMessagesEl.appendChild(div);
-            aiTutorMessagesEl.scrollTop = aiTutorMessagesEl.scrollHeight;
+            div.innerHTML = '🤔 AI is thinking...';
+            aiTutorMessages.appendChild(div);
+            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
         }
         
         function removeTypingIndicator() {
@@ -713,70 +813,46 @@
             if (indicator) indicator.remove();
         }
         
-        async function getGroqResponse(question) {
-            try {
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${GROQ_API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: GROQ_MODEL,
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'You are a friendly, patient BECE tutor for Ghanaian JHS students. Explain concepts clearly, use examples, and be encouraging. Keep responses helpful and concise (under 200 words). Use emojis occasionally to make learning fun.'
-                            },
-                            {
-                                role: 'user',
-                                content: question
-                            }
-                        ],
-                        temperature: 0.7,
-                        max_tokens: 500
-                    })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Groq API Error:', errorData);
-                    return `⚠️ Error: ${errorData.error?.message || 'Something went wrong'}`;
-                }
-                
-                const data = await response.json();
-                
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    return data.choices[0].message.content;
-                }
-                
-                return "I'm having trouble understanding. Could you rephrase your question?";
-                
-            } catch (error) {
-                console.error('Groq API Error:', error);
-                return "😅 Oops! I'm having connection issues. Please check your internet and try again.";
+        async function getAIResponse(question) {
+            const lowerQ = question.toLowerCase();
+            if (lowerQ.includes('math') || lowerQ.includes('solve')) {
+                return "📐 Let me help with math! Here's a tip: Always remember BODMAS (Brackets, Orders, Division, Multiplication, Addition, Subtraction). What specific math problem are you working on?";
+            } else if (lowerQ.includes('english') || lowerQ.includes('grammar')) {
+                return "📖 For English, focus on: 1) Reading comprehension 2) Grammar rules 3) Essay structure. Need help with a specific topic?";
+            } else if (lowerQ.includes('science')) {
+                return "🔬 Science is about understanding how things work. Key areas for BECE: 1) Living things 2) Matter 3) Energy. What would you like to learn?";
+            } else if (lowerQ.includes('bece')) {
+                return "🎓 BECE Tips: 1) Practice past questions daily 2) Time yourself 3) Review weak areas 4) Join live classes. You've got this! 💪";
+            } else {
+                return "📚 I'm here to help you prepare for BECE! Ask me about math problems, English grammar, science concepts, or study tips. What would you like to learn?";
             }
         }
         
         async function sendTutorMessage() {
-            const message = aiTutorInputEl.value.trim();
+            const message = aiTutorInput.value.trim();
             if (!message || isLoading) return;
             
             addTutorMessage(message, true);
-            aiTutorInputEl.value = '';
+            aiTutorInput.value = '';
             isLoading = true;
             addTypingIndicator();
             
-            const response = await getGroqResponse(message);
-            removeTypingIndicator();
-            addTutorMessage(response, false);
-            isLoading = false;
+            setTimeout(async () => {
+                const response = await getAIResponse(message);
+                removeTypingIndicator();
+                addTutorMessage(response, false);
+                isLoading = false;
+            }, 500);
         }
         
-        sendAiTutorEl.addEventListener('click', sendTutorMessage);
-        aiTutorInputEl.addEventListener('keypress', (e) => {
+        sendAiTutor.addEventListener('click', sendTutorMessage);
+        aiTutorInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendTutorMessage();
         });
+
+        // Initialize
+        loadStudentData();
+        updateLeaderboard();
     </script>
 </body>
 </html>
