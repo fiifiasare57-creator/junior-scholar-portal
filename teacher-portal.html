@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Portal - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
@@ -69,10 +68,6 @@
             margin-left: 1rem;
         }
 
-        .student-view-btn:hover {
-            background: #059669;
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -96,7 +91,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -224,6 +219,16 @@
             font-size: 0.8rem;
         }
 
+        .btn-grade {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.3rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
         .assignment-item, .note-item, .student-card, .submission-item, .attendance-item, .schedule-item {
             display: flex;
             justify-content: space-between;
@@ -236,29 +241,36 @@
             gap: 1rem;
         }
 
+        .theory-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .theory-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
         .empty-state {
             text-align: center;
             padding: 2rem;
             color: #6b7280;
         }
 
-        .code-display {
-            background: #eef2ff;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-family: monospace;
-            font-weight: 700;
-            color: #667eea;
+        .score-input {
+            width: 70px;
+            padding: 0.3rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.3rem;
         }
 
-        .sync-status {
-            display: inline-block;
-            background: #10b981;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 2rem;
-            font-size: 0.6rem;
-            margin-left: 1rem;
+        .score-input:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         @media (max-width: 1024px) {
@@ -300,195 +312,75 @@
     <div class="container">
         <div class="welcome-card">
             <h1>Welcome, <span id="teacherName">Administrator</span>! 👋</h1>
-            <p>Manage assignments, share notes, schedule classes, track attendance, and view student progress</p>
-            <div style="margin-top: 0.5rem;">
-                <span style="background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem;">🔐 ADMIN ACCESS</span>
-                <span id="syncStatus" class="sync-status">☁️ Syncing...</span>
-            </div>
+            <p>Manage assignments, grade theory answers, and track student progress</p>
+            <span style="display: inline-block; background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem; margin-top: 0.5rem;">🔐 ADMIN ACCESS</span>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalStudents">0</div>
-                <div class="stat-label">Total Students</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalAssignments">0</div>
-                <div class="stat-label">Assignments</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalNotes">0</div>
-                <div class="stat-label">Notes Shared</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalClasses">0</div>
-                <div class="stat-label">Scheduled Classes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalSubmissions">0</div>
-                <div class="stat-label">Submissions</div>
-            </div>
+            <div class="stat-card"><div class="stat-number" id="totalStudents">0</div><div class="stat-label">Students</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalSubmissions">0</div><div class="stat-label">Theory Submissions</div></div>
+            <div class="stat-card"><div class="stat-number" id="pendingGrading">0</div><div class="stat-label">Pending Grading</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalAssignments">0</div><div class="stat-label">Assignments</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalClasses">0</div><div class="stat-label">Classes</div></div>
+            <div class="stat-card"><div class="stat-number" id="totalPoints">0</div><div class="stat-label">Points Awarded</div></div>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('assignments')">📝 Assignments</button>
-            <button class="tab-btn" onclick="showTab('notes')">📚 Notes</button>
-            <button class="tab-btn" onclick="showTab('schedule')">📅 Schedule Classes</button>
-            <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
+            <button class="tab-btn active" onclick="showTab('theory')">📝 Theory Submissions</button>
             <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
-            <button class="tab-btn" onclick="showTab('submissions')">📋 Submissions</button>
+            <button class="tab-btn" onclick="showTab('assignments')">📋 Assignments</button>
+            <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
+        </div>
+
+        <!-- Theory Submissions Tab -->
+        <div id="theoryTab">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📝 Student Theory Answers - Grade & Award Points</h3>
+                </div>
+                <div id="theorySubmissionsList"></div>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div id="studentsTab" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👥 Registered Students</h3>
+                </div>
+                <div id="studentsList"></div>
+            </div>
         </div>
 
         <!-- Assignments Tab -->
-        <div id="assignmentsTab">
+        <div id="assignmentsTab" style="display: none;">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">➕ Create New Assignment</h3>
+                    <h3 class="card-title">📋 Create Assignment</h3>
                 </div>
                 <form id="assignmentForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="assignSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                            <option value="Social Studies">Social Studies</option>
-                            <option value="ICT">ICT</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Assignment Title</label>
-                        <input type="text" id="assignTitle" placeholder="e.g., Algebra Worksheet" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description / Instructions</label>
-                        <textarea id="assignDesc" rows="4" placeholder="Write the assignment details here..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Due Date</label>
-                        <input type="date" id="assignDue" required>
-                    </div>
-                    <button type="submit" class="btn-primary">📤 Send to Students →</button>
+                    <div class="form-group"><label>Subject</label><select id="assignSubject" required><option value="">Select</option><option value="Mathematics">Math</option><option value="English">English</option><option value="Science">Science</option></select></div>
+                    <div class="form-group"><label>Title</label><input type="text" id="assignTitle" required></div>
+                    <div class="form-group"><label>Description</label><textarea id="assignDesc" rows="3" required></textarea></div>
+                    <div class="form-group"><label>Due Date</label><input type="date" id="assignDue" required></div>
+                    <button type="submit" class="btn-primary">Send to Students</button>
                 </form>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📋 Active Assignments</h3>
-                </div>
-                <div id="assignmentsList"></div>
-            </div>
-        </div>
-
-        <!-- Notes Tab -->
-        <div id="notesTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📝 Share Notes & Resources</h3>
-                </div>
-                <form id="noteForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="noteSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                            <option value="Social Studies">Social Studies</option>
-                            <option value="ICT">ICT</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" id="noteTitle" placeholder="e.g., Algebra Notes - Chapter 1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Content / Notes</label>
-                        <textarea id="noteContent" rows="5" placeholder="Write your notes here..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Resource Link (Optional)</label>
-                        <input type="text" id="noteLink" placeholder="https://drive.google.com/...">
-                    </div>
-                    <button type="submit" class="btn-primary">📤 Share with Students →</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📚 Shared Notes & Resources</h3>
-                </div>
-                <div id="notesList"></div>
-            </div>
-        </div>
-
-        <!-- Schedule Classes Tab -->
-        <div id="scheduleTab" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">📅 Schedule New Class</h3>
-                </div>
-                <form id="scheduleForm">
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="scheduleSubject" required>
-                            <option value="">Select Subject</option>
-                            <option value="Mathematics">Mathematics</option>
-                            <option value="English">English Language</option>
-                            <option value="Science">Integrated Science</option>
-                            <option value="Social Studies">Social Studies</option>
-                            <option value="ICT">ICT</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Class Title</label>
-                        <input type="text" id="scheduleTitle" placeholder="e.g., Algebra Masterclass" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description / Topics</label>
-                        <textarea id="scheduleDesc" rows="3" placeholder="Describe what will be taught..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Teacher Name</label>
-                        <input type="text" id="scheduleTeacher" placeholder="e.g., Mr. Kofi Mensah" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Date</label><input type="date" id="scheduleDate" required></div>
-                        <div class="form-group"><label>Time</label><input type="time" id="scheduleTime" required></div>
-                    </div>
-                    <div class="form-group"><label>Duration (hours)</label><input type="number" id="scheduleDuration" value="1.5" step="0.5"></div>
-                    <div class="form-group"><label>🔗 Google Meet Link</label><input type="text" id="scheduleMeetLink" placeholder="https://meet.google.com/abc-defg-hij" required></div>
-                    <button type="submit" class="btn-primary">📅 Schedule Class →</button>
-                </form>
-            </div>
-            <div class="card"><div class="card-header"><h3 class="card-title">📅 Scheduled Classes</h3></div><div id="scheduleList"></div></div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📋 Active Assignments</h3></div><div id="assignmentsList"></div></div>
         </div>
 
         <!-- Attendance Tab -->
         <div id="attendanceTab" style="display: none;">
             <div class="card">
-                <div class="card-header"><h3 class="card-title">🔑 Generate Attendance Keycode</h3></div>
+                <div class="card-header"><h3 class="card-title">🔑 Generate Keycode</h3></div>
                 <form id="attendanceForm">
-                    <div class="form-group"><label>Subject</label><select id="attendanceSubject" required><option value="">Select</option><option value="Mathematics">Math</option><option value="English">English</option><option value="Science">Science</option></select></div>
-                    <div class="form-group"><label>Session Title</label><input type="text" id="attendanceTitle" placeholder="e.g., Algebra Class" required></div>
-                    <div class="form-group"><label>Keycode</label><input type="text" id="attendanceCode" placeholder="Any word students will enter" required></div>
-                    <div class="form-group"><label>Expiry Date</label><input type="date" id="attendanceExpiry"></div>
-                    <button type="submit" class="btn-primary">🎫 Generate Keycode →</button>
+                    <div class="form-group"><label>Subject</label><select id="attSubject"><option>Math</option><option>English</option><option>Science</option></select></div>
+                    <div class="form-group"><label>Session Title</label><input type="text" id="attTitle" required></div>
+                    <div class="form-group"><label>Keycode</label><input type="text" id="attCode" placeholder="Any word" required></div>
+                    <button type="submit" class="btn-primary">Generate</button>
                 </form>
             </div>
-            <div class="card"><div class="card-header"><h3 class="card-title">📋 Active Sessions</h3></div><div id="activeAttendanceList"></div></div>
-            <div class="card"><div class="card-header"><h3 class="card-title">📊 Attendance History</h3></div><div id="attendanceHistory"></div></div>
-        </div>
-
-        <!-- Students Tab -->
-        <div id="studentsTab" style="display: none;">
-            <div class="card"><div class="card-header"><h3 class="card-title">👥 Registered Students</h3></div><div id="studentsList"></div></div>
-        </div>
-
-        <!-- Submissions Tab -->
-        <div id="submissionsTab" style="display: none;">
-            <div class="card"><div class="card-header"><h3 class="card-title">📋 Student Submissions</h3></div><div id="submissionsList"></div></div>
+            <div class="card"><div class="card-header"><h3 class="card-title">Active Sessions</h3></div><div id="activeAttendance"></div></div>
         </div>
     </div>
 
@@ -503,7 +395,7 @@
     </div>
 
     <script>
-        // ========== FIREBASE CONFIGURATION ==========
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -514,337 +406,275 @@
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Update sync status
-        document.getElementById('syncStatus').innerHTML = '☁️ Connected to Cloud';
-        document.getElementById('syncStatus').style.background = '#10b981';
-
-        // Admin check
-        const isAdmin = localStorage.getItem('isAdmin') === 'true';
-        const currentAdmin = JSON.parse(localStorage.getItem('currentStudent'));
-        if (!isAdmin && (!currentAdmin || currentAdmin.id !== 'admin')) {
-            alert('🔐 Admin access required.');
-            window.location.href = 'login.html';
-        }
         document.getElementById('teacherName').textContent = 'Administrator';
 
-        // ========== DATABASE REFERENCES ==========
-        const assignmentsRef = database.ref('assignments');
-        const notesRef = database.ref('notes');
-        const schedulesRef = database.ref('schedules');
-        const activeAttendancesRef = database.ref('activeAttendances');
-        const attendanceRecordsRef = database.ref('attendanceRecords');
-        const studentsRef = database.ref('students');
-        const submissionsRef = database.ref('submissions');
+        let assignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+        let activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
 
-        // ========== LOAD DATA FUNCTIONS ==========
-        async function loadAssignments() {
-            const snapshot = await assignmentsRef.orderByChild('createdAt').once('value');
-            const assignments = [];
-            snapshot.forEach(child => {
-                assignments.push({ id: child.key, ...child.val() });
-            });
-            assignments.reverse();
-            return assignments;
-        }
+        function saveAssignments() { localStorage.setItem('teacherAssignments', JSON.stringify(assignments)); }
+        function saveAttendance() { localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances)); }
 
-        async function loadNotes() {
-            const snapshot = await notesRef.orderByChild('createdAt').once('value');
-            const notes = [];
-            snapshot.forEach(child => {
-                notes.push({ id: child.key, ...child.val() });
-            });
-            notes.reverse();
-            return notes;
-        }
-
-        async function loadSchedules() {
-            const snapshot = await schedulesRef.once('value');
-            const schedules = [];
-            snapshot.forEach(child => {
-                schedules.push({ id: child.key, ...child.val() });
-            });
-            return schedules;
-        }
-
-        async function loadActiveAttendances() {
-            const snapshot = await activeAttendancesRef.once('value');
-            const attendances = [];
-            snapshot.forEach(child => {
-                if (child.val().active === true) {
-                    attendances.push({ id: child.key, ...child.val() });
-                }
-            });
-            return attendances;
-        }
-
-        async function loadAttendanceRecords() {
-            const snapshot = await attendanceRecordsRef.once('value');
-            const records = [];
-            snapshot.forEach(child => {
-                records.push({ id: child.key, ...child.val() });
-            });
-            records.sort((a,b) => new Date(b.date) - new Date(a.date));
-            return records;
-        }
-
-        async function loadStudents() {
-            const snapshot = await studentsRef.once('value');
-            const students = [];
-            snapshot.forEach(child => {
-                students.push(child.val());
-            });
-            return students;
-        }
-
-        async function loadAllSubmissions() {
-            const snapshot = await submissionsRef.once('value');
+        // ========== THEORY SUBMISSIONS GRADING ==========
+        async function loadTheorySubmissions() {
+            const snapshot = await database.ref('theorySubmissions').once('value');
             const submissions = [];
             snapshot.forEach(child => {
-                submissions.push(child.val());
+                submissions.push({ id: child.key, ...child.val() });
             });
-            submissions.reverse();
-            return submissions;
+            
+            submissions.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+            
+            const pending = submissions.filter(s => !s.graded).length;
+            document.getElementById('pendingGrading').textContent = pending;
+            document.getElementById('totalSubmissions').textContent = submissions.length;
+            
+            let totalPointsAwarded = 0;
+            submissions.forEach(s => { if (s.score) totalPointsAwarded += s.score * 2; });
+            document.getElementById('totalPoints').textContent = totalPointsAwarded;
+            
+            const container = document.getElementById('theorySubmissionsList');
+            if (submissions.length === 0) {
+                container.innerHTML = '<div class="empty-state">📝 No theory submissions yet.</div>';
+                return;
+            }
+            
+            container.innerHTML = submissions.map(sub => `
+                <div class="theory-card">
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <div>
+                            <strong>👨‍🎓 ${sub.studentName}</strong>
+                            <span style="background: #eef2ff; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.7rem; margin-left: 0.5rem;">${sub.subject}</span>
+                        </div>
+                        <div style="font-size: 0.7rem; color: #6b7280;">📅 ${new Date(sub.submittedAt).toLocaleString()}</div>
+                    </div>
+                    <div style="margin: 0.5rem 0;">
+                        <strong>Question ${sub.questionNumber}:</strong> ${sub.questionText}
+                    </div>
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0;">
+                        <strong>📝 Student's Answer:</strong><br>
+                        "${sub.answer}"
+                    </div>
+                    ${sub.modelAnswer ? `
+                        <div style="background: #eef2ff; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0;">
+                            <strong>📖 Model Answer:</strong><br>
+                            ${sub.modelAnswer}
+                        </div>
+                    ` : ''}
+                    <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-weight: 500;">Grade (0-10):</span>
+                            <input type="number" id="score_${sub.id}" class="score-input" min="0" max="10" step="1" value="${sub.score || ''}" placeholder="0-10">
+                            <span>/10</span>
+                        </div>
+                        <button onclick="gradeTheory('${sub.id}', '${sub.studentId}', ${sub.score || 0})" class="btn-grade">✅ Award Points</button>
+                        <span id="status_${sub.id}" style="font-size: 0.7rem; color: ${sub.graded ? '#10b981' : '#f59e0b'}">${sub.graded ? '✓ Graded' : 'Pending'}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        async function updateStats() {
-            const students = await loadStudents();
-            const assignments = await loadAssignments();
-            const notes = await loadNotes();
-            const schedules = await loadSchedules();
-            const submissions = await loadAllSubmissions();
+        async function gradeTheory(submissionId, studentId, currentScore) {
+            const scoreInput = document.getElementById(`score_${submissionId}`);
+            const score = parseInt(scoreInput.value);
+            
+            if (isNaN(score) || score < 0 || score > 10) {
+                alert('Please enter a score between 0 and 10');
+                return;
+            }
+            
+            const snapshot = await database.ref(`theorySubmissions/${submissionId}`).once('value');
+            const submission = snapshot.val();
+            
+            if (!submission) {
+                alert('Submission not found');
+                return;
+            }
+            
+            await database.ref(`theorySubmissions/${submissionId}`).update({
+                graded: true,
+                score: score,
+                gradedAt: new Date().toISOString()
+            });
+            
+            const pointsToAdd = score * 2;
+            
+            const studentSnapshot = await database.ref(`students/${studentId}/practiceStats`).once('value');
+            let stats = studentSnapshot.val() || { total: 0, correct: 0, points: 0 };
+            
+            stats.points = (stats.points || 0) + pointsToAdd;
+            stats.total = (stats.total || 0) + 1;
+            if (score >= 5) {
+                stats.correct = (stats.correct || 0) + 1;
+            }
+            
+            await database.ref(`students/${studentId}/practiceStats`).set(stats);
+            
+            document.getElementById(`status_${submissionId}`).innerHTML = '✓ Graded';
+            document.getElementById(`status_${submissionId}`).style.color = '#10b981';
+            
+            alert(`✅ Graded! Student earned +${pointsToAdd} points.`);
+            loadTheorySubmissions();
+            loadStudents();
+        }
+
+        // ========== STUDENTS ==========
+        async function loadStudents() {
+            const snapshot = await database.ref('students').once('value');
+            const students = [];
+            snapshot.forEach(child => {
+                const s = child.val();
+                if (s && s.fullName && s.id !== 'admin') {
+                    students.push({ id: child.key, ...s });
+                }
+            });
             
             document.getElementById('totalStudents').textContent = students.length;
-            document.getElementById('totalAssignments').textContent = assignments.length;
-            document.getElementById('totalNotes').textContent = notes.length;
-            document.getElementById('totalClasses').textContent = schedules.length;
-            document.getElementById('totalSubmissions').textContent = submissions.length;
-        }
-
-        // ========== RENDER FUNCTIONS ==========
-        async function renderAssignments() {
-            const assignments = await loadAssignments();
-            const container = document.getElementById('assignmentsList');
-            if (!assignments.length) { container.innerHTML = '<div class="empty-state">📭 No assignments.</div>'; return; }
-            container.innerHTML = assignments.map(a => `
-                <div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div>📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div>
-                <button class="btn-danger" onclick="deleteAssignment('${a.id}')">Delete</button></div>
-            `).join('');
-        }
-
-        async function renderNotes() {
-            const notes = await loadNotes();
-            const container = document.getElementById('notesList');
-            if (!notes.length) { container.innerHTML = '<div class="empty-state">📚 No notes.</div>'; return; }
-            container.innerHTML = notes.map(n => `
-                <div class="note-item"><div><strong>${n.subject}: ${n.title}</strong><div>${n.content.substring(0,100)}...</div>${n.link?`<div>🔗 ${n.link}</div>`:''}</div>
-                <button class="btn-danger" onclick="deleteNote('${n.id}')">Delete</button></div>
-            `).join('');
-        }
-
-        async function renderSchedule() {
-            const schedules = await loadSchedules();
-            const container = document.getElementById('scheduleList');
-            if (!schedules.length) { container.innerHTML = '<div class="empty-state">📅 No classes.</div>'; return; }
-            container.innerHTML = schedules.map(s => `
-                <div class="schedule-item"><div><strong>${s.subject}: ${s.title}</strong><div>👨‍🏫 ${s.teacher}</div><div>📅 ${s.date} at ${s.time} (${s.duration}h)</div><div>🔗 <a href="${s.meetLink}" target="_blank">${s.meetLink}</a></div></div>
-                <button class="btn-danger" onclick="deleteSchedule('${s.id}')">Delete</button></div>
-            `).join('');
-        }
-
-        async function renderAttendance() {
-            const active = await loadActiveAttendances();
-            const history = await loadAttendanceRecords();
             
-            document.getElementById('activeAttendanceList').innerHTML = active.length ? active.map(a => `
-                <div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 ${a.code}</div>${a.expiry?`Expires: ${a.expiry}`:''}</div>
-                <button class="btn-danger" onclick="deactivateAttendance('${a.id}')">Deactivate</button></div>
-            `).join('') : '<div class="empty-state">📭 No active sessions.</div>';
-            
-            document.getElementById('attendanceHistory').innerHTML = history.length ? history.map(r => `
-                <div class="attendance-item"><div><strong>${r.subject}: ${r.title}</strong><div>📅 ${r.date}</div><div>👥 ${r.students?.length || 0} students</div></div>
-            `).join('') : '<div class="empty-state">📊 No records.</div>';
-        }
-
-        async function renderStudents() {
-            const students = await loadStudents();
             const container = document.getElementById('studentsList');
-            if (!students.length) { container.innerHTML = '<div class="empty-state">👥 No students.</div>'; return; }
-            container.innerHTML = students.map(s => `
-                <div class="student-card"><div><strong>${s.fullName}</strong><div>📧 ${s.email}</div><div>🏫 ${s.school} | 📚 ${s.class}</div></div>
-                <button class="btn-primary" style="padding:0.3rem 0.8rem;" onclick="viewStudentDetails('${s.id}')">View</button></div>
-            `).join('');
+            if (students.length === 0) {
+                container.innerHTML = '<div class="empty-state">👥 No students registered.</div>';
+                return;
+            }
+            
+            container.innerHTML = students.map(s => {
+                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
+                const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                return `
+                    <div class="student-card">
+                        <div>
+                            <strong>${s.fullName}</strong>
+                            <div style="font-size:0.7rem;">📧 ${s.email} | 📱 ${s.phone}</div>
+                            <div style="font-size:0.7rem;">🏫 ${s.school} | 📚 ${s.class}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div>⭐ ${stats.points || 0} pts</div>
+                            <div>📝 ${stats.total} Qs</div>
+                            <div>🎯 ${accuracy}%</div>
+                            <button class="btn-primary" style="padding:0.3rem 0.8rem; margin-top:0.3rem;" onclick="viewStudentDetails('${s.id}')">View</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        async function renderSubmissions() {
-            const submissions = await loadAllSubmissions();
-            const container = document.getElementById('submissionsList');
-            if (!submissions.length) { container.innerHTML = '<div class="empty-state">📋 No submissions.</div>'; return; }
-            container.innerHTML = submissions.map(sub => `
-                <div class="submission-item"><div><strong>${sub.studentName}</strong><div>${sub.title}</div><div>"${sub.answer.substring(0,100)}..."</div><div>📅 ${sub.date}</div></div></div>
-            `).join('');
+        async function viewStudentDetails(id) {
+            const snapshot = await database.ref(`students/${id}`).once('value');
+            const s = snapshot.val();
+            if (s) {
+                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
+                const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+                document.getElementById('modalBody').innerHTML = `
+                    <h3>${s.fullName}</h3>
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem; margin:1rem 0;">
+                        <p>📧 ${s.email}</p><p>📱 ${s.phone}</p><p>🏫 ${s.school}</p><p>📚 ${s.class}</p>
+                        <p>👨‍👩 ${s.parentName}</p><p>📞 ${s.parentPhone}</p>
+                    </div>
+                    <h4>Performance</h4>
+                    <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
+                        <p>Questions: ${stats.total}</p><p>Correct: ${stats.correct}</p><p>Accuracy: ${accuracy}%</p><p>Points: ${stats.points}</p>
+                    </div>
+                `;
+                document.getElementById('studentModal').style.display = 'flex';
+            }
         }
 
-        // ========== CREATE FUNCTIONS ==========
-        document.getElementById('assignmentForm').addEventListener('submit', async (e) => {
+        // ========== ASSIGNMENTS ==========
+        document.getElementById('assignmentForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const newRef = assignmentsRef.push();
-            await newRef.set({
-                id: newRef.key,
+            assignments.unshift({
+                id: Date.now(),
                 subject: document.getElementById('assignSubject').value,
                 title: document.getElementById('assignTitle').value,
                 description: document.getElementById('assignDesc').value,
                 dueDate: document.getElementById('assignDue').value,
                 createdAt: new Date().toISOString()
             });
-            alert('✅ Assignment saved to cloud! All teachers can see it.');
+            saveAssignments();
+            alert('✅ Assignment sent!');
             e.target.reset();
-            await renderAssignments();
-            await updateStats();
+            loadAssignments();
         });
 
-        document.getElementById('noteForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newRef = notesRef.push();
-            await newRef.set({
-                id: newRef.key,
-                subject: document.getElementById('noteSubject').value,
-                title: document.getElementById('noteTitle').value,
-                content: document.getElementById('noteContent').value,
-                link: document.getElementById('noteLink').value,
-                createdAt: new Date().toISOString()
-            });
-            alert('✅ Notes saved to cloud! All students can see them.');
-            e.target.reset();
-            await renderNotes();
-            await updateStats();
-        });
+        function loadAssignments() {
+            const container = document.getElementById('assignmentsList');
+            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments.</div>'; return; }
+            container.innerHTML = assignments.map(a => `
+                <div class="assignment-item"><div><strong>${a.subject}: ${a.title}</strong><div>📅 Due: ${a.dueDate}</div><div>${a.description.substring(0,100)}...</div></div>
+                <button class="btn-danger" onclick="deleteAssignment(${a.id})">Delete</button></div>
+            `).join('');
+            document.getElementById('totalAssignments').textContent = assignments.length;
+        }
 
-        document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newRef = schedulesRef.push();
-            await newRef.set({
-                id: newRef.key,
-                subject: document.getElementById('scheduleSubject').value,
-                title: document.getElementById('scheduleTitle').value,
-                description: document.getElementById('scheduleDesc').value,
-                teacher: document.getElementById('scheduleTeacher').value,
-                date: document.getElementById('scheduleDate').value,
-                time: document.getElementById('scheduleTime').value,
-                duration: document.getElementById('scheduleDuration').value,
-                meetLink: document.getElementById('scheduleMeetLink').value,
-                createdAt: new Date().toISOString()
-            });
-            alert('✅ Class scheduled! Students can see it in Live Classes.');
-            e.target.reset();
-            await renderSchedule();
-            await updateStats();
-        });
+        function deleteAssignment(id) { assignments = assignments.filter(a => a.id !== id); saveAssignments(); loadAssignments(); }
 
-        document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
+        // ========== ATTENDANCE ==========
+        document.getElementById('attendanceForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const newRef = activeAttendancesRef.push();
-            await newRef.set({
-                id: newRef.key,
-                subject: document.getElementById('attendanceSubject').value,
-                title: document.getElementById('attendanceTitle').value,
-                code: document.getElementById('attendanceCode').value.toUpperCase(),
-                expiry: document.getElementById('attendanceExpiry').value || null,
+            activeAttendances.push({
+                id: Date.now(),
+                subject: document.getElementById('attSubject').value,
+                title: document.getElementById('attTitle').value,
+                code: document.getElementById('attCode').value.toUpperCase(),
                 active: true,
                 createdAt: new Date().toISOString()
             });
-            alert(`✅ Keycode: ${document.getElementById('attendanceCode').value.toUpperCase()}`);
+            saveAttendance();
+            alert(`✅ Keycode: ${document.getElementById('attCode').value.toUpperCase()}`);
             e.target.reset();
-            await renderAttendance();
-            await updateStats();
+            loadAttendance();
         });
 
-        // ========== DELETE FUNCTIONS ==========
-        window.deleteAssignment = async (id) => {
-            if(confirm('Delete this assignment?')) {
-                await assignmentsRef.child(id).remove();
-                await renderAssignments();
-                await updateStats();
-            }
-        };
+        function loadAttendance() {
+            const container = document.getElementById('activeAttendance');
+            const active = activeAttendances.filter(a => a.active);
+            if (active.length === 0) { container.innerHTML = '<div class="empty-state">📭 No active sessions.</div>'; return; }
+            container.innerHTML = active.map(a => `
+                <div class="attendance-item"><div><strong>${a.subject}: ${a.title}</strong><div>🔑 ${a.code}</div></div>
+                <button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button></div>
+            `).join('');
+            document.getElementById('totalClasses').textContent = active.length;
+        }
 
-        window.deleteNote = async (id) => {
-            if(confirm('Delete this note?')) {
-                await notesRef.child(id).remove();
-                await renderNotes();
-                await updateStats();
-            }
-        };
-
-        window.deleteSchedule = async (id) => {
-            if(confirm('Delete this class?')) {
-                await schedulesRef.child(id).remove();
-                await renderSchedule();
-                await updateStats();
-            }
-        };
-
-        window.deactivateAttendance = async (id) => {
-            if(confirm('Deactivate this attendance session?')) {
-                await activeAttendancesRef.child(id).update({ active: false });
-                await renderAttendance();
-            }
-        };
-
-        // ========== STUDENT DETAILS ==========
-        window.viewStudentDetails = async (id) => {
-            const snapshot = await studentsRef.child(id).once('value');
-            const s = snapshot.val();
-            if(s){
-                const stats = s.practiceStats || { total: 0, correct: 0, points: 0 };
-                const attSnapshot = await database.ref(`attendance/${id}`).once('value');
-                const attCount = attSnapshot.numChildren();
-                document.getElementById('modalBody').innerHTML = `
-                    <h3>${s.fullName}</h3>
-                    <div><p>📧 ${s.email}</p><p>📱 ${s.phone}</p><p>🏫 ${s.school}</p><p>📚 ${s.class}</p></div>
-                    <h4>Performance</h4><p>Questions: ${stats.total}</p><p>Points: ${stats.points}</p>
-                    <h4>Attendance: ${attCount}</h4>
-                `;
-                document.getElementById('studentModal').style.display = 'flex';
-            }
-        };
-
-        function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
-        window.onclick = (e) => { if(e.target === document.getElementById('studentModal')) closeModal(); };
+        function deactivateAttendance(id) {
+            const index = activeAttendances.findIndex(a => a.id === id);
+            if (index !== -1) { activeAttendances[index].active = false; saveAttendance(); loadAttendance(); }
+        }
 
         // ========== TAB SWITCHING ==========
         async function showTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            document.querySelectorAll('#assignmentsTab, #notesTab, #scheduleTab, #attendanceTab, #studentsTab, #submissionsTab').forEach(el => el.style.display = 'none');
-            if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; await renderAssignments(); }
-            else if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; await renderNotes(); }
-            else if (tab === 'schedule') { document.getElementById('scheduleTab').style.display = 'block'; await renderSchedule(); }
-            else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; await renderAttendance(); }
-            else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; await renderStudents(); }
-            else if (tab === 'submissions') { document.getElementById('submissionsTab').style.display = 'block'; await renderSubmissions(); }
+            
+            document.getElementById('theoryTab').style.display = 'none';
+            document.getElementById('studentsTab').style.display = 'none';
+            document.getElementById('assignmentsTab').style.display = 'none';
+            document.getElementById('attendanceTab').style.display = 'none';
+            
+            if (tab === 'theory') { document.getElementById('theoryTab').style.display = 'block'; await loadTheorySubmissions(); }
+            else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; loadStudents(); }
+            else if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; loadAssignments(); }
+            else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; loadAttendance(); }
         }
 
         // ========== STUDENT VIEW ==========
-        window.goToStudentDashboard = function() {
+        function goToStudentDashboard() {
             localStorage.setItem('currentStudent', JSON.stringify({
                 id: 'demo',
                 name: 'Demo Student',
                 email: 'demo@student.com'
             }));
-            localStorage.setItem('scholarName', 'Demo Student');
             window.location.href = 'dashboard.html';
-        };
-
-        // ========== INITIAL LOAD ==========
-        async function init() {
-            await renderAssignments();
-            await updateStats();
         }
-        init();
+
+        function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
+        window.onclick = (e) => { if (e.target === document.getElementById('studentModal')) closeModal(); };
+
+        loadAssignments();
+        loadTheorySubmissions();
+        loadStudents();
     </script>
 </body>
 </html>
