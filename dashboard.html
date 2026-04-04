@@ -20,13 +20,11 @@
             color: #1e293b;
         }
 
-        /* ========== APP WRAPPER ========== */
         .app-wrapper {
             display: flex;
             min-height: 100vh;
         }
 
-        /* ========== SIDEBAR ========== */
         .sidebar {
             width: 280px;
             background: white;
@@ -41,7 +39,17 @@
             overflow-y: auto;
         }
 
-        /* Mobile sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: #eef2f6;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -135,7 +143,6 @@
             font-size: 0.85rem;
         }
 
-        /* Mobile Menu Button */
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -161,7 +168,6 @@
             }
         }
 
-        /* Mobile Overlay */
         .mobile-overlay {
             display: none;
             position: fixed;
@@ -174,7 +180,6 @@
             display: block;
         }
 
-        /* ========== MAIN CONTENT ========== */
         .main-content {
             flex: 1;
             padding: 30px;
@@ -188,7 +193,6 @@
             }
         }
 
-        /* Welcome Card */
         .welcome-card {
             background: white;
             border-radius: 20px;
@@ -198,11 +202,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        .welcome-card h1 {
-            font-size: 1.3rem;
-        }
-
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -236,7 +235,6 @@
             margin-top: 5px;
         }
 
-        /* Speech Card */
         .speech-card {
             background: white;
             border-radius: 20px;
@@ -260,7 +258,6 @@
             white-space: pre-wrap;
         }
 
-        /* Quick Actions */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -283,6 +280,7 @@
             color: #1e293b;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
         }
 
         .action-card:hover {
@@ -300,7 +298,6 @@
             font-weight: 500;
         }
 
-        /* Credits */
         .credits {
             text-align: center;
             padding: 20px;
@@ -309,7 +306,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        /* AI Tutor Button */
         .ai-tutor-btn {
             position: fixed;
             bottom: 20px;
@@ -329,7 +325,6 @@
             color: white;
         }
 
-        /* AI Tutor Modal */
         .ai-modal {
             display: none;
             position: fixed;
@@ -415,26 +410,33 @@
             border-radius: 20px;
             cursor: pointer;
         }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Button -->
     <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <div class="app-wrapper">
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="portal-title">Junior Scholar<br>Portal</div>
                 <div class="vacation-badge">📚 BECE PREP 2025</div>
             </div>
             <nav>
-                <a href="dashboard.html" class="nav-item active">📊 Dashboard</a>
-                <a href="courses.html" class="nav-item">📚 My Courses</a>
-                <a href="practice.html" class="nav-item">📝 Practice</a>
-                <a href="live-class.html" class="nav-item">🎥 Live Classes</a>
-                <a href="student-resources.html" class="nav-item">📋 Resources</a>
+                <a href="#" class="nav-item active">📊 Dashboard</a>
+                <a href="#" class="nav-item">📚 My Courses</a>
+                <a href="#" class="nav-item">📝 Practice</a>
+                <a href="#" class="nav-item">🎥 Live Classes</a>
+                <a href="#" class="nav-item">📋 Resources</a>
             </nav>
             <div class="user-section">
                 <div class="user-info">
@@ -444,11 +446,10 @@
                         <div id="userEmail" style="font-size:0.75rem; color:#64748b;">demo@student.com</div>
                     </div>
                 </div>
-                <a href="login.html" class="logout-btn" id="logoutBtn">🚪 Logout</a>
+                <a href="#" class="logout-btn" id="logoutBtn">🚪 Logout</a>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
             <div class="welcome-card">
                 <h1>Welcome back, <span id="welcomeName">Demo</span>! 🎉</h1>
@@ -469,9 +470,9 @@
             </div>
 
             <div class="quick-actions">
-                <a href="practice.html" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
-                <a href="courses.html" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
-                <a href="live-class.html" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
+                <a href="#" class="action-card"><div class="action-icon">📝</div><div class="action-title">Practice</div></a>
+                <a href="#" class="action-card"><div class="action-icon">📚</div><div class="action-title">Courses</div></a>
+                <a href="#" class="action-card"><div class="action-icon">🎥</div><div class="action-title">Live Classes</div></a>
                 <button id="installAppButton" class="action-card" style="background: linear-gradient(135deg,#667eea,#764ba2); color:white; border:none;">
                     <div class="action-icon">📲</div><div class="action-title">Install App</div>
                 </button>
@@ -484,22 +485,20 @@
         </main>
     </div>
 
-    <!-- AI Tutor Button -->
     <button id="aiTutorBtn" class="ai-tutor-btn">🧠</button>
 
-    <!-- AI Tutor Modal -->
     <div id="aiTutorModal" class="ai-modal">
         <div class="ai-header">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 24px;">🧠</span>
                 <span style="font-weight: 600;">AI Tutor</span>
-                <span style="font-size: 10px; background: rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px;">Groq Llama 3</span>
+                <span style="font-size: 10px; background: rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px;">Llama 3.3 70B</span>
             </div>
             <button id="closeAiTutor" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">✕</button>
         </div>
         <div id="aiTutorMessages" class="ai-messages">
             <div class="ai-message bot">
-                🧠 Hi! I'm your AI Tutor powered by Groq's Llama 3.<br><br>
+                🧠 Hi! I'm your AI Tutor powered by Groq's Llama 3.3 70B!<br><br>
                 I can help you with:<br>
                 📚 Explaining BECE subjects<br>
                 📝 Solving math problems step-by-step<br>
@@ -516,32 +515,29 @@
     </div>
 
     <script>
-        // ========== GROQ API KEY ==========
-        const GROQ_API_KEY = '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';
-        
-        // ========== SIDEBAR MOBILE TOGGLE ==========
-        const sidebar = document.getElementById('sidebar');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileOverlay = document.getElementById('mobileOverlay');
+        // Sidebar Mobile Toggle
+        const sidebarEl = document.getElementById('sidebar');
+        const mobileMenuBtnEl = document.getElementById('mobileMenuBtn');
+        const mobileOverlayEl = document.getElementById('mobileOverlay');
 
         function closeSidebar() {
-            sidebar.classList.remove('mobile-open');
-            mobileOverlay.classList.remove('show');
+            sidebarEl.classList.remove('mobile-open');
+            mobileOverlayEl.classList.remove('show');
         }
 
         function openSidebar() {
-            sidebar.classList.add('mobile-open');
-            mobileOverlay.classList.add('show');
+            sidebarEl.classList.add('mobile-open');
+            mobileOverlayEl.classList.add('show');
         }
 
-        mobileMenuBtn.addEventListener('click', openSidebar);
-        mobileOverlay.addEventListener('click', closeSidebar);
+        mobileMenuBtnEl.addEventListener('click', openSidebar);
+        mobileOverlayEl.addEventListener('click', closeSidebar);
 
         document.addEventListener('keydown', (e) => {
             if (e.key === "Escape") closeSidebar();
         });
 
-        // ========== TYPING MESSAGE ==========
+        // Typing Message
         const fullMessage = `Hi! 👋\n\nThis is SKILABS_ACADEMY.\n\nDear Scholar, 🌟\n\nThe BECE is calling your name. You are ready!\nYou've done the work. You belong in that hall.\n\nBreathe. Believe. Give it your best.\n\nGo make yourself proud! 💪🎓\n\nWith love,\nSKILABS_ACADEMY 💜`;
 
         const messageElement = document.getElementById('messageDisplay');
@@ -565,21 +561,21 @@
 
         window.addEventListener('load', typeMessage);
 
-        // ========== GREETING ==========
+        // Greeting
         const hour = new Date().getHours();
         const greetEl = document.getElementById('greetingMessage');
         if (hour < 12) greetEl.textContent = 'Good morning! Start your day strong ☀️';
         else if (hour < 17) greetEl.textContent = 'Good afternoon! Keep going 📚';
         else greetEl.textContent = 'Good evening! Review what you learned 🌙';
 
-        // ========== LOGOUT ==========
+        // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('currentStudent');
-            window.location.href = 'login.html';
+            alert('Logged out successfully!');
         });
 
-        // ========== INSTALL BUTTON ==========
+        // Install Button
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
@@ -596,30 +592,40 @@
             }
         });
 
-        // ========== GROQ AI TUTOR ==========
-        const aiTutorBtn = document.getElementById('aiTutorBtn');
-        const aiTutorModal = document.getElementById('aiTutorModal');
-        const closeAiTutor = document.getElementById('closeAiTutor');
-        const aiTutorInput = document.getElementById('aiTutorInput');
-        const sendAiTutor = document.getElementById('sendAiTutor');
-        const aiTutorMessages = document.getElementById('aiTutorMessages');
+        // ========== GROQ AI TUTOR - UPDATED MODEL (NOT DEPRECATED) ==========
+        const GROQ_API_KEY = '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';
+        
+        // CURRENT WORKING MODELS on Groq:
+        // - llama-3.3-70b-versatile (recommended, most capable)
+        // - llama-3.1-8b-instant (fastest)
+        // - mixtral-8x7b-32768 (good for long context)
+        // - gemma2-9b-it (Google's model)
+        
+        const GROQ_MODEL = 'llama-3.3-70b-versatile';  // Latest model, not deprecated
+        
+        const aiTutorBtnEl = document.getElementById('aiTutorBtn');
+        const aiTutorModalEl = document.getElementById('aiTutorModal');
+        const closeAiTutorEl = document.getElementById('closeAiTutor');
+        const aiTutorInputEl = document.getElementById('aiTutorInput');
+        const sendAiTutorEl = document.getElementById('sendAiTutor');
+        const aiTutorMessagesEl = document.getElementById('aiTutorMessages');
         
         let isLoading = false;
         
-        aiTutorBtn.addEventListener('click', () => {
-            aiTutorModal.style.display = 'flex';
+        aiTutorBtnEl.addEventListener('click', () => {
+            aiTutorModalEl.style.display = 'flex';
         });
         
-        closeAiTutor.addEventListener('click', () => {
-            aiTutorModal.style.display = 'none';
+        closeAiTutorEl.addEventListener('click', () => {
+            aiTutorModalEl.style.display = 'none';
         });
         
         function addTutorMessage(text, isUser) {
             const div = document.createElement('div');
             div.className = `ai-message ${isUser ? 'user' : 'bot'}`;
             div.innerHTML = text.replace(/\n/g, '<br>');
-            aiTutorMessages.appendChild(div);
-            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
+            aiTutorMessagesEl.appendChild(div);
+            aiTutorMessagesEl.scrollTop = aiTutorMessagesEl.scrollHeight;
         }
         
         function addTypingIndicator() {
@@ -627,8 +633,8 @@
             div.id = 'typingIndicator';
             div.className = 'ai-message bot';
             div.innerHTML = '🤔 Groq AI is thinking...';
-            aiTutorMessages.appendChild(div);
-            aiTutorMessages.scrollTop = aiTutorMessages.scrollHeight;
+            aiTutorMessagesEl.appendChild(div);
+            aiTutorMessagesEl.scrollTop = aiTutorMessagesEl.scrollHeight;
         }
         
         function removeTypingIndicator() {
@@ -645,7 +651,7 @@
                         'Authorization': `Bearer ${GROQ_API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: 'llama3-70b-8192',
+                        model: GROQ_MODEL,  // Using llama-3.3-70b-versatile (current model)
                         messages: [
                             {
                                 role: 'system',
@@ -661,12 +667,13 @@
                     })
                 });
                 
-                const data = await response.json();
-                
-                if (data.error) {
-                    console.error('Groq API Error:', data.error);
-                    return `⚠️ Error: ${data.error.message || 'Something went wrong'}. Please check your API key.`;
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Groq API Error:', errorData);
+                    return `⚠️ Error: ${errorData.error?.message || 'Something went wrong'}`;
                 }
+                
+                const data = await response.json();
                 
                 if (data.choices && data.choices[0] && data.choices[0].message) {
                     return data.choices[0].message.content;
@@ -681,11 +688,11 @@
         }
         
         async function sendTutorMessage() {
-            const message = aiTutorInput.value.trim();
+            const message = aiTutorInputEl.value.trim();
             if (!message || isLoading) return;
             
             addTutorMessage(message, true);
-            aiTutorInput.value = '';
+            aiTutorInputEl.value = '';
             isLoading = true;
             addTypingIndicator();
             
@@ -695,8 +702,8 @@
             isLoading = false;
         }
         
-        sendAiTutor.addEventListener('click', sendTutorMessage);
-        aiTutorInput.addEventListener('keypress', (e) => {
+        sendAiTutorEl.addEventListener('click', sendTutorMessage);
+        aiTutorInputEl.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendTutorMessage();
         });
     </script>
