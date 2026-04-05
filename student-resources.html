@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Resources - The Junior Scholar Portal</title>
+    <title>My Resources - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -124,7 +124,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -134,7 +134,7 @@
             background: white;
             border-radius: 2rem;
             padding: 2rem;
-            width: 350px;
+            width: 380px;
             text-align: center;
         }
         .login-card input {
@@ -143,6 +143,17 @@
             margin: 0.5rem 0;
             border: 2px solid #e2e8f0;
             border-radius: 0.75rem;
+        }
+        .login-card button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+            font-weight: 600;
         }
         @media (max-width: 768px) {
             .navbar { flex-direction: column; text-align: center; }
@@ -196,7 +207,8 @@
             <input type="text" id="studentName" placeholder="Full Name" value="Demo Student">
             <input type="email" id="studentEmail" placeholder="Email" value="student@school.com">
             <input type="text" id="studentClass" placeholder="Class (e.g., Grade 7)" value="Grade 7">
-            <button onclick="loginStudent()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; width: 100%;">Enter Portal</button>
+            <input type="text" id="studentSchool" placeholder="School" value="Junior Academy">
+            <button onclick="loginStudent()">Enter Portal</button>
         </div>
     </div>
 
@@ -220,6 +232,7 @@
             const name = document.getElementById('studentName').value;
             const email = document.getElementById('studentEmail').value;
             const className = document.getElementById('studentClass').value;
+            const school = document.getElementById('studentSchool').value;
             if (!name || !email) { alert('Please enter your details'); return; }
             
             const studentId = 'student_' + Date.now();
@@ -228,15 +241,16 @@
                 name: name,
                 email: email,
                 class: className,
-                school: 'Junior Academy'
+                school: school
             };
             
             database.ref(`students/${studentId}`).set({
                 fullName: name,
                 email: email,
                 class: className,
-                school: 'Junior Academy',
-                practiceStats: { total: 0, correct: 0, points: 0 }
+                school: school,
+                practiceStats: { total: 0, correct: 0, points: 0 },
+                joinedAt: new Date().toISOString()
             });
             
             localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
@@ -255,7 +269,7 @@
             const snapshot = await database.ref(`submissions/${currentStudent.id}`).once('value');
             submissions = snapshot.val() || {};
         }
-
+        
         async function loadAssignments() {
             const snapshot = await database.ref('assignments').orderByChild('createdAt').once('value');
             const assignments = [];
@@ -263,7 +277,7 @@
             assignments.reverse();
             return assignments;
         }
-
+        
         async function loadNotes() {
             const snapshot = await database.ref('notes').orderByChild('createdAt').once('value');
             const notes = [];
@@ -271,7 +285,7 @@
             notes.reverse();
             return notes;
         }
-
+        
         async function updateStats() {
             const assignments = await loadAssignments();
             const notes = await loadNotes();
@@ -286,7 +300,7 @@
         async function renderAssignments() {
             const assignments = await loadAssignments();
             const container = document.getElementById('assignmentsContainer');
-            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments yet. Check back later!</div>'; return; }
+            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments yet.</div>'; return; }
             container.innerHTML = assignments.map(a => {
                 const submitted = submissions[a.id];
                 return `
@@ -317,7 +331,7 @@
         async function renderNotes() {
             const notes = await loadNotes();
             const container = document.getElementById('notesContainer');
-            if (notes.length === 0) { container.innerHTML = '<div class="empty-state">📚 No notes shared yet. Teachers will share notes here!</div>'; return; }
+            if (notes.length === 0) { container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>'; return; }
             container.innerHTML = notes.map(n => `
                 <div class="note-card">
                     <div class="note-header">
@@ -361,14 +375,31 @@
             }
         }
 
+        // Set up real-time listeners for automatic updates
+        function setupRealtimeListeners() {
+            // Listen for new assignments
+            database.ref('assignments').on('value', () => {
+                if (document.getElementById('assignmentsContainer').style.display !== 'none') {
+                    renderAssignments();
+                }
+                updateStats();
+            });
+            
+            // Listen for new notes
+            database.ref('notes').on('value', () => {
+                if (document.getElementById('notesContainer').style.display !== 'none') {
+                    renderNotes();
+                }
+                updateStats();
+            });
+        }
+
         async function init() {
             if (!currentStudent) return;
             await loadSubmissions();
             await renderAssignments();
             await updateStats();
-            // Real-time listener for new notes
-            database.ref('notes').on('value', () => { renderNotes(); updateStats(); });
-            database.ref('assignments').on('value', () => { renderAssignments(); updateStats(); });
+            setupRealtimeListeners();
         }
         
         if (currentStudent) init();
