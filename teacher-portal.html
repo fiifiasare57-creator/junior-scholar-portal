@@ -8,26 +8,34 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #1e293b;
         }
+
         .navbar {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            border-bottom: 1px solid rgba(102,126,234,0.2);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
         }
+
         .logo {
             font-size: 1.3rem;
             font-weight: 800;
@@ -35,15 +43,37 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-decoration: none;
         }
+
         .nav-links a {
             text-decoration: none;
             color: #4a5568;
             margin-left: 1.5rem;
             font-weight: 500;
         }
-        .nav-links a:hover { color: #667eea; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .student-view-btn {
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
         .welcome-card {
             background: white;
             border-radius: 1rem;
@@ -52,12 +82,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border-left: 4px solid #667eea;
         }
+
+        .welcome-card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
+
         .stat-card {
             background: white;
             padding: 1rem;
@@ -65,8 +103,18 @@
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .stat-number { font-size: 1.3rem; font-weight: 700; color: #667eea; }
-        .stat-label { font-size: 0.65rem; color: #6b7280; }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+        }
+
         .tabs {
             display: flex;
             gap: 0.5rem;
@@ -75,6 +123,7 @@
             border-bottom: 2px solid #eef2f6;
             padding-bottom: 0.5rem;
         }
+
         .tab-btn {
             padding: 0.6rem 1.2rem;
             background: none;
@@ -84,7 +133,12 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-        .tab-btn.active { background: #667eea; color: white; }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
         .card {
             background: white;
             border-radius: 1rem;
@@ -92,6 +146,7 @@
             margin-bottom: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
+
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -100,7 +155,16 @@
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #eef2f6;
         }
-        .form-group { margin-bottom: 1rem; }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
         label {
             display: block;
             margin-bottom: 0.5rem;
@@ -108,6 +172,7 @@
             font-size: 0.85rem;
             color: #4b5563;
         }
+
         input, select, textarea {
             width: 100%;
             padding: 0.75rem;
@@ -116,10 +181,12 @@
             font-size: 0.9rem;
             font-family: inherit;
         }
+
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #667eea;
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
@@ -130,7 +197,12 @@
             font-weight: 500;
             transition: all 0.3s;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
         .btn-danger {
             background: #ef4444;
             color: white;
@@ -140,6 +212,7 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
+
         .btn-grade {
             background: #10b981;
             color: white;
@@ -149,7 +222,8 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
-        .assignment-item, .note-item, .student-card, .submission-item {
+
+        .assignment-item, .note-item, .student-card, .submission-item, .attendance-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -160,51 +234,59 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
+
         .theory-card {
             background: white;
             border-radius: 0.75rem;
             padding: 1rem;
             margin-bottom: 1rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
         }
-        .empty-state { text-align: center; padding: 2rem; color: #6b7280; }
+
+        .theory-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+
         .score-input {
             width: 70px;
             padding: 0.3rem;
             border: 1px solid #e2e8f0;
             border-radius: 0.3rem;
         }
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+
+        .score-input:focus {
+            outline: none;
+            border-color: #667eea;
         }
-        .login-card {
-            background: white;
-            border-radius: 2rem;
-            padding: 2rem;
-            width: 350px;
-            text-align: center;
+
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
-        .login-card input {
-            width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-        }
-        @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+
         @media (max-width: 768px) {
-            .navbar { flex-direction: column; text-align: center; }
-            .container { padding: 1rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -212,15 +294,16 @@
     <nav class="navbar">
         <a href="#" class="logo">👨‍🏫 Teacher Portal | The Junior Scholar Portal</a>
         <div class="nav-links">
-            <a href="#" onclick="logout()">Logout</a>
+            <a href="index.html">Home</a>
+            <a href="#" onclick="goToStudentDashboard()" class="student-view-btn">👨‍🎓 Student View</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="welcome-card">
-            <h1>Welcome, <span id="teacherName">Teacher</span>! 👋</h1>
+            <h1>Welcome, Teacher! 👋</h1>
             <p>Manage assignments, share notes, grade theory answers, and track student progress</p>
-            <span style="display: inline-block; background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem; margin-top: 0.5rem;">🔐 ADMIN ACCESS</span>
+            <span style="display: inline-block; background: #f59e0b; color: #1e293b; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem; margin-top: 0.5rem;">🔐 TEACHER ACCESS</span>
         </div>
 
         <div class="stats-grid">
@@ -236,13 +319,16 @@
             <button class="tab-btn active" onclick="showTab('notes')">📘 Share Notes</button>
             <button class="tab-btn" onclick="showTab('assignments')">📋 Assignments</button>
             <button class="tab-btn" onclick="showTab('students')">👥 Students</button>
-            <button class="tab-btn" onclick="showTab('theory')">📝 Theory Submissions</button>
+            <button class="tab-btn" onclick="showTab('theory')">📝 Submissions</button>
+            <button class="tab-btn" onclick="showTab('attendance')">✅ Attendance</button>
         </div>
 
         <!-- Share Notes Tab -->
         <div id="notesTab">
             <div class="card">
-                <div class="card-header"><h3>📘 Share Study Notes / Materials</h3></div>
+                <div class="card-header">
+                    <h3 class="card-title">📘 Share Study Notes / Materials</h3>
+                </div>
                 <form id="shareNoteForm">
                     <div class="form-group"><label>Subject</label><select id="noteSubject" required><option>Mathematics</option><option>English</option><option>Science</option><option>Social Studies</option></select></div>
                     <div class="form-group"><label>Title</label><input type="text" id="noteTitle" required placeholder="e.g., Algebra Summary, Essay Structure"></div>
@@ -252,7 +338,7 @@
                 </form>
             </div>
             <div class="card">
-                <div class="card-header"><h3>📚 Existing Notes (Visible to Students)</h3></div>
+                <div class="card-header"><h3 class="card-title">📚 Existing Notes (Visible to Students)</h3></div>
                 <div id="notesList"></div>
             </div>
         </div>
@@ -260,25 +346,26 @@
         <!-- Assignments Tab -->
         <div id="assignmentsTab" style="display: none;">
             <div class="card">
-                <div class="card-header"><h3>📋 Create Assignment</h3></div>
+                <div class="card-header">
+                    <h3 class="card-title">📋 Create Assignment</h3>
+                </div>
                 <form id="assignmentForm">
-                    <div class="form-group"><label>Subject</label><select id="assignSubject" required><option>Mathematics</option><option>English</option><option>Science</option></select></div>
-                    <div class="form-group"><label>Title</label><input type="text" id="assignTitle" required placeholder="Assignment title"></div>
-                    <div class="form-group"><label>Description / Instructions</label><textarea id="assignDesc" rows="3" required placeholder="Describe the assignment..."></textarea></div>
+                    <div class="form-group"><label>Subject</label><select id="assignSubject" required><option value="">Select</option><option value="Mathematics">Math</option><option value="English">English</option><option value="Science">Science</option></select></div>
+                    <div class="form-group"><label>Title</label><input type="text" id="assignTitle" required></div>
+                    <div class="form-group"><label>Description</label><textarea id="assignDesc" rows="3" required></textarea></div>
                     <div class="form-group"><label>Due Date</label><input type="date" id="assignDue" required></div>
-                    <button type="submit" class="btn-primary">📢 Send to Students</button>
+                    <button type="submit" class="btn-primary">Send to Students</button>
                 </form>
             </div>
-            <div class="card">
-                <div class="card-header"><h3>📋 Active Assignments</h3></div>
-                <div id="assignmentsList"></div>
-            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">📋 Active Assignments</h3></div><div id="assignmentsList"></div></div>
         </div>
 
         <!-- Students Tab -->
         <div id="studentsTab" style="display: none;">
             <div class="card">
-                <div class="card-header"><h3>👥 Registered Students</h3></div>
+                <div class="card-header">
+                    <h3 class="card-title">👥 Registered Students</h3>
+                </div>
                 <div id="studentsList"></div>
             </div>
         </div>
@@ -286,18 +373,25 @@
         <!-- Theory Submissions Tab -->
         <div id="theoryTab" style="display: none;">
             <div class="card">
-                <div class="card-header"><h3>📝 Student Theory Answers - Grade & Award Points</h3></div>
+                <div class="card-header">
+                    <h3 class="card-title">📝 Student Answers - Grade & Award Points</h3>
+                </div>
                 <div id="theorySubmissionsList"></div>
             </div>
         </div>
-    </div>
 
-    <div id="loginOverlay" class="login-overlay">
-        <div class="login-card">
-            <h2>👩‍🏫 Teacher Login</h2>
-            <input type="text" id="teacherPassword" placeholder="Enter Admin Password" type="password">
-            <button onclick="loginTeacher()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem; width: 100%;">Access Portal</button>
-            <p style="margin-top: 1rem; font-size: 0.8rem;">Password: <strong>admin123</strong></p>
+        <!-- Attendance Tab -->
+        <div id="attendanceTab" style="display: none;">
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">🔑 Generate Keycode</h3></div>
+                <form id="attendanceForm">
+                    <div class="form-group"><label>Subject</label><select id="attSubject"><option>Math</option><option>English</option><option>Science</option></select></div>
+                    <div class="form-group"><label>Session Title</label><input type="text" id="attTitle" required></div>
+                    <div class="form-group"><label>Keycode</label><input type="text" id="attCode" placeholder="Any word" required></div>
+                    <button type="submit" class="btn-primary">Generate</button>
+                </form>
+            </div>
+            <div class="card"><div class="card-header"><h3 class="card-title">Active Sessions</h3></div><div id="activeAttendance"></div></div>
         </div>
     </div>
 
@@ -320,49 +414,25 @@
             appId: "1:519496965849:web:86",
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let isLoggedIn = false;
-        let theorySubmissions = [];
+        let activeAttendances = JSON.parse(localStorage.getItem('activeAttendances') || '[]');
+        function saveAttendance() { localStorage.setItem('activeAttendances', JSON.stringify(activeAttendances)); }
 
-        function loginTeacher() {
-            const pwd = document.getElementById('teacherPassword').value;
-            if (pwd === 'admin123') {
-                isLoggedIn = true;
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('teacherName').textContent = 'Administrator';
-                loadAllData();
-            } else {
-                alert('Incorrect password. Use: admin123');
-            }
-        }
+        // Load all data on page load
+        loadAllData();
 
-        function logout() {
-            isLoggedIn = false;
-            document.getElementById('loginOverlay').style.display = 'flex';
-            document.getElementById('teacherPassword').value = '';
-        }
-
-        // Check if already logged in from session
-        if (localStorage.getItem('teacherAuth') === 'true') {
-            isLoggedIn = true;
-            document.getElementById('loginOverlay').style.display = 'none';
-            document.getElementById('teacherName').textContent = 'Administrator';
-            loadAllData();
-        }
-
-        function saveTeacherAuth() { localStorage.setItem('teacherAuth', 'true'); }
-        
         async function loadAllData() {
-            saveTeacherAuth();
+            await loadNotesFromFirebase();
+            await loadAssignmentsFromFirebase();
             await loadStudents();
             await loadTheorySubmissions();
-            await loadAssignmentsFromFirebase();
-            await loadNotesFromFirebase();
+            loadAttendance();
         }
 
-        // ==================== NOTES (Share to Students) ====================
+        // ==================== NOTES ====================
         async function loadNotesFromFirebase() {
             const snapshot = await database.ref('notes').orderByChild('createdAt').once('value');
             const notes = [];
@@ -380,9 +450,11 @@
         }
 
         window.deleteNote = async (id) => {
-            await database.ref(`notes/${id}`).remove();
-            await loadNotesFromFirebase();
-            alert('Note deleted. Students will no longer see it.');
+            if (confirm('Delete this note? Students will no longer see it.')) {
+                await database.ref(`notes/${id}`).remove();
+                await loadNotesFromFirebase();
+                alert('Note deleted.');
+            }
         };
 
         document.getElementById('shareNoteForm').addEventListener('submit', async (e) => {
@@ -418,9 +490,11 @@
         }
 
         window.deleteAssignment = async (id) => {
-            await database.ref(`assignments/${id}`).remove();
-            await loadAssignmentsFromFirebase();
-            alert('Assignment removed.');
+            if (confirm('Delete this assignment? Students will no longer see it.')) {
+                await database.ref(`assignments/${id}`).remove();
+                await loadAssignmentsFromFirebase();
+                alert('Assignment deleted.');
+            }
         };
 
         document.getElementById('assignmentForm').addEventListener('submit', async (e) => {
@@ -456,8 +530,17 @@
                 const accuracy = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
                 return `
                     <div class="student-card">
-                        <div><strong>${s.fullName}</strong><br><span style="font-size:0.7rem;">📧 ${s.email} | 📚 ${s.class || 'Not set'}</span></div>
-                        <div style="text-align:right;">⭐ ${stats.points || 0} pts | 🎯 ${accuracy}%<br><button class="btn-primary" style="padding:0.3rem 0.8rem; margin-top:0.3rem;" onclick="viewStudentDetails('${s.id}')">View</button></div>
+                        <div>
+                            <strong>${s.fullName}</strong>
+                            <div style="font-size:0.7rem;">📧 ${s.email} | 📚 ${s.class || 'Not set'}</div>
+                            <div style="font-size:0.7rem;">🏫 ${s.school || 'Junior Academy'}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div>⭐ ${stats.points || 0} pts</div>
+                            <div>📝 ${stats.total} Qs</div>
+                            <div>🎯 ${accuracy}%</div>
+                            <button class="btn-primary" style="padding:0.3rem 0.8rem; margin-top:0.3rem;" onclick="viewStudentDetails('${s.id}')">View</button>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -476,20 +559,19 @@
                     </div>
                     <h4>Performance</h4>
                     <div style="background:#f8fafc; padding:1rem; border-radius:0.5rem;">
-                        <p>Questions Attempted: ${stats.total || 0}</p><p>Correct: ${stats.correct || 0}</p><p>Accuracy: ${accuracy}%</p><p>⭐ Total Points: ${stats.points || 0}</p>
+                        <p>Questions: ${stats.total || 0}</p><p>Correct: ${stats.correct || 0}</p><p>Accuracy: ${accuracy}%</p><p>Points: ${stats.points || 0}</p>
                     </div>
                 `;
                 document.getElementById('studentModal').style.display = 'flex';
             }
         };
 
-        // ==================== THEORY SUBMISSIONS GRADING ====================
+        // ==================== THEORY SUBMISSIONS ====================
         async function loadTheorySubmissions() {
             const snapshot = await database.ref('theorySubmissions').once('value');
             const submissions = [];
             snapshot.forEach(child => submissions.push({ id: child.key, ...child.val() }));
             submissions.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
-            theorySubmissions = submissions;
             
             const pending = submissions.filter(s => !s.graded).length;
             document.getElementById('pendingGrading').textContent = pending;
@@ -500,21 +582,41 @@
             document.getElementById('totalPoints').textContent = totalPointsAwarded;
             
             const container = document.getElementById('theorySubmissionsList');
-            if (submissions.length === 0) { container.innerHTML = '<div class="empty-state">📝 No theory submissions yet.</div>'; return; }
+            if (submissions.length === 0) {
+                container.innerHTML = '<div class="empty-state">📝 No submissions yet.</div>';
+                return;
+            }
             
             container.innerHTML = submissions.map(sub => `
                 <div class="theory-card">
-                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-                        <div><strong>👨‍🎓 ${sub.studentName}</strong> <span style="background:#eef2ff; padding:0.2rem 0.5rem; border-radius:2rem; font-size:0.7rem;">${sub.subject}</span></div>
-                        <div style="font-size:0.7rem;">📅 ${new Date(sub.submittedAt).toLocaleString()}</div>
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <div>
+                            <strong>👨‍🎓 ${sub.studentName}</strong>
+                            <span style="background: #eef2ff; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.7rem; margin-left: 0.5rem;">${sub.subject}</span>
+                        </div>
+                        <div style="font-size: 0.7rem; color: #6b7280;">📅 ${new Date(sub.submittedAt).toLocaleString()}</div>
                     </div>
-                    <div style="margin:0.5rem 0;"><strong>Question ${sub.questionNumber}:</strong> ${sub.questionText}</div>
-                    <div style="background:#f8fafc; padding:0.75rem; border-radius:0.5rem; margin:0.5rem 0;"><strong>📝 Student's Answer:</strong><br>"${sub.answer}"</div>
-                    ${sub.modelAnswer ? `<div style="background:#eef2ff; padding:0.75rem; border-radius:0.5rem;"><strong>📖 Model Answer:</strong><br>${sub.modelAnswer}</div>` : ''}
-                    <div style="margin-top:0.75rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-                        <div><span>Grade (0-10):</span> <input type="number" id="score_${sub.id}" class="score-input" min="0" max="10" step="1" value="${sub.score || ''}" placeholder="0-10"> /10</div>
+                    <div style="margin: 0.5rem 0;">
+                        <strong>Question ${sub.questionNumber}:</strong> ${sub.questionText}
+                    </div>
+                    <div style="background: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0;">
+                        <strong>📝 Student's Answer:</strong><br>
+                        "${sub.answer}"
+                    </div>
+                    ${sub.modelAnswer ? `
+                        <div style="background: #eef2ff; padding: 0.75rem; border-radius: 0.5rem; margin: 0.5rem 0;">
+                            <strong>📖 Model Answer:</strong><br>
+                            ${sub.modelAnswer}
+                        </div>
+                    ` : ''}
+                    <div style="margin-top: 0.75rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-weight: 500;">Grade (0-10):</span>
+                            <input type="number" id="score_${sub.id}" class="score-input" min="0" max="10" step="1" value="${sub.score || ''}" placeholder="0-10">
+                            <span>/10</span>
+                        </div>
                         <button onclick="gradeTheory('${sub.id}', '${sub.studentId}')" class="btn-grade">✅ Award Points</button>
-                        <span style="font-size:0.7rem; color:${sub.graded ? '#10b981' : '#f59e0b'}">${sub.graded ? '✓ Graded' : 'Pending'}</span>
+                        <span id="status_${sub.id}" style="font-size: 0.7rem; color: ${sub.graded ? '#10b981' : '#f59e0b'}">${sub.graded ? '✓ Graded' : 'Pending'}</span>
                     </div>
                 </div>
             `).join('');
@@ -542,28 +644,64 @@
             await loadStudents();
         };
 
+        // ==================== ATTENDANCE ====================
+        document.getElementById('attendanceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            activeAttendances.push({
+                id: Date.now(),
+                subject: document.getElementById('attSubject').value,
+                title: document.getElementById('attTitle').value,
+                code: document.getElementById('attCode').value.toUpperCase(),
+                active: true,
+                createdAt: new Date().toISOString()
+            });
+            saveAttendance();
+            alert(`✅ Keycode: ${document.getElementById('attCode').value.toUpperCase()}`);
+            e.target.reset();
+            loadAttendance();
+        });
+
+        function loadAttendance() {
+            const container = document.getElementById('activeAttendance');
+            const active = activeAttendances.filter(a => a.active);
+            if (active.length === 0) { container.innerHTML = '<div class="empty-state">📭 No active sessions.</div>'; return; }
+            container.innerHTML = active.map(a => `
+                <div class="attendance-item" style="display:flex; justify-content:space-between; align-items:center; padding:1rem; background:#f8fafc; border-radius:0.75rem; margin-bottom:0.75rem;">
+                    <div><strong>${a.subject}: ${a.title}</strong><br>🔑 ${a.code}</div>
+                    <button class="btn-danger" onclick="deactivateAttendance(${a.id})">Deactivate</button>
+                </div>
+            `).join('');
+        }
+
+        function deactivateAttendance(id) {
+            const index = activeAttendances.findIndex(a => a.id === id);
+            if (index !== -1) { activeAttendances[index].active = false; saveAttendance(); loadAttendance(); }
+        }
+
         // ==================== TAB SWITCHING ====================
-        function showTab(tab) {
+        async function showTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            
             document.getElementById('notesTab').style.display = 'none';
             document.getElementById('assignmentsTab').style.display = 'none';
             document.getElementById('studentsTab').style.display = 'none';
             document.getElementById('theoryTab').style.display = 'none';
+            document.getElementById('attendanceTab').style.display = 'none';
             
-            if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; loadNotesFromFirebase(); }
-            else if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; loadAssignmentsFromFirebase(); }
+            if (tab === 'notes') { document.getElementById('notesTab').style.display = 'block'; await loadNotesFromFirebase(); }
+            else if (tab === 'assignments') { document.getElementById('assignmentsTab').style.display = 'block'; await loadAssignmentsFromFirebase(); }
             else if (tab === 'students') { document.getElementById('studentsTab').style.display = 'block'; loadStudents(); }
-            else if (tab === 'theory') { document.getElementById('theoryTab').style.display = 'block'; loadTheorySubmissions(); }
+            else if (tab === 'theory') { document.getElementById('theoryTab').style.display = 'block'; await loadTheorySubmissions(); }
+            else if (tab === 'attendance') { document.getElementById('attendanceTab').style.display = 'block'; loadAttendance(); }
+        }
+
+        function goToStudentDashboard() {
+            window.location.href = 'student-resources.html';
         }
 
         function closeModal() { document.getElementById('studentModal').style.display = 'none'; }
         window.onclick = (e) => { if (e.target === document.getElementById('studentModal')) closeModal(); };
-
-        // Auto-load if already logged in
-        if (document.getElementById('loginOverlay').style.display === 'none') {
-            loadAllData();
-        }
     </script>
 </body>
 </html>
