@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Portal - Create Tests</title>
+    <title>Student Dashboard - The Junior Scholar Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -13,99 +13,109 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 2rem;
+            color: #1e293b;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .card {
+        .navbar {
             background: white;
-            border-radius: 1.5rem;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo { font-size: 1.2rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .glass-header {
+            background: rgba(255,255,255,0.9);
+            border-radius: 2rem;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
         }
-        h1 { color: #1e293b; margin-bottom: 0.5rem; }
-        .subtitle { color: #6b7280; margin-bottom: 1.5rem; }
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-family: inherit;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        button {
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #667eea; }
+        .assignment-card, .note-card {
+            background: white;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .assignment-header, .note-header {
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+        }
+        .assignment-title { font-size: 1rem; font-weight: 700; }
+        .assignment-due { font-size: 0.7rem; color: #f59e0b; }
+        .assignment-body, .note-body { padding: 1.5rem; }
+        .submission-area { background: #f8fafc; border-radius: 0.75rem; padding: 1rem; margin-top: 1rem; }
+        .submission-input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit; }
+        .btn-submit {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
             cursor: pointer;
             width: 100%;
-        }
-        .test-item {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        .delete-btn {
-            background: #ef4444;
-            padding: 0.3rem 0.8rem;
-            width: auto;
             margin-top: 0.5rem;
         }
-        .success-msg {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 0.75rem;
-            border-radius: 0.75rem;
+        .submitted-badge { background: #d1fae5; color: #065f46; padding: 0.5rem; border-radius: 0.5rem; }
+        .empty-state { text-align: center; padding: 3rem; background: white; border-radius: 1rem; color: #6b7280; }
+        .refresh-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
             margin-bottom: 1rem;
-            display: none;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">📚 The Junior Scholar Portal</div>
+        <div style="font-size: 0.8rem;">👨‍🎓 Student View</div>
+    </nav>
+
     <div class="container">
-        <div class="card">
-            <h1>👨‍🏫 Teacher Portal</h1>
-            <p class="subtitle">Create tests - Students will see them instantly!</p>
-            
-            <div id="successMsg" class="success-msg"></div>
-            
-            <form id="testForm">
-                <div class="form-group">
-                    <label>Subject</label>
-                    <select id="subject" required>
-                        <option>Mathematics</option>
-                        <option>English</option>
-                        <option>Science</option>
-                        <option>Social Studies</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Test Title</label>
-                    <input type="text" id="title" required placeholder="e.g., Algebra Quiz, Essay Test">
-                </div>
-                <div class="form-group">
-                    <label>Questions / Instructions</label>
-                    <textarea id="description" rows="5" required placeholder="Write the test questions here..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Due Date</label>
-                    <input type="date" id="dueDate" required>
-                </div>
-                <button type="submit">📤 PUBLISH TEST TO STUDENTS</button>
-            </form>
+        <div class="glass-header">
+            <h1>📋 My Learning Resources</h1>
+            <p>View tests and assignments from your teachers</p>
+            <button class="refresh-btn" onclick="refreshAll()">🔄 Refresh - Check for New Tests</button>
         </div>
 
-        <div class="card">
-            <h2>📋 Your Published Tests</h2>
-            <div id="testsList"></div>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value" id="pendingCount">0</div><div class="stat-label">Pending Tests</div></div>
+            <div class="stat-card"><div class="stat-value" id="submittedCount">0</div><div class="stat-label">Submitted</div></div>
+            <div class="stat-card"><div class="stat-value" id="notesCount">0</div><div class="stat-label">Notes Available</div></div>
+        </div>
+
+        <h2>📝 Tests & Assignments from Teachers</h2>
+        <div id="assignmentsContainer"></div>
+
+        <h2 style="margin-top: 2rem;">📚 Teacher Notes</h2>
+        <div id="notesContainer"></div>
+
+        <div class="credits" style="text-align: center; margin-top: 2rem; color: rgba(255,255,255,0.7);">
+            ✨ Made with Excellence by SKILABS ✨
         </div>
     </div>
 
@@ -123,66 +133,154 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Load existing tests
-        function loadTests() {
-            database.ref('assignments').on('value', (snapshot) => {
-                const tests = [];
-                snapshot.forEach(child => {
-                    tests.push({ id: child.key, ...child.val() });
-                });
-                tests.reverse();
-                
-                const container = document.getElementById('testsList');
-                if (tests.length === 0) {
-                    container.innerHTML = '<p style="color: #6b7280;">No tests yet. Create one above!</p>';
-                    return;
-                }
-                
-                container.innerHTML = tests.map(test => `
-                    <div class="test-item">
-                        <strong>📚 ${test.subject}</strong><br>
-                        <strong>${test.title}</strong><br>
-                        <span style="font-size:0.8rem;">📅 Due: ${test.dueDate}</span><br>
-                        <span style="font-size:0.8rem;">${test.description.substring(0,100)}...</span><br>
-                        <button class="delete-btn" onclick="deleteTest('${test.id}')">Delete Test</button>
-                    </div>
-                `).join('');
+        // Get or create student ID
+        let studentId = localStorage.getItem('studentId');
+        let studentName = localStorage.getItem('studentName');
+        
+        if (!studentId) {
+            studentId = 'student_' + Date.now();
+            studentName = 'Student_' + Math.floor(Math.random() * 1000);
+            localStorage.setItem('studentId', studentId);
+            localStorage.setItem('studentName', studentName);
+            
+            // Save to Firebase
+            database.ref(`students/${studentId}`).set({
+                fullName: studentName,
+                email: studentName + '@student.local',
+                practiceStats: { total: 0, correct: 0, points: 0 },
+                joinedAt: new Date().toISOString()
             });
         }
 
-        window.deleteTest = async (id) => {
-            if (confirm('Delete this test? Students will no longer see it.')) {
-                await database.ref(`assignments/${id}`).remove();
-                alert('Test deleted!');
-            }
-        };
+        let submissions = {};
 
-        // Create new test
-        document.getElementById('testForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function loadSubmissions() {
+            const snapshot = await database.ref(`submissions/${studentId}`).once('value');
+            submissions = snapshot.val() || {};
+            document.getElementById('submittedCount').textContent = Object.keys(submissions).length;
+        }
+
+        async function loadAssignments() {
+            console.log("Loading assignments from Firebase...");
+            const snapshot = await database.ref('assignments').once('value');
+            const assignments = [];
+            snapshot.forEach(child => {
+                assignments.push({ id: child.key, ...child.val() });
+                console.log("Found assignment:", child.val());
+            });
+            assignments.reverse();
             
-            const testData = {
-                subject: document.getElementById('subject').value,
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                dueDate: document.getElementById('dueDate').value,
-                createdAt: new Date().toISOString()
+            document.getElementById('pendingCount').textContent = assignments.filter(a => !submissions[a.id]).length;
+            
+            const container = document.getElementById('assignmentsContainer');
+            if (assignments.length === 0) {
+                container.innerHTML = '<div class="empty-state">📭 No tests yet. Ask your teacher to create one!</div>';
+                return;
+            }
+            
+            container.innerHTML = assignments.map(a => {
+                const submitted = submissions[a.id];
+                return `
+                    <div class="assignment-card">
+                        <div class="assignment-header">
+                            <div class="assignment-title">📋 ${a.title}</div>
+                            <div class="assignment-due">📅 Due: ${a.dueDate} | Subject: ${a.subject}</div>
+                        </div>
+                        <div class="assignment-body">
+                            <div>${(a.description || '').replace(/\n/g, '<br>')}</div>
+                            <div class="submission-area">
+                                ${submitted ? `
+                                    <div class="submitted-badge">✅ Submitted on ${submitted.date}</div>
+                                    <div style="margin-top:0.5rem;">Your answer: "${submitted.answer}"</div>
+                                ` : `
+                                    <textarea id="answer_${a.id}" class="submission-input" rows="4" placeholder="Write your answer here..."></textarea>
+                                    <button class="btn-submit" onclick="submitAssignment('${a.id}', '${a.title.replace(/'/g, "\\'")}')">📤 Submit Test</button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadNotes() {
+            const snapshot = await database.ref('notes').once('value');
+            const notes = [];
+            snapshot.forEach(child => notes.push({ id: child.key, ...child.val() }));
+            notes.reverse();
+            document.getElementById('notesCount').textContent = notes.length;
+            
+            const container = document.getElementById('notesContainer');
+            if (notes.length === 0) {
+                container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>';
+                return;
+            }
+            
+            container.innerHTML = notes.map(n => `
+                <div class="note-card">
+                    <div class="note-header">
+                        <div class="assignment-title">📘 ${n.title}</div>
+                        <div style="font-size:0.7rem;">Subject: ${n.subject}</div>
+                    </div>
+                    <div class="note-body">
+                        <div>${(n.content || '').replace(/\n/g, '<br>')}</div>
+                        <div style="font-size:0.7rem; color:#94a3b8; margin-top:0.5rem;">📅 ${new Date(n.createdAt).toLocaleDateString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function submitAssignment(id, title) {
+            const answer = document.getElementById(`answer_${id}`).value;
+            if (!answer.trim()) {
+                alert('Please write your answer.');
+                return;
+            }
+            
+            const submissionData = {
+                assignmentId: id,
+                title: title,
+                answer: answer,
+                date: new Date().toLocaleString(),
+                studentId: studentId,
+                studentName: studentName
             };
             
-            await database.ref('assignments').push(testData);
+            await database.ref(`submissions/${studentId}/${id}`).set(submissionData);
+            await database.ref('allSubmissions').push().set(submissionData);
+            await database.ref(`students/${studentId}/practiceStats/points`).transaction(p => (p || 0) + 20);
             
-            const successDiv = document.getElementById('successMsg');
-            successDiv.textContent = `✅ Test "${testData.title}" published! Students can now see it.`;
-            successDiv.style.display = 'block';
-            
-            document.getElementById('testForm').reset();
-            
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 3000);
+            alert('✅ Test submitted! +20 points!');
+            await loadSubmissions();
+            await loadAssignments();
+        }
+
+        async function refreshAll() {
+            document.getElementById('assignmentsContainer').innerHTML = '<div class="empty-state">🔄 Loading tests from teacher...</div>';
+            await loadSubmissions();
+            await loadAssignments();
+            await loadNotes();
+            alert('✅ Refreshed! Check for new tests from your teacher.');
+        }
+
+        // Set up real-time listener for new assignments
+        database.ref('assignments').on('value', () => {
+            console.log("New assignment detected!");
+            loadAssignments();
+        });
+        
+        database.ref('notes').on('value', () => {
+            console.log("New note detected!");
+            loadNotes();
         });
 
-        loadTests();
+        // Initial load
+        loadSubmissions();
+        loadAssignments();
+        loadNotes();
+        
+        console.log("Student ID:", studentId);
+        console.log("Student Name:", studentName);
     </script>
 </body>
 </html>
