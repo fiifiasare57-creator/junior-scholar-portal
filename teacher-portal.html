@@ -13,175 +13,238 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #1e293b;
-        }
-        .navbar {
-            background: rgba(255,255,255,0.95);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .welcome-card {
-            background: white;
-            border-radius: 1rem;
             padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .stat-card {
+        .header {
             background: white;
-            padding: 1rem;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
             text-align: center;
         }
-        .stat-number { font-size: 1.5rem; font-weight: 700; color: #667eea; }
-        .stat-label { font-size: 0.7rem; color: #6b7280; }
-        .tabs {
+        .header h1 { color: #1e293b; }
+        .header p { color: #6b7280; }
+        .teacher-selector {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
+            align-items: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            border-bottom: 2px solid #eef2f6;
-            padding-bottom: 0.5rem;
+            gap: 1rem;
         }
-        .tab-btn {
-            padding: 0.6rem 1.2rem;
-            background: none;
-            border: none;
+        .teacher-badge {
+            background: white;
+            padding: 0.5rem 1rem;
             border-radius: 2rem;
-            cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
         }
-        .tab-btn.active { background: #667eea; color: white; }
+        .teacher-badge span {
+            color: #667eea;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
         .card {
             background: white;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
         }
+        .card h2 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eef2f6;
+        }
         .form-group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.85rem; }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
         input, select, textarea {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             font-family: inherit;
+            font-size: 0.9rem;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
         }
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            border: none;
             padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
+            width: 100%;
         }
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
         }
-        .assignment-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
+        .item-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .assignment-item, .note-item, .submission-item {
             background: #f8fafc;
+            padding: 1rem;
             border-radius: 0.75rem;
             margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            border-left: 3px solid #667eea;
         }
-        .empty-state { text-align: center; padding: 2rem; color: #6b7280; }
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+        }
+        .subject-tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            margin-bottom: 0.5rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+        }
+        .success-msg {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
         @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .container { padding: 1rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            body { padding: 1rem; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">👨‍🏫 Teacher Portal | The Junior Scholar Portal</div>
-    </nav>
-
     <div class="container">
-        <div class="welcome-card">
-            <h1>Welcome, Teacher! 👋</h1>
-            <p>Create tests and assignments - Students will see them instantly!</p>
-            <span style="display: inline-block; background: #10b981; color: white; padding: 0.2rem 0.5rem; border-radius: 2rem; font-size: 0.6rem;">✅ Saves to Firebase - Students can see</span>
+        <div class="header">
+            <h1>👨‍🏫 Teacher Portal</h1>
+            <p>All 5 Teachers - Select your subject below</p>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number" id="totalAssignments">0</div><div class="stat-label">Assignments Created</div></div>
-            <div class="stat-card"><div class="stat-number" id="totalSubmissions">0</div><div class="stat-label">Student Submissions</div></div>
-            <div class="stat-card"><div class="stat-number" id="totalNotes">0</div><div class="stat-label">Notes Shared</div></div>
-            <div class="stat-card"><div class="stat-number" id="totalStudents">0</div><div class="stat-label">Students</div></div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('assignments')">📋 Create Test/Assignment</button>
-            <button class="tab-btn" onclick="showTab('notes')">📘 Share Notes</button>
-            <button class="tab-btn" onclick="showTab('submissions')">📝 Student Submissions</button>
-        </div>
-
-        <!-- Assignments Tab -->
-        <div id="assignmentsTab">
-            <div class="card">
-                <h3>📝 Create a New Test/Assignment</h3>
-                <form id="assignmentForm">
-                    <div class="form-group"><label>Subject</label><select id="assignSubject" required><option>Mathematics</option><option>English</option><option>Science</option><option>Social Studies</option></select></div>
-                    <div class="form-group"><label>Test/Assignment Title</label><input type="text" id="assignTitle" required placeholder="e.g., Math Quiz 1, Essay Assignment"></div>
-                    <div class="form-group"><label>Instructions / Questions</label><textarea id="assignDesc" rows="4" required placeholder="Write the test questions or assignment details here..."></textarea></div>
-                    <div class="form-group"><label>Due Date</label><input type="date" id="assignDue" required></div>
-                    <button type="submit" class="btn-primary">📤 Publish to Students</button>
-                </form>
+        <!-- Teacher Subject Selector -->
+        <div class="teacher-selector">
+            <div class="teacher-badge">
+                📚 Current Teacher: <span id="currentTeacherName">Select Subject Below</span>
             </div>
-            <div class="card">
-                <h3>📋 Your Published Tests</h3>
-                <div id="assignmentsList"></div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button onclick="selectTeacher('Mathematics', 'Mr. Kofi')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer;">📐 Math - Mr. Kofi</button>
+                <button onclick="selectTeacher('English', 'Ms. Ama')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer;">📖 English - Ms. Ama</button>
+                <button onclick="selectTeacher('Science', 'Dr. Mensah')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer;">🔬 Science - Dr. Mensah</button>
+                <button onclick="selectTeacher('Social Studies', 'Mr. Asare')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer;">🌍 Social - Mr. Asare</button>
+                <button onclick="selectTeacher('Computing', 'Mrs. Esi')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer;">💻 Computing - Mrs. Esi</button>
             </div>
         </div>
 
-        <!-- Notes Tab -->
-        <div id="notesTab" style="display: none;">
-            <div class="card">
-                <h3>📘 Share Study Notes</h3>
-                <form id="noteForm">
-                    <div class="form-group"><label>Subject</label><select id="noteSubject"><option>Mathematics</option><option>English</option><option>Science</option></select></div>
-                    <div class="form-group"><label>Title</label><input type="text" id="noteTitle" required></div>
-                    <div class="form-group"><label>Content</label><textarea id="noteContent" rows="4" required></textarea></div>
-                    <button type="submit" class="btn-primary">📤 Share Note</button>
-                </form>
-            </div>
-            <div class="card">
-                <h3>📚 Your Notes</h3>
-                <div id="notesList"></div>
-            </div>
-        </div>
+        <div id="successMsg" class="success-msg"></div>
 
-        <!-- Submissions Tab -->
-        <div id="submissionsTab" style="display: none;">
-            <div class="card">
-                <h3>📝 Student Test Submissions</h3>
-                <div id="submissionsList"></div>
+        <div class="grid-2">
+            <!-- Left Column - Create -->
+            <div>
+                <div class="card">
+                    <h2>📝 Create New Test/Assignment</h2>
+                    <form id="assignmentForm">
+                        <div class="form-group">
+                            <label>Subject (Auto-filled from your selection)</label>
+                            <input type="text" id="assignSubject" readonly style="background: #f1f5f9;">
+                        </div>
+                        <div class="form-group">
+                            <label>Teacher Name</label>
+                            <input type="text" id="teacherName" readonly style="background: #f1f5f9;">
+                        </div>
+                        <div class="form-group">
+                            <label>Test Title</label>
+                            <input type="text" id="assignTitle" required placeholder="e.g., Mid-Term Quiz, Chapter 1 Test">
+                        </div>
+                        <div class="form-group">
+                            <label>Questions / Instructions</label>
+                            <textarea id="assignDesc" rows="4" required placeholder="Write the test questions here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="assignDue" required>
+                        </div>
+                        <button type="submit" class="btn-primary">📤 Publish to Students</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📘 Share Study Notes</h2>
+                    <form id="noteForm">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="noteSubject" readonly style="background: #f1f5f9;">
+                        </div>
+                        <div class="form-group">
+                            <label>Note Title</label>
+                            <input type="text" id="noteTitle" required placeholder="e.g., Summary Notes, Key Points">
+                        </div>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea id="noteContent" rows="4" required placeholder="Write your notes here..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Resource Link (optional)</label>
+                            <input type="url" id="noteLink" placeholder="https://...">
+                        </div>
+                        <button type="submit" class="btn-primary btn-success">📤 Share Notes</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column - View -->
+            <div>
+                <div class="card">
+                    <h2>📋 My Published Tests</h2>
+                    <div class="item-list" id="myAssignmentsList">
+                        <div class="empty-state">Select your subject above to see your tests</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📚 My Shared Notes</h2>
+                    <div class="item-list" id="myNotesList">
+                        <div class="empty-state">Select your subject above to see your notes</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📝 Student Submissions (for my subject)</h2>
+                    <div class="item-list" id="submissionsList">
+                        <div class="empty-state">Select your subject above to see student submissions</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -200,35 +263,60 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Load everything
-        loadAssignments();
-        loadNotes();
-        loadSubmissions();
-        loadStudents();
+        // Current selected teacher
+        let currentSubject = "Mathematics";
+        let currentTeacherName = "Mr. Kofi";
 
-        // ========== ASSIGNMENTS (Saved to Firebase - Students can see) ==========
-        async function loadAssignments() {
+        function selectTeacher(subject, teacherName) {
+            currentSubject = subject;
+            currentTeacherName = teacherName;
+            document.getElementById('currentTeacherName').textContent = `${subject} - ${teacherName}`;
+            document.getElementById('assignSubject').value = subject;
+            document.getElementById('teacherName').value = teacherName;
+            document.getElementById('noteSubject').value = subject;
+            
+            // Refresh all lists for this teacher
+            loadMyAssignments();
+            loadMyNotes();
+            loadSubmissionsForMySubject();
+            
+            showSuccess(`Switched to ${subject} (${teacherName})`);
+        }
+
+        function showSuccess(message) {
+            const msgDiv = document.getElementById('successMsg');
+            msgDiv.textContent = message;
+            msgDiv.style.display = 'block';
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 2000);
+        }
+
+        // Load assignments created by this teacher (by subject)
+        async function loadMyAssignments() {
             const snapshot = await database.ref('assignments').once('value');
             const assignments = [];
-            snapshot.forEach(child => assignments.push({ id: child.key, ...child.val() }));
+            snapshot.forEach(child => {
+                const assign = child.val();
+                if (assign.subject === currentSubject) {
+                    assignments.push({ id: child.key, ...assign });
+                }
+            });
             assignments.reverse();
             
-            document.getElementById('totalAssignments').textContent = assignments.length;
-            
-            const container = document.getElementById('assignmentsList');
+            const container = document.getElementById('myAssignmentsList');
             if (assignments.length === 0) {
-                container.innerHTML = '<div class="empty-state">📭 No tests created yet. Create one above!</div>';
+                container.innerHTML = '<div class="empty-state">📭 No tests published yet for ' + currentSubject + '</div>';
                 return;
             }
             
             container.innerHTML = assignments.map(a => `
                 <div class="assignment-item">
-                    <div>
-                        <strong>${a.subject}: ${a.title}</strong><br>
-                        📅 Due: ${a.dueDate}<br>
-                        <span style="font-size:0.8rem;">${(a.description || '').substring(0,100)}...</span>
-                    </div>
-                    <button class="btn-danger" onclick="deleteAssignment('${a.id}')">Delete</button>
+                    <div class="subject-tag">${a.subject}</div>
+                    <div><strong>${a.title}</strong></div>
+                    <div style="font-size:0.75rem;">📅 Due: ${a.dueDate}</div>
+                    <div style="font-size:0.75rem; color:#6b7280;">${(a.description || '').substring(0,80)}...</div>
+                    <button class="delete-btn" onclick="deleteAssignment('${a.id}')">Delete Test</button>
                 </div>
             `).join('');
         }
@@ -236,124 +324,124 @@
         window.deleteAssignment = async (id) => {
             if (confirm('Delete this test? Students will no longer see it.')) {
                 await database.ref(`assignments/${id}`).remove();
-                await loadAssignments();
-                alert('Test deleted!');
+                loadMyAssignments();
+                showSuccess('Test deleted!');
             }
         };
 
-        document.getElementById('assignmentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newAssign = {
-                subject: document.getElementById('assignSubject').value,
-                title: document.getElementById('assignTitle').value,
-                description: document.getElementById('assignDesc').value,
-                dueDate: document.getElementById('assignDue').value,
-                createdAt: new Date().toISOString()
-            };
-            await database.ref('assignments').push(newAssign);
-            alert(`✅ Test "${newAssign.title}" published! Students can now see it.`);
-            document.getElementById('assignmentForm').reset();
-            await loadAssignments();
-        });
-
-        // ========== NOTES ==========
-        async function loadNotes() {
+        // Load notes created by this teacher
+        async function loadMyNotes() {
             const snapshot = await database.ref('notes').once('value');
             const notes = [];
-            snapshot.forEach(child => notes.push({ id: child.key, ...child.val() }));
+            snapshot.forEach(child => {
+                const note = child.val();
+                if (note.subject === currentSubject) {
+                    notes.push({ id: child.key, ...note });
+                }
+            });
             notes.reverse();
-            document.getElementById('totalNotes').textContent = notes.length;
             
-            const container = document.getElementById('notesList');
+            const container = document.getElementById('myNotesList');
             if (notes.length === 0) {
-                container.innerHTML = '<div class="empty-state">📭 No notes shared yet.</div>';
+                container.innerHTML = '<div class="empty-state">📭 No notes shared yet for ' + currentSubject + '</div>';
                 return;
             }
+            
             container.innerHTML = notes.map(n => `
                 <div class="assignment-item">
-                    <div><strong>${n.subject}: ${n.title}</strong><br>${(n.content || '').substring(0,80)}...</div>
-                    <button class="btn-danger" onclick="deleteNote('${n.id}')">Delete</button>
+                    <div class="subject-tag">${n.subject}</div>
+                    <div><strong>${n.title}</strong></div>
+                    <div style="font-size:0.75rem;">${(n.content || '').substring(0,80)}...</div>
+                    <button class="delete-btn" onclick="deleteNote('${n.id}')">Delete Note</button>
                 </div>
             `).join('');
         }
 
         window.deleteNote = async (id) => {
-            await database.ref(`notes/${id}`).remove();
-            await loadNotes();
+            if (confirm('Delete this note?')) {
+                await database.ref(`notes/${id}`).remove();
+                loadMyNotes();
+                showSuccess('Note deleted!');
+            }
         };
 
-        document.getElementById('noteForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newNote = {
-                subject: document.getElementById('noteSubject').value,
-                title: document.getElementById('noteTitle').value,
-                content: document.getElementById('noteContent').value,
-                createdAt: new Date().toISOString()
-            };
-            await database.ref('notes').push(newNote);
-            alert('✅ Note shared!');
-            document.getElementById('noteForm').reset();
-            await loadNotes();
-        });
-
-        // ========== STUDENT SUBMISSIONS ==========
-        async function loadSubmissions() {
+        // Load student submissions for this teacher's subject
+        async function loadSubmissionsForMySubject() {
             const snapshot = await database.ref('allSubmissions').once('value');
             const submissions = [];
-            snapshot.forEach(child => submissions.push({ id: child.key, ...child.val() }));
+            snapshot.forEach(child => {
+                const sub = child.val();
+                // Check if this submission belongs to an assignment in this teacher's subject
+                if (sub.subject === currentSubject) {
+                    submissions.push({ id: child.key, ...sub });
+                }
+            });
             submissions.reverse();
-            document.getElementById('totalSubmissions').textContent = submissions.length;
             
             const container = document.getElementById('submissionsList');
             if (submissions.length === 0) {
-                container.innerHTML = '<div class="empty-state">📝 No student submissions yet.</div>';
+                container.innerHTML = '<div class="empty-state">📝 No student submissions yet for ' + currentSubject + '</div>';
                 return;
             }
+            
             container.innerHTML = submissions.map(s => `
                 <div class="assignment-item">
-                    <div>
-                        <strong>👨‍🎓 ${s.studentName}</strong><br>
-                        📋 ${s.title}<br>
-                        💬 "${s.answer.substring(0,100)}..."<br>
-                        📅 Submitted: ${s.date}
-                    </div>
+                    <div class="subject-tag">${s.subject || currentSubject}</div>
+                    <div><strong>👨‍🎓 ${s.studentName || 'Student'}</strong></div>
+                    <div><strong>Test:</strong> ${s.title}</div>
+                    <div style="font-size:0.75rem;">💬 "${(s.answer || '').substring(0,100)}..."</div>
+                    <div style="font-size:0.7rem; color:#6b7280;">📅 ${s.date}</div>
                 </div>
             `).join('');
         }
 
-        async function loadStudents() {
-            const snapshot = await database.ref('students').once('value');
-            let count = 0;
-            snapshot.forEach(() => count++);
-            document.getElementById('totalStudents').textContent = count;
-        }
-
-        // Tab switching
-        function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        // Create new assignment
+        document.getElementById('assignmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            document.getElementById('assignmentsTab').style.display = 'none';
-            document.getElementById('notesTab').style.display = 'none';
-            document.getElementById('submissionsTab').style.display = 'none';
+            const testData = {
+                subject: currentSubject,
+                teacherName: currentTeacherName,
+                title: document.getElementById('assignTitle').value,
+                description: document.getElementById('assignDesc').value,
+                dueDate: document.getElementById('assignDue').value,
+                createdAt: new Date().toISOString()
+            };
             
-            if (tab === 'assignments') {
-                document.getElementById('assignmentsTab').style.display = 'block';
-                loadAssignments();
-            } else if (tab === 'notes') {
-                document.getElementById('notesTab').style.display = 'block';
-                loadNotes();
-            } else if (tab === 'submissions') {
-                document.getElementById('submissionsTab').style.display = 'block';
-                loadSubmissions();
-            }
-        }
+            await database.ref('assignments').push(testData);
+            
+            showSuccess(`✅ Test "${testData.title}" published to students!`);
+            document.getElementById('assignmentForm').reset();
+            loadMyAssignments();
+        });
 
-        // Auto-refresh every 5 seconds
-        setInterval(() => {
-            loadAssignments();
-            loadSubmissions();
-        }, 5000);
+        // Create new note
+        document.getElementById('noteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const noteData = {
+                subject: currentSubject,
+                teacherName: currentTeacherName,
+                title: document.getElementById('noteTitle').value,
+                content: document.getElementById('noteContent').value,
+                link: document.getElementById('noteLink').value || '',
+                createdAt: new Date().toISOString()
+            };
+            
+            await database.ref('notes').push(noteData);
+            
+            showSuccess(`✅ Note "${noteData.title}" shared with students!`);
+            document.getElementById('noteForm').reset();
+            loadMyNotes();
+        });
+
+        // Set up real-time listeners
+        database.ref('assignments').on('value', () => { loadMyAssignments(); });
+        database.ref('notes').on('value', () => { loadMyNotes(); });
+        database.ref('allSubmissions').on('value', () => { loadSubmissionsForMySubject(); });
+
+        // Initialize with default teacher
+        selectTeacher('Mathematics', 'Mr. Kofi');
     </script>
 </body>
 </html>
