@@ -25,24 +25,12 @@
         }
 
         .login-container {
-            max-width: 450px;
+            max-width: 500px;
             width: 100%;
             background: white;
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.5s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .logo {
@@ -64,94 +52,69 @@
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-align: center;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
+        .btn-student {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
             margin-bottom: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: #1e293b;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
             transition: all 0.3s;
-            font-family: inherit;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
+        .btn-student:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
 
-        .btn-login {
+        .btn-teacher {
             width: 100%;
-            padding: 0.875rem;
+            padding: 1rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 0.5rem;
         }
 
-        .btn-login:hover {
+        .btn-teacher:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #10b981;
-        }
-
-        .btn-secondary:hover {
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .divider {
-            display: flex;
-            align-items: center;
+            text-align: center;
             margin: 1.5rem 0;
             color: #94a3b8;
             font-size: 0.8rem;
         }
 
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #e2e8f0;
+        .teacher-section {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
         }
 
-        .divider::before {
-            margin-right: 1rem;
-        }
-
-        .divider::after {
-            margin-left: 1rem;
+        .teacher-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .error-message {
@@ -165,39 +128,14 @@
             display: none;
         }
 
-        .success-message {
-            background: #d1fae5;
-            color: #065f46;
-            padding: 0.75rem;
+        .demo-note {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.5rem;
             border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
-            text-align: center;
-            display: none;
-        }
-
-        .admin-section {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .admin-toggle {
             text-align: center;
             font-size: 0.7rem;
-            color: #94a3b8;
-            cursor: pointer;
-        }
-
-        .admin-code {
-            display: none;
             margin-top: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                padding: 1.5rem;
-            }
         }
     </style>
 </head>
@@ -207,61 +145,35 @@
             <div class="logo-icon">📚</div>
             <div class="logo-text">The Junior Scholar Portal</div>
         </div>
-        <h1>Welcome!</h1>
-        <p class="subtitle">Enter as a student - no registration needed</p>
+        
+        <h1>Welcome to Junior Scholar Portal</h1>
 
         <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
 
-        <!-- Quick Student Access - No Registration Required -->
-        <div class="form-group">
-            <label>👨‍🎓 Quick Student Access Code</label>
-            <input type="password" id="studentAccessCode" placeholder="Enter access code">
+        <!-- BIG STUDENT BUTTON - ONE CLICK ACCESS -->
+        <button class="btn-student" onclick="enterAsStudent()">
+            🎓 Enter as Student (Free Access)
+        </button>
+
+        <div class="divider">————————  OR  ————————</div>
+
+        <!-- Teacher Access Section -->
+        <div class="teacher-section">
+            <button class="btn-teacher" onclick="showTeacherLogin()">
+                👨‍🏫 Teacher Login
+            </button>
+            <div id="teacherPanel" style="display: none; margin-top: 1rem;">
+                <input type="password" id="teacherCode" class="teacher-input" placeholder="Enter Teacher Code">
+                <button class="btn-teacher" onclick="enterAsTeacher()" style="margin-top: 0;">Login as Teacher</button>
+            </div>
         </div>
-        <button class="btn-login btn-secondary" onclick="quickStudentAccess()">🎓 Enter as Student →</button>
 
-        <div class="divider">OR</div>
-
-        <!-- Optional: Create your own private student profile -->
-        <form id="studentForm">
-            <div class="form-group">
-                <label>👤 Your Name</label>
-                <input type="text" id="studentName" placeholder="Enter your name" required>
-            </div>
-            <div class="form-group">
-                <label>📧 Email (optional)</label>
-                <input type="email" id="studentEmail" placeholder="your@email.com">
-            </div>
-            <div class="form-group">
-                <label>📚 Your Class</label>
-                <select id="studentClass">
-                    <option value="Grade 7">Grade 7</option>
-                    <option value="Grade 8">Grade 8</option>
-                    <option value="Grade 9">Grade 9</option>
-                    <option value="Grade 10">Grade 10</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>🏫 School Name</label>
-                <input type="text" id="studentSchool" placeholder="Your school name" value="Junior Academy">
-            </div>
-            <button type="submit" class="btn-login">📝 Create & Enter →</button>
-        </form>
-
-        <div class="admin-section">
-            <div class="admin-toggle" onclick="toggleAdminCode()">🔐 Teacher Access ▼</div>
-            <div class="admin-code" id="adminCode">
-                <div class="form-group">
-                    <label>🔑 Teacher Secret Code</label>
-                    <input type="password" id="secretCode" placeholder="Enter teacher code">
-                </div>
-                <button type="button" class="btn-login" onclick="adminLogin()" style="background: #10b981;">👨‍🏫 Enter Teacher Portal</button>
-            </div>
+        <div class="demo-note">
+            💡 Student Access: Just click the green button above - no registration needed!
         </div>
     </div>
 
     <script>
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBdX12Kbhb8L1R",
             authDomain: "junior-scholar-portal.firebaseapp.com",
@@ -275,69 +187,20 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 🔒 YOUR SECRET CODES - Only you know these!
-        const STUDENT_ACCESS_CODE = "enter123";     // CHANGE THIS to your secret student code
-        const TEACHER_SECRET_CODE = "nkb gf";       // Teacher portal access code
+        // TEACHER SECRET CODE - Only you know this
+        const TEACHER_CODE = "nkb gf";
 
-        // Quick student access with code (no registration)
-        function quickStudentAccess() {
-            const code = document.getElementById('studentAccessCode').value;
-            
-            if (code === STUDENT_ACCESS_CODE) {
-                // Create a temporary student session
-                const tempStudentId = 'student_' + Date.now();
-                const tempStudent = {
-                    id: tempStudentId,
-                    name: "Quick Access Student",
-                    email: "quick@student.local",
-                    class: "Grade 7",
-                    school: "Junior Academy"
-                };
-                
-                // Save to Firebase
-                database.ref(`students/${tempStudentId}`).set({
-                    fullName: tempStudent.name,
-                    email: tempStudent.email,
-                    class: tempStudent.class,
-                    school: tempStudent.school,
-                    practiceStats: { total: 0, correct: 0, points: 0 },
-                    joinedAt: new Date().toISOString(),
-                    quickAccess: true
-                });
-                
-                localStorage.setItem('currentStudent', JSON.stringify(tempStudent));
-                localStorage.setItem('scholarName', tempStudent.name);
-                localStorage.setItem('scholarEmail', tempStudent.email);
-                
-                showSuccess('✅ Access granted! Redirecting to dashboard...');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            } else {
-                showError('❌ Invalid access code!');
-            }
-        }
-
-        // Create your own student profile (optional)
-        document.getElementById('studentForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('studentName').value;
-            const email = document.getElementById('studentEmail').value || `${name.replace(/\s/g, '')}@student.local`;
-            const className = document.getElementById('studentClass').value;
-            const school = document.getElementById('studentSchool').value;
-            
-            if (!name) {
-                showError('Please enter your name');
-                return;
-            }
-            
+        // STUDENT ENTRY - ONE CLICK, NO REGISTRATION NEEDED
+        async function enterAsStudent() {
+            // Create a simple student profile automatically
             const studentId = 'student_' + Date.now();
+            const studentName = "Scholar_" + Math.floor(Math.random() * 1000);
+            
             const studentData = {
-                fullName: name,
-                email: email,
-                class: className,
-                school: school,
+                fullName: studentName,
+                email: studentName + "@student.local",
+                class: "Grade 7",
+                school: "Junior Scholar Academy",
                 practiceStats: { total: 0, correct: 0, points: 0 },
                 joinedAt: new Date().toISOString()
             };
@@ -346,26 +209,22 @@
             
             localStorage.setItem('currentStudent', JSON.stringify({
                 id: studentId,
-                name: name,
-                email: email
+                name: studentName,
+                email: studentData.email
             }));
-            localStorage.setItem('scholarName', name);
-            localStorage.setItem('scholarEmail', email);
             
-            showSuccess(`✅ Welcome ${name}! Redirecting to dashboard...`);
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1000);
-        });
-
-        function toggleAdminCode() {
-            const adminDiv = document.getElementById('adminCode');
-            adminDiv.style.display = adminDiv.style.display === 'none' ? 'block' : 'none';
+            window.location.href = 'dashboard.html';
         }
 
-        async function adminLogin() {
-            const code = document.getElementById('secretCode').value;
-            if (code === TEACHER_SECRET_CODE) {
+        function showTeacherLogin() {
+            const panel = document.getElementById('teacherPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function enterAsTeacher() {
+            const code = document.getElementById('teacherCode').value;
+            
+            if (code === TEACHER_CODE) {
                 localStorage.setItem('isAdmin', 'true');
                 localStorage.setItem('adminLoggedIn', 'true');
                 localStorage.setItem('currentStudent', JSON.stringify({
@@ -373,32 +232,15 @@
                     name: 'Teacher',
                     email: 'teacher@portal.com'
                 }));
-                showSuccess('✅ Teacher access granted! Redirecting...');
-                setTimeout(() => {
-                    window.location.href = 'teacher-portal.html';
-                }, 1000);
+                window.location.href = 'teacher-portal.html';
             } else {
-                showError('❌ Invalid teacher code!');
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = '❌ Invalid teacher code!';
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 2000);
             }
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
-            successDiv.style.display = 'none';
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
-        }
-
-        function showSuccess(message) {
-            const successDiv = document.getElementById('successMessage');
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.style.display = 'none';
-            successDiv.textContent = message;
-            successDiv.style.display = 'block';
         }
     </script>
 </body>
