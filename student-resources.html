@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Resources - The Junior Scholar Portal</title>
+    <title>Teacher Portal - Create Tests</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -13,202 +13,99 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #1e293b;
+            padding: 2rem;
         }
-        .navbar {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
             background: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .nav-links a {
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: #667eea; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        .glass-header {
-            background: rgba(255,255,255,0.9);
-            border-radius: 2rem;
+            border-radius: 1.5rem;
             padding: 2rem;
             margin-bottom: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .glass-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .glass-header p { color: #6b7280; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1rem;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .stat-value { font-size: 1.5rem; font-weight: 700; color: #667eea; }
-        .stat-label { font-size: 0.7rem; color: #6b7280; }
-        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eef2f6; padding-bottom: 0.5rem; }
-        .tab-btn {
-            padding: 0.6rem 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            color: #4a5568;
-            border-radius: 2rem;
-            transition: all 0.3s;
-        }
-        .tab-btn.active { background: #667eea; color: white; }
-        .assignment-card, .note-card {
-            background: white;
-            border-radius: 1rem;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .assignment-card:hover, .note-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(102,126,234,0.15); }
-        .assignment-header, .note-header {
-            padding: 1rem 1.5rem;
-            background: #f8fafc;
-            border-left: 4px solid #667eea;
-            border-bottom: 1px solid #eef2f6;
-        }
-        .assignment-subject, .note-subject { font-size: 0.7rem; color: #667eea; text-transform: uppercase; letter-spacing: 1px; }
-        .assignment-title, .note-title { font-size: 1rem; font-weight: 700; color: #1e293b; margin-top: 0.25rem; }
-        .assignment-due { font-size: 0.7rem; color: #f59e0b; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
-        .assignment-body, .note-body { padding: 1.5rem; }
-        .assignment-description, .note-content { color: #4a5568; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; }
-        .submission-area { background: #f8fafc; border-radius: 0.75rem; padding: 1rem; margin-top: 1rem; }
-        .submission-label { font-size: 0.75rem; font-weight: 600; color: #667eea; margin-bottom: 0.5rem; }
-        .submission-input { width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-family: inherit; resize: vertical; }
-        .submission-input:focus { outline: none; border-color: #667eea; }
-        .btn-submit { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.5rem 1rem; border-radius: 2rem; cursor: pointer; font-weight: 600; margin-top: 0.5rem; width: 100%; transition: all 0.3s; }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
-        .submitted-badge { background: #d1fae5; color: #065f46; padding: 0.5rem; border-radius: 0.5rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
-        .empty-state { text-align: center; padding: 3rem; background: white; border-radius: 1rem; color: #6b7280; }
-        .credits { text-align: center; padding: 1.5rem; color: rgba(255,255,255,0.7); font-size: 0.8rem; }
-        .login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .login-card {
-            background: white;
-            border-radius: 2rem;
-            padding: 2rem;
-            width: 380px;
-            text-align: center;
-        }
-        .login-card input {
+        h1 { color: #1e293b; margin-bottom: 0.5rem; }
+        .subtitle { color: #6b7280; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        input, select, textarea {
             width: 100%;
             padding: 0.75rem;
-            margin: 0.5rem 0;
             border: 2px solid #e2e8f0;
             border-radius: 0.75rem;
+            font-family: inherit;
         }
-        .login-card button {
+        button {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 0.75rem;
-            border-radius: 2rem;
-            cursor: pointer;
-            margin-top: 1rem;
-            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
             font-weight: 600;
+            cursor: pointer;
+            width: 100%;
         }
-        @media (max-width: 768px) {
-            .navbar { flex-direction: column; text-align: center; }
-            .container { padding: 1rem; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .tabs { justify-content: center; }
+        .test-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .delete-btn {
+            background: #ef4444;
+            padding: 0.3rem 0.8rem;
+            width: auto;
+            margin-top: 0.5rem;
+        }
+        .success-msg {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">📚 The Junior Scholar Portal</div>
-        <div class="nav-links">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="courses.html">Courses</a>
-            <a href="practice.html">Practice</a>
-            <a href="live-class.html">Live Classes</a>
-            <a href="student-resources.html" class="active">Resources</a>
-        </div>
-    </nav>
-
     <div class="container">
-        <div class="glass-header">
-            <h1>📋 My Learning Resources</h1>
-            <p>View assignments from your teachers and access study materials</p>
+        <div class="card">
+            <h1>👨‍🏫 Teacher Portal</h1>
+            <p class="subtitle">Create tests - Students will see them instantly!</p>
+            
+            <div id="successMsg" class="success-msg"></div>
+            
+            <form id="testForm">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="subject" required>
+                        <option>Mathematics</option>
+                        <option>English</option>
+                        <option>Science</option>
+                        <option>Social Studies</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Test Title</label>
+                    <input type="text" id="title" required placeholder="e.g., Algebra Quiz, Essay Test">
+                </div>
+                <div class="form-group">
+                    <label>Questions / Instructions</label>
+                    <textarea id="description" rows="5" required placeholder="Write the test questions here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="dueDate" required>
+                </div>
+                <button type="submit">📤 PUBLISH TEST TO STUDENTS</button>
+            </form>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-value" id="pendingCount">0</div><div class="stat-label">Pending Assignments</div></div>
-            <div class="stat-card"><div class="stat-value" id="submittedCount">0</div><div class="stat-label">Submitted</div></div>
-            <div class="stat-card"><div class="stat-value" id="notesCount">0</div><div class="stat-label">Notes Available</div></div>
-        </div>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('assignments')">📝 Assignments</button>
-            <button class="tab-btn" onclick="showTab('notes')">📚 Teacher Notes</button>
-        </div>
-
-        <div id="assignmentsContainer"></div>
-        <div id="notesContainer" style="display: none;"></div>
-
-        <div class="credits">
-            ✨ Made with Excellence by SKILABS ✨<br>
-            Caleb Fiifi Asare & Arnold Kadi
-        </div>
-    </div>
-
-    <div id="loginOverlay" class="login-overlay">
-        <div class="login-card">
-            <h2>👨‍🎓 Student Login</h2>
-            <input type="text" id="studentName" placeholder="Full Name" value="Demo Student">
-            <input type="email" id="studentEmail" placeholder="Email" value="student@school.com">
-            <input type="text" id="studentClass" placeholder="Class (e.g., Grade 7)" value="Grade 7">
-            <input type="text" id="studentSchool" placeholder="School" value="Junior Academy">
-            <button onclick="loginStudent()">Enter Portal</button>
+        <div class="card">
+            <h2>📋 Your Published Tests</h2>
+            <div id="testsList"></div>
         </div>
     </div>
 
@@ -222,187 +119,70 @@
             appId: "1:519496965849:web:86",
             databaseURL: "https://junior-scholar-portal-default-rtdb.firebaseio.com/"
         };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let currentStudent = null;
-        let submissions = {};
+        // Load existing tests
+        function loadTests() {
+            database.ref('assignments').on('value', (snapshot) => {
+                const tests = [];
+                snapshot.forEach(child => {
+                    tests.push({ id: child.key, ...child.val() });
+                });
+                tests.reverse();
+                
+                const container = document.getElementById('testsList');
+                if (tests.length === 0) {
+                    container.innerHTML = '<p style="color: #6b7280;">No tests yet. Create one above!</p>';
+                    return;
+                }
+                
+                container.innerHTML = tests.map(test => `
+                    <div class="test-item">
+                        <strong>📚 ${test.subject}</strong><br>
+                        <strong>${test.title}</strong><br>
+                        <span style="font-size:0.8rem;">📅 Due: ${test.dueDate}</span><br>
+                        <span style="font-size:0.8rem;">${test.description.substring(0,100)}...</span><br>
+                        <button class="delete-btn" onclick="deleteTest('${test.id}')">Delete Test</button>
+                    </div>
+                `).join('');
+            });
+        }
 
-        function loginStudent() {
-            const name = document.getElementById('studentName').value;
-            const email = document.getElementById('studentEmail').value;
-            const className = document.getElementById('studentClass').value;
-            const school = document.getElementById('studentSchool').value;
-            if (!name || !email) { alert('Please enter your details'); return; }
+        window.deleteTest = async (id) => {
+            if (confirm('Delete this test? Students will no longer see it.')) {
+                await database.ref(`assignments/${id}`).remove();
+                alert('Test deleted!');
+            }
+        };
+
+        // Create new test
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            const studentId = 'student_' + Date.now();
-            currentStudent = {
-                id: studentId,
-                name: name,
-                email: email,
-                class: className,
-                school: school
+            const testData = {
+                subject: document.getElementById('subject').value,
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                dueDate: document.getElementById('dueDate').value,
+                createdAt: new Date().toISOString()
             };
             
-            database.ref(`students/${studentId}`).set({
-                fullName: name,
-                email: email,
-                class: className,
-                school: school,
-                practiceStats: { total: 0, correct: 0, points: 0 },
-                joinedAt: new Date().toISOString()
-            });
+            await database.ref('assignments').push(testData);
             
-            localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-            document.getElementById('loginOverlay').style.display = 'none';
-            init();
-        }
-
-        const savedStudent = localStorage.getItem('currentStudent');
-        if (savedStudent) {
-            currentStudent = JSON.parse(savedStudent);
-            document.getElementById('loginOverlay').style.display = 'none';
-        }
-
-        async function loadSubmissions() {
-            if (!currentStudent) return;
-            const snapshot = await database.ref(`submissions/${currentStudent.id}`).once('value');
-            submissions = snapshot.val() || {};
-        }
-        
-        async function loadAssignments() {
-            const snapshot = await database.ref('assignments').orderByChild('createdAt').once('value');
-            const assignments = [];
-            snapshot.forEach(child => assignments.push({ id: child.key, ...child.val() }));
-            assignments.reverse();
-            return assignments;
-        }
-        
-        async function loadNotes() {
-            const snapshot = await database.ref('notes').orderByChild('createdAt').once('value');
-            const notes = [];
-            snapshot.forEach(child => notes.push({ id: child.key, ...child.val() }));
-            notes.reverse();
-            return notes;
-        }
-        
-        async function updateStats() {
-            const assignments = await loadAssignments();
-            const notes = await loadNotes();
-            await loadSubmissions();
-            let pending = 0;
-            assignments.forEach(a => { if (!submissions[a.id]) pending++; });
-            document.getElementById('pendingCount').textContent = pending;
-            document.getElementById('submittedCount').textContent = Object.keys(submissions).length;
-            document.getElementById('notesCount').textContent = notes.length;
-        }
-
-        async function renderAssignments() {
-            const assignments = await loadAssignments();
-            const container = document.getElementById('assignmentsContainer');
-            if (assignments.length === 0) { container.innerHTML = '<div class="empty-state">📭 No assignments yet.</div>'; return; }
-            container.innerHTML = assignments.map(a => {
-                const submitted = submissions[a.id];
-                return `
-                    <div class="assignment-card">
-                        <div class="assignment-header">
-                            <div class="assignment-subject">${a.subject}</div>
-                            <div class="assignment-title">${a.title}</div>
-                            <div class="assignment-due">📅 Due: ${a.dueDate}</div>
-                        </div>
-                        <div class="assignment-body">
-                            <div class="assignment-description">${(a.description || '').replace(/\n/g,'<br>')}</div>
-                            <div class="submission-area">
-                                <div class="submission-label">${submitted ? '✅ Your Submission' : '📝 Submit Your Answer'}</div>
-                                ${submitted ? `
-                                    <div class="submitted-badge">✅ Submitted on ${submitted.date}</div>
-                                    <div style="margin-top:0.5rem; padding:0.75rem; background:#f1f5f9; border-radius:0.5rem;">Your answer: "${submitted.answer}"</div>
-                                ` : `
-                                    <textarea id="answer_${a.id}" class="submission-input" rows="4" placeholder="Write your answer here..."></textarea>
-                                    <button class="btn-submit" onclick="submitAssignment('${a.id}', '${a.title.replace(/'/g, "\\'")}')">📤 Submit Assignment</button>
-                                `}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        async function renderNotes() {
-            const notes = await loadNotes();
-            const container = document.getElementById('notesContainer');
-            if (notes.length === 0) { container.innerHTML = '<div class="empty-state">📚 No notes shared yet.</div>'; return; }
-            container.innerHTML = notes.map(n => `
-                <div class="note-card">
-                    <div class="note-header">
-                        <div class="note-subject">${n.subject}</div>
-                        <div class="note-title">${n.title}</div>
-                    </div>
-                    <div class="note-body">
-                        <div class="note-content">${(n.content || '').replace(/\n/g,'<br>')}</div>
-                        ${n.link ? `<a href="${n.link}" target="_blank" style="color:#667eea;">🔗 Open Resource →</a>` : ''}
-                        <div style="font-size:0.7rem; color:#94a3b8; margin-top:0.75rem;">📅 Shared on ${new Date(n.createdAt).toLocaleDateString()}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function submitAssignment(id, title) {
-            const answer = document.getElementById(`answer_${id}`).value;
-            if (!answer.trim()) { alert('Please write your answer.'); return; }
-            if (answer.length < 10) { alert('Please provide a detailed answer (at least 10 characters).'); return; }
-            const submissionData = { assignmentId: id, title, answer, date: new Date().toLocaleString(), studentId: currentStudent.id, studentName: currentStudent.name };
-            await database.ref(`submissions/${currentStudent.id}/${id}`).set(submissionData);
-            await database.ref('allSubmissions').push().set(submissionData);
-            await database.ref(`students/${currentStudent.id}/practiceStats/points`).transaction(p => (p || 0) + 20);
-            alert(`✅ Assignment submitted! +20 points!`);
-            await loadSubmissions();
-            await renderAssignments();
-            await updateStats();
-        }
-
-        function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            if (tab === 'assignments') {
-                document.getElementById('assignmentsContainer').style.display = 'block';
-                document.getElementById('notesContainer').style.display = 'none';
-                renderAssignments();
-            } else {
-                document.getElementById('assignmentsContainer').style.display = 'none';
-                document.getElementById('notesContainer').style.display = 'block';
-                renderNotes();
-            }
-        }
-
-        // Set up real-time listeners for automatic updates
-        function setupRealtimeListeners() {
-            // Listen for new assignments
-            database.ref('assignments').on('value', () => {
-                if (document.getElementById('assignmentsContainer').style.display !== 'none') {
-                    renderAssignments();
-                }
-                updateStats();
-            });
+            const successDiv = document.getElementById('successMsg');
+            successDiv.textContent = `✅ Test "${testData.title}" published! Students can now see it.`;
+            successDiv.style.display = 'block';
             
-            // Listen for new notes
-            database.ref('notes').on('value', () => {
-                if (document.getElementById('notesContainer').style.display !== 'none') {
-                    renderNotes();
-                }
-                updateStats();
-            });
-        }
+            document.getElementById('testForm').reset();
+            
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        });
 
-        async function init() {
-            if (!currentStudent) return;
-            await loadSubmissions();
-            await renderAssignments();
-            await updateStats();
-            setupRealtimeListeners();
-        }
-        
-        if (currentStudent) init();
+        loadTests();
     </script>
 </body>
 </html>
