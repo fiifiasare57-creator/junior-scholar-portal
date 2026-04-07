@@ -25,12 +25,24 @@
         }
 
         .login-container {
-            max-width: 500px;
+            max-width: 450px;
             width: 100%;
             background: white;
             border-radius: 1.5rem;
             padding: 2rem;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .logo {
@@ -52,69 +64,75 @@
         }
 
         h1 {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             text-align: center;
             color: #1e293b;
             margin-bottom: 0.5rem;
         }
 
-        .btn-student {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            border-radius: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 1rem;
-            transition: all 0.3s;
-        }
-
-        .btn-student:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-teacher {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-teacher:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .divider {
+        .subtitle {
             text-align: center;
-            margin: 1.5rem 0;
-            color: #94a3b8;
-            font-size: 0.8rem;
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
         }
 
-        .teacher-section {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 1rem;
+        .form-group {
+            margin-bottom: 1rem;
         }
 
-        .teacher-input {
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1e293b;
+        }
+
+        input {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e2e8f0;
             border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
         }
 
         .error-message {
@@ -128,14 +146,28 @@
             display: none;
         }
 
-        .demo-note {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+        .admin-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .admin-toggle {
             text-align: center;
             font-size: 0.7rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .admin-code {
+            display: none;
             margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -145,31 +177,36 @@
             <div class="logo-icon">📚</div>
             <div class="logo-text">The Junior Scholar Portal</div>
         </div>
-        
-        <h1>Welcome to Junior Scholar Portal</h1>
+        <h1>Welcome Back!</h1>
+        <p class="subtitle">Login to continue your learning journey</p>
 
         <div class="error-message" id="errorMessage"></div>
 
-        <!-- BIG STUDENT BUTTON - ONE CLICK ACCESS -->
-        <button class="btn-student" onclick="enterAsStudent()">
-            🎓 Enter as Student (Free Access)
-        </button>
-
-        <div class="divider">————————  OR  ————————</div>
-
-        <!-- Teacher Access Section -->
-        <div class="teacher-section">
-            <button class="btn-teacher" onclick="showTeacherLogin()">
-                👨‍🏫 Teacher Login
-            </button>
-            <div id="teacherPanel" style="display: none; margin-top: 1rem;">
-                <input type="password" id="teacherCode" class="teacher-input" placeholder="Enter Teacher Code">
-                <button class="btn-teacher" onclick="enterAsTeacher()" style="margin-top: 0;">Login as Teacher</button>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>📧 Email Address</label>
+                <input type="email" id="email" placeholder="student@example.com" required>
             </div>
+            <div class="form-group">
+                <label>🔑 Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-login">🔓 Login →</button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
         </div>
 
-        <div class="demo-note">
-            💡 Student Access: Just click the green button above - no registration needed!
+        <div class="admin-section">
+            <div class="admin-toggle" onclick="toggleAdminCode()">🔐 Teacher Access ▼</div>
+            <div class="admin-code" id="adminCode">
+                <div class="form-group">
+                    <label>🔑 Teacher Code</label>
+                    <input type="password" id="secretCode" placeholder="Enter teacher code">
+                </div>
+                <button type="button" class="btn-login" onclick="teacherLogin()" style="background: #10b981;">👨‍🏫 Teacher Login</button>
+            </div>
         </div>
     </div>
 
@@ -187,60 +224,75 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // TEACHER SECRET CODE - Only you know this
         const TEACHER_CODE = "nkb gf";
 
-        // STUDENT ENTRY - ONE CLICK, NO REGISTRATION NEEDED
-        async function enterAsStudent() {
-            // Create a simple student profile automatically
-            const studentId = 'student_' + Date.now();
-            const studentName = "Scholar_" + Math.floor(Math.random() * 1000);
-            
-            const studentData = {
-                fullName: studentName,
-                email: studentName + "@student.local",
-                class: "Grade 7",
-                school: "Junior Scholar Academy",
-                practiceStats: { total: 0, correct: 0, points: 0 },
-                joinedAt: new Date().toISOString()
-            };
-            
-            await database.ref(`students/${studentId}`).set(studentData);
-            
-            localStorage.setItem('currentStudent', JSON.stringify({
-                id: studentId,
-                name: studentName,
-                email: studentData.email
-            }));
-            
-            window.location.href = 'dashboard.html';
+        function toggleAdminCode() {
+            const adminDiv = document.getElementById('adminCode');
+            adminDiv.style.display = adminDiv.style.display === 'none' ? 'block' : 'none';
         }
 
-        function showTeacherLogin() {
-            const panel = document.getElementById('teacherPanel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        async function enterAsTeacher() {
-            const code = document.getElementById('teacherCode').value;
-            
+        async function teacherLogin() {
+            const code = document.getElementById('secretCode').value;
             if (code === TEACHER_CODE) {
                 localStorage.setItem('isAdmin', 'true');
                 localStorage.setItem('adminLoggedIn', 'true');
-                localStorage.setItem('currentStudent', JSON.stringify({
+                localStorage.setItem('currentUser', JSON.stringify({
                     id: 'admin',
                     name: 'Teacher',
-                    email: 'teacher@portal.com'
+                    email: 'teacher@portal.com',
+                    role: 'teacher'
                 }));
                 window.location.href = 'teacher-portal.html';
             } else {
-                const errorDiv = document.getElementById('errorMessage');
-                errorDiv.textContent = '❌ Invalid teacher code!';
-                errorDiv.style.display = 'block';
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 2000);
+                showError('❌ Invalid teacher code!');
             }
+        }
+
+        // Student Login - ONLY registered students
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Search for student in Firebase
+            const snapshot = await database.ref('students').orderByChild('email').equalTo(email).once('value');
+            
+            if (snapshot.exists()) {
+                let student = null;
+                let studentId = null;
+                snapshot.forEach(child => {
+                    student = child.val();
+                    studentId = child.key;
+                });
+                
+                if (student && student.password === password) {
+                    // Login successful
+                    localStorage.setItem('currentStudent', JSON.stringify({
+                        id: studentId,
+                        name: student.fullName,
+                        email: student.email,
+                        role: 'student'
+                    }));
+                    localStorage.setItem('scholarName', student.fullName);
+                    localStorage.setItem('scholarEmail', student.email);
+                    
+                    window.location.href = 'dashboard.html';
+                } else {
+                    showError('❌ Invalid password. Please try again.');
+                }
+            } else {
+                showError('❌ No account found. Please register first.');
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
         }
     </script>
 </body>
